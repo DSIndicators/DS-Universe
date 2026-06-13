@@ -51,6 +51,21 @@ export function Footer() {
               Intraday intelligence — precision from orbit. Every instrument, one
               mind.
             </p>
+
+            {/* Built-for-NinjaTrader badge */}
+            <div className="mt-1 flex flex-col items-start gap-2">
+              <span className="font-mono text-[0.58rem] uppercase tracking-[0.22em] text-ink-gray/60">
+                Built for
+              </span>
+              <Image
+                src="/brand/ninjatrader.png"
+                alt="NinjaTrader 8"
+                width={600}
+                height={119}
+                className="h-7 w-auto"
+                style={{ filter: "drop-shadow(0 0 10px rgba(255,90,20,0.45))" }}
+              />
+            </div>
             <div className="mt-2 flex gap-3">
               {SOCIALS.map((s) => {
                 const Icon = s.icon;
