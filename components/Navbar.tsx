@@ -8,10 +8,10 @@ import { cn } from "@/components/ui/cn";
 
 const LINKS = [
   { label: "Indicators", href: "/#indicators" },
+  { label: "Capabilities", href: "/#capabilities" },
   { label: "Features", href: "/#features" },
   { label: "Showcase", href: "/showcase" },
   { label: "Pricing", href: "/#pricing" },
-  { label: "Docs", href: "/#docs" },
 ];
 
 export function Navbar() {

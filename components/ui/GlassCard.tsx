@@ -6,13 +6,14 @@ type GlassCardProps = React.HTMLAttributes<HTMLDivElement> & {
   /** Adds the lift + intensified glow on hover. */
   interactive?: boolean;
   /** Tint of the ambient glow behind the card. */
-  glow?: "violet" | "cyan" | "teal" | "none";
+  glow?: "violet" | "cyan" | "teal" | "ember" | "none";
 };
 
 const glowMap: Record<NonNullable<GlassCardProps["glow"]>, string> = {
   violet: "before:bg-space-violet/20",
   cyan: "before:bg-space-cyan/20",
   teal: "before:bg-accent-teal/20",
+  ember: "before:bg-[#ff7a2f]/30",
   none: "before:bg-transparent",
 };
 

@@ -15,6 +15,11 @@
   --ink-white: #f2f1f6;
   --ink-gray: #8a8a96;
 
+  /* AI-intelligence accent system — electric cyan -> indigo -> violet. */
+  --space-indigo: #6d8cff;
+  --space-electric: #3dd7e6;
+  --ai-grad: linear-gradient(92deg, #5fe6ee 0%, #6d8cff 48%, #a86bff 100%);
+
   /* Signature gradients — the planet, abstracted.
      Hot amber/peach core -> violet/magenta body -> cool cyan rim, on near-black. */
   --aurora: radial-gradient(
@@ -118,6 +123,109 @@
 
 .noise {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* AI-gradient text + the electric accent gradient fill. */
+.text-ai {
+  background: var(--ai-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.bg-ai {
+  background-image: var(--ai-grad);
+}
+
+/* Faint intelligence grid — subtle tech texture behind sections. */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(120, 150, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 150, 255, 0.05) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+
+/* Cursor-following ambient glow — one fixed layer, transform/opacity only. */
+.mouse-glow {
+  position: fixed;
+  inset: 0;
+  z-index: -5;
+  pointer-events: none;
+  background: radial-gradient(
+    560px 560px at var(--mx, 50%) var(--my, 28%),
+    rgba(61, 215, 230, 0.1),
+    rgba(109, 140, 255, 0.07) 38%,
+    rgba(168, 107, 255, 0.05) 58%,
+    transparent 72%
+  );
+}
+
+/* Curious floating orb mascot — drifts in the background "in space". */
+.orb-mascot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.6;
+  will-change: transform;
+}
+.orb-mascot-body {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: var(--aurora);
+  box-shadow:
+    0 0 44px -6px rgba(109, 140, 255, 0.5),
+    inset -7px -9px 20px rgba(0, 0, 0, 0.4),
+    inset 7px 7px 16px rgba(255, 255, 255, 0.18);
+}
+.orb-mascot-eyes {
+  position: absolute;
+  top: 31%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 11px;
+  transform-origin: center;
+}
+.orb-eye {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 19px;
+  height: 23px;
+  border-radius: 50%;
+  background: #f5f8ff;
+  box-shadow: 0 0 8px rgba(180, 220, 255, 0.5);
+}
+.orb-pupil {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #10131f;
+}
+
+/* Horizontal capabilities marquee — full-bleed, auto-scroll, pause on hover. */
+.cap-marquee-wrap {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+.cap-marquee {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  animation: cap-scroll 80s linear infinite;
+}
+.cap-marquee:hover {
+  animation-play-state: paused;
+}
+@keyframes cap-scroll {
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* Honor reduced-motion: kill ambient + entrance animations. */

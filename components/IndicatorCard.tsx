@@ -35,6 +35,7 @@ const HOLD_MS = 2000;
 export function IndicatorCard({ product }: { product: Product }) {
   const Icon = ICONS[product.icon] ?? Sparkles;
   const image = `/indicators/${product.name.toLowerCase()}.webp`;
+  const isEmber = product.name === "EMBER";
 
   const [show, setShow] = useState(false);
   // Load the preview image only once the user first triggers it.
@@ -79,8 +80,21 @@ export function IndicatorCard({ product }: { product: Product }) {
       onTouchCancel={dismiss}
       onContextMenu={(e) => e.preventDefault()}
     >
+      {/* Always-on ember glow for the heat-map card */}
+      {isEmber && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] bg-[radial-gradient(circle_at_50%_38%,rgba(255,122,47,0.28),transparent_70%)] blur-2xl"
+        />
+      )}
+
       <div className="flex items-start justify-between">
-        <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-accent-teal">
+        <span
+          className={cn(
+            "flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]",
+            isEmber ? "text-[#ff8a4c]" : "text-accent-teal",
+          )}
+        >
           <Icon size={20} strokeWidth={1.6} />
         </span>
         {product.codename && (

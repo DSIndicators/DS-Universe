@@ -14,6 +14,7 @@ type Tier = {
   highlight?: { title: string; body: string };
   features: string[];
   featured: boolean;
+  newRelease?: boolean;
   cta: string;
 };
 
@@ -67,8 +68,11 @@ const TIERS: Tier[] = [
       "Orbit · Stars · Balance",
       "Ember heat map · Council consensus",
       "The DS Registry core · early access",
+      "All future updates — included",
+      "All future additions — included",
     ],
     featured: true,
+    newRelease: true,
     cta: "Get Systems — Lifetime",
   },
 ];
@@ -100,6 +104,11 @@ export function Pricing() {
                     : "",
                 )}
               >
+                {tier.newRelease && (
+                  <span className="bg-ai absolute -right-2.5 -top-3.5 z-20 rotate-3 rounded-full px-3.5 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-space-black shadow-glow-cyan">
+                    New Release
+                  </span>
+                )}
                 <div className="flex items-center justify-between">
                   <h3 className="label-caps !text-sm">{tier.name}</h3>
                   {tier.featured && (

@@ -44,14 +44,14 @@ export function GlowButton({
         className,
       )}
     >
-      {/* Aurora fill + glow */}
+      {/* Electric AI gradient fill + glow (cyan -> indigo -> violet) */}
       <span
         aria-hidden
-        className="absolute inset-0 rounded-full bg-gradient-to-r from-space-cyan via-space-magenta to-space-peach opacity-95 transition-opacity duration-300 group-hover:opacity-100"
+        className="bg-ai absolute inset-0 rounded-full opacity-95 transition-opacity duration-300 group-hover:opacity-100"
       />
       <span
         aria-hidden
-        className="absolute inset-0 rounded-full opacity-60 blur-xl transition-opacity duration-300 bg-gradient-to-r from-space-cyan via-space-magenta to-space-peach group-hover:opacity-90"
+        className="bg-ai absolute inset-0 rounded-full opacity-60 blur-xl transition-opacity duration-300 group-hover:opacity-90"
       />
       <span className="relative z-10 flex items-center gap-2">{children}</span>
     </a>

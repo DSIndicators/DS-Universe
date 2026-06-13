@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins, JetBrains_Mono } from "next/font/google";
 import { SmoothAnchors } from "@/components/SmoothAnchors";
+import { MouseGlow } from "@/components/ui/MouseGlow";
+import { OrbMascot } from "@/components/ui/OrbMascot";
 import "./globals.css";
 
 // Headlines / brand wordmark / body — Poppins (incl. ExtraBold for the hero).
@@ -64,6 +66,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} ${mono.variable}`}>
       <body className="bg-space-black text-ink-white antialiased">
+        <MouseGlow />
+        <OrbMascot />
         <SmoothAnchors />
         {children}
       </body>

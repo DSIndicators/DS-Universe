@@ -19,7 +19,7 @@ export type Product = {
   /** lucide-react icon name (resolved in Indicators.tsx). */
   icon: string;
   /** Glow accent for the card. */
-  glow: "violet" | "cyan" | "teal";
+  glow: "violet" | "cyan" | "teal" | "ember";
 };
 
 export const SUITES: Record<
@@ -105,7 +105,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Watches the engine of the trend and colors every candle to match. Young trends burn bright and clean; as a move runs out of fuel it cools to a smoky exhaust — the early tell that a trend is about to refuel or turn. Zero repaints.",
     icon: "Flame",
-    glow: "teal",
+    glow: "ember",
   },
   {
     name: "COUNCIL",

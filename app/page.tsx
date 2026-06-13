@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
+import { Capabilities } from "@/components/Capabilities";
 import { Indicators } from "@/components/Indicators";
 import { Registry } from "@/components/Registry";
 import { Features } from "@/components/Features";
@@ -16,6 +17,7 @@ export default function Home() {
         {/* Global faint starfield behind the whole page */}
         <div className="starfield pointer-events-none fixed inset-0 -z-10 opacity-[0.12]" />
         <Hero />
+        <Capabilities />
         <Indicators />
         <Registry />
         <Features />

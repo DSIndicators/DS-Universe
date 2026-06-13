@@ -2,19 +2,48 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { IndicatorCard } from "@/components/IndicatorCard";
 import { PRODUCTS, SUITES, type Suite } from "@/components/data/products";
+import { cn } from "@/components/ui/cn";
 
-function SuiteBlock({ suite }: { suite: Suite }) {
+function SuiteBlock({ suite, premium }: { suite: Suite; premium?: boolean }) {
   const meta = SUITES[suite];
   const items = PRODUCTS.filter((p) => p.suite === suite);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div
+      className={cn(
+        "relative flex flex-col gap-8",
+        premium &&
+          "rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 shadow-glow sm:p-9",
+      )}
+    >
+      {/* Premium ambient glow behind the flagship suite */}
+      {premium && (
+        <div
+          aria-hidden
+          className="bg-ai pointer-events-none absolute -inset-x-6 -inset-y-10 -z-10 rounded-[2rem] opacity-[0.07] blur-3xl"
+        />
+      )}
+
       <Reveal>
-        <div className="flex flex-col gap-2 border-l-2 border-accent-teal/50 pl-5">
-          <span className="label-caps">{meta.label}</span>
+        <div
+          className={cn(
+            "flex flex-col gap-2 border-l-2 pl-5",
+            premium ? "border-space-electric/70" : "border-accent-teal/50",
+          )}
+        >
+          <span className="flex items-center gap-3">
+            <span className="label-caps">{meta.label}</span>
+            {premium && (
+              <span className="rounded-full border border-space-electric/40 bg-space-electric/10 px-2.5 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.18em] text-space-electric">
+                Flagship suite
+              </span>
+            )}
+          </span>
           <h3 className="font-sans text-2xl font-bold tracking-tight sm:text-3xl">
             <span className="text-ink-white">{meta.title.split(" ")[0]}</span>{" "}
-            <span className="text-ink-gray">{meta.title.split(" ")[1]}</span>
+            <span className={premium ? "text-ai" : "text-ink-gray"}>
+              {meta.title.split(" ")[1]}
+            </span>
           </h3>
           <p className="text-ink-gray">{meta.line}</p>
         </div>
@@ -42,13 +71,13 @@ export function Indicators() {
           eyebrow="The Instruments"
           title="Nine indicators."
           titleMuted="One intelligence."
-          intro="Two suites, built for the intraday trader. The Radars decode the live tape; the Systems map the field. Cross-referenced and rendered without a hint of lag."
+          intro="Two suites, built for the intraday trader. The Systems map the field; the Radars decode the live tape. Cross-referenced and rendered without a hint of lag."
           className="mb-16 max-w-3xl"
         />
 
         <div className="flex flex-col gap-20">
+          <SuiteBlock suite="systems" premium />
           <SuiteBlock suite="radars" />
-          <SuiteBlock suite="systems" />
         </div>
       </div>
     </section>
