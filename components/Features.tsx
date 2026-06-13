@@ -7,8 +7,8 @@ import { Reveal } from "@/components/ui/Reveal";
 const FEATURES = [
   {
     icon: Crosshair,
-    title: "Built for MNQ / MES",
-    body: "Every metric is tuned and normalised for the micro index futures you actually trade — corroborated reads, not lone guesses.",
+    title: "Built for intraday",
+    body: "Every metric is tuned and normalised for the intraday trader — corroborated reads across timeframes, not lone guesses.",
   },
   {
     icon: Layers,
@@ -22,8 +22,8 @@ const FEATURES = [
   },
   {
     icon: Zap,
-    title: "Lag-free overlays",
-    body: "Fonts cached once, a single shared draw brush, no per-frame allocations. Heavy intelligence with zero drag on a live tape.",
+    title: "No lag, ever",
+    body: "Heavy intelligence that never drags your chart. Every read is cross-referenced and rendered instantly, so the tape stays smooth even mid-session.",
   },
 ];
 

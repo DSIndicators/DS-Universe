@@ -6,7 +6,7 @@ const STEPS = [
   {
     n: "01",
     title: "Connect",
-    body: "Drop the DS Universe suite onto your NinjaTrader chart and link it to your MNQ / MES data feed.",
+    body: "Drop the DS Universe suite onto your NinjaTrader chart and link it to your live intraday data feed.",
   },
   {
     n: "02",

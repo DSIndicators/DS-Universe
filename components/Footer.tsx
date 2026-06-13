@@ -48,7 +48,8 @@ export function Footer() {
               Intraday Futures Intelligence
             </p>
             <p className="max-w-xs text-sm leading-relaxed text-ink-gray">
-              MNQ / MES — precision from orbit. Nine instruments, one mind.
+              Intraday intelligence — precision from orbit. Every instrument, one
+              mind.
             </p>
             <div className="mt-2 flex gap-3">
               {SOCIALS.map((s) => {
@@ -89,13 +90,25 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-white/[0.06] pt-8 text-xs text-ink-gray/70 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 flex flex-col gap-6 border-t border-white/[0.06] pt-8 text-xs text-ink-gray/70">
+          <div>
+            <h4 className="mb-2 font-mono text-[0.62rem] uppercase tracking-[0.2em] text-ink-gray/70">
+              Disclaimer
+            </h4>
+            <p className="max-w-4xl leading-relaxed">
+              DS Universe provides free, ad-supported trading tools designed as
+              confirmation aids, not trading signals. Nothing provided by DS
+              Universe constitutes financial advice, investment recommendations,
+              or an offer to buy or sell any financial instrument. Trading futures
+              and other leveraged products involves substantial risk and may not
+              be suitable for all traders. Past performance does not guarantee
+              future results. Users are fully responsible for their own trading
+              decisions. DS Universe is not a broker, financial advisor, or CTA.
+              All tools are provided for educational and informational purposes
+              only.
+            </p>
+          </div>
           <p>© {new Date().getFullYear()} DS Universe. All rights reserved.</p>
-          <p className="max-w-2xl leading-relaxed">
-            Trading futures involves substantial risk. DS Universe indicators are
-            analytical tools, not financial advice or trade signals. Past
-            performance is not indicative of future results.
-          </p>
         </div>
       </div>
     </footer>

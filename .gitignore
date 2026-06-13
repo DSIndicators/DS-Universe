@@ -29,3 +29,6 @@ next-env.d.ts
 # local / machine-specific
 .claude/settings.local.json
 *.lnk
+
+# scratch / private working folder (contains hosting notes, source dumps)
+What i need/

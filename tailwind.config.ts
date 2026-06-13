@@ -61,12 +61,23 @@ const config: Config = {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
         },
+        // Cinematic, GPU-friendly: only transform/opacity animate.
+        drift: {
+          "0%, 100%": { transform: "translate3d(0,0,0) scale(1)" },
+          "50%": { transform: "translate3d(6%, -4%, 0) scale(1.08)" },
+        },
+        "drift-rev": {
+          "0%, 100%": { transform: "translate3d(0,0,0) scale(1.05)" },
+          "50%": { transform: "translate3d(-7%, 5%, 0) scale(1)" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.7s cubic-bezier(0.22,1,0.36,1) both",
         orbit: "orbit 18s linear infinite",
         "pulse-slow": "pulse-slow 6s ease-in-out infinite",
         float: "float 8s ease-in-out infinite",
+        drift: "drift 26s ease-in-out infinite",
+        "drift-rev": "drift-rev 32s ease-in-out infinite",
       },
     },
   },

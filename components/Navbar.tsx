@@ -8,10 +8,11 @@ import { GlowButton } from "@/components/ui/GlowButton";
 import { cn } from "@/components/ui/cn";
 
 const LINKS = [
-  { label: "Indicators", href: "#indicators" },
-  { label: "Features", href: "#features" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "Docs", href: "#docs" },
+  { label: "Indicators", href: "/#indicators" },
+  { label: "Features", href: "/#features" },
+  { label: "Showcase", href: "/showcase" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "Docs", href: "/#docs" },
 ];
 
 export function Navbar() {
@@ -36,7 +37,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
         {/* Brand */}
-        <Link href="#top" className="flex items-center gap-3">
+        <Link href="/#top" className="flex items-center gap-3">
           <Image
             src="/brand/emblem.png"
             alt="DS Universe emblem"
@@ -62,7 +63,7 @@ export function Navbar() {
               {l.label}
             </Link>
           ))}
-          <GlowButton href="#pricing" className="px-5 py-2 text-xs">
+          <GlowButton href="/#pricing" className="px-5 py-2 text-xs">
             Get Access
           </GlowButton>
         </div>
@@ -94,7 +95,7 @@ export function Navbar() {
               </Link>
             ))}
             <GlowButton
-              href="#pricing"
+              href="/#pricing"
               className="mt-2 w-full"
             >
               Get Access

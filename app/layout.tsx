@@ -20,12 +20,11 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dsuniverse.example"),
-  title: "DS Universe — Intraday Futures Intelligence (MNQ / MES)",
+  title: "DS Universe — Intraday Futures Intelligence",
   description:
-    "DS Universe is a suite of intraday futures indicators for MNQ / MES. Nine instruments, one mind — the Radars decode the tape and the Systems map the field. Precision from orbit.",
+    "DS Universe is a suite of intraday trading tools. Every instrument is intelligently mixed and bound by one mind — the DS Registry — cross-referenced and rendered without a hint of lag. Precision from orbit.",
   keywords: [
-    "MNQ",
-    "MES",
+    "intraday trading",
     "intraday futures",
     "trading indicators",
     "order flow",
@@ -39,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "DS Universe — Intraday Futures Intelligence",
     description:
-      "Nine instruments. One mind. Precision from orbit. Intraday futures intelligence for MNQ / MES.",
+      "Every instrument intelligently mixed, bound by one mind. Precision from orbit — intraday futures intelligence.",
     images: ["/brand/banner.png"],
     type: "website",
   },

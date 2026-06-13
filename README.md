@@ -24,25 +24,32 @@ app/
   layout.tsx        # fonts (Poppins + JetBrains Mono), metadata, SEO, <body> bg
   page.tsx          # assembles all sections
   globals.css       # brand tokens, aurora gradients, glass utilities, starfield/noise
+  showcase/page.tsx # /showcase — tabbed brochure viewer (Crewmates / Radars / Systems)
 components/
   Navbar · Hero · Indicators · Registry · Features · HowItWorks · Pricing · CTASection · Footer
+  Showcase.tsx      # client: tabbed PDF viewer with cinematic backdrop
   ui/               # GlassCard, GlowButton, SectionHeading, Eyebrow, Reveal, Planet, cn
-  data/products.ts  # all nine indicators + copy (single source of truth)
+  data/products.ts  # the nine paid indicators + copy (single source of truth)
+  data/brochures.ts # the three Showcase brochures + tier metadata
 public/brand/
   emblem.png        # square planet logo (nav, footer, favicon)
   banner.png        # wide aurora banner (hero backdrop, Open Graph image)
+public/brochures/   # the three PDFs served to the /showcase viewer
 ```
 
-## The indicators
+## The product line
 
-Nine instruments across two suites (copy lifted from the official brochures):
+Three series / pricing tiers (copy lifted from the official brochures):
 
-- **DS Radars** — `PILOTS` · `SWEEPER` · `EVERGUARD`
-- **DS Systems** — `ORBIT` · `STARS` · `BALANCE` · `EMBER` · `COUNCIL` · `PULSE`
+- **DS Crewmates** (Free, with ads) — `BC` · `CL` · `TL` · `SR`
+- **DS Radars** (Pro · $49.99/mo) — `PILOTS` · `SWEEPER` · `EVERGUARD`
+- **DS Systems** (Universe · $199.99/mo) — `ORBIT` · `STARS` · `BALANCE` · `EMBER` · `COUNCIL` · `PULSE`
 
-> The original build prompt listed six placeholder products. The real lineup
-> (nine, in two suites) and all marketing copy were sourced from
-> `DS_Radars_Brochure.pdf` and `DS_Systems_Brochure_1.pdf`.
+The home `Indicators` grid showcases the nine paid instruments (Radars + Systems);
+all three series, including the free Crewmates, are browsable on `/showcase`.
+
+> Marketing copy was sourced from `DS_Crewmate_Series_Brochure.pdf`,
+> `DS_Radars_Brochure.pdf` and `DS_Systems_Brochure.pdf`.
 
 ## Replacing brand assets
 

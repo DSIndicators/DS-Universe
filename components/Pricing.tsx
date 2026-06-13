@@ -5,52 +5,54 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/components/ui/cn";
 
-// TODO: confirm final tiers + prices before launch — placeholders below.
 const TIERS = [
   {
-    name: "Core",
-    price: "$49",
-    cadence: "/mo",
-    blurb: "The DS Radar series. Decode the live tape.",
+    name: "Free",
+    price: "Free",
+    cadence: "with ads",
+    lifetime: false,
+    blurb: "The DS Crewmates. A beginner's chart that reads like a pro's.",
     features: [
-      "DS Pilots — direction & conviction",
-      "DS Sweeper — the trap hunter",
-      "DS Everguard — integrity & conviction",
-      "Multi-timeframe cross-referencing",
-      "Community access",
+      "DS BC — market structure (BOS · CHoCH)",
+      "DS TL — self-cleaning trend line",
+      "DS SR — touch-ranked support & resistance",
+      "DS CL — on-chart trade checklist",
+      "Free forever · no card required",
     ],
     featured: false,
-    cta: "Get Core",
+    cta: "Start free",
   },
   {
     name: "Pro",
-    price: "$99",
-    cadence: "/mo",
-    blurb: "Radars plus the structural Systems. The full read.",
+    price: "$49.99",
+    cadence: "one-time",
+    lifetime: true,
+    blurb: "The DS Radars. Three radars reading the tape, decoded live.",
     features: [
-      "Everything in Core",
-      "Orbit · Stars · Balance",
-      "Ember signature heat map",
-      "Council multi-timeframe consensus",
-      "Priority support",
+      "Lifetime access — pay once, yours forever",
+      "Everything in Free",
+      "DS Pilots — direction & conviction",
+      "DS Sweeper — the trap hunter",
+      "DS Everguard — integrity & conviction",
     ],
     featured: true,
-    cta: "Get Pro",
+    cta: "Get Pro — Lifetime",
   },
   {
     name: "Universe",
-    price: "$149",
-    cadence: "/mo",
-    blurb: "All nine instruments, reconciled by the Registry.",
+    price: "$199.99",
+    cadence: "one-time",
+    lifetime: true,
+    blurb: "The DS Systems. All instruments, reconciled by the Registry.",
     features: [
+      "Lifetime access — pay once, yours forever",
       "Everything in Pro",
-      "Pulse — live order flow",
-      "The DS Registry core",
-      "Early access to new instruments",
-      "1:1 onboarding session",
+      "Orbit · Stars · Balance",
+      "Ember heat map · Council consensus",
+      "Pulse · the DS Registry core · early access",
     ],
     featured: false,
-    cta: "Get Universe",
+    cta: "Get Universe — Lifetime",
   },
 ];
 
@@ -62,9 +64,9 @@ export function Pricing() {
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
           eyebrow="Access"
-          title="Choose your"
-          titleMuted="altitude."
-          intro="Start with the Radars, scale into the full Universe. Cancel anytime — placeholder pricing for launch."
+          title="One payment."
+          titleMuted="Lifetime access."
+          intro="No subscriptions, ever. Pay once and the tools are yours for life — free updates included. Start free with the Crewmates, then own the Radars or the full Universe outright."
           align="center"
           className="mb-16"
         />
@@ -90,13 +92,20 @@ export function Pricing() {
                   )}
                 </div>
 
-                <div className="flex items-end gap-1">
-                  <span className="font-sans text-5xl font-extrabold tracking-tight text-ink-white">
-                    {tier.price}
-                  </span>
-                  <span className="mb-1.5 text-sm text-ink-gray">
-                    {tier.cadence}
-                  </span>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-end gap-1">
+                    <span className="font-sans text-5xl font-extrabold tracking-tight text-ink-white">
+                      {tier.price}
+                    </span>
+                    <span className="mb-1.5 text-sm text-ink-gray">
+                      {tier.cadence}
+                    </span>
+                  </div>
+                  {tier.lifetime && (
+                    <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-accent-teal/40 bg-accent-teal/10 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-accent-teal">
+                      Lifetime access
+                    </span>
+                  )}
                 </div>
 
                 <p className="text-sm leading-relaxed text-ink-gray">
@@ -117,7 +126,7 @@ export function Pricing() {
                 </ul>
 
                 <GlowButton
-                  href="#docs"
+                  href="/showcase"
                   variant={tier.featured ? "primary" : "ghost"}
                   className="w-full"
                 >

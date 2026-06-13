@@ -16,9 +16,9 @@ export function Registry() {
           <div className="flex flex-col gap-6">
             <SectionHeading
               eyebrow="The Connective Tissue"
-              title="All zones mean something."
-              titleMuted="Systems have to align."
-              intro="Underneath everything runs the DS Registry — the central hub every system reports to. It reconciles thousands of cross-references so the heat, the zones, the runway, the entries and the Council all agree before anything reaches your eyes. The systems agree, or you see nothing."
+              title="Intelligently mixed."
+              titleMuted="One mind behind it all."
+              intro="No instrument works alone. They're all intelligently mixed and bound by a single mind — the DS Registry — which cross-references every reading against every other in real time and renders it without a hint of lag. The result is one coherent read: the systems agree, or you see nothing."
             />
 
             <Reveal>

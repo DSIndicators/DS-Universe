@@ -80,7 +80,7 @@ export function Hero() {
             {...rise(0.42)}
             className="mt-3 font-mono text-sm uppercase tracking-[0.22em] text-ink-gray"
           >
-            MNQ / MES — Precision from Orbit
+            For the Intraday Trader — Precision from Orbit
           </motion.p>
 
           <motion.div
