@@ -3,8 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Download, ExternalLink, FileText, Maximize2, Play } from "lucide-react";
-import { SHOWCASE, type BrochureId, type ShowcaseBrochure } from "@/components/data/brochures";
+import { Download, ExternalLink, Maximize2 } from "lucide-react";
+import {
+  SHOWCASE,
+  pageImages,
+  type BrochureId,
+  type ShowcaseBrochure,
+} from "@/components/data/brochures";
 import { cn } from "@/components/ui/cn";
 
 const ACCENT_TEXT: Record<ShowcaseBrochure["accent"], string> = {
@@ -15,14 +20,8 @@ const ACCENT_TEXT: Record<ShowcaseBrochure["accent"], string> = {
 
 export function Showcase() {
   const [activeId, setActiveId] = useState<BrochureId>("crewmates");
-  // The inline PDF viewer is heavy, so it only mounts on demand (one at a time).
-  const [viewing, setViewing] = useState(false);
   const active = SHOWCASE.find((b) => b.id === activeId) ?? SHOWCASE[0];
-
-  const selectTab = (id: BrochureId) => {
-    setActiveId(id);
-    setViewing(false); // reset to the light poster when switching
-  };
+  const pages = pageImages(active);
 
   return (
     <div className="relative">
@@ -40,7 +39,7 @@ export function Showcase() {
                 key={b.id}
                 role="tab"
                 aria-selected={selected}
-                onClick={() => selectTab(b.id)}
+                onClick={() => setActiveId(b.id)}
                 className={cn(
                   "relative flex-1 rounded-xl px-4 py-3 text-center transition-colors duration-300",
                   selected ? "text-ink-white" : "text-ink-gray hover:text-ink-white",
@@ -117,51 +116,40 @@ export function Showcase() {
         </div>
       </motion.div>
 
-      {/* Stage: light poster by default, heavy viewer only after the user opts in */}
+      {/* Stage: the brochure pages as STATIC images, scrolled inside the frame.
+          Each page is a plain webp — nothing recomposites, so scrolling is buttery
+          even on long brochures. Pages lazy-load as you reach them. */}
       <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-space-deep">
-        {viewing ? (
-          // Solid frame, no backdrop-blur, no motion wrapper — nothing recomposites
-          // the PDF layer, so scrolling stays smooth.
-          <iframe
-            key={active.file}
-            src={`${active.file}#view=FitH`}
-            title={`${active.word} ${active.wordMuted} brochure`}
-            className="h-[82vh] min-h-[560px] w-full bg-space-deep"
-          />
-        ) : (
-          <button
-            type="button"
-            onClick={() => setViewing(true)}
-            className="group flex min-h-[420px] w-full flex-col items-center justify-center gap-5 px-6 py-16 text-center sm:min-h-[520px]"
-          >
-            {/* static accent glow — no animation */}
-            <span className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-space-violet/15 blur-[100px]" />
-            <span className="relative flex h-16 w-16 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-ink-white transition-transform duration-300 group-hover:scale-110">
-              <Play size={24} className="ml-0.5" fill="currentColor" />
-            </span>
-            <span className="relative flex flex-col items-center gap-1.5">
-              <span className="font-sans text-xl font-semibold text-ink-white">
-                View the {active.word} {active.wordMuted} Showcase
-              </span>
-              <span className="flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-ink-gray/70">
-                <FileText size={13} /> {active.pages} pages · loads inline
-              </span>
-            </span>
-          </button>
-        )}
+        <div className="max-h-[82vh] min-h-[560px] overflow-y-auto overscroll-contain [scrollbar-width:thin]">
+          <div className="mx-auto flex max-w-3xl flex-col gap-3 p-3 sm:gap-4 sm:p-4">
+            {pages.map((src, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={src}
+                src={src}
+                alt={`${active.word} ${active.wordMuted} brochure — page ${i + 1} of ${active.pages}`}
+                width={active.pageW}
+                height={active.pageH}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding="async"
+                className="block w-full rounded-lg border border-white/[0.06] shadow-glow"
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Helper line */}
       <p className="mt-4 flex items-center justify-center gap-2 text-xs text-ink-gray/60">
         <ExternalLink size={13} />
-        For the smoothest read,{" "}
+        Scroll the pages above, or{" "}
         <Link
           href={active.file}
           target="_blank"
           rel="noopener noreferrer"
           className="text-accent-teal hover:underline"
         >
-          open it full screen
+          open the full PDF
         </Link>
         .
       </p>

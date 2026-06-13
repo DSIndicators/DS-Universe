@@ -15,11 +15,23 @@ export type ShowcaseBrochure = {
   tierNote: string;
   line: string;
   products: string;
+  /** Original PDF (for download + full-screen). */
   file: string;
   pages: number;
+  /** Pixel size of the rasterized page webps in public/brochures/<id>/. */
+  pageW: number;
+  pageH: number;
   /** Accent used for the active tab + glow. */
   accent: "teal" | "cyan" | "violet";
 };
+
+/** Static page images for a brochure: /brochures/<id>/page-01.webp … */
+export function pageImages(b: ShowcaseBrochure): string[] {
+  return Array.from(
+    { length: b.pages },
+    (_, i) => `/brochures/${b.id}/page-${String(i + 1).padStart(2, "0")}.webp`,
+  );
+}
 
 export const SHOWCASE: ShowcaseBrochure[] = [
   {
@@ -32,6 +44,8 @@ export const SHOWCASE: ShowcaseBrochure[] = [
     products: "BC · CL · TL · SR",
     file: "/brochures/DS_Crewmate_Series_Brochure.pdf",
     pages: 8,
+    pageW: 1192,
+    pageH: 1684,
     accent: "teal",
   },
   {
@@ -44,6 +58,8 @@ export const SHOWCASE: ShowcaseBrochure[] = [
     products: "Pilots · Sweeper · Everguard",
     file: "/brochures/DS_Radars_Brochure.pdf",
     pages: 7,
+    pageW: 1224,
+    pageH: 1584,
     accent: "cyan",
   },
   {
@@ -56,6 +72,8 @@ export const SHOWCASE: ShowcaseBrochure[] = [
     products: "Orbit · Stars · Balance · Ember · Council · Pulse",
     file: "/brochures/DS_Systems_Brochure.pdf",
     pages: 9,
+    pageW: 1224,
+    pageH: 1584,
     accent: "violet",
   },
 ];

@@ -1,6 +1,7 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { IndicatorCard } from "@/components/IndicatorCard";
+import { IntelligenceCore } from "@/components/ui/IntelligenceCore";
 import { PRODUCTS, SUITES, type Suite } from "@/components/data/products";
 import { cn } from "@/components/ui/cn";
 
@@ -27,25 +28,50 @@ function SuiteBlock({ suite, premium }: { suite: Suite; premium?: boolean }) {
       <Reveal>
         <div
           className={cn(
-            "flex flex-col gap-2 border-l-2 pl-5",
-            premium ? "border-space-electric/70" : "border-accent-teal/50",
+            "flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8",
           )}
         >
-          <span className="flex items-center gap-3">
-            <span className="label-caps">{meta.label}</span>
-            {premium && (
-              <span className="rounded-full border border-space-electric/40 bg-space-electric/10 px-2.5 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.18em] text-space-electric">
-                Flagship suite
-              </span>
+          <div
+            className={cn(
+              "flex flex-col gap-2 border-l-2 pl-5",
+              premium ? "border-space-electric/70" : "border-accent-teal/50",
             )}
-          </span>
-          <h3 className="font-sans text-2xl font-bold tracking-tight sm:text-3xl">
-            <span className="text-ink-white">{meta.title.split(" ")[0]}</span>{" "}
-            <span className={premium ? "text-ai" : "text-ink-gray"}>
-              {meta.title.split(" ")[1]}
+          >
+            <span className="flex items-center gap-3">
+              <span className="label-caps">{meta.label}</span>
+              {premium && (
+                <span className="rounded-full border border-space-electric/40 bg-space-electric/10 px-2.5 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.18em] text-space-electric">
+                  Flagship suite
+                </span>
+              )}
             </span>
-          </h3>
-          <p className="text-ink-gray">{meta.line}</p>
+            <h3 className="font-sans text-2xl font-bold tracking-tight sm:text-3xl">
+              <span className="text-ink-white">{meta.title.split(" ")[0]}</span>{" "}
+              <span className={premium ? "text-ai" : "text-ink-gray"}>
+                {meta.title.split(" ")[1]}
+              </span>
+            </h3>
+            <p className="text-ink-gray">{meta.line}</p>
+          </div>
+
+          {/* The Intelligence Core — the brain the whole suite reports to. */}
+          {premium && (
+            <div className="flex shrink-0 items-center gap-4 sm:max-w-[19rem]">
+              <IntelligenceCore size={104} className="shrink-0" />
+              <div className="flex flex-col gap-1.5">
+                <span className="font-mono text-[0.55rem] uppercase tracking-[0.18em] text-space-electric">
+                  Intelligence Core
+                </span>
+                <span className="font-sans text-sm font-bold text-ink-white">
+                  The DS Registry
+                </span>
+                <p className="text-xs leading-relaxed text-ink-gray">
+                  One core binds the suite — every instrument reports here, and
+                  the Registry reconciles them into a single, lag-free read.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </Reveal>
 

@@ -171,6 +171,7 @@
 }
 .orb-mascot-body {
   position: relative;
+  z-index: 1;
   width: 84px;
   height: 84px;
   border-radius: 50%;
@@ -179,6 +180,44 @@
     0 0 44px -6px rgba(109, 140, 255, 0.5),
     inset -7px -9px 20px rgba(0, 0, 0, 0.4),
     inset 7px 7px 16px rgba(255, 255, 255, 0.18);
+}
+
+/* Cute little ember cape trailing behind the orb — gently flickers + sways. */
+.orb-mascot-cape {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 0;
+  width: 88px;
+  height: 100px;
+  transform: translateX(-50%);
+  transform-origin: 50% 6%;
+  background: radial-gradient(
+    72% 64% at 50% 12%,
+    rgba(255, 224, 176, 0.98) 0%,
+    rgba(255, 150, 66, 0.92) 30%,
+    rgba(255, 96, 42, 0.7) 56%,
+    rgba(206, 54, 28, 0.4) 78%,
+    rgba(150, 36, 22, 0.12) 92%,
+    transparent 100%
+  );
+  clip-path: polygon(
+    30% 0, 70% 0, 90% 40%, 99% 97%, 82% 73%, 67% 100%, 50% 76%, 33% 100%,
+    18% 73%, 1% 97%, 10% 40%
+  );
+  filter: blur(0.8px) drop-shadow(0 2px 12px rgba(255, 120, 40, 0.55));
+  animation: ember-cape 3.4s ease-in-out infinite;
+}
+@keyframes ember-cape {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-4deg) scaleY(0.96);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateX(-50%) rotate(4deg) scaleY(1.08);
+    opacity: 1;
+  }
 }
 .orb-mascot-eyes {
   position: absolute;
@@ -189,6 +228,8 @@
   justify-content: center;
   gap: 11px;
   transform-origin: center;
+  /* Eases the blink (scaleY toggle) so eyelids close + open smoothly. */
+  transition: transform 0.11s ease-in-out;
 }
 .orb-eye {
   display: flex;
@@ -205,6 +246,8 @@
   height: 9px;
   border-radius: 50%;
   background: #10131f;
+  /* Smooth the glance as the eyes dart from panel to panel. */
+  transition: transform 0.2s ease-out;
 }
 
 /* Horizontal capabilities marquee — full-bleed, auto-scroll, pause on hover. */

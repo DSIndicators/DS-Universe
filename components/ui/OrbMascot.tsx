@@ -3,10 +3,11 @@
 import { useEffect, useRef } from "react";
 
 /**
- * A mini DS Universe orb that drifts through the background "in space" with
- * cute eyes — like the Las Vegas Sphere. It wanders to random spots and its
- * pupils glance at random panels, then blinks. One rAF, transform-only writes,
- * no React re-renders. Fully static under prefers-reduced-motion.
+ * A mini DS Universe orb that gently hovers in the background "in space" with
+ * cute eyes — like the Las Vegas Sphere. The body breathes in place; the pupils
+ * curiously glance around at the panels on screen (never lock forward) and blink
+ * softly. One rAF, transform-only writes, no React re-renders. Fully static
+ * under prefers-reduced-motion.
  */
 export function OrbMascot() {
   const wrap = useRef<HTMLDivElement>(null);
@@ -18,93 +19,102 @@ export function OrbMascot() {
     const w = wrap.current;
     if (!w) return;
     const SIZE = 84;
-    const M = 40;
-    const rand = (a: number, b: number) => a + Math.random() * (b - a);
+    const M = 48;
     const vw = () => window.innerWidth;
     const vh = () => window.innerHeight;
 
-    let px = rand(M, vw() - SIZE - M);
-    let py = rand(vh() * 0.28, vh() * 0.62);
-    let tx = px;
-    let ty = py;
+    // Smooth, perpetual drift along two slow, incommensurate sine waves —
+    // it just floats, never jumps or "decides". Amplitudes track the viewport.
+    const startedAt = performance.now();
+    const phase = Math.random() * 1000;
+    const place = (px: number, py: number) => {
+      w.style.transform = `translate(${px.toFixed(1)}px, ${py.toFixed(1)}px)`;
+    };
+
+    const TAU = Math.PI * 2;
+    const compute = (now: number) => {
+      const t = (now - startedAt) / 1000 + phase;
+      // Small amplitudes + long periods → a barely-there gentle hover, never a
+      // traverse. It just breathes in place rather than wandering the screen.
+      const ax = Math.min(120, vw() * 0.12);
+      const ay = Math.min(70, vh() * 0.085);
+      const cx = vw() * 0.5 - SIZE / 2;
+      const cy = vh() * 0.52 - SIZE / 2;
+      const px = clamp(cx + ax * Math.sin((t / 54) * TAU), M, vw() - SIZE - M);
+      const py = clamp(cy + ay * Math.sin((t / 73) * TAU + 1.3), M, vh() - SIZE - M);
+      return { px, py, t };
+    };
+    const clamp = (v: number, lo: number, hi: number) =>
+      Math.max(lo, Math.min(hi, v));
+
+    const init = compute(startedAt);
+    place(init.px, init.py);
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // Eyes curiously glance around at the panels on screen (never lock forward),
+    // smoothly easing from one to the next. Soft, CSS-eased blinks.
     let lx = 0;
     let ly = 0;
     let tlx = 0;
     let tly = 0;
+    let raf = 0;
+    let lookT = 900;
+    let blinkT = 4200;
+    let blinking = false;
+    let blinkUntil = 0;
+    let last = startedAt;
 
-    const place = () => {
-      w.style.transform = `translate(${px.toFixed(1)}px, ${py.toFixed(1)}px)`;
-    };
-    place();
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const pickMove = () => {
-      tx = rand(M, vw() - SIZE - M);
-      ty = rand(M + 60, vh() - SIZE - M);
-    };
     const pickLook = () => {
-      const cx = px + SIZE / 2;
-      const cy = py + SIZE / 2;
+      const cur = compute(performance.now());
+      const cx = cur.px + SIZE / 2;
+      const cy = cur.py + SIZE / 2;
       const els = Array.from(
-        document.querySelectorAll<HTMLElement>("h2, h3, .glass"),
+        document.querySelectorAll<HTMLElement>("h2, h3, .glass, figure, img"),
       ).filter((e) => {
         const r = e.getBoundingClientRect();
-        return r.width > 0 && r.bottom > 0 && r.top < vh();
+        return r.width > 40 && r.bottom > 0 && r.top < vh();
       });
       if (els.length) {
         const r = els[Math.floor(Math.random() * els.length)].getBoundingClientRect();
         const dx = r.left + r.width / 2 - cx;
         const dy = r.top + r.height / 2 - cy;
         const m = Math.hypot(dx, dy) || 1;
-        tlx = Math.max(-1, Math.min(1, dx / m));
-        tly = Math.max(-1, Math.min(1, dy / m));
+        tlx = clamp(dx / m, -1, 1);
+        tly = clamp(dy / m, -1, 1) * 0.82;
       } else {
-        tlx = rand(-1, 1);
-        tly = rand(-0.6, 0.6);
+        tlx = Math.random() * 2 - 1;
+        tly = (Math.random() * 2 - 1) * 0.6;
       }
     };
     pickLook();
 
-    let raf = 0;
-    let last = performance.now();
-    let moveT = 1500;
-    let lookT = 2000;
-    let blinkT = 4000;
-    let blinking = false;
-    let blinkUntil = 0;
-
     const tick = (now: number) => {
       const dt = Math.min(50, now - last);
       last = now;
-      moveT -= dt;
+      place(compute(now).px, compute(now).py);
+
       lookT -= dt;
-      blinkT -= dt;
-      if (moveT <= 0) {
-        pickMove();
-        moveT = rand(5500, 9500);
-      }
       if (lookT <= 0) {
         pickLook();
-        lookT = rand(2400, 4200);
+        lookT = 1700 + Math.random() * 1700; // dart to a new panel
       }
+      lx += (tlx - lx) * 0.08;
+      ly += (tly - ly) * 0.08;
+
+      blinkT -= dt;
       if (!blinking && blinkT <= 0) {
         blinking = true;
-        blinkUntil = now + 130;
-        blinkT = rand(3500, 7000);
+        blinkUntil = now + 110;
+        blinkT = 3500 + Math.random() * 3500;
       }
       if (blinking && now > blinkUntil) blinking = false;
 
-      px += (tx - px) * 0.012;
-      py += (ty - py) * 0.012;
-      lx += (tlx - lx) * 0.07;
-      ly += (tly - ly) * 0.07;
-      place();
-
-      const pt = `translate(${(lx * 4.5).toFixed(1)}px, ${(ly * 4.5).toFixed(1)}px)`;
+      const pt = `translate(${(lx * 4).toFixed(1)}px, ${(ly * 4).toFixed(1)}px)`;
       if (pL.current) pL.current.style.transform = pt;
       if (pR.current) pR.current.style.transform = pt;
-      if (eyes.current) eyes.current.style.transform = `scaleY(${blinking ? 0.1 : 1})`;
+      // CSS transition on .orb-mascot-eyes eases the scaleY → smooth blink.
+      if (eyes.current) eyes.current.style.transform = `scaleY(${blinking ? 0.12 : 1})`;
 
       raf = requestAnimationFrame(tick);
     };
@@ -115,6 +125,7 @@ export function OrbMascot() {
 
   return (
     <div ref={wrap} aria-hidden className="orb-mascot">
+      <div className="orb-mascot-cape" />
       <div className="orb-mascot-body">
         <div ref={eyes} className="orb-mascot-eyes">
           <span className="orb-eye">
