@@ -1,6 +1,6 @@
 import { cn } from "@/components/ui/cn";
 
-type GlassCardProps = {
+type GlassCardProps = React.HTMLAttributes<HTMLDivElement> & {
   children: React.ReactNode;
   className?: string;
   /** Adds the lift + intensified glow on hover. */
@@ -22,6 +22,7 @@ export function GlassCard({
   className,
   interactive = false,
   glow = "none",
+  ...rest
 }: GlassCardProps) {
   return (
     <div
@@ -34,6 +35,7 @@ export function GlassCard({
           "transition-all duration-500 hover:-translate-y-1.5 hover:border-white/[0.16] hover:bg-white/[0.06] hover:before:opacity-100",
         className,
       )}
+      {...rest}
     >
       {children}
     </div>

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins, JetBrains_Mono } from "next/font/google";
+import { SmoothAnchors } from "@/components/SmoothAnchors";
 import "./globals.css";
 
 // Headlines / brand wordmark / body — Poppins (incl. ExtraBold for the hero).
@@ -20,7 +21,7 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dsuniverse.example"),
-  title: "DS Universe — Intraday Futures Intelligence",
+  title: "DS Universe",
   description:
     "DS Universe is a suite of intraday trading tools. Every instrument is intelligently mixed and bound by one mind — the DS Registry — cross-referenced and rendered without a hint of lag. Precision from orbit.",
   keywords: [
@@ -32,8 +33,8 @@ export const metadata: Metadata = {
     "DS Universe",
   ],
   icons: {
-    icon: "/brand/emblem.png",
-    apple: "/brand/emblem.png",
+    icon: "/favicon.png",
+    apple: "/favicon.png",
   },
   openGraph: {
     title: "DS Universe — Intraday Futures Intelligence",
@@ -63,6 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} ${mono.variable}`}>
       <body className="bg-space-black text-ink-white antialiased">
+        <SmoothAnchors />
         {children}
       </body>
     </html>

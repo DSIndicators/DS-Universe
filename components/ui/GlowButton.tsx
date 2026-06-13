@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { cn } from "@/components/ui/cn";
 
 type GlowButtonProps = {
@@ -10,7 +9,7 @@ type GlowButtonProps = {
 
 /**
  * Primary = glowing aurora-filled CTA. Ghost = frosted-glass outline.
- * Renders an anchor via next/link so it works for in-page and external hrefs.
+ * Plain anchor so in-page "#" links are handled by SmoothAnchors (clean URLs).
  */
 export function GlowButton({
   children,
@@ -23,7 +22,7 @@ export function GlowButton({
 
   if (variant === "ghost") {
     return (
-      <Link
+      <a
         href={href}
         className={cn(
           base,
@@ -32,12 +31,12 @@ export function GlowButton({
         )}
       >
         {children}
-      </Link>
+      </a>
     );
   }
 
   return (
-    <Link
+    <a
       href={href}
       className={cn(
         base,
@@ -55,6 +54,6 @@ export function GlowButton({
         className="absolute inset-0 rounded-full opacity-60 blur-xl transition-opacity duration-300 bg-gradient-to-r from-space-cyan via-space-magenta to-space-peach group-hover:opacity-90"
       />
       <span className="relative z-10 flex items-center gap-2">{children}</span>
-    </Link>
+    </a>
   );
 }

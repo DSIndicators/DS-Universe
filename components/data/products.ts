@@ -119,10 +119,11 @@ export const PRODUCTS: Product[] = [
   },
   {
     name: "PULSE",
+    codename: "Free with Systems",
     suite: "systems",
-    tagline: "Order flow.",
+    tagline: "Live order flow.",
     description:
-      "Hears the order flow beneath the tape — the live read of pressure feeding the Registry, so every other system speaks from the same heartbeat of the market.",
+      "Our most powerful read — Pulse hears the true order flow beneath the tape, the live pressure that feeds the Registry so every other system speaks from the same heartbeat. Included free in the Systems package; just enable Tick Replay.",
     icon: "AudioLines",
     glow: "cyan",
   },

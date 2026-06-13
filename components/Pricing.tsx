@@ -1,11 +1,23 @@
-import { Check } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/components/ui/cn";
 
-const TIERS = [
+type Tier = {
+  name: string;
+  price: string;
+  cadence: string;
+  lifetime: boolean;
+  blurb: string;
+  highlight?: { title: string; body: string };
+  features: string[];
+  featured: boolean;
+  cta: string;
+};
+
+const TIERS: Tier[] = [
   {
     name: "Free",
     price: "Free",
@@ -23,7 +35,7 @@ const TIERS = [
     cta: "Start free",
   },
   {
-    name: "Pro",
+    name: "Radars",
     price: "$49.99",
     cadence: "one-time",
     lifetime: true,
@@ -35,24 +47,29 @@ const TIERS = [
       "DS Sweeper — the trap hunter",
       "DS Everguard — integrity & conviction",
     ],
-    featured: true,
-    cta: "Get Pro — Lifetime",
+    featured: false,
+    cta: "Get Radars — Lifetime",
   },
   {
-    name: "Universe",
+    name: "Systems",
     price: "$199.99",
     cadence: "one-time",
     lifetime: true,
     blurb: "The DS Systems. All instruments, reconciled by the Registry.",
+    // Pulse ships free inside Systems — called out separately below.
+    highlight: {
+      title: "DS Pulse included — free",
+      body: "Our most powerful order-flow read, bundled into Systems at no extra cost.",
+    },
     features: [
       "Lifetime access — pay once, yours forever",
-      "Everything in Pro",
+      "Everything in Radars",
       "Orbit · Stars · Balance",
       "Ember heat map · Council consensus",
-      "Pulse · the DS Registry core · early access",
+      "The DS Registry core · early access",
     ],
-    featured: false,
-    cta: "Get Universe — Lifetime",
+    featured: true,
+    cta: "Get Systems — Lifetime",
   },
 ];
 
@@ -66,7 +83,7 @@ export function Pricing() {
           eyebrow="Access"
           title="One payment."
           titleMuted="Lifetime access."
-          intro="No subscriptions, ever. Pay once and the tools are yours for life — free updates included. Start free with the Crewmates, then own the Radars or the full Universe outright."
+          intro="No subscriptions, ever. Pay once and the tools are yours for life — free updates included. Start free with the Crewmates, then own the Radars or the full Systems suite outright."
           align="center"
           className="mb-16"
         />
@@ -111,6 +128,23 @@ export function Pricing() {
                 <p className="text-sm leading-relaxed text-ink-gray">
                   {tier.blurb}
                 </p>
+
+                {tier.highlight && (
+                  <div className="relative overflow-hidden rounded-xl border border-accent-teal/30 bg-accent-teal/[0.07] p-4 text-center">
+                    <div className="flex items-center justify-center gap-2">
+                      <Sparkles size={15} className="shrink-0 text-accent-teal" />
+                      <span className="font-sans text-sm font-semibold text-ink-white">
+                        {tier.highlight.title}
+                      </span>
+                    </div>
+                    <span className="mx-auto mt-2 inline-flex rounded-full bg-accent-teal/15 px-2.5 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.16em] text-accent-teal">
+                      Requires Tick Replay
+                    </span>
+                    <p className="mt-2 text-xs leading-relaxed text-ink-gray">
+                      {tier.highlight.body}
+                    </p>
+                  </div>
+                )}
 
                 <ul className="flex flex-1 flex-col gap-3">
                   {tier.features.map((f) => (

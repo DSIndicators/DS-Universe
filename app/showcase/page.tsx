@@ -17,13 +17,12 @@ export default function ShowcasePage() {
     <>
       <Navbar />
       <main className="relative overflow-hidden">
-        {/* Cinematic, GPU-friendly backdrop — drifting aurora blobs + starfield.
-            All motion is transform/opacity only and collapses under reduced-motion. */}
+        {/* Static aurora backdrop — no animation, so nothing competes with the
+            PDF viewer for the GPU while you read. */}
         <div className="pointer-events-none fixed inset-0 -z-10">
-          <div className="absolute -left-40 top-[-10%] h-[42rem] w-[42rem] rounded-full bg-space-violet/15 blur-[140px] animate-drift" />
-          <div className="absolute -right-40 top-1/3 h-[38rem] w-[38rem] rounded-full bg-space-cyan/12 blur-[140px] animate-drift-rev" />
-          <div className="absolute bottom-[-10%] left-1/3 h-[34rem] w-[34rem] rounded-full bg-space-magenta/12 blur-[150px] animate-drift" />
-          <div className="starfield absolute inset-0 opacity-[0.14]" />
+          <div className="absolute -left-40 top-[-10%] h-[42rem] w-[42rem] rounded-full bg-space-violet/15 blur-[140px]" />
+          <div className="absolute -right-40 top-1/3 h-[38rem] w-[38rem] rounded-full bg-space-cyan/12 blur-[140px]" />
+          <div className="starfield absolute inset-0 opacity-[0.12]" />
           <div className="absolute inset-0 bg-gradient-to-b from-space-black/40 via-transparent to-space-black/70" />
         </div>
 

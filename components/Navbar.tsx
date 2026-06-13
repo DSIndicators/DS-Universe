@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { cn } from "@/components/ui/cn";
@@ -37,7 +36,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
         {/* Brand */}
-        <Link href="/#top" className="flex items-center gap-3">
+        <a href="/#top" className="flex items-center gap-3">
           <Image
             src="/brand/emblem.png"
             alt="DS Universe emblem"
@@ -50,18 +49,18 @@ export function Navbar() {
             <span className="text-ink-white">DS</span>{" "}
             <span className="text-ink-gray">UNIVERSE</span>
           </span>
-        </Link>
+        </a>
 
         {/* Desktop links */}
         <div className="hidden items-center gap-8 md:flex">
           {LINKS.map((l) => (
-            <Link
+            <a
               key={l.href}
               href={l.href}
               className="text-sm font-medium text-ink-gray transition-colors hover:text-ink-white"
             >
               {l.label}
-            </Link>
+            </a>
           ))}
           <GlowButton href="/#pricing" className="px-5 py-2 text-xs">
             Get Access
@@ -85,14 +84,14 @@ export function Navbar() {
         <div className="glass-strong border-t border-white/[0.08] md:hidden">
           <div className="flex flex-col gap-1 px-5 py-4">
             {LINKS.map((l) => (
-              <Link
+              <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
                 className="rounded-lg px-3 py-2.5 text-sm font-medium text-ink-gray transition-colors hover:bg-white/[0.04] hover:text-ink-white"
               >
                 {l.label}
-              </Link>
+              </a>
             ))}
             <GlowButton
               href="/#pricing"

@@ -1,65 +1,7 @@
-import {
-  Navigation,
-  Crosshair,
-  ShieldCheck,
-  Orbit,
-  Sparkles,
-  Scale,
-  Flame,
-  Vote,
-  AudioLines,
-  type LucideIcon,
-} from "lucide-react";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { PRODUCTS, SUITES, type Product, type Suite } from "@/components/data/products";
-
-const ICONS: Record<string, LucideIcon> = {
-  Navigation,
-  Crosshair,
-  ShieldCheck,
-  Orbit,
-  Sparkles,
-  Scale,
-  Flame,
-  Vote,
-  AudioLines,
-};
-
-function ProductCard({ product, index }: { product: Product; index: number }) {
-  const Icon = ICONS[product.icon] ?? Sparkles;
-  return (
-    <Reveal as="li" delay={(index % 3) * 0.08} className="h-full">
-      <GlassCard interactive glow={product.glow} className="flex h-full flex-col gap-4 p-6 sm:p-7">
-        <div className="flex items-start justify-between">
-          <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-accent-teal">
-            <Icon size={20} strokeWidth={1.6} />
-          </span>
-          {product.codename && (
-            <span className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-ink-gray/70">
-              {product.codename}
-            </span>
-          )}
-        </div>
-
-        <div className="flex items-baseline gap-2">
-          <h3 className="label-caps !text-sm !tracking-[0.22em]">
-            {product.name}
-          </h3>
-        </div>
-
-        <p className="-mt-1 font-sans text-lg font-semibold text-ink-white">
-          {product.tagline}
-        </p>
-
-        <p className="text-sm leading-relaxed text-ink-gray">
-          {product.description}
-        </p>
-      </GlassCard>
-    </Reveal>
-  );
-}
+import { IndicatorCard } from "@/components/IndicatorCard";
+import { PRODUCTS, SUITES, type Suite } from "@/components/data/products";
 
 function SuiteBlock({ suite }: { suite: Suite }) {
   const meta = SUITES[suite];
@@ -80,7 +22,9 @@ function SuiteBlock({ suite }: { suite: Suite }) {
 
       <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {items.map((p, i) => (
-          <ProductCard key={p.name} product={p} index={i} />
+          <Reveal as="li" key={p.name} delay={(i % 3) * 0.08} className="h-full">
+            <IndicatorCard product={p} />
+          </Reveal>
         ))}
       </ul>
     </div>
