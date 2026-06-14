@@ -2,6 +2,7 @@ import { Crosshair, Zap, Layers, EyeOff } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
+import { CouncilEngine } from "@/components/CouncilEngine";
 
 // Sourced from the brochures' "The edge" + Registry pages.
 const FEATURES = [
@@ -139,6 +140,9 @@ export function Features() {
             </GlassCard>
           </Reveal>
         </div>
+
+        {/* The MTF Engine — DS Council, under the Ember signature. */}
+        <CouncilEngine />
 
         {/* The trust grid — the rest of the edge that earns trader attention. */}
         <div className="mt-16">
