@@ -1,7 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Twitter, Youtube, Send, Mail } from "lucide-react";
+import { TermsModal } from "@/components/TermsModal";
 
+const SUPPORT_EMAIL = "support@dsuniverse.net";
+
+// Product columns link into the Showcase, where every brochure lives.
 const COLUMNS = [
   {
     heading: "Radars",
@@ -11,17 +15,13 @@ const COLUMNS = [
     heading: "Systems",
     links: ["Orbit", "Stars", "Balance", "Ember", "Council", "Pulse"],
   },
-  {
-    heading: "Company",
-    links: ["Pricing", "Docs", "Contact", "Terms"],
-  },
 ];
 
 const SOCIALS = [
   { icon: Twitter, label: "X / Twitter", href: "#" },
   { icon: Youtube, label: "YouTube", href: "#" },
   { icon: Send, label: "Telegram", href: "#" },
-  { icon: Mail, label: "Email", href: "mailto:hello@dsuniverse.example" },
+  { icon: Mail, label: "Email", href: `mailto:${SUPPORT_EMAIL}` },
 ];
 
 export function Footer() {
@@ -83,7 +83,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Link columns */}
+          {/* Product columns → Showcase */}
           {COLUMNS.map((col) => (
             <div key={col.heading} className="flex flex-col gap-3">
               <h4 className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-ink-gray/70">
@@ -93,7 +93,7 @@ export function Footer() {
                 {col.links.map((l) => (
                   <li key={l}>
                     <Link
-                      href="#"
+                      href="/showcase"
                       className="text-sm text-ink-gray transition-colors hover:text-ink-white"
                     >
                       {l}
@@ -103,6 +103,42 @@ export function Footer() {
               </ul>
             </div>
           ))}
+
+          {/* Company */}
+          <div className="flex flex-col gap-3">
+            <h4 className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-ink-gray/70">
+              Company
+            </h4>
+            <ul className="flex flex-col gap-2.5">
+              <li>
+                <Link
+                  href="/#pricing"
+                  className="text-sm text-ink-gray transition-colors hover:text-ink-white"
+                >
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/showcase"
+                  className="text-sm text-ink-gray transition-colors hover:text-ink-white"
+                >
+                  Showcase
+                </Link>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${SUPPORT_EMAIL}`}
+                  className="text-sm text-ink-gray transition-colors hover:text-ink-white"
+                >
+                  Contact
+                </a>
+              </li>
+              <li>
+                <TermsModal />
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div className="mt-14 flex flex-col gap-6 border-t border-white/[0.06] pt-8 text-xs text-ink-gray/70">
@@ -111,16 +147,16 @@ export function Footer() {
               Disclaimer
             </h4>
             <p className="max-w-4xl leading-relaxed">
-              DS Universe provides free, ad-supported trading tools designed as
-              confirmation aids, not trading signals. Nothing provided by DS
-              Universe constitutes financial advice, investment recommendations,
-              or an offer to buy or sell any financial instrument. Trading futures
-              and other leveraged products involves substantial risk and may not
-              be suitable for all traders. Past performance does not guarantee
-              future results. Users are fully responsible for their own trading
-              decisions. DS Universe is not a broker, financial advisor, or CTA.
-              All tools are provided for educational and informational purposes
-              only.
+              DS Universe provides both free, ad-supported tools and paid premium
+              suites, all designed as confirmation aids, not trading signals.
+              Nothing provided by DS Universe constitutes financial advice,
+              investment recommendations, or an offer to buy or sell any financial
+              instrument. Trading futures and other leveraged products involves
+              substantial risk and may not be suitable for all traders. Past
+              performance does not guarantee future results. Users are fully
+              responsible for their own trading decisions. DS Universe is not a
+              broker, financial advisor, or CTA. All tools are provided for
+              educational and informational purposes only.
             </p>
           </div>
           <p>© {new Date().getFullYear()} DS Universe. All rights reserved.</p>

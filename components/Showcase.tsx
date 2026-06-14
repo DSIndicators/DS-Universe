@@ -19,7 +19,7 @@ const ACCENT_TEXT: Record<ShowcaseBrochure["accent"], string> = {
 };
 
 export function Showcase() {
-  const [activeId, setActiveId] = useState<BrochureId>("crewmates");
+  const [activeId, setActiveId] = useState<BrochureId>("systems");
   const active = SHOWCASE.find((b) => b.id === activeId) ?? SHOWCASE[0];
   const pages = pageImages(active);
 

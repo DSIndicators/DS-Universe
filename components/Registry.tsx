@@ -1,6 +1,6 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { Planet } from "@/components/ui/Planet";
+import { FusedCore } from "@/components/ui/FusedCore";
 
 const STATS = [
   { value: "0", label: "Repaints" },
@@ -40,11 +40,27 @@ export function Registry() {
             </Reveal>
           </div>
 
-          {/* Registry visual */}
+          {/* Registry visual — the signature orb fused with the Intelligence Core,
+              titled like the suite panels to signify it's the brain of it all. */}
           <Reveal delay={0.1} className="flex justify-center">
-            <div className="relative flex items-center justify-center py-10">
+            <div className="relative flex flex-col items-center gap-4 py-10">
               <div className="pointer-events-none absolute inset-0 rounded-full bg-space-cyan/10 blur-[100px]" />
-              <Planet size={380} />
+              <FusedCore size={360} />
+
+              <div className="relative flex flex-col items-center gap-1.5 text-center">
+                <span className="font-mono text-[0.6rem] uppercase tracking-[0.22em] text-space-electric">
+                  The Intelligence Core
+                </span>
+                <div className="relative">
+                  <span
+                    aria-hidden
+                    className="bg-ai absolute -inset-x-6 -inset-y-2 -z-10 rounded-full opacity-40 blur-2xl"
+                  />
+                  <h3 className="text-ai font-sans text-3xl font-extrabold tracking-tight sm:text-4xl">
+                    DS Registry
+                  </h3>
+                </div>
+              </div>
             </div>
           </Reveal>
         </div>

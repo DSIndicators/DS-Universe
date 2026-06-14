@@ -9,6 +9,10 @@ import { cn } from "@/components/ui/cn";
 type Tier = {
   name: string;
   price: string;
+  /** Struck-through list price, shown above the sale price. */
+  originalPrice?: string;
+  /** Limited-time sale note (e.g. "−20% · Limited time"). */
+  saleNote?: string;
   cadence: string;
   lifetime: boolean;
   blurb: string;
@@ -55,6 +59,8 @@ const TIERS: Tier[] = [
   {
     name: "Systems",
     price: "$199.99",
+    originalPrice: "$249.99",
+    saleNote: "−20% · Limited time",
     cadence: "one-time",
     lifetime: true,
     blurb: "The DS Systems. All instruments, reconciled by the Registry.",
@@ -67,10 +73,10 @@ const TIERS: Tier[] = [
       "Lifetime access — pay once, yours forever",
       "Everything in Radars",
       "Orbit · Stars · Balance",
-      "Ember heat map · Council consensus",
+      "Ember — signature trend candles",
+      "Council — multi-timeframe consensus",
       "The DS Registry core · early access",
-      "All future updates — included",
-      "All future additions — included",
+      "All future updates & additions — included",
     ],
     featured: true,
     newRelease: true,
@@ -107,7 +113,7 @@ export function Pricing() {
               >
                 {tier.newRelease && (
                   <span className="bg-ai absolute -right-2.5 -top-3.5 z-20 rotate-3 rounded-full px-3.5 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-space-black shadow-glow-cyan">
-                    New Release
+                    New Release Sale
                   </span>
                 )}
                 <div className="flex items-center justify-between">
@@ -120,6 +126,18 @@ export function Pricing() {
                 </div>
 
                 <div className="flex flex-col gap-2">
+                  {tier.originalPrice && (
+                    <div className="flex items-center gap-2.5">
+                      <span className="font-sans text-lg font-semibold text-ink-gray/70 line-through decoration-space-magenta/70 decoration-2">
+                        {tier.originalPrice}
+                      </span>
+                      {tier.saleNote && (
+                        <span className="rounded-full bg-[#ff7a2f]/15 px-2.5 py-0.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-[#ffb986] ring-1 ring-[#ff7a2f]/40">
+                          {tier.saleNote}
+                        </span>
+                      )}
+                    </div>
+                  )}
                   <div className="flex items-end gap-1">
                     <span className="font-sans text-5xl font-extrabold tracking-tight text-ink-white">
                       {tier.price}

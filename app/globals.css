@@ -159,18 +159,21 @@
   );
 }
 
-/* Curious floating orb mascot — drifts in the background "in space". */
+/* Curious floating orb mascot — cruises the background "in space". */
 .orb-mascot {
   position: fixed;
   top: 0;
   left: 0;
+  width: 84px;
+  height: 84px;
   z-index: -2;
   pointer-events: none;
   opacity: 0.6;
   will-change: transform;
 }
 .orb-mascot-body {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 1;
   width: 84px;
   height: 84px;
@@ -182,72 +185,110 @@
     inset 7px 7px 16px rgba(255, 255, 255, 0.18);
 }
 
-/* Cute little ember cape trailing behind the orb — gently flickers + sways. */
-.orb-mascot-cape {
+/* Upgraded ember cape — flared collar lifted up BEHIND the orb, scalloped hem
+   with a glowing gold trim. Sits behind the body and sways gently. */
+.orb-cape {
   position: absolute;
   left: 50%;
   top: 50%;
   z-index: 0;
-  width: 88px;
-  height: 100px;
-  transform: translateX(-50%);
-  transform-origin: 50% 6%;
-  background: radial-gradient(
-    72% 64% at 50% 12%,
-    rgba(255, 224, 176, 0.98) 0%,
-    rgba(255, 150, 66, 0.92) 30%,
-    rgba(255, 96, 42, 0.7) 56%,
-    rgba(206, 54, 28, 0.4) 78%,
-    rgba(150, 36, 22, 0.12) 92%,
-    transparent 100%
-  );
-  clip-path: polygon(
-    30% 0, 70% 0, 90% 40%, 99% 97%, 82% 73%, 67% 100%, 50% 76%, 33% 100%,
-    18% 73%, 1% 97%, 10% 40%
-  );
-  filter: blur(0.8px) drop-shadow(0 2px 12px rgba(255, 120, 40, 0.55));
-  animation: ember-cape 3.4s ease-in-out infinite;
+  width: 120px;
+  /* Anchor the cape higher on the orb so the purple ball sits lower within the
+     cloak — the ember wraps its lower body and the pointed flares drape below. */
+  transform: translate(-60px, -66px);
 }
-@keyframes ember-cape {
+.orb-cape-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Let the soft ember glow spill past the viewBox instead of being clipped to
+     a rectangle at the SVG's edges. */
+  overflow: visible;
+  transform-origin: 50% 22%;
+  /* Promote the cape to its own layer so the blurred fire is rasterized ONCE;
+     the gentle sway + breathe then animate that cached texture — cheap even on
+     weak mobile GPUs — instead of re-running the SVG blur filters every frame. */
+  will-change: transform, opacity;
+  animation: cape-breathe 4.6s ease-in-out infinite;
+}
+@keyframes cape-breathe {
   0%,
   100% {
-    transform: translateX(-50%) rotate(-4deg) scaleY(0.96);
-    opacity: 0.85;
+    transform: rotate(-2deg);
+    opacity: 0.9;
   }
   50% {
-    transform: translateX(-50%) rotate(4deg) scaleY(1.08);
+    transform: rotate(2deg);
     opacity: 1;
   }
 }
+
+/* Flames are static within the cached cape texture — the whole cloak breathes
+   instead, keeping the per-frame cost off the SVG blur-filter path. */
+.orb-flame {
+  transform-box: fill-box;
+}
+
+/* Cute kawaii eyes — dark rounded eyes with a white shine, glancing to the side. */
 .orb-mascot-eyes {
   position: absolute;
-  top: 31%;
+  top: 30%;
   left: 0;
   right: 0;
   display: flex;
   justify-content: center;
-  gap: 11px;
+  gap: 12px;
   transform-origin: center;
-  /* Eases the blink (scaleY toggle) so eyelids close + open smoothly. */
+  /* Eases the blink (scaleY toggle) so the eyes close + open smoothly. */
   transition: transform 0.11s ease-in-out;
 }
 .orb-eye {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 19px;
-  height: 23px;
-  border-radius: 50%;
-  background: #f5f8ff;
-  box-shadow: 0 0 8px rgba(180, 220, 255, 0.5);
+  position: relative;
+  width: 15px;
+  height: 19px;
 }
 .orb-pupil {
-  width: 9px;
-  height: 9px;
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
-  background: #10131f;
-  /* Smooth the glance as the eyes dart from panel to panel. */
+  background: #0e1018;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.35);
+  /* Smooth the glance as the eyes dart to the side. */
   transition: transform 0.2s ease-out;
+}
+.orb-shine {
+  position: absolute;
+  top: 15%;
+  left: 17%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f5f8ff;
+  box-shadow: 0 0 4px rgba(220, 235, 255, 0.85);
+}
+
+/* Mouth — swaps between cute expressions, cross-fading smoothly. */
+.orb-mouth {
+  position: absolute;
+  top: 56%;
+  left: 50%;
+  width: 26px;
+  transform: translateX(-50%);
+}
+.orb-mouth svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.orb-mouth .m-shape {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.orb-mouth[data-expr="happy"] .m-happy,
+.orb-mouth[data-expr="neutral"] .m-neutral,
+.orb-mouth[data-expr="sad"] .m-sad,
+.orb-mouth[data-expr="playful"] .m-playful {
+  opacity: 1;
 }
 
 /* Horizontal capabilities marquee — full-bleed, auto-scroll, pause on hover. */

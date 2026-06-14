@@ -1,19 +1,22 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { OrbCape } from "@/components/ui/OrbCape";
+import { OrbMouth } from "@/components/ui/OrbMouth";
 
 /**
- * A mini DS Universe orb that gently hovers in the background "in space" with
- * cute eyes — like the Las Vegas Sphere. The body breathes in place; the pupils
- * curiously glance around at the panels on screen (never lock forward) and blink
- * softly. One rAF, transform-only writes, no React re-renders. Fully static
- * under prefers-reduced-motion.
+ * A mini DS Universe orb that cruises the background "in space" with cute kawaii
+ * eyes. The body bobs gently; the dark eyes curiously glance to the side (never
+ * lock forward), blink softly, and the mouth shifts between expressions once in
+ * a while. One rAF, transform/attribute writes only, no React re-renders. Fully
+ * static under prefers-reduced-motion.
  */
 export function OrbMascot() {
   const wrap = useRef<HTMLDivElement>(null);
   const eyes = useRef<HTMLDivElement>(null);
   const pL = useRef<HTMLSpanElement>(null);
   const pR = useRef<HTMLSpanElement>(null);
+  const mouth = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const w = wrap.current;
@@ -23,25 +26,34 @@ export function OrbMascot() {
     const vw = () => window.innerWidth;
     const vh = () => window.innerHeight;
 
-    // Smooth, perpetual drift along two slow, incommensurate sine waves —
-    // it just floats, never jumps or "decides". Amplitudes track the viewport.
+    // The orb cruises left ↔ right across the page, dwelling beside the panels
+    // on each side before gliding back — it keeps to the margins instead of
+    // sitting in the center where it would cover content. Vertical is a
+    // barely-there bob. One rAF, transform writes only.
     const startedAt = performance.now();
-    const phase = Math.random() * 1000;
     const place = (px: number, py: number) => {
       w.style.transform = `translate(${px.toFixed(1)}px, ${py.toFixed(1)}px)`;
     };
 
     const TAU = Math.PI * 2;
+    const DWELL = 3.6; // seconds parked beside a panel
+    const MOVE = 6.5; // seconds gliding across
+    const PERIOD = (DWELL + MOVE) * 2;
+    const smooth = (p: number) => p * p * (3 - 2 * p); // ease in + out
     const compute = (now: number) => {
-      const t = (now - startedAt) / 1000 + phase;
-      // Small amplitudes + long periods → a barely-there gentle hover, never a
-      // traverse. It just breathes in place rather than wandering the screen.
-      const ax = Math.min(120, vw() * 0.12);
-      const ay = Math.min(70, vh() * 0.085);
-      const cx = vw() * 0.5 - SIZE / 2;
-      const cy = vh() * 0.52 - SIZE / 2;
-      const px = clamp(cx + ax * Math.sin((t / 54) * TAU), M, vw() - SIZE - M);
-      const py = clamp(cy + ay * Math.sin((t / 73) * TAU + 1.3), M, vh() - SIZE - M);
+      const t = (now - startedAt) / 1000;
+      const left = M;
+      const right = vw() - SIZE - M;
+      const ay = Math.min(46, vh() * 0.06);
+      const cy = vh() * 0.46 - SIZE / 2;
+      const tt = ((t % PERIOD) + PERIOD) % PERIOD;
+      let xn: number; // 0 = parked left, 1 = parked right
+      if (tt < DWELL) xn = 0;
+      else if (tt < DWELL + MOVE) xn = smooth((tt - DWELL) / MOVE);
+      else if (tt < 2 * DWELL + MOVE) xn = 1;
+      else xn = 1 - smooth((tt - (2 * DWELL + MOVE)) / MOVE);
+      const px = left + (right - left) * xn;
+      const py = cy + ay * Math.sin((t / 6.5) * TAU);
       return { px, py, t };
     };
     const clamp = (v: number, lo: number, hi: number) =>
@@ -63,7 +75,15 @@ export function OrbMascot() {
     let blinkT = 4200;
     let blinking = false;
     let blinkUntil = 0;
+    let exprT = 4200;
     let last = startedAt;
+
+    // Mostly happy, with the odd neutral / sad / playful beat — cross-faded by
+    // the CSS transition on the mouth shapes for a smooth change of expression.
+    const EXPRS = ["happy", "happy", "happy", "neutral", "sad", "playful"];
+    const setExpr = (e: string) => {
+      if (mouth.current) mouth.current.dataset.expr = e;
+    };
 
     const pickLook = () => {
       const cur = compute(performance.now());
@@ -110,6 +130,12 @@ export function OrbMascot() {
       }
       if (blinking && now > blinkUntil) blinking = false;
 
+      exprT -= dt;
+      if (exprT <= 0) {
+        setExpr(EXPRS[Math.floor(Math.random() * EXPRS.length)]);
+        exprT = 4500 + Math.random() * 4500;
+      }
+
       const pt = `translate(${(lx * 4).toFixed(1)}px, ${(ly * 4).toFixed(1)}px)`;
       if (pL.current) pL.current.style.transform = pt;
       if (pR.current) pR.current.style.transform = pt;
@@ -125,16 +151,23 @@ export function OrbMascot() {
 
   return (
     <div ref={wrap} aria-hidden className="orb-mascot">
-      <div className="orb-mascot-cape" />
+      <span className="orb-cape">
+        <OrbCape />
+      </span>
       <div className="orb-mascot-body">
         <div ref={eyes} className="orb-mascot-eyes">
           <span className="orb-eye">
-            <span ref={pL} className="orb-pupil" />
+            <span ref={pL} className="orb-pupil">
+              <span className="orb-shine" />
+            </span>
           </span>
           <span className="orb-eye">
-            <span ref={pR} className="orb-pupil" />
+            <span ref={pR} className="orb-pupil">
+              <span className="orb-shine" />
+            </span>
           </span>
         </div>
+        <OrbMouth ref={mouth} />
       </div>
     </div>
   );
