@@ -15,8 +15,6 @@ export type ShowcaseBrochure = {
   tierNote: string;
   line: string;
   products: string;
-  /** Original PDF (for download + full-screen). */
-  file: string;
   pages: number;
   /** Pixel size of the rasterized page webps in public/brochures/<id>/. */
   pageW: number;
@@ -43,7 +41,6 @@ export const SHOWCASE: ShowcaseBrochure[] = [
     tierNote: "The full suite",
     line: "Six instruments. One mind. Precision from orbit.",
     products: "Orbit · Stars · Balance · Ember · Council · Pulse",
-    file: "/brochures/DS_Systems_Brochure.pdf",
     pages: 9,
     pageW: 1224,
     pageH: 1584,
@@ -57,7 +54,6 @@ export const SHOWCASE: ShowcaseBrochure[] = [
     tierNote: "The radar series",
     line: "Three radars. One read. The tape, decoded live.",
     products: "Pilots · Sweeper · Everguard",
-    file: "/brochures/DS_Radars_Brochure.pdf",
     pages: 7,
     pageW: 1224,
     pageH: 1584,
@@ -71,7 +67,6 @@ export const SHOWCASE: ShowcaseBrochure[] = [
     tierNote: "Entry crew · with ads",
     line: "Four hand-built chart tools. A beginner's chart that looks like a pro's.",
     products: "BC · CL · TL · SR",
-    file: "/brochures/DS_Crewmate_Series_Brochure.pdf",
     pages: 8,
     pageW: 1192,
     pageH: 1684,

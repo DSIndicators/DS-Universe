@@ -45,11 +45,11 @@ export function Footer() {
               </span>
             </Link>
             <p className="label-caps !tracking-[0.25em]">
-              Intraday Futures Intelligence
+              Futures Intelligence · Every Timeframe
             </p>
             <p className="max-w-xs text-sm leading-relaxed text-ink-gray">
-              Intraday intelligence — precision from orbit. Every instrument, one
-              mind.
+              Built for every timeframe — precision from orbit. Every instrument,
+              one mind.
             </p>
 
             {/* Built-for-NinjaTrader badge */}

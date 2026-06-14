@@ -9,8 +9,8 @@ import { DsBalance } from "@/components/DsBalance";
 const FEATURES = [
   {
     icon: Crosshair,
-    title: "Built for intraday",
-    body: "Every metric is tuned and normalised for the intraday trader — corroborated reads across timeframes, not lone guesses.",
+    title: "Built for every timeframe",
+    body: "Every metric is tuned and normalised to read any timeframe — the same corroborated read from the 1-minute scalp to the daily swing, not lone guesses.",
   },
   {
     icon: Layers,
@@ -51,7 +51,7 @@ export function Features() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/ember/ember-annotated.webp"
-              alt="DS Ember coloring an intraday chart — calling out exhaustion early, recognizing a trend shift, and warning 'getting brighter, careful' before the move turns."
+              alt="DS Ember coloring a chart — calling out exhaustion early, recognizing a trend shift, and warning 'getting brighter, careful' before the move turns."
               width={2085}
               height={1171}
               loading="lazy"
@@ -66,7 +66,7 @@ export function Features() {
           </figure>
         </Reveal>
 
-        {/* Two-up: intelligent zones + the before/after re-read. */}
+        {/* Two-up: two before/after re-reads of the same tape. */}
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
           <Reveal>
             <GlassCard glow="ember" className="flex h-full flex-col overflow-hidden">

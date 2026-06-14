@@ -4,7 +4,7 @@ import { FusedCore } from "@/components/ui/FusedCore";
 
 const STATS = [
   { value: "0", label: "Repaints" },
-  { value: "9", label: "Systems, one core" },
+  { value: "6", label: "Systems, one core" },
   { value: "1", label: "Clean chart" },
 ];
 

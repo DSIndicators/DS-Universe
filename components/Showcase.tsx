@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { Download, ExternalLink, Maximize2 } from "lucide-react";
 import {
   SHOWCASE,
   pageImages,
@@ -97,23 +95,6 @@ export function Showcase() {
           </p>
         </div>
 
-        <div className="flex shrink-0 gap-3">
-          <Link
-            href={active.file}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-ink-white transition-all hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.07]"
-          >
-            <Maximize2 size={15} /> Full screen
-          </Link>
-          <a
-            href={active.file}
-            download
-            className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-ink-white transition-all hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.07]"
-          >
-            <Download size={15} /> Download
-          </a>
-        </div>
       </motion.div>
 
       {/* Stage: the brochure pages as STATIC images, scrolled inside the frame.
@@ -140,18 +121,8 @@ export function Showcase() {
       </div>
 
       {/* Helper line */}
-      <p className="mt-4 flex items-center justify-center gap-2 text-xs text-ink-gray/60">
-        <ExternalLink size={13} />
-        Scroll the pages above, or{" "}
-        <Link
-          href={active.file}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-accent-teal hover:underline"
-        >
-          open the full PDF
-        </Link>
-        .
+      <p className="mt-4 text-center text-xs text-ink-gray/60">
+        Scroll the pages above to read the full brochure.
       </p>
     </div>
   );

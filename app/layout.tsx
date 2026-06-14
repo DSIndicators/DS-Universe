@@ -22,13 +22,13 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dsuniverse.example"),
+  metadataBase: new URL("https://dsuniverse.net"),
   title: "DS Universe",
   description:
-    "DS Universe is a suite of intraday trading tools. Every instrument is intelligently mixed and bound by one mind — the DS Registry — cross-referenced and rendered without a hint of lag. Precision from orbit.",
+    "DS Universe is a suite of futures trading tools built for every timeframe. Every instrument is intelligently mixed and bound by one mind — the DS Registry — cross-referenced and rendered without a hint of lag. Precision from orbit.",
   keywords: [
-    "intraday trading",
-    "intraday futures",
+    "multi-timeframe trading",
+    "futures trading",
     "trading indicators",
     "order flow",
     "NinjaTrader",
@@ -39,15 +39,15 @@ export const metadata: Metadata = {
     apple: "/favicon.png",
   },
   openGraph: {
-    title: "DS Universe — Intraday Futures Intelligence",
+    title: "DS Universe — Futures Intelligence, Every Timeframe",
     description:
-      "Every instrument intelligently mixed, bound by one mind. Precision from orbit — intraday futures intelligence.",
+      "Every instrument intelligently mixed, bound by one mind. Precision from orbit — futures intelligence for every timeframe.",
     images: ["/brand/banner.png"],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "DS Universe — Intraday Futures Intelligence",
+    title: "DS Universe — Futures Intelligence, Every Timeframe",
     description: "Nine instruments. One mind. Precision from orbit.",
     images: ["/brand/banner.png"],
   },

@@ -6,8 +6,24 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { Planet } from "@/components/ui/Planet";
 
-const PRODUCT_ROW =
-  "PILOTS · SWEEPER · EVERGUARD · ORBIT · STARS · BALANCE · EMBER · COUNCIL · PULSE";
+// The three suites, flagship first — each its own premium accent + soft glow.
+const SUITES = [
+  {
+    name: "DS Systems",
+    color: "#b074ff",
+    items: "Orbit · Stars · Balance · Ember · Council · Pulse",
+  },
+  {
+    name: "DS Radars",
+    color: "#5fd4e0",
+    items: "Pilots · Sweeper · Everguard",
+  },
+  {
+    name: "DS Crewmates",
+    color: "#2dd4bf",
+    items: "BC · CL · TL · SR",
+  },
+];
 
 export function Hero() {
   const reduce = useReducedMotion();
@@ -49,12 +65,24 @@ export function Hero() {
       {/* Content */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
         <div className="max-w-2xl">
-          <motion.p
-            {...rise(0.05)}
-            className="font-mono text-[0.62rem] uppercase tracking-[0.28em] text-ink-gray sm:text-xs"
-          >
-            {PRODUCT_ROW}
-          </motion.p>
+          <div className="flex flex-col gap-1.5">
+            {SUITES.map((s, i) => (
+              <motion.p
+                key={s.name}
+                {...rise(0.05 + i * 0.07)}
+                className="font-mono text-[0.6rem] uppercase tracking-[0.2em] sm:text-[0.66rem]"
+              >
+                <span
+                  className="font-semibold"
+                  style={{ color: s.color, textShadow: `0 0 14px ${s.color}66` }}
+                >
+                  {s.name}
+                </span>
+                <span className="text-ink-gray/40"> : </span>
+                <span className="text-ink-gray/80">{s.items}</span>
+              </motion.p>
+            ))}
+          </div>
 
           <motion.h1
             {...rise(0.15)}
@@ -73,18 +101,11 @@ export function Hero() {
             {...rise(0.34)}
             className="label-caps mt-5 !text-sm tracking-[0.3em]"
           >
-            Intraday Futures Intelligence
-          </motion.p>
-
-          <motion.p
-            {...rise(0.42)}
-            className="mt-3 font-mono text-sm uppercase tracking-[0.22em] text-ink-gray"
-          >
-            For the Intraday Trader — Precision from Orbit
+            Futures Intelligence · Every Timeframe
           </motion.p>
 
           <motion.div
-            {...rise(0.54)}
+            {...rise(0.5)}
             className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
           >
             <GlowButton href="#pricing">

@@ -97,7 +97,7 @@ export function Indicators() {
           eyebrow="The Instruments"
           title="Nine indicators."
           titleMuted="One intelligence."
-          intro="Two suites, built for the intraday trader. The Systems map the field; the Radars decode the live tape. Cross-referenced and rendered without a hint of lag."
+          intro="Two suites, built for every timeframe. The Systems map the field; the Radars decode the live tape. Cross-referenced and rendered without a hint of lag."
           className="mb-16 max-w-3xl"
         />
 

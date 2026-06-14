@@ -9,7 +9,7 @@ import { Showcase } from "@/components/Showcase";
 export const metadata: Metadata = {
   title: "Showcase — DS Universe (Crewmates · Radars · Systems)",
   description:
-    "Browse the DS Universe showcase: DS Crewmates (Free), DS Radars (Pro) and DS Systems (Universe). Read every brochure inline or download a copy.",
+    "Browse the DS Universe showcase: DS Crewmates (Free), DS Radars (Pro) and DS Systems (Universe). Read every brochure inline.",
 };
 
 export default function ShowcasePage() {
