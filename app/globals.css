@@ -144,14 +144,20 @@
   background-size: 46px 46px;
 }
 
-/* Cursor-following ambient glow — one fixed layer, transform/opacity only. */
+/* Cursor-following ambient glow — a fixed, GPU-promoted layer translated to the
+   pointer. transform only, so moving it composites instead of repainting. */
 .mouse-glow {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 1120px;
+  height: 1120px;
+  margin: -560px 0 0 -560px; /* centre the layer on its translate point */
   z-index: -5;
   pointer-events: none;
+  will-change: transform;
   background: radial-gradient(
-    560px 560px at var(--mx, 50%) var(--my, 28%),
+    560px 560px at center,
     rgba(61, 215, 230, 0.1),
     rgba(109, 140, 255, 0.07) 38%,
     rgba(168, 107, 255, 0.05) 58%,

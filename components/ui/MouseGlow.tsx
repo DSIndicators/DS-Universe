@@ -3,9 +3,11 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Ambient glow that follows the cursor. One fixed layer behind all content;
- * pointermove updates two CSS variables inside a single rAF (compositor-only,
- * no React re-renders, no layout). Disabled under reduced-motion / touch.
+ * Ambient glow that follows the cursor. A single fixed, GPU-promoted layer that
+ * we TRANSLATE to the pointer — transform-only, so it composites and never
+ * repaints the screen (the previous version animated a gradient's position,
+ * which forced a full-viewport repaint on every move). rAF-coalesced, no React
+ * re-renders, no layout. Off under reduced-motion.
  */
 export function MouseGlow() {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,18 +18,17 @@ export function MouseGlow() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let raf = 0;
-    let x = 50;
-    let y = 28;
+    let x = window.innerWidth * 0.5;
+    let y = window.innerHeight * 0.28;
+    const apply = () => {
+      el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+      raf = 0;
+    };
+    apply();
     const onMove = (e: PointerEvent) => {
-      x = (e.clientX / window.innerWidth) * 100;
-      y = (e.clientY / window.innerHeight) * 100;
-      if (!raf) {
-        raf = requestAnimationFrame(() => {
-          el.style.setProperty("--mx", `${x.toFixed(1)}%`);
-          el.style.setProperty("--my", `${y.toFixed(1)}%`);
-          raf = 0;
-        });
-      }
+      x = e.clientX;
+      y = e.clientY;
+      if (!raf) raf = requestAnimationFrame(apply);
     };
     window.addEventListener("pointermove", onMove, { passive: true });
     return () => {

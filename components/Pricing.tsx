@@ -87,7 +87,7 @@ const TIERS: Tier[] = [
 export function Pricing() {
   return (
     <section id="pricing" className="relative scroll-mt-24 py-24 sm:py-32">
-      <div className="pointer-events-none absolute left-1/2 top-32 h-72 w-[44rem] -translate-x-1/2 rounded-full bg-space-magenta/10 blur-[130px]" />
+      <div className="pointer-events-none absolute left-1/2 top-32 h-72 w-[44rem] -translate-x-1/2 rounded-full bg-space-magenta/10 blur-[100px]" />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading

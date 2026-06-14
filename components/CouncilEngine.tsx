@@ -96,7 +96,7 @@ export function CouncilEngine() {
   return (
     <div className="relative mt-24">
       {/* Ambient premium glow — the signature aurora wash behind the engine. */}
-      <div className="pointer-events-none absolute left-1/2 top-10 -z-10 h-80 w-[48rem] -translate-x-1/2 rounded-full bg-space-violet/10 blur-[140px]" />
+      <div className="pointer-events-none absolute left-1/2 top-10 -z-10 h-80 w-[48rem] -translate-x-1/2 rounded-full bg-space-violet/10 blur-[100px]" />
 
       <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
         <SectionHeading
@@ -165,35 +165,6 @@ export function CouncilEngine() {
           );
         })}
       </div>
-
-      {/* The engines at work — zones + the live Council read on one chart. */}
-      <Reveal className="mt-6">
-        <figure className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[#040406] shadow-glow">
-          <div className="bg-ai pointer-events-none absolute -inset-x-10 -top-24 h-56 opacity-[0.08] blur-3xl" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/council/engines-at-work.webp"
-            alt="A live DS Universe chart — confidence-scored Prime Resistance, Strong and Prime Support zones across the Premium / Equilibrium / Discount runway, with the DS Council ATLAS/SAGE/NOVA consensus panel."
-            width={1667}
-            height={1085}
-            loading="lazy"
-            decoding="async"
-            className="relative block w-full"
-          />
-          <figcaption className="relative border-t border-white/[0.06] p-6 sm:p-7">
-            <h3 className="font-sans text-lg font-semibold text-ink-white">
-              The engines at work.
-            </h3>
-            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-gray">
-              Those zones aren&apos;t floating there for nothing. Each one is a
-              precisely calculated level — multiple raw zones merged, weighted and
-              positioned by real volume, then confirmed by the Council&apos;s
-              cohesive vote across every timeframe. A zone only earns its
-              confidence score once the whole system agrees it&apos;s real.
-            </p>
-          </figcaption>
-        </figure>
-      </Reveal>
     </div>
   );
 }

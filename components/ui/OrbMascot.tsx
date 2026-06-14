@@ -36,8 +36,8 @@ export function OrbMascot() {
     };
 
     const TAU = Math.PI * 2;
-    const DWELL = 3.6; // seconds parked beside a panel
-    const MOVE = 6.5; // seconds gliding across
+    const DWELL = 53; // seconds parked beside a panel
+    const MOVE = 7; // seconds gliding across → one crossing per minute
     const PERIOD = (DWELL + MOVE) * 2;
     const smooth = (p: number) => p * p * (3 - 2 * p); // ease in + out
     const compute = (now: number) => {
@@ -56,8 +56,6 @@ export function OrbMascot() {
       const py = cy + ay * Math.sin((t / 6.5) * TAU);
       return { px, py, t };
     };
-    const clamp = (v: number, lo: number, hi: number) =>
-      Math.max(lo, Math.min(hi, v));
 
     const init = compute(startedAt);
     place(init.px, init.py);
@@ -85,39 +83,25 @@ export function OrbMascot() {
       if (mouth.current) mouth.current.dataset.expr = e;
     };
 
+    // A lazy random glance to the side — no DOM reads, no forced layout. The orb
+    // is a faint background element, so targeting on-screen panels isn't worth a
+    // periodic layout pass (a real stutter risk on a long page).
     const pickLook = () => {
-      const cur = compute(performance.now());
-      const cx = cur.px + SIZE / 2;
-      const cy = cur.py + SIZE / 2;
-      const els = Array.from(
-        document.querySelectorAll<HTMLElement>("h2, h3, .glass, figure, img"),
-      ).filter((e) => {
-        const r = e.getBoundingClientRect();
-        return r.width > 40 && r.bottom > 0 && r.top < vh();
-      });
-      if (els.length) {
-        const r = els[Math.floor(Math.random() * els.length)].getBoundingClientRect();
-        const dx = r.left + r.width / 2 - cx;
-        const dy = r.top + r.height / 2 - cy;
-        const m = Math.hypot(dx, dy) || 1;
-        tlx = clamp(dx / m, -1, 1);
-        tly = clamp(dy / m, -1, 1) * 0.82;
-      } else {
-        tlx = Math.random() * 2 - 1;
-        tly = (Math.random() * 2 - 1) * 0.6;
-      }
+      tlx = Math.random() * 2 - 1;
+      tly = (Math.random() * 2 - 1) * 0.6;
     };
     pickLook();
 
     const tick = (now: number) => {
       const dt = Math.min(50, now - last);
       last = now;
-      place(compute(now).px, compute(now).py);
+      const c = compute(now); // once per frame — no extra allocations
+      place(c.px, c.py);
 
       lookT -= dt;
       if (lookT <= 0) {
         pickLook();
-        lookT = 1700 + Math.random() * 1700; // dart to a new panel
+        lookT = 2600 + Math.random() * 2600; // glance somewhere new
       }
       lx += (tlx - lx) * 0.08;
       ly += (tly - ly) * 0.08;

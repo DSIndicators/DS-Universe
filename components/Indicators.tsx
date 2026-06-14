@@ -90,7 +90,7 @@ export function Indicators() {
   return (
     <section id="indicators" className="relative scroll-mt-24 py-24 sm:py-32">
       {/* soft ambient glow */}
-      <div className="pointer-events-none absolute left-1/2 top-24 h-72 w-[40rem] -translate-x-1/2 rounded-full bg-space-violet/10 blur-[120px]" />
+      <div className="pointer-events-none absolute left-1/2 top-24 h-72 w-[40rem] -translate-x-1/2 rounded-full bg-space-violet/10 blur-[100px]" />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading

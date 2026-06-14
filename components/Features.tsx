@@ -3,6 +3,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { CouncilEngine } from "@/components/CouncilEngine";
+import { DsBalance } from "@/components/DsBalance";
 
 // Sourced from the brochures' "The edge" + Registry pages.
 const FEATURES = [
@@ -32,7 +33,7 @@ export function Features() {
   return (
     <section id="features" className="relative scroll-mt-24 py-24 sm:py-32">
       {/* Ambient ember glow — this is the section that should catch the eye. */}
-      <div className="pointer-events-none absolute left-1/2 top-24 h-80 w-[48rem] -translate-x-1/2 rounded-full bg-[#ff7a2f]/10 blur-[130px]" />
+      <div className="pointer-events-none absolute left-1/2 top-24 h-80 w-[48rem] -translate-x-1/2 rounded-full bg-[#ff7a2f]/10 blur-[100px]" />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
@@ -69,25 +70,47 @@ export function Features() {
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
           <Reveal>
             <GlassCard glow="ember" className="flex h-full flex-col overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/ember/zones-you-can-trust.webp"
-                alt="DS Universe intelligent zones — MTF, multi-layered support and resistance with confidence scores, not messy lines."
-                width={2263}
-                height={1222}
-                loading="lazy"
-                decoding="async"
-                className="block w-full border-b border-white/[0.06]"
-              />
+              <div className="grid grid-cols-2">
+                <figure className="relative border-b border-r border-white/[0.06]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/ember/ember-before-2.webp"
+                    alt="Raw candles flipping color on every small pullback through a trend."
+                    width={2340}
+                    height={1251}
+                    loading="lazy"
+                    decoding="async"
+                    className="block w-full"
+                  />
+                  <figcaption className="absolute left-3 top-3 rounded-full bg-space-black/70 px-2.5 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.16em] text-ink-gray">
+                    Before
+                  </figcaption>
+                </figure>
+                <figure className="relative border-b border-white/[0.06]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/ember/ember-after-2.webp"
+                    alt="The same chart with DS Ember holding one color per trend and flipping only at the real turn."
+                    width={2332}
+                    height={1256}
+                    loading="lazy"
+                    decoding="async"
+                    className="block w-full"
+                  />
+                  <figcaption className="absolute left-3 top-3 rounded-full bg-[#ff7a2f]/20 px-2.5 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.16em] text-[#ffb986]">
+                    After
+                  </figcaption>
+                </figure>
+              </div>
               <div className="flex flex-col gap-2 p-6 sm:p-7">
                 <h3 className="font-sans text-lg font-semibold text-ink-white">
-                  Intelligent zones — not just messy lines on a chart.
+                  One trend, one color.
                 </h3>
                 <p className="text-sm leading-relaxed text-ink-gray">
-                  Multi-timeframe, multi-layered support &amp; resistance, each one
-                  confidence-scored. Untested levels start humble and earn their
-                  rating through real interaction — zones you can actually trust,
-                  drawn only when the systems agree.
+                  Raw candles flip on every wiggle — a red bar inside a clean uptrend
+                  looks like trouble it isn&apos;t. Ember holds the trend&apos;s true
+                  color and switches only at the genuine turn, so the direction stays
+                  obvious and the top stops faking you out.
                 </p>
               </div>
             </GlassCard>
@@ -143,6 +166,9 @@ export function Features() {
 
         {/* The MTF Engine — DS Council, under the Ember signature. */}
         <CouncilEngine />
+
+        {/* DS Balance — the VWAP dealing-range read. */}
+        <DsBalance />
 
         {/* The trust grid — the rest of the edge that earns trader attention. */}
         <div className="mt-16">
