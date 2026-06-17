@@ -299,14 +299,16 @@
 
 /* Horizontal capabilities marquee — full-bleed, auto-scroll, pause on hover. */
 .cap-marquee-wrap {
+  position: relative;
   overflow: hidden;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 .cap-marquee {
   display: flex;
-  gap: 1.25rem;
+  gap: 1.75rem;            /* a touch more room so the ambient glows breathe between cards */
   width: max-content;
+  padding-block: 2rem;     /* vertical room so card glow + above/below ambience aren't clipped */
   animation: cap-scroll 80s linear infinite;
 }
 .cap-marquee:hover {
@@ -315,6 +317,35 @@
 @keyframes cap-scroll {
   to {
     transform: translateX(-50%);
+  }
+}
+
+/* Ambience layer for the rotating strip — a single drifting aurora that sits
+   BEHIND the cards (z-index -1 inside the .isolate parent). It bleeds ABOVE and
+   BELOW the strip (inset overflow) and blooms BETWEEN the pictures through the
+   transparent gaps as the cards rotate. Brand cyan / magenta / teal.
+   Transform + opacity only — GPU-friendly. Decorative (aria-hidden). */
+.cap-ambience {
+  position: absolute;
+  inset: -3rem 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 62% at 22% 50%, rgba(95, 212, 224, 0.18), transparent 70%),
+    radial-gradient(54% 66% at 55% 50%, rgba(181, 102, 211, 0.16), transparent 72%),
+    radial-gradient(50% 60% at 84% 50%, rgba(45, 212, 191, 0.12), transparent 72%);
+  filter: blur(10px);
+  will-change: transform, opacity;
+  animation: cap-ambience-drift 14s ease-in-out infinite alternate;
+}
+@keyframes cap-ambience-drift {
+  from {
+    opacity: 0.6;
+    transform: translate3d(-2%, 0, 0) scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(2%, 0, 0) scale(1.06);
   }
 }
 

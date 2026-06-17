@@ -30,8 +30,13 @@ export function Capabilities() {
       </div>
 
       {/* Full-bleed auto-scrolling strip (duplicated for a seamless loop). */}
-      <div className="cap-marquee-wrap">
-        <ul className="cap-marquee px-5">
+      {/* isolate => the .cap-ambience aurora (z -1) sits behind the cards: it
+          bleeds above & below the strip and blooms between the pictures through
+          the transparent gaps as they scroll. */}
+      <div className="relative isolate">
+        <div className="cap-ambience" aria-hidden />
+        <div className="cap-marquee-wrap">
+          <ul className="cap-marquee px-5">
           {[...CAPS, ...CAPS].map((src, i) => (
             <li
               key={i}
@@ -47,9 +52,10 @@ export function Capabilities() {
                 aria-hidden={i >= CAPS.length}
               />
               <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.06]" />
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );
