@@ -104,6 +104,14 @@ export function Hero() {
             Futures Intelligence · Every Timeframe
           </motion.p>
 
+          <motion.p
+            {...rise(0.42)}
+            className="mt-5 max-w-xl text-base leading-relaxed text-ink-gray sm:text-lg"
+          >
+            Indicators, radars, and chart tools — one cross-referenced system,
+            built for serious traders.
+          </motion.p>
+
           <motion.div
             {...rise(0.5)}
             className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
