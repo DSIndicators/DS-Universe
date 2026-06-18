@@ -5,6 +5,7 @@ import { Indicators } from "@/components/Indicators";
 import { Registry } from "@/components/Registry";
 import { Features } from "@/components/Features";
 import { HowItWorks } from "@/components/HowItWorks";
+import { DsPnl } from "@/components/DsPnl";
 import { Pricing } from "@/components/Pricing";
 import { CTASection } from "@/components/CTASection";
 import { Footer } from "@/components/Footer";
@@ -22,6 +23,7 @@ export default function Home() {
         <Registry />
         <Features />
         <HowItWorks />
+        <DsPnl />
         <Pricing />
         <CTASection />
       </main>

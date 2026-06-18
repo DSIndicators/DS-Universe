@@ -51,9 +51,9 @@ export function Features() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/ember/ember-annotated.webp"
-              alt="DS Ember coloring a chart — calling out exhaustion early, recognizing a trend shift, and warning 'getting brighter, careful' before the move turns."
-              width={2085}
-              height={1171}
+              alt="DS Ember coloring a chart green and orange with check and cross marks — every trend re-read live, zero repaints."
+              width={1944}
+              height={1117}
               loading="lazy"
               decoding="async"
               className="relative block w-full"

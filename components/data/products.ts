@@ -20,6 +20,8 @@ export type Product = {
   icon: string;
   /** Glow accent for the card. */
   glow: "violet" | "cyan" | "teal" | "ember";
+  /** Optional HD product-panel screenshot shown inline under the description. */
+  panel?: string;
 };
 
 export const SUITES: Record<
@@ -49,6 +51,7 @@ export const PRODUCTS: Product[] = [
       "Two co-pilots fly the tape — Sammy cautious, Freddy aggressive — fused into one headline call with a confidence score, a live buyers-vs-sellers pressure gauge, and a regime state machine. A full directional read in one glance, never a lone biased signal.",
     icon: "Navigation",
     glow: "teal",
+    panel: "/indicators/panels/pilots.webp",
   },
   {
     name: "SWEEPER",
@@ -59,6 +62,7 @@ export const PRODUCTS: Product[] = [
       "Watches for the moves that fool everyone else — sweeps, absorption, fake breakouts and weak continuations. A Threat Index and Conviction bar quantify the danger so you see the trap before it springs, and know when strength is really fatigue.",
     icon: "Crosshair",
     glow: "cyan",
+    panel: "/indicators/panels/sweeper.webp",
   },
   {
     name: "EVERGUARD",
@@ -68,6 +72,7 @@ export const PRODUCTS: Product[] = [
       "Grades trust. Scores Signal Integrity and Candle Conviction in real time, then lines up strength from the 1-minute to the 4-hour so you see whether the whole board agrees. It answers the only question that matters: can I trust this move?",
     icon: "ShieldCheck",
     glow: "violet",
+    panel: "/indicators/panels/everguard.webp",
   },
 
   // ── DS Systems ───────────────────────────────────────────────

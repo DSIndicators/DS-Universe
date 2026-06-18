@@ -114,6 +114,20 @@ export function IndicatorCard({ product }: { product: Product }) {
         {product.description}
       </p>
 
+      {/* HD product panel — the radar's live readout, shown inline under the copy. */}
+      {product.panel && (
+        <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl border border-white/[0.08] bg-space-deep">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={product.panel}
+            alt={`DS ${product.name} — live radar panel`}
+            loading="lazy"
+            decoding="async"
+            className="max-h-full w-auto max-w-full object-contain"
+          />
+        </div>
+      )}
+
       <span className="mt-auto flex items-center gap-1.5 pt-1 font-mono text-[0.58rem] uppercase tracking-[0.16em] text-ink-gray/50">
         <Eye size={12} /> Hold to preview
       </span>

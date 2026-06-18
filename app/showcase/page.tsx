@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Showcase } from "@/components/Showcase";
+import { PnlShowcase } from "@/components/PnlShowcase";
 
 export const metadata: Metadata = {
   title: "Showcase — DS Universe (Crewmates · Radars · Systems)",
@@ -44,6 +45,8 @@ export default function ShowcasePage() {
           />
 
           <Showcase />
+
+          <PnlShowcase />
         </section>
       </main>
       <Footer />

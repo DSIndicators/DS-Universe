@@ -246,42 +246,6 @@ export function DsBalance() {
           </div>
         </div>
       </Reveal>
-
-      {/* The ping, in the wild — why the engine fired on this exact spot. */}
-      <Reveal className="mt-6">
-        <figure className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[#040406] shadow-glow">
-          <div className="bg-ai pointer-events-none absolute -inset-x-10 -top-24 h-56 opacity-[0.08] blur-3xl" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/balance/bos-engine-ping.webp"
-            alt="A live chart — price rotates down into an 85%-confidence Prime Support zone and the RSI + Bollinger BOS engine pings the exact turn."
-            width={2271}
-            height={993}
-            loading="lazy"
-            decoding="async"
-            className="relative block w-full"
-          />
-          <figcaption className="relative border-t border-white/[0.06] p-6 sm:p-7">
-            <h3 className="font-sans text-lg font-semibold text-ink-white">
-              Why it pinged here.
-            </h3>
-            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-gray">
-              Price rotated down into a support shelf the system already trusted — an
-              85%-confidence zone — right as it reached the discount end of the band
-              with RSI oversold. The instant the RSI + Bollinger BOS engine confirmed
-              the turn, the glow dot printed on that exact candle.{" "}
-              <span className="text-ink-white">
-                That&apos;s the whole edge in one mark:
-              </span>{" "}
-              you&apos;re not guessing the low or catching a falling knife. The system
-              waits for a trusted zone, a stretched band, and a confirmed break of
-              structure to line up, then pings the single spot where they agree — a
-              precise, confirmed entry with its timing attached, instead of a hopeful
-              one.
-            </p>
-          </figcaption>
-        </figure>
-      </Reveal>
     </div>
   );
 }

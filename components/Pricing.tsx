@@ -3,7 +3,6 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { ChartGuide } from "@/components/ChartGuide";
 import { cn } from "@/components/ui/cn";
 
 type Tier = {
@@ -198,9 +197,6 @@ export function Pricing() {
             </Reveal>
           ))}
         </div>
-
-        {/* The benefits, made visible — what every read looks like on a chart. */}
-        <ChartGuide />
       </div>
     </section>
   );
