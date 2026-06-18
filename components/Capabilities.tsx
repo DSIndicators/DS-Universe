@@ -1,9 +1,9 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 
-// Optimized chart screenshots from public/capabilities (cap-01..cap-12).
+// Optimized chart screenshots from public/capabilities (cap-01..cap-11).
 const CAPS = Array.from(
-  { length: 12 },
+  { length: 11 },
   (_, i) => `/capabilities/cap-${String(i + 1).padStart(2, "0")}.webp`,
 );
 
