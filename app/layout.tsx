@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins, JetBrains_Mono } from "next/font/google";
 import { SmoothAnchors } from "@/components/SmoothAnchors";
+import { StoreBanner } from "@/components/StoreBanner";
 import { MouseGlow } from "@/components/ui/MouseGlow";
 import { OrbMascot } from "@/components/ui/OrbMascot";
 import "./globals.css";
@@ -66,6 +67,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${poppins.variable} ${mono.variable}`}>
       <body className="bg-space-black text-ink-white antialiased">
+        {/* TEMP: store-status notice. Remove this line to take it down. */}
+        <StoreBanner />
         <MouseGlow />
         <OrbMascot />
         <SmoothAnchors />

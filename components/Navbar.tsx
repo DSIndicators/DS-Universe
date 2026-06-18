@@ -28,7 +28,8 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
+        // top-9 leaves room for the temporary StoreBanner (h-9). Revert to top-0 when that banner is removed.
+        "fixed inset-x-0 top-9 z-50 transition-all duration-500",
         scrolled
           ? "glass-strong border-b border-white/[0.08]"
           : "border-b border-transparent bg-transparent",
