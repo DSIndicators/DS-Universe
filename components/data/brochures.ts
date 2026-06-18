@@ -1,9 +1,9 @@
 /**
- * The three DS Universe brochures shown on the Showcase page.
- * Package names mirror the pricing section: Free, Radars, Systems.
+ * The DS Universe brochures shown on the Showcase page: the three packages
+ * (Free, Radars, Systems) plus the DS P&L companion dashboard — each its own tab.
  */
 
-export type BrochureId = "crewmates" | "radars" | "systems";
+export type BrochureId = "crewmates" | "radars" | "systems" | "pnl";
 
 export type ShowcaseBrochure = {
   id: BrochureId;
@@ -70,6 +70,19 @@ export const SHOWCASE: ShowcaseBrochure[] = [
     pages: 8,
     pageW: 1192,
     pageH: 1684,
+    accent: "teal",
+  },
+  {
+    id: "pnl",
+    word: "DS",
+    wordMuted: "P&L",
+    tier: "Companion",
+    tierNote: "The companion dashboard",
+    line: "Every trade, one dashboard. Your own fills, rendered live.",
+    products: "Import · Analyze · Customize",
+    pages: 12,
+    pageW: 1224,
+    pageH: 1584,
     accent: "teal",
   },
 ];

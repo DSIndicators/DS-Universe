@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   SHOWCASE,
@@ -18,6 +18,13 @@ const ACCENT_TEXT: Record<ShowcaseBrochure["accent"], string> = {
 
 export function Showcase() {
   const [activeId, setActiveId] = useState<BrochureId>("systems");
+
+  // Deep-link: /showcase#pnl (or any brochure id) opens that tab on load.
+  useEffect(() => {
+    const id = window.location.hash.slice(1);
+    if (SHOWCASE.some((b) => b.id === id)) setActiveId(id as BrochureId);
+  }, []);
+
   const active = SHOWCASE.find((b) => b.id === activeId) ?? SHOWCASE[0];
   const pages = pageImages(active);
 

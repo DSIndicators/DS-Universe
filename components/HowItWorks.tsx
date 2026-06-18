@@ -11,7 +11,7 @@ const STEPS = [
   {
     n: "02",
     title: "Load the read",
-    body: "Pilots, Sweeper and Everguard light up the tape; Orbit, Stars, Balance, Ember, Council and Pulse map the field — all reconciled by the Registry.",
+    body: "Pilots, Sweeper and Everguard light up the tape; Orbit, Stars, Balance, Ember and Council map the field on one core — the Registry — while Pulse reads the raw order flow standalone.",
   },
   {
     n: "03",

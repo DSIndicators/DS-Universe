@@ -48,8 +48,8 @@ export function Footer() {
               Futures Intelligence · Every Timeframe
             </p>
             <p className="max-w-xs text-sm leading-relaxed text-ink-gray">
-              Built for every timeframe — precision from orbit. Every instrument,
-              one mind.
+              Built for every timeframe — precision from orbit. The DS Systems,
+              run on one mind.
             </p>
 
             {/* Built-for-NinjaTrader badge */}

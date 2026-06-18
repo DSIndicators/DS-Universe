@@ -54,7 +54,7 @@ function SuiteBlock({ suite, premium }: { suite: Suite; premium?: boolean }) {
             <p className="text-ink-gray">{meta.line}</p>
           </div>
 
-          {/* The Intelligence Core — the brain the whole suite reports to. */}
+          {/* The Intelligence Core — the brain five of the six Systems report to. */}
           {premium && (
             <div className="flex shrink-0 items-center gap-4 sm:max-w-[19rem]">
               <IntelligenceCore size={104} className="shrink-0" />
@@ -66,8 +66,9 @@ function SuiteBlock({ suite, premium }: { suite: Suite; premium?: boolean }) {
                   The DS Registry
                 </span>
                 <p className="text-xs leading-relaxed text-ink-gray">
-                  One core binds the suite — every instrument reports here, and
-                  the Registry reconciles them into a single, lag-free read.
+                  One core binds the suite — five of the six Systems report
+                  here, and the Registry reconciles them into a single, lag-free
+                  read.
                 </p>
               </div>
             </div>

@@ -4,7 +4,7 @@ import { FusedCore } from "@/components/ui/FusedCore";
 
 const STATS = [
   { value: "0", label: "Repaints" },
-  { value: "6", label: "Systems, one core" },
+  { value: "5", label: "Run on one core" },
   { value: "1", label: "Clean chart" },
 ];
 
@@ -18,7 +18,7 @@ export function Registry() {
               eyebrow="The Connective Tissue"
               title="Intelligently mixed."
               titleMuted="One mind behind it all."
-              intro="No instrument works alone. They're all intelligently mixed and bound by a single mind — the DS Registry — which cross-references every reading against every other in real time and renders it without a hint of lag. The result is one coherent read: the systems agree, or you see nothing."
+              intro="The DS Systems never work alone. Five of the six run on a single mind — the DS Registry — which cross-references every reading against every other in real time and renders it without a hint of lag. The sixth, DS Pulse, reads the raw order flow standalone. Nothing outside the Systems suite touches the Registry, and where the five meet, the read is one and the same: they agree, or you see nothing."
             />
 
             <Reveal>

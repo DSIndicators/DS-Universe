@@ -5,12 +5,11 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Showcase } from "@/components/Showcase";
-import { PnlShowcase } from "@/components/PnlShowcase";
 
 export const metadata: Metadata = {
-  title: "Showcase — DS Universe (Crewmates · Radars · Systems)",
+  title: "Showcase — DS Universe (Crewmates · Radars · Systems · P&L)",
   description:
-    "Browse the DS Universe showcase: DS Crewmates (Free), DS Radars (Pro) and DS Systems (Universe). Read every brochure inline.",
+    "Browse the DS Universe showcase: DS Crewmates (Free), DS Radars (Pro), DS Systems (Universe) and the DS P&L companion dashboard. Read every brochure inline.",
 };
 
 export default function ShowcasePage() {
@@ -39,14 +38,12 @@ export default function ShowcasePage() {
             eyebrow="The Showcase"
             title="See the whole"
             titleMuted="universe."
-            intro="Three series, one design language. Pick a set to read its full brochure inline — Crewmates to learn the chart, Radars to decode the tape, Systems to map the field."
+            intro="One design language, every brochure inline. Crewmates to learn the chart, Radars to decode the tape, Systems to map the field — and DS P&L to read your own results."
             align="center"
             className="mb-14"
           />
 
           <Showcase />
-
-          <PnlShowcase />
         </section>
       </main>
       <Footer />

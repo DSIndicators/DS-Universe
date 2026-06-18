@@ -62,7 +62,7 @@ const TIERS: Tier[] = [
     saleNote: "−20% · Limited time",
     cadence: "one-time",
     lifetime: true,
-    blurb: "The DS Systems. All instruments, reconciled by the Registry.",
+    blurb: "The DS Systems. The full suite, run on the Registry core.",
     // Pulse ships free inside Systems — called out separately below.
     highlight: {
       title: "DS Pulse included — free",

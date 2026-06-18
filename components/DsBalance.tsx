@@ -240,8 +240,11 @@ export function DsBalance() {
               <span className="text-ink-white">
                 Buy the discount, sell the premium, stand aside at equilibrium.
               </span>{" "}
-              The single orange glow dot only prints once the RSI + Bollinger BOS
-              engine confirms the turn — so context and timing land together.
+              The single orange glow dot prints only where the Bollinger Band and
+              RSI line up on the same candle — price stretched to the band&apos;s
+              edge at the moment momentum turns. Location and timing confirm each
+              other on one mark, so you&apos;re reading the turn instead of guessing
+              it or catching a falling knife.
             </p>
           </div>
         </div>

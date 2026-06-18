@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://dsuniverse.net"),
   title: "DS Universe",
   description:
-    "DS Universe is a suite of futures trading tools built for every timeframe. Every instrument is intelligently mixed and bound by one mind — the DS Registry — cross-referenced and rendered without a hint of lag. Precision from orbit.",
+    "DS Universe is a suite of futures trading tools built for every timeframe. The DS Systems are intelligently mixed and run on one mind — the DS Registry — cross-referenced and rendered without a hint of lag. Precision from orbit.",
   keywords: [
     "multi-timeframe trading",
     "futures trading",
@@ -41,14 +41,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: "DS Universe — Futures Intelligence, Every Timeframe",
     description:
-      "Every instrument intelligently mixed, bound by one mind. Precision from orbit — futures intelligence for every timeframe.",
+      "The DS Systems, intelligently mixed and run on one mind — the DS Registry. Precision from orbit — futures intelligence for every timeframe.",
     images: ["/brand/banner.png"],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "DS Universe — Futures Intelligence, Every Timeframe",
-    description: "Nine instruments. One mind. Precision from orbit.",
+    description: "Nine instruments. The Systems run on one mind. Precision from orbit.",
     images: ["/brand/banner.png"],
   },
 };

@@ -15,7 +15,7 @@ const FEATURES = [
   {
     icon: Layers,
     title: "Cross-referenced by the Registry",
-    body: "Nine systems report to one core. Every reading is checked against every other before a single mark is drawn. The systems agree, or you see nothing.",
+    body: "Five of the six Systems report to one core. Every reading is checked against every other before a single mark is drawn. The systems agree, or you see nothing.",
   },
   {
     icon: EyeOff,

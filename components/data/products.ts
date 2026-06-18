@@ -128,7 +128,7 @@ export const PRODUCTS: Product[] = [
     suite: "systems",
     tagline: "Live order flow.",
     description:
-      "Our most powerful read — Pulse hears the true order flow beneath the tape, the live pressure that feeds the Registry so every other system speaks from the same heartbeat. Included free in the Systems package; just enable Tick Replay.",
+      "Our most powerful read — Pulse hears the true order flow beneath the tape, the live pressure other tools only infer. It runs standalone — no Registry required — and comes free in the Systems package; just enable Tick Replay.",
     icon: "AudioLines",
     glow: "cyan",
   },
