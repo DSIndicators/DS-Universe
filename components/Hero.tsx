@@ -6,7 +6,7 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { Planet } from "@/components/ui/Planet";
 
-// The three suites, flagship first — each its own premium accent + soft glow.
+// The four suites, flagship first — each its own premium accent + soft glow.
 const SUITES = [
   {
     name: "DS Systems",
@@ -21,7 +21,12 @@ const SUITES = [
   {
     name: "DS Crewmates",
     color: "#2dd4bf",
-    items: "BC · CL · TL · SR",
+    items: "BC · TL · SR",
+  },
+  {
+    name: "DS Carepack",
+    color: "#ff9a3c",
+    items: "Checklist · Risk-Reward · Pen · P&L",
   },
 ];
 

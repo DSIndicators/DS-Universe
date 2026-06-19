@@ -67,7 +67,7 @@ export function DsPnl() {
 
         <Reveal className="mt-8 flex justify-center">
           <Link
-            href="/showcase#pnl"
+            href="/showcase#carepack"
             className="inline-flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-ink-white transition-colors hover:bg-white/[0.08]"
           >
             See the full P&amp;L showcase <ArrowRight size={16} />

@@ -1,11 +1,24 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 
-// Optimized chart screenshots from public/capabilities (cap-01..cap-11).
-const CAPS = Array.from(
-  { length: 11 },
-  (_, i) => `/capabilities/cap-${String(i + 1).padStart(2, "0")}.webp`,
-);
+// Curated rotation: clean chart shots + live product panels only.
+// Excludes the legacy gray-background crops and any image carrying a baked-in
+// dollar/profit figure (product-truth: no performance/profit claims).
+const CAPS = [
+  "/capabilities/cap-03.webp", // Orbit — confidence-scored zones
+  "/indicators/panels/pilots.webp", // Pilots — live cockpit panel
+  "/capabilities/cap-07.webp", // Ember — tuned heat map
+  "/indicators/orbit.webp", // clean Orbit chart
+  "/capabilities/cap-02.webp", // BC — BOS & CHoCH
+  "/indicators/panels/sweeper.webp", // Sweeper — predator zone panel
+  "/capabilities/cap-06.webp", // Orbit — order blocks
+  "/indicators/pulse.webp", // clean Pulse order-flow chart
+  "/capabilities/cap-04.webp", // Orbit — premium / discount
+  "/indicators/panels/everguard.webp", // Everguard — integrity panel
+  "/capabilities/cap-11.webp", // SR — support & resistance
+  "/capabilities/cap-05.webp", // Orbit — backed by real data
+  "/capabilities/cap-01.webp", // TL — trend line
+];
 
 export function Capabilities() {
   return (
@@ -40,7 +53,7 @@ export function Capabilities() {
           {[...CAPS, ...CAPS].map((src, i) => (
             <li
               key={i}
-              className="group relative w-[clamp(320px,40vw,520px)] shrink-0 overflow-hidden rounded-2xl border border-white/[0.08] bg-space-deep shadow-glow-cyan"
+              className="group relative flex aspect-[16/10] w-[clamp(320px,40vw,520px)] shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/[0.08] bg-space-deep shadow-glow-cyan"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -48,7 +61,7 @@ export function Capabilities() {
                 alt="DS Universe live chart capability"
                 loading="lazy"
                 decoding="async"
-                className="block w-full"
+                className="max-h-full max-w-full object-contain"
                 aria-hidden={i >= CAPS.length}
               />
               <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.06]" />

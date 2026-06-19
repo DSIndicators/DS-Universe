@@ -1,4 +1,4 @@
-import { Check, Sparkles } from "lucide-react";
+import { Check, Gift } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -15,7 +15,6 @@ type Tier = {
   cadence: string;
   lifetime: boolean;
   blurb: string;
-  highlight?: { title: string; body: string };
   features: string[];
   featured: boolean;
   newRelease?: boolean;
@@ -26,15 +25,14 @@ const TIERS: Tier[] = [
   {
     name: "Free",
     price: "Free",
-    cadence: "with ads",
+    cadence: "forever",
     lifetime: false,
     blurb: "The DS Crewmates. A beginner's chart that reads like a pro's.",
     features: [
       "DS BC — market structure (BOS · CHoCH)",
       "DS TL — self-cleaning trend line",
       "DS SR — touch-ranked support & resistance",
-      "DS CL — on-chart trade checklist",
-      "Free forever · no card required",
+      "100% free — no ads, no subscription, no card",
     ],
     featured: false,
     cta: "Start free",
@@ -63,17 +61,12 @@ const TIERS: Tier[] = [
     cadence: "one-time",
     lifetime: true,
     blurb: "The DS Systems. The full suite, run on the Registry core.",
-    // Pulse ships free inside Systems — called out separately below.
-    highlight: {
-      title: "DS Pulse included — free",
-      body: "Our most powerful order-flow read, bundled into Systems at no extra cost.",
-    },
     features: [
       "Lifetime access — pay once, yours forever",
       "Everything in Radars",
-      "Orbit · Stars · Balance",
-      "Ember — signature trend candles",
-      "Council — multi-timeframe consensus",
+      "Orbit · Stars · Balance · Ember · Council",
+      "DS Pulse — live order flow, included free",
+      "DS Carepack — Checklist · Risk-Reward · Pen · P&L (free)",
       "The DS Registry core · early access",
       "All future updates & additions — included",
     ],
@@ -95,8 +88,41 @@ export function Pricing() {
           titleMuted="Lifetime access."
           intro="No subscriptions, ever. Pay once and the tools are yours for life — free updates included. Start free with the Crewmates, then own the Radars or the full Systems suite outright."
           align="center"
-          className="mb-16"
+          className="mb-10"
         />
+
+        {/* DS Carepack — included-free highlight, above the tiers. */}
+        <Reveal className="mx-auto mb-12 max-w-3xl">
+          <div className="relative overflow-hidden rounded-2xl border border-[#ff9a3c]/30 bg-[#ff9a3c]/[0.06] p-5 sm:p-6">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#ff9a3c]/20 blur-3xl"
+            />
+            <div className="relative flex flex-col items-center gap-4 text-center sm:flex-row sm:gap-5 sm:text-left">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#ff9a3c]/40 bg-[#ff9a3c]/10 text-[#ffb986]">
+                <Gift size={22} strokeWidth={1.7} />
+              </span>
+              <div className="flex flex-1 flex-col gap-1.5">
+                <div className="flex flex-wrap items-center justify-center gap-2.5 sm:justify-start">
+                  <span className="font-sans text-lg font-bold text-ink-white">
+                    The DS Carepack
+                  </span>
+                  <span className="rounded-full bg-[#ff9a3c]/15 px-2.5 py-0.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-[#ffb986] ring-1 ring-[#ff9a3c]/40">
+                    $29.99 value — free
+                  </span>
+                </div>
+                <p className="text-sm leading-relaxed text-ink-gray">
+                  The four finishing tools — the discipline, the math, the markup,
+                  and the exclusive DS P&amp;L journal that settles every trade.
+                  Normally $29.99.{" "}
+                  <span className="text-ink-white">
+                    Yours free with every DS Systems.
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </Reveal>
 
         <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-3">
           {TIERS.map((tier, i) => (
@@ -155,23 +181,6 @@ export function Pricing() {
                 <p className="text-sm leading-relaxed text-ink-gray">
                   {tier.blurb}
                 </p>
-
-                {tier.highlight && (
-                  <div className="relative overflow-hidden rounded-xl border border-accent-teal/30 bg-accent-teal/[0.07] p-4 text-center">
-                    <div className="flex items-center justify-center gap-2">
-                      <Sparkles size={15} className="shrink-0 text-accent-teal" />
-                      <span className="font-sans text-sm font-semibold text-ink-white">
-                        {tier.highlight.title}
-                      </span>
-                    </div>
-                    <span className="mx-auto mt-2 inline-flex rounded-full bg-accent-teal/15 px-2.5 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.16em] text-accent-teal">
-                      Requires Tick Replay
-                    </span>
-                    <p className="mt-2 text-xs leading-relaxed text-ink-gray">
-                      {tier.highlight.body}
-                    </p>
-                  </div>
-                )}
 
                 <ul className="flex flex-1 flex-col gap-3">
                   {tier.features.map((f) => (

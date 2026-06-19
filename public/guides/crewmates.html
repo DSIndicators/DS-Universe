@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DS Crewmates — System Guide · DS Universe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07050d;--bg2:#0c0a18;--ink:#eef0f6;--muted:#9aa0b5;--faint:#5a5f73;
+    --line:rgba(255,255,255,.07);--card:rgba(255,255,255,.022);
+    --teal:#2ee6c0;--purple:#9b6bf0;--pink:#ff5aa0;--green:#33d684;--amber:#ff9a3c;--gold:#e8c24a;
+    --maxw:980px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(1200px 700px at 80% -8%, rgba(123,92,240,.18), transparent 60%),
+      radial-gradient(1000px 640px at 12% 8%, rgba(51,214,132,.08), transparent 55%),
+      linear-gradient(180deg,var(--bg) 0%, var(--bg2) 50%, var(--bg) 100%);
+    color:var(--ink);font-family:'Inter',-apple-system,'Segoe UI',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;letter-spacing:.01em;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  section{padding:84px 0;border-bottom:1px solid var(--line);position:relative}
+  section:last-of-type{border-bottom:none}
+  /* === cinematic masthead === */
+  .mh{position:relative;overflow:hidden;border-bottom:1px solid var(--line);min-height:clamp(320px,40vw,460px);display:flex;align-items:center;background:linear-gradient(180deg,#06040c 0%,#0a0714 55%,#070510 100%)}
+  .mh .stars{position:absolute;inset:0;z-index:1;opacity:.75;background-image:radial-gradient(1.4px 1.4px at 12% 22%,rgba(255,255,255,.7),transparent 60%),radial-gradient(1.2px 1.2px at 26% 68%,rgba(255,255,255,.5),transparent 60%),radial-gradient(1px 1px at 42% 33%,rgba(255,255,255,.55),transparent 60%),radial-gradient(1.3px 1.3px at 57% 80%,rgba(255,255,255,.45),transparent 60%),radial-gradient(1px 1px at 7% 84%,rgba(255,255,255,.5),transparent 60%),radial-gradient(1.2px 1.2px at 33% 12%,rgba(255,255,255,.5),transparent 60%),radial-gradient(1px 1px at 19% 52%,rgba(255,255,255,.4),transparent 60%),radial-gradient(1px 1px at 48% 60%,rgba(255,255,255,.35),transparent 60%)}
+  .mh .arc{position:absolute;right:-6%;top:50%;width:clamp(560px,74vw,1060px);aspect-ratio:1;transform:translateY(-50%) rotate(-16deg);border:1px solid rgba(180,180,224,.10);border-radius:50%;z-index:2}
+  .mh .arc::after{content:"";position:absolute;left:6%;top:48%;width:9px;height:9px;border-radius:50%;background:var(--teal);box-shadow:0 0 14px var(--teal)}
+  .mh .planet{position:absolute;right:-8%;top:50%;transform:translateY(-50%);z-index:2;width:clamp(400px,55vw,780px);height:clamp(400px,55vw,780px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 62% 40%,#ffe6b8 0%,#ffac56 12%,#e07ad6 39%,#9a5cf0 59%,#5f7fe0 83%,rgba(95,127,224,0) 95%);box-shadow:0 0 190px 12px rgba(170,90,240,.42)}
+  .mh .planet::before{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset -28px -36px 96px rgba(18,5,38,.55),inset 28px 28px 80px rgba(255,255,255,.05)}
+  .mh .vignette{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(150% 130% at 26% 50%,transparent 36%,rgba(4,2,10,.66) 100%)}
+  .mh .inner{position:relative;z-index:4;max-width:var(--maxw);margin:0 auto;width:100%;padding:46px 32px}
+  .mh .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--teal);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  .mh .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}
+  .mh .index{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;line-height:2.05;text-transform:uppercase;color:var(--faint);margin-bottom:24px}
+  .mh .index b{font-weight:600}
+  .mh .index .msys{color:var(--purple)}.mh .index .mrad{color:var(--teal)}.mh .index .mcrew{color:var(--green)}.mh .index .mcare{color:var(--amber)}
+  .mh .index .pill{display:inline-block;border:1px solid var(--amber);color:var(--amber);border-radius:20px;padding:1px 8px;font-size:9px;letter-spacing:.12em;vertical-align:middle;margin-left:4px}
+  .mh .wm{font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(60px,12.5vw,158px);line-height:.84;letter-spacing:-.03em;text-shadow:0 2px 50px rgba(0,0,0,.55)}
+  .mh .wm b{color:#fff}.mh .wm span{color:#aeb2c8}
+  .mh .rule{height:2px;width:min(460px,60%);border-radius:2px;margin:22px 0 14px;background:linear-gradient(90deg,var(--teal),var(--purple) 48%,var(--pink) 74%,var(--amber))}
+  .mh .tag{font-family:'JetBrains Mono',monospace;font-size:clamp(12px,1.5vw,15px);letter-spacing:.32em;text-transform:uppercase;color:var(--teal)}
+  .mh .sub{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);margin-top:9px}
+  @media(max-width:720px){.mh .planet{right:-34%;opacity:.8}.mh .index{font-size:9px;letter-spacing:.04em;line-height:2.2}.mh .inner{padding:38px 20px}.mh{min-height:300px}}
+  .logo-seal{display:inline-block;background:#fff;border-radius:26px;padding:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);margin-bottom:30px}
+  .logo-seal img{display:block;width:200px;height:auto;border-radius:12px}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+  .kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal);flex:0 0 auto}
+  .kicker.green{color:var(--green)}.kicker.green::before{background:var(--green);box-shadow:0 0 12px var(--green)}
+  .kicker.amber{color:var(--amber)}.kicker.amber::before{background:var(--amber);box-shadow:0 0 12px var(--amber)}
+  .kicker.purple{color:var(--purple)}.kicker.purple::before{background:var(--purple);box-shadow:0 0 12px var(--purple)}
+  .kicker .n{color:var(--faint);letter-spacing:.3em}
+  .badge{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#cfd3e2;border:1px solid var(--line);border-radius:20px;padding:6px 14px}
+  h1.display{font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(50px,12vw,118px);line-height:.9;letter-spacing:-.02em}
+  h2{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(38px,6vw,68px);line-height:.98;letter-spacing:-.02em;margin-bottom:8px}
+  h2 .lite{font-weight:300;color:#b9bdd0}
+  .underbar{width:108px;height:4px;border-radius:4px;margin:22px 0 28px;background:linear-gradient(90deg,var(--green),var(--teal) 40%,var(--purple) 75%,var(--amber))}
+  .lead{font-size:18px;color:#c3c7d8;max-width:760px}
+  .lead b{color:#fff;font-weight:600}
+  .em-green{color:var(--green)}.em-amber{color:var(--amber)}.em-purple{color:var(--purple)}.em-teal{color:var(--teal)}
+  /* hero */
+  .hero{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 32px 64px;border-bottom:1px solid var(--line)}
+  .toptag{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.5em;color:var(--faint);text-transform:uppercase;margin-bottom:42px}
+  .logobox{width:64px;height:64px;border-radius:16px;background:linear-gradient(160deg,#a06bff,#6a3fd0);display:flex;align-items:center;justify-content:center;font-family:'Archivo';font-weight:900;font-size:24px;color:#fff;box-shadow:0 0 40px rgba(155,107,240,.5);margin-bottom:26px}
+  .brandsub{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.34em;color:var(--teal);text-transform:uppercase;margin-top:14px}
+  .free-chip{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.32em;color:var(--green);text-transform:uppercase;margin:40px 0 14px;display:flex;align-items:center;gap:10px}
+  .free-chip::before,.free-chip::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--green)}
+  .hero h1.display .lite{font-weight:300;color:#aeb2c8}
+  .tagline{font-size:19px;color:#d4d7e4;margin-top:18px;max-width:620px}
+  .tagline b{color:#fff}
+  .freepill{margin-top:34px;border:1px solid rgba(51,214,132,.4);border-radius:30px;padding:12px 22px;font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.16em;color:var(--green);text-transform:uppercase;display:flex;align-items:center;gap:10px;box-shadow:0 0 30px -8px rgba(51,214,132,.5)}
+  .freepill::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+  .systemrow{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.3em;color:var(--faint);text-transform:uppercase;margin-top:30px}
+  .systemrow span{color:#cfd3e2}
+  /* runhead */
+  .runhead{padding-top:54px}
+  .runhead .map{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;line-height:2.1;color:var(--faint);text-transform:uppercase}
+  .runhead .map b{color:#c9cddd;font-weight:500}
+  .runhead .map .sys{color:var(--purple)}.runhead .map .rad{color:var(--teal)}.runhead .map .crew{color:var(--green)}.runhead .map .care{color:var(--amber)}
+  .bigbrand{font-family:'Archivo',sans-serif;font-weight:300;font-size:clamp(40px,8vw,76px);letter-spacing:-.01em;margin-top:18px}
+  .bigbrand b{font-weight:900}
+  .bigbrand-sub{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.3em;color:var(--teal);text-transform:uppercase;margin-top:8px}
+  .hr-grad{height:1px;background:linear-gradient(90deg,var(--green),var(--purple),transparent);margin:26px 0 0}
+  /* shot */
+  .shot{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:30px 0;background:#000;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .shot img{display:block;width:100%;height:auto}
+  .shot .bar{display:flex;justify-content:space-between;padding:11px 18px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--faint);text-transform:uppercase;border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.015),transparent)}
+  /* four tools grid */
+  .tools{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+  .tool{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 26px}
+  .tool .nm{font-family:'Archivo';font-weight:800;font-size:24px;margin-bottom:2px}
+  .tool .sub{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--green);text-transform:uppercase;margin-bottom:12px}
+  .tool p{font-size:14px;color:var(--muted);line-height:1.55}
+  /* feature cards */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+  .fcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;position:relative;overflow:hidden}
+  .fcard::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:var(--green)}
+  .fcard h4{font-size:16px;font-weight:600;margin-bottom:7px}
+  .fcard p{font-size:14px;color:var(--muted);line-height:1.55}
+  .fcard.purple::before{background:var(--purple)}.fcard.amber::before{background:var(--amber)}
+  /* htr */
+  .htr-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.32em;color:var(--green);text-transform:uppercase;margin:34px 0 14px;display:flex;gap:10px;align-items:center}
+  .htr-label::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
+  .htr{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .htr .chip{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .htr .chip .t{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:3px}
+  .htr .chip .t .dot{width:9px;height:9px;border-radius:50%}
+  .htr .chip p{font-size:12.5px;color:var(--muted);line-height:1.45}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .tags span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;border:1px solid var(--line);border-radius:20px;padding:6px 12px}
+  .pull{border-left:3px solid var(--green);padding:6px 0 6px 24px;margin:40px 0 0;font-family:'Archivo',sans-serif;font-weight:300;font-size:clamp(22px,3.4vw,30px);line-height:1.28;color:#dfe2ee}
+  .pull b{font-weight:700;color:#fff}
+  .pull.purple{border-color:var(--purple)}.pull.amber{border-color:var(--amber)}
+  /* CL checklist mock */
+  .clrow{display:flex;gap:36px;flex-wrap:wrap;align-items:center;margin-top:30px}
+  .checklist{flex:0 0 340px;max-width:100%;background:#0a0912;border:1.5px solid rgba(155,107,240,.5);border-radius:14px;padding:22px 24px;box-shadow:0 0 34px -8px rgba(155,107,240,.45)}
+  .checklist .ct{font-weight:700;font-size:17px;text-align:center;border-bottom:1px solid rgba(155,107,240,.35);padding-bottom:12px;margin-bottom:14px}
+  .checklist .ci{display:flex;align-items:center;gap:12px;padding:8px 0;font-size:14px;color:#cdd1df}
+  .checklist .box{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--purple);flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:12px;color:#0a0912}
+  .checklist .box.on{background:var(--purple);border-color:var(--purple)}
+  .checklist .ci.done{color:#fff}
+  .clside{flex:1;min-width:260px}
+  /* steps */
+  .steps{display:grid;grid-template-columns:1fr;gap:14px;margin-top:28px}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px}
+  .step .num{flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:linear-gradient(160deg,#a06bff,#6a3fd0);display:flex;align-items:center;justify-content:center;font-family:'Archivo';font-weight:800;font-size:15px;color:#fff}
+  .step h4{font-size:15.5px;font-weight:600;margin-bottom:2px}
+  .step p{font-size:13.5px;color:var(--muted)}
+  /* closing + footer */
+  .closing{text-align:center}
+  .closing h1{font-family:'Archivo';font-weight:900;font-size:clamp(48px,11vw,108px);line-height:.92;letter-spacing:-.02em}
+  .grad-green{color:var(--green)}
+  .footer{padding:40px 0 70px;text-align:center}
+  .disc{font-size:12px;color:var(--faint);max-width:760px;margin:0 auto;line-height:1.7}
+  .footrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.26em;color:var(--faint);text-transform:uppercase;display:flex;justify-content:space-between;padding:18px 0 26px;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:720px){.tools,.grid2,.htr{grid-template-columns:1fr}.checklist{flex:1 1 100%}.wrap{padding:0 20px}section{padding:60px 0}}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="mh">
+  <div class="stars"></div>
+  <div class="arc"></div>
+  <div class="planet"></div>
+  <div class="vignette"></div>
+  <div class="inner">
+    <div class="eyebrow">The Free Crew · Tier 1</div>
+    <div class="index">
+      <b class="msys">DS Systems</b>&nbsp;&nbsp;Orbit · Stars · Balance · Ember · Council · Pulse <span class="pill">Premium</span><br>
+      <b class="mrad">DS Radars</b>&nbsp;&nbsp;Pilots · Sweeper · Everguard<br>
+      <b class="mcrew">DS Crewmates</b>&nbsp;&nbsp;BC · TL · SR<br>
+      <b class="mcare">DS Carepack</b>&nbsp;&nbsp;Checklist · Risk-Reward · Pen · P&amp;L
+    </div>
+    <div class="wm"><b>DS</b> <span>UNIVERSE</span></div>
+    <div class="rule"></div>
+    <div class="tag">Intelligence · Every Timeframe</div>
+    <div class="sub">Futures — Precision From Orbit</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="toptag">Tier 1 · Entry Crew · Free For Everyone</div>
+  <div class="logobox">DS</div>
+  <div class="brandsub">DS Universe · Tier 1 · Entry Crew</div>
+  <div class="free-chip">The Free Crew</div>
+  <h1 class="display"><b>DS</b><br>CREWMATE</h1>
+  <div class="tagline">Three hand-built chart tools that read structure, levels and trend with you — so <b>a beginner's chart looks like a pro's from the first session.</b></div>
+  <div class="freepill">100% Free for everyone · No ads · No subscription · No card</div>
+  <div class="systemrow"><span>BC</span> · <span>TL</span> · <span>SR</span></div>
+</header>
+
+<!-- THE CREW -->
+<section class="runhead">
+  <div class="wrap">
+    <div class="map">
+      <b class="sys">DS SYSTEMS</b> &nbsp;&nbsp;: &nbsp;ORBIT · STARS · BALANCE · EMBER · COUNCIL · PULSE<br>
+      <b class="rad">DS RADARS</b> &nbsp;&nbsp;&nbsp;: &nbsp;PILOTS · SWEEPER · EVERGUARD<br>
+      <b class="crew">DS CREWMATES</b> : &nbsp;BC · TL · SR<br>
+      <b class="care">DS CAREPACK</b> &nbsp;: &nbsp;CHECKLIST · RISK-REWARD · PEN · P&amp;L
+    </div>
+    <div class="bigbrand"><b>DS</b> UNIVERSE</div>
+    <div class="hr-grad"></div>
+    <div class="bigbrand-sub" style="margin-top:14px">Intelligence · Every Timeframe</div>
+
+    <div style="height:46px"></div>
+    <div class="kicker green">The Crew <span class="n">— 01</span></div>
+    <h2>Everyone deserves<br><span class="lite">a clean chart.</span></h2>
+    <div class="underbar"></div>
+    <p class="lead">DS Crewmate is the free entry tier of the DS Universe — the same design language and rendering engine as the paid suite, scaled down to the three things every trader needs on screen first: <b>structure, a trend line, and support &amp; resistance.</b> Built for NinjaTrader&nbsp;8, tuned for every timeframe, closed-bar and feather-light so the chart never lags.</p>
+
+    <div class="tools" style="grid-template-columns:repeat(3,1fr)">
+      <div class="tool"><div class="nm">DS BC</div><div class="sub">Market Structure</div><p>BOS, CHoCH &amp; equal-high / equal-low liquidity — color-coded the moment it prints.</p></div>
+      <div class="tool"><div class="nm">DS TL</div><div class="sub">Trend Line</div><p>One clean line that tracks the live trend and removes itself when it breaks.</p></div>
+      <div class="tool"><div class="nm">DS SR</div><div class="sub">Support &amp; Resistance</div><p>Touch-ranked levels that self-clean once price closes through them.</p></div>
+    </div>
+
+    <div class="pull">Master these three and you've learned to read a chart. Everything else in the DS Universe is <b>built on this foundation</b> — which is exactly why we give it away.</div>
+  </div>
+</section>
+
+<!-- DS BC -->
+<section>
+  <div class="wrap">
+    <div class="kicker green">Break Of Structure &amp; Change Of Character <span class="n">— 02</span></div>
+    <h2>DS BC</h2>
+    <div class="underbar"></div>
+    <p class="lead">DS BC reads the chart's skeleton for you. It marks <b>BOS</b> when a trend pushes through its last swing and keeps going, <b>CHoCH</b> the moment momentum flips the other way, and the <b>EQH / EQL</b> liquidity pools price loves to hunt. Bullish events glow green, bearish events glow orange — so the story of the move is readable at a glance.</p>
+
+    <div class="shot">
+      <img src="/capabilities/cap-02.webp" alt="DS BC — live BOS / CHoCH labelling across a full swing">
+      <div class="bar"><span>DS BC · Live BOS / CHoCH</span><span>Green = bullish · Orange = bearish</span></div>
+    </div>
+
+    <div class="grid2">
+      <div class="fcard"><h4>Trend, in plain sight</h4><p>Know instantly whether a move is continuing (BOS) or turning (CHoCH) — no guesswork, no second-guessing your bias.</p></div>
+      <div class="fcard"><h4>See the liquidity</h4><p>Equal highs and lows mark where stops pile up. DS BC shows you the pools before price reaches for them.</p></div>
+      <div class="fcard"><h4>Stays feather-light</h4><p>Old structure is cleared automatically, so the engine stays fast and your chart stays uncluttered.</p></div>
+      <div class="fcard"><h4>Reads on closed bars</h4><p>Labels lock to confirmed swings — you're reading the move, not chasing a flicker.</p></div>
+    </div>
+
+    <div class="htr-label">How to read it</div>
+    <div class="htr">
+      <div class="chip"><div class="t"><span class="dot" style="background:var(--green)"></span>BOS</div><p>Trend continues through its last swing.</p></div>
+      <div class="chip"><div class="t"><span class="dot" style="background:var(--amber)"></span>CHoCH</div><p>Momentum flips — the regime changes.</p></div>
+      <div class="chip"><div class="t"><span class="dot" style="background:#7fb3ff"></span>EQH / EQL</div><p>Equal highs &amp; lows where liquidity rests.</p></div>
+    </div>
+    <div class="tags"><span>Green = Bullish</span><span>Orange = Bearish</span><span>BOS · CHoCH</span><span>EQH · EQL</span><span>Auto-clean</span></div>
+  </div>
+</section>
+
+<!-- DS TL -->
+<section>
+  <div class="wrap">
+    <div class="kicker green">Trend Line <span class="n">— 03</span></div>
+    <h2>DS TL</h2>
+    <div class="underbar"></div>
+    <p class="lead">DS TL draws one clean trend line — the one that actually matters right now. In an uptrend it tracks ascending support in green; in a downtrend it tracks descending resistance in orange; sideways, it greys out. Each new swing refreshes it to the freshest pivots, a retroactive check rejects any line that intervening candles already pierced, and the instant price breaks or drifts away from it, the line <b>deletes itself.</b> You never stare at a stale line again.</p>
+
+    <div class="shot">
+      <img src="/capabilities/cap-01.webp" alt="DS TL — a single self-managing trend line tracking ascending support">
+      <div class="bar"><span>DS TL · Self-Managing Trend Line</span><span>Green up · Orange down · Grey flat</span></div>
+    </div>
+
+    <div class="grid2">
+      <div class="fcard"><h4>Always the right line</h4><p>No drawing, no maintenance. DS TL re-anchors to the current trend so the line on screen is the live one.</p></div>
+      <div class="fcard"><h4>Validated retroactively</h4><p>A line that intervening candles already cut through is rejected — only trustworthy diagonals survive.</p></div>
+      <div class="fcard"><h4>Never goes stale</h4><p>Break it or abandon it and it's gone — not greyed, not frozen. The chart stays honest about the trend.</p></div>
+      <div class="fcard"><h4>Projects a runway</h4><p>The line extends ahead of price, giving you a forward edge to plan entries, targets and invalidations against.</p></div>
+    </div>
+
+    <div class="htr-label">How to read it</div>
+    <div class="htr">
+      <div class="chip"><div class="t"><span class="dot" style="background:var(--green)"></span>Green line</div><p>Ascending support — higher lows, uptrend.</p></div>
+      <div class="chip"><div class="t"><span class="dot" style="background:var(--amber)"></span>Orange line</div><p>Descending resistance — lower highs, downtrend.</p></div>
+      <div class="chip"><div class="t"><span class="dot" style="background:#7c8196"></span>Grey line</div><p>Flat / sideways — no committed trend.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DS SR -->
+<section>
+  <div class="wrap">
+    <div class="kicker amber">Support &amp; Resistance <span class="n">— 04</span></div>
+    <h2>DS SR</h2>
+    <div class="underbar"></div>
+    <p class="lead">DS SR finds the levels that earn their keep. Confirmed swing pivots are clustered into touch-weighted zones and ranked by strength — <b>S&nbsp;×1, S&nbsp;×2…</b> for support, <b>R&nbsp;×1, R&nbsp;×2…</b> for resistance — so the more a level is respected, the louder it speaks. Support glows green, resistance orange, and when price decisively closes through a level, DS SR erases it. The chart cleans itself after every sweep.</p>
+
+    <div class="shot">
+      <img src="/capabilities/cap-11.webp" alt="DS SR — touch-ranked, self-cleaning support and resistance levels">
+      <div class="bar"><span>DS SR · Touch-Ranked Levels</span><span>They're not just random lines</span></div>
+    </div>
+
+    <div class="grid2">
+      <div class="fcard amber"><h4>Strength you can read</h4><p>The ×-count tells you how many times a level held. Trade the strong ones, ignore the noise.</p></div>
+      <div class="fcard amber"><h4>Self-cleaning rails</h4><p>Break a level and it disappears, so you're never anchored to a zone the market already gave up on.</p></div>
+      <div class="fcard amber"><h4>Touch-weighted clustering</h4><p>Nearby pivots merge into one honest level — the more it's tested, the heavier it reads.</p></div>
+      <div class="fcard amber"><h4>Clean projected zones</h4><p>Levels extend neatly to the right of price as runways — clear targets and decision points, no clutter.</p></div>
+    </div>
+
+    <div class="htr-label">How to read it</div>
+    <div class="htr">
+      <div class="chip"><div class="t"><span class="dot" style="background:var(--green)"></span>Green zone</div><p>Support — a floor price has respected.</p></div>
+      <div class="chip"><div class="t"><span class="dot" style="background:var(--amber)"></span>Orange zone</div><p>Resistance — a ceiling price has respected.</p></div>
+      <div class="chip"><div class="t"><span class="dot" style="background:#cfd3e2"></span>×-count</div><p>How many times the level held — its strength.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section>
+  <div class="wrap">
+    <div class="kicker green">Access <span class="n">— 05</span></div>
+    <h2>Free for everyone.<br><span class="lite">That's the whole deal.</span></h2>
+    <div class="underbar"></div>
+    <p class="lead">Crewmate is genuinely free — no ads, no paywall, no card. There's no trial that expires, no tier that nags you, and nothing to cancel. Install it and it's yours.</p>
+
+    <div class="steps">
+      <div class="step"><div class="num">1</div><div><h4>Install the set</h4><p>Drop the three indicators into NinjaTrader 8 and load them on any chart, any timeframe.</p></div></div>
+      <div class="step"><div class="num">2</div><div><h4>Run the whole crew</h4><p>All three tools, on as many charts as you like — no account juggling, no unlock to chase.</p></div></div>
+      <div class="step"><div class="num">3</div><div><h4>Keep it, free</h4><p>Nothing expires and nothing's withheld — the full Crewmate set is yours every session.</p></div></div>
+    </div>
+
+    <div class="grid2" style="margin-top:24px">
+      <div class="fcard"><h4>What you keep</h4><p>All three tools, full rendering quality, on unlimited charts — the same engine that powers the paid DS suite.</p></div>
+      <div class="fcard purple"><h4>When you outgrow it</h4><p>The rest of DS Universe is waiting — the Radar cockpits, the DS Systems overlays and the DS Carepack utilities. Crewmate is where the journey starts.</p></div>
+    </div>
+
+    <div class="pull">We'd rather earn a trader for life than charge one at the door. Run the crew free for as long as you like — <b>upgrade only when the chart starts feeling small.</b></div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="wrap">
+    <div class="logo-seal"><img src="/brand/emblem.png" alt="DS Universe"></div>
+    <div class="free-chip" style="justify-content:center">DS Universe</div>
+    <h1 class="display">Suit up.<br>The crew's<br><span class="grad-green">free.</span></h1>
+    <p class="lead" style="margin:26px auto 0;text-align:center">Three tools. Zero cost. No ads. Put a pro-grade chart in front of yourself today — then keep going when you're ready for more.</p>
+    <div class="systemrow" style="margin-top:28px"><span>DS BC</span> · <span>DS TL</span> · <span>DS SR</span></div>
+  </div>
+</section>
+
+<div class="footer">
+  <div class="wrap">
+    <p class="disc">DS Crewmate is a charting and analysis toolset for NinjaTrader&nbsp;8. It is for educational and informational use only and is not financial advice or a recommendation to buy or sell any instrument. Trading futures carries substantial risk of loss. NinjaTrader™ is a trademark of NinjaTrader Group, LLC, used here for compatibility reference only. © 2026 DS Indicators · DS Universe.</p>
+    <div class="footrow"><span>DS Crewmate · Access</span><span>Free For Everyone · No Ads · No Card</span></div>
+  </div>
+</div>
+
+</body>
+</html>

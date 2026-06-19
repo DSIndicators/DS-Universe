@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DS Radars — System Guide · DS Universe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07050d;--bg2:#0c0a18;--ink:#eef0f6;--muted:#9aa0b5;--faint:#5a5f73;
+    --line:rgba(255,255,255,.07);--card:rgba(255,255,255,.022);
+    --teal:#2ee6c0;--purple:#9b6bf0;--pink:#ff5aa0;--green:#33d684;--amber:#ff9a3c;--red:#e0573f;--gold:#e8c24a;
+    --maxw:980px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(1200px 700px at 80% -8%, rgba(123,92,240,.18), transparent 60%),
+      radial-gradient(1000px 620px at 10% 8%, rgba(46,230,192,.07), transparent 55%),
+      linear-gradient(180deg,var(--bg) 0%, var(--bg2) 50%, var(--bg) 100%);
+    color:var(--ink);font-family:'Inter',-apple-system,'Segoe UI',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;letter-spacing:.01em;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+  section{padding:84px 0;border-bottom:1px solid var(--line);position:relative}
+  section:last-of-type{border-bottom:none}
+  /* === cinematic masthead === */
+  .mh{position:relative;overflow:hidden;border-bottom:1px solid var(--line);min-height:clamp(320px,40vw,460px);display:flex;align-items:center;background:linear-gradient(180deg,#06040c 0%,#0a0714 55%,#070510 100%)}
+  .mh .stars{position:absolute;inset:0;z-index:1;opacity:.75;background-image:radial-gradient(1.4px 1.4px at 12% 22%,rgba(255,255,255,.7),transparent 60%),radial-gradient(1.2px 1.2px at 26% 68%,rgba(255,255,255,.5),transparent 60%),radial-gradient(1px 1px at 42% 33%,rgba(255,255,255,.55),transparent 60%),radial-gradient(1.3px 1.3px at 57% 80%,rgba(255,255,255,.45),transparent 60%),radial-gradient(1px 1px at 7% 84%,rgba(255,255,255,.5),transparent 60%),radial-gradient(1.2px 1.2px at 33% 12%,rgba(255,255,255,.5),transparent 60%),radial-gradient(1px 1px at 19% 52%,rgba(255,255,255,.4),transparent 60%),radial-gradient(1px 1px at 48% 60%,rgba(255,255,255,.35),transparent 60%)}
+  .mh .arc{position:absolute;right:-6%;top:50%;width:clamp(560px,74vw,1060px);aspect-ratio:1;transform:translateY(-50%) rotate(-16deg);border:1px solid rgba(180,180,224,.10);border-radius:50%;z-index:2}
+  .mh .arc::after{content:"";position:absolute;left:6%;top:48%;width:9px;height:9px;border-radius:50%;background:var(--teal);box-shadow:0 0 14px var(--teal)}
+  .mh .planet{position:absolute;right:-8%;top:50%;transform:translateY(-50%);z-index:2;width:clamp(400px,55vw,780px);height:clamp(400px,55vw,780px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 62% 40%,#ffe6b8 0%,#ffac56 12%,#e07ad6 39%,#9a5cf0 59%,#5f7fe0 83%,rgba(95,127,224,0) 95%);box-shadow:0 0 190px 12px rgba(170,90,240,.42)}
+  .mh .planet::before{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset -28px -36px 96px rgba(18,5,38,.55),inset 28px 28px 80px rgba(255,255,255,.05)}
+  .mh .vignette{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(150% 130% at 26% 50%,transparent 36%,rgba(4,2,10,.66) 100%)}
+  .mh .inner{position:relative;z-index:4;max-width:var(--maxw);margin:0 auto;width:100%;padding:46px 32px}
+  .mh .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--teal);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  .mh .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}
+  .mh .index{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;line-height:2.05;text-transform:uppercase;color:var(--faint);margin-bottom:24px}
+  .mh .index b{font-weight:600}
+  .mh .index .msys{color:var(--purple)}.mh .index .mrad{color:var(--teal)}.mh .index .mcrew{color:var(--green)}.mh .index .mcare{color:var(--amber)}
+  .mh .index .pill{display:inline-block;border:1px solid var(--amber);color:var(--amber);border-radius:20px;padding:1px 8px;font-size:9px;letter-spacing:.12em;vertical-align:middle;margin-left:4px}
+  .mh .wm{font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(60px,12.5vw,158px);line-height:.84;letter-spacing:-.03em;text-shadow:0 2px 50px rgba(0,0,0,.55)}
+  .mh .wm b{color:#fff}.mh .wm span{color:#aeb2c8}
+  .mh .rule{height:2px;width:min(460px,60%);border-radius:2px;margin:22px 0 14px;background:linear-gradient(90deg,var(--teal),var(--purple) 48%,var(--pink) 74%,var(--amber))}
+  .mh .tag{font-family:'JetBrains Mono',monospace;font-size:clamp(12px,1.5vw,15px);letter-spacing:.32em;text-transform:uppercase;color:var(--teal)}
+  .mh .sub{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);margin-top:9px}
+  @media(max-width:720px){.mh .planet{right:-34%;opacity:.8}.mh .index{font-size:9px;letter-spacing:.04em;line-height:2.2}.mh .inner{padding:38px 20px}.mh{min-height:300px}}
+  .logo-seal{display:inline-block;background:#fff;border-radius:26px;padding:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);margin-bottom:30px}
+  .logo-seal img{display:block;width:200px;height:auto;border-radius:12px}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+  .kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal);flex:0 0 auto}
+  .kicker.amber{color:var(--amber)} .kicker.amber::before{background:var(--amber);box-shadow:0 0 12px var(--amber)}
+  .kicker.purple{color:var(--purple)} .kicker.purple::before{background:var(--purple);box-shadow:0 0 12px var(--purple)}
+  .kicker .n{color:var(--faint);letter-spacing:.3em}
+  h1.display{font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(54px,11vw,124px);line-height:.92;letter-spacing:-.02em}
+  h2{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(38px,6vw,68px);line-height:.98;letter-spacing:-.02em;margin-bottom:8px}
+  h2 .lite{font-weight:300;color:#b9bdd0}
+  .underbar{width:108px;height:4px;border-radius:4px;margin:22px 0 28px;background:linear-gradient(90deg,var(--teal),var(--purple) 45%,var(--pink) 72%,var(--amber))}
+  .lead{font-size:18px;color:#c3c7d8;max-width:760px}
+  .lead b{color:#fff;font-weight:600}
+  .em-teal{color:var(--teal)}.em-purple{color:var(--purple)}.em-pink{color:var(--pink)}.em-green{color:var(--green)}.em-amber{color:var(--amber)}
+  /* hero */
+  .hero{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:78px 32px 72px;border-bottom:1px solid var(--line)}
+  .toptag{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.5em;color:var(--faint);text-transform:uppercase;margin-bottom:54px}
+  .brandline{font-family:'Archivo',sans-serif;font-weight:300;font-size:clamp(30px,6vw,52px);letter-spacing:.02em;margin-top:8px}
+  .brandline b{font-weight:900}
+  .brandsub{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.34em;color:var(--teal);text-transform:uppercase;margin-top:10px}
+  .suite-chip{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.34em;color:var(--teal);text-transform:uppercase;margin:46px 0 14px;display:flex;align-items:center;gap:10px}
+  .suite-chip::before,.suite-chip::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal)}
+  .hero h1.display .lite{font-weight:300;color:#aeb2c8}
+  .tagline{font-size:20px;color:#d4d7e4;margin-top:18px}.tagline b{color:#fff}
+  .systemrow{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.28em;color:var(--faint);text-transform:uppercase;margin-top:38px}
+  .systemrow span{color:#cfd3e2}
+  /* runhead */
+  .runhead{padding-top:54px}
+  .runhead .map{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;line-height:2.1;color:var(--faint);text-transform:uppercase}
+  .runhead .map b{color:#c9cddd;font-weight:500}
+  .runhead .map .sys{color:var(--purple)}.runhead .map .rad{color:var(--teal)}.runhead .map .crew{color:var(--green)}.runhead .map .care{color:var(--amber)}
+  .bigbrand{font-family:'Archivo',sans-serif;font-weight:300;font-size:clamp(40px,8vw,76px);letter-spacing:-.01em;margin-top:18px}
+  .bigbrand b{font-weight:900}
+  .bigbrand-sub{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.3em;color:var(--teal);text-transform:uppercase;margin-top:8px}
+  .hr-grad{height:1px;background:linear-gradient(90deg,var(--teal),var(--purple),transparent);margin:26px 0 0}
+  /* shot */
+  .shot{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:30px 0;background:#000;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .shot img{display:block;width:100%;height:auto}
+  .shot .bar{display:flex;justify-content:space-between;padding:11px 18px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--faint);text-transform:uppercase;border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.015),transparent)}
+  /* panel layout */
+  .panelrow{display:flex;gap:36px;flex-wrap:wrap;align-items:flex-start;margin-top:30px}
+  .panelrow .pic{flex:0 0 380px;max-width:100%}
+  .panelrow .pic .shot{margin:0}
+  .panelrow .side{flex:1;min-width:260px}
+  /* feature cards */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+  .grid1{display:grid;grid-template-columns:1fr;gap:14px;margin-top:0}
+  .fcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;position:relative;overflow:hidden}
+  .fcard::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:var(--purple)}
+  .fcard h4{font-size:16px;font-weight:600;margin-bottom:7px}
+  .fcard p{font-size:14px;color:var(--muted);line-height:1.55}
+  .fcard.teal::before{background:var(--teal)}.fcard.green::before{background:var(--green)}.fcard.amber::before{background:var(--amber)}.fcard.pink::before{background:var(--pink)}.fcard.red::before{background:var(--red)}
+  /* htr chips */
+  .htr-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.32em;color:var(--teal);text-transform:uppercase;margin:34px 0 14px;display:flex;gap:10px;align-items:center}
+  .htr-label::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal)}
+  .htr{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .htr .chip{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .htr .chip .t{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:3px}
+  .htr .chip .t .dot{width:9px;height:9px;border-radius:50%}
+  .htr .chip p{font-size:12.5px;color:var(--muted);line-height:1.45}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .tags span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;border:1px solid var(--line);border-radius:20px;padding:6px 12px}
+  .pull{border-left:3px solid var(--purple);padding:6px 0 6px 24px;margin:40px 0 0;font-family:'Archivo',sans-serif;font-weight:300;font-size:clamp(22px,3.4vw,30px);line-height:1.28;color:#dfe2ee}
+  .pull b{font-weight:700;color:#fff}
+  .pull.teal{border-color:var(--teal)}.pull.amber{border-color:var(--amber)}.pull.purple{border-color:var(--purple)}
+  /* trio cards */
+  .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+  .trio .t{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .trio .t .h{font-size:18px;font-weight:700;margin-bottom:8px}
+  .trio .t p{font-size:13.5px;color:var(--muted);line-height:1.55}
+  .trio .t .h.teal{color:var(--teal)}.trio .t .h.amber{color:var(--amber)}.trio .t .h.purple{color:var(--purple)}
+  /* stat band */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:10px;text-align:center}
+  .stats .s b{font-family:'Archivo',sans-serif;font-weight:900;font-size:60px;line-height:1;display:block;background:linear-gradient(180deg,#fff,#9b6bf0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .stats .s.t b{background:linear-gradient(180deg,#fff,#2ee6c0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .stats .s.a b{background:linear-gradient(180deg,#fff,#ff9a3c);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .stats .s small{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.24em;color:var(--faint);text-transform:uppercase;display:block;margin-top:10px}
+  /* closing + footer */
+  .closing{text-align:center}
+  .closing h2{font-size:clamp(40px,7vw,72px)}
+  .grad-word{background:linear-gradient(90deg,var(--teal),var(--purple),var(--pink),var(--amber));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .footer{padding:40px 0 70px;text-align:center}
+  .disc{font-size:12px;color:var(--faint);max-width:760px;margin:0 auto;line-height:1.7}
+  .footrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.26em;color:var(--faint);text-transform:uppercase;display:flex;justify-content:space-between;padding:18px 0 26px;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:720px){.grid2,.htr,.trio,.stats{grid-template-columns:1fr}.panelrow .pic{flex:1 1 100%}.wrap{padding:0 20px}section{padding:60px 0}}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="mh">
+  <div class="stars"></div>
+  <div class="arc"></div>
+  <div class="planet"></div>
+  <div class="vignette"></div>
+  <div class="inner">
+    <div class="eyebrow">The DS Radar Series</div>
+    <div class="index">
+      <b class="msys">DS Systems</b>&nbsp;&nbsp;Orbit · Stars · Balance · Ember · Council · Pulse <span class="pill">Premium</span><br>
+      <b class="mrad">DS Radars</b>&nbsp;&nbsp;Pilots · Sweeper · Everguard<br>
+      <b class="mcrew">DS Crewmates</b>&nbsp;&nbsp;BC · TL · SR<br>
+      <b class="mcare">DS Carepack</b>&nbsp;&nbsp;Checklist · Risk-Reward · Pen · P&amp;L
+    </div>
+    <div class="wm"><b>DS</b> <span>UNIVERSE</span></div>
+    <div class="rule"></div>
+    <div class="tag">Intelligence · Every Timeframe</div>
+    <div class="sub">Futures — Precision From Orbit</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="suite-chip">The DS Radar Series</div>
+  <h1 class="display"><b>DS</b> <span class="lite">RADARS</span></h1>
+  <div class="tagline">Three radars. One read. <b>The tape, decoded live.</b></div>
+  <div class="systemrow"><span>PILOTS</span> · <span>SWEEPER</span> · <span>EVERGUARD</span></div>
+</header>
+
+<!-- WHAT THE RADARS DO -->
+<section class="runhead">
+  <div class="wrap">
+    <div class="map">
+      <b class="sys">DS SYSTEMS</b> &nbsp;&nbsp;: &nbsp;ORBIT · STARS · BALANCE · EMBER · COUNCIL · PULSE<br>
+      <b class="rad">DS RADARS</b> &nbsp;&nbsp;&nbsp;: &nbsp;PILOTS · SWEEPER · EVERGUARD<br>
+      <b class="crew">DS CREWMATES</b> : &nbsp;BC · TL · SR<br>
+      <b class="care">DS CAREPACK</b> &nbsp;: &nbsp;CHECKLIST · RISK-REWARD · PEN · P&amp;L
+    </div>
+    <div class="bigbrand"><b>DS</b> UNIVERSE</div>
+    <div class="hr-grad"></div>
+    <div class="bigbrand-sub" style="margin-top:14px">Intelligence · Every Timeframe</div>
+
+    <div style="height:46px"></div>
+    <div class="kicker">What The Radars Do <span class="n">— 01</span></div>
+    <h2>The tape talks.<br><span class="lite">The Radars translate.</span></h2>
+    <div class="underbar"></div>
+    <p class="lead">DS Radars are live read-outs that turn raw order flow into a plain-language verdict. Three instruments work the same chart from different angles — <b>Pilots</b> reads direction and conviction, <b>Sweeper</b> hunts traps and liquidity, <b>Everguard</b> grades the integrity of every move. Each is a self-contained cockpit, cross-referenced across five timeframes and rendered without a hint of lag — so the read is always current and always trustworthy.</p>
+
+    <div class="trio">
+      <div class="t"><div class="h teal">DS Pilots</div><p>Direction &amp; conviction. Two co-pilots — Sammy and Freddy — fused into one headline call with a live pressure gauge and a named regime.</p></div>
+      <div class="t"><div class="h amber">DS Sweeper</div><p>The trap hunter, codename Hunta. Detects sweeps, stop-hunts, absorption and fake breakouts before they spring.</p></div>
+      <div class="t"><div class="h purple">DS Everguard</div><p>Integrity &amp; conviction. Grades whether a move is the real thing across every timeframe, bar by bar.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DS PILOTS -->
+<section>
+  <div class="wrap">
+    <div class="kicker">Direction &amp; Conviction <span class="n">— 02</span></div>
+    <h2>DS Pilots</h2>
+    <div class="underbar"></div>
+    <p class="lead">Two co-pilots fly the tape. <b>Sammy</b> reads it conservatively, <b>Freddy</b> aggressively — and the cockpit fuses their votes into one headline call with a confidence score, a live buyers-vs-sellers pressure gauge, and a regime state machine that tracks a move from stable to exhausting to sweeping. Every factor is ATR-normalized and the engine self-tunes its sensitivity to current volatility, so you get a full directional read and its context in one glance — never a single biased signal.</p>
+
+    <div class="panelrow">
+      <div class="pic"><div class="shot"><img src="Screenshot%202026-06-18%20023330.png" alt="DS Pilots cockpit — Sammy and Freddy votes, confidence, pressure gauge and regime"><div class="bar"><span>DS Pilots · Cockpit</span><span>Mild Bull · 32%</span></div></div></div>
+      <div class="side">
+        <div class="grid1">
+          <div class="fcard teal"><h4>Two minds, one verdict</h4><p>Sammy and Freddy weigh the tape independently, so you always see both the cautious and the aggressive read behind the call.</p></div>
+          <div class="fcard teal"><h4>Live pressure gauge</h4><p>A real-time buyers-vs-sellers split shows who actually controls the move, right now.</p></div>
+          <div class="fcard teal"><h4>Regime state machine</h4><p>Stable → Exhausting → Confirming → Expanding → Sweeping — the move's phase, named as it changes.</p></div>
+          <div class="fcard teal"><h4>Killzone aware</h4><p>London, Tokyo and New York windows light up so you know when the session actually has teeth.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pull teal">Direction and conviction, <b>fused into one call</b> you can read in a heartbeat — never a lone, biased signal.</div>
+  </div>
+</section>
+
+<!-- DS SWEEPER -->
+<section>
+  <div class="wrap">
+    <div class="kicker amber">The Trap Hunter <span class="n">— 03</span></div>
+    <h2>DS Sweeper</h2>
+    <div class="underbar"></div>
+    <p class="lead">Codename <b>Hunta</b>. Sweeper watches for the moves that fool everyone else — sweeps, stop-hunts, absorption, fake breakouts and weak continuations. It spots them the way the desks do: price pierces a recent swing, then closes back inside on heavy volume. A Threat Index and a Conviction bar quantify the danger, while a plain status line calls it for what it is. When Hunta says the trap is set, you see it before it springs — and you know when strength is really fatigue.</p>
+
+    <div class="panelrow">
+      <div class="pic"><div class="shot"><img src="Screenshot%202026-06-18%20023056.png" alt="DS Sweeper panel — Predator Zone, Threat Index, Conviction and live detections"><div class="bar"><span>DS Sweeper · Predator Zone</span><span>Conviction · 90%</span></div></div></div>
+      <div class="side">
+        <div class="grid1">
+          <div class="fcard amber"><h4>Traps, named on sight</h4><p>Sweep, stop-hunt, absorption, fake breakout and weak continuation are each detected and labelled with a live confidence and timeframe.</p></div>
+          <div class="fcard amber"><h4>Threat &amp; conviction</h4><p>A Threat Index plus a Conviction bar tell you how real the danger is — not just that it exists.</p></div>
+          <div class="fcard amber"><h4>Structure read</h4><p>Status lines like "continuation trap — structure thinning" expose what the candles are hiding.</p></div>
+          <div class="fcard amber"><h4>Hunta's call</h4><p>One sharp line per bar — "the trap is set" — so the warning lands instantly.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pull amber">See the trap before it springs — <b>and know when strength is really fatigue.</b></div>
+  </div>
+</section>
+
+<!-- DS EVERGUARD -->
+<section>
+  <div class="wrap">
+    <div class="kicker purple">Integrity &amp; Conviction <span class="n">— 04</span></div>
+    <h2>DS Everguard</h2>
+    <div class="underbar"></div>
+    <p class="lead">Everguard grades trust. It scores <b>Signal Integrity</b> and <b>Candle Conviction</b> in real time, then lines up Main-Time-Frame Strength from the 1-minute to the 4-hour so you can see, at a glance, whether the whole board agrees. Volume Strength, Volatility and a Middle-Grounds bull-vs-bear tug round out the picture, with a Next-Bar timer keeping you in rhythm. Built-in "stickiness" stops colors flickering on a threshold, and a demotion matrix quietly downgrades a bright trend the moment volume or continuity weakens. It answers the only question that matters: can I trust this move?</p>
+
+    <div class="panelrow">
+      <div class="pic"><div class="shot"><img src="Screenshot%202026-06-18%20023131.png" alt="DS Everguard panel — Signal Integrity, Candle Conviction, multi-timeframe strength"><div class="bar"><span>DS Everguard · Integrity</span><span>45% · Conviction 62%</span></div></div></div>
+      <div class="side">
+        <div class="grid1">
+          <div class="fcard"><h4>Integrity score</h4><p>A live read on whether the current move is the real thing or a low-quality fake-out.</p></div>
+          <div class="fcard"><h4>Candle conviction</h4><p>How much force is behind each bar — strong closes look different from hollow ones.</p></div>
+          <div class="fcard"><h4>Every timeframe at once</h4><p>1m, 5m, 15m, 60m and 4H strength dots reveal alignment or conflict in a single row.</p></div>
+          <div class="fcard"><h4>Middle Grounds Fight</h4><p>The live bull-vs-bear tug shows who's winning the contested ground in real time.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pull purple">One question, answered live and across every timeframe: <b>can I trust this move?</b></div>
+  </div>
+</section>
+
+<!-- THE EDGE -->
+<section>
+  <div class="wrap">
+    <div class="kicker">Why They Work <span class="n">— 05</span></div>
+    <h2>The <span class="lite">edge</span></h2>
+    <div class="underbar"></div>
+    <p class="lead">Accuracy you can lean on, speed you never feel, and panels that get out of the way the second you need pure price.</p>
+
+    <div class="grid2" style="grid-template-columns:repeat(3,1fr)">
+      <div class="fcard teal"><h4>Accuracy</h4><p>Every metric is cross-referenced across five timeframes and normalised per signal type before it's shown — corroborated reads, not lone guesses.</p></div>
+      <div class="fcard amber"><h4>Lag-free</h4><p>Fonts cached once, a single shared draw brush, and alloc-free render loops. Heavy intelligence, zero drag on a live tape.</p></div>
+      <div class="fcard"><h4>Panel flips</h4><p>Each radar collapses to a single tab with a click. Flip them away to lock in on price, flip them back for the full read — your call, instantly.</p></div>
+    </div>
+
+    <div class="stats" style="margin-top:48px">
+      <div class="s a"><b>3</b><small>Radars, One Chart</small></div>
+      <div class="s t"><b>5</b><small>Timeframes Each</small></div>
+      <div class="s"><b>0</b><small>Lag, Live Render</small></div>
+    </div>
+
+    <div class="pull">Same chart, two states. When you want the whole read, the Radars are there. <b>When you need to lock in and just trade price, one click clears the deck</b> — nothing to delete, nothing to reload.</div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="wrap">
+    <div class="logo-seal"><img src="/brand/emblem.png" alt="DS Universe"></div>
+    <div class="suite-chip" style="justify-content:center">DS Universe</div>
+    <h2>See everything.<br><span class="grad-word">Miss nothing.</span></h2>
+    <p class="lead" style="margin:24px auto 0;text-align:center">Three radars reading the same tape, agreeing before they speak, and stepping aside the moment you need pure price. That's the DS Radar edge — intelligence that never gets in your way.</p>
+    <div class="tagline" style="margin-top:30px;color:#fff">For every timeframe — <span class="em-amber">precision from orbit.</span></div>
+    <div class="systemrow" style="margin-top:24px"><span>PILOTS</span> · <span>SWEEPER</span> · <span>EVERGUARD</span></div>
+  </div>
+</section>
+
+<div class="footer">
+  <div class="wrap">
+    <p class="disc">DS Radars is a charting and analysis toolset for NinjaTrader&nbsp;8. It is for educational and informational use only and is not financial advice or a recommendation to buy or sell any instrument. Trading futures carries substantial risk of loss. NinjaTrader™ is a trademark of NinjaTrader Group, LLC, used here for compatibility reference only. © 2026 DS Indicators · DS Universe.</p>
+    <div class="footrow"><span>DS Universe</span><span>Precision From Orbit</span></div>
+  </div>
+</div>
+
+</body>
+</html>

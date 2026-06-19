@@ -7,9 +7,9 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Showcase } from "@/components/Showcase";
 
 export const metadata: Metadata = {
-  title: "Showcase — DS Universe (Crewmates · Radars · Systems · P&L)",
+  title: "Showcase — DS Universe (Systems · Radars · Crewmates · Carepack)",
   description:
-    "Browse the DS Universe showcase: DS Crewmates (Free), DS Radars (Pro), DS Systems (Universe) and the DS P&L companion dashboard. Read every brochure inline.",
+    "Explore the DS Universe guides: DS Systems, DS Radars, the free DS Crewmates, and the exclusive DS Carepack. Open each interactive guide full-screen.",
 };
 
 export default function ShowcasePage() {
@@ -38,7 +38,7 @@ export default function ShowcasePage() {
             eyebrow="The Showcase"
             title="See the whole"
             titleMuted="universe."
-            intro="One design language, every brochure inline. Crewmates to learn the chart, Radars to decode the tape, Systems to map the field — and DS P&L to read your own results."
+            intro="Four interactive guides, one design language. Systems to map the field, Radars to decode the tape, the free Crewmates to learn the chart — and the exclusive DS Carepack to finish every trade."
             align="center"
             className="mb-14"
           />

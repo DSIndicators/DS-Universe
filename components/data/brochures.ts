@@ -1,50 +1,42 @@
 /**
- * The DS Universe brochures shown on the Showcase page: the three packages
- * (Free, Radars, Systems) plus the DS P&L companion dashboard — each its own tab.
+ * The DS Universe Showcase guides. Each entry is a self-contained interactive
+ * HTML guide served from /public/guides/<id>.html and opened in an in-site
+ * immersive overlay. Replaces the old static brochure-image scroller (PDF→HTML).
  */
 
-export type BrochureId = "crewmates" | "radars" | "systems" | "pnl";
+export type GuideId = "systems" | "radars" | "crewmates" | "carepack";
 
-export type ShowcaseBrochure = {
-  id: BrochureId;
+export type ShowcaseGuide = {
+  id: GuideId;
   /** Suite wordmark, two-tone: bold + muted. */
   word: string;
   wordMuted: string;
-  /** Package name (Free / Radars / Systems). */
+  /** Short badge (Premium / Radars / Free / Exclusive). */
   tier: string;
   tierNote: string;
+  /** One-line teaser pulled from the guide. */
   line: string;
   products: string;
-  pages: number;
-  /** Pixel size of the rasterized page webps in public/brochures/<id>/. */
-  pageW: number;
-  pageH: number;
-  /** Accent used for the active tab + glow. */
-  accent: "teal" | "cyan" | "violet";
+  /** Accent used for the card border, glow and active text. */
+  accent: "violet" | "cyan" | "teal" | "amber";
+  /** The standalone HTML guide to load in the overlay. */
+  href: string;
+  /** Flags the Carepack as the exclusive, included-free guide. */
+  exclusive?: boolean;
 };
 
-/** Static page images for a brochure: /brochures/<id>/page-01.webp … */
-export function pageImages(b: ShowcaseBrochure): string[] {
-  return Array.from(
-    { length: b.pages },
-    (_, i) => `/brochures/${b.id}/page-${String(i + 1).padStart(2, "0")}.webp`,
-  );
-}
-
 // Systems leads — it's the flagship and the default shown on the Showcase.
-export const SHOWCASE: ShowcaseBrochure[] = [
+export const GUIDES: ShowcaseGuide[] = [
   {
     id: "systems",
     word: "DS",
     wordMuted: "Systems",
-    tier: "Systems",
+    tier: "Premium",
     tierNote: "The full suite",
     line: "Six instruments. One mind. Precision from orbit.",
     products: "Orbit · Stars · Balance · Ember · Council · Pulse",
-    pages: 9,
-    pageW: 1224,
-    pageH: 1584,
     accent: "violet",
+    href: "/guides/systems.html",
   },
   {
     id: "radars",
@@ -54,35 +46,30 @@ export const SHOWCASE: ShowcaseBrochure[] = [
     tierNote: "The radar series",
     line: "Three radars. One read. The tape, decoded live.",
     products: "Pilots · Sweeper · Everguard",
-    pages: 7,
-    pageW: 1224,
-    pageH: 1584,
     accent: "cyan",
+    href: "/guides/radars.html",
   },
   {
     id: "crewmates",
     word: "DS",
     wordMuted: "Crewmates",
     tier: "Free",
-    tierNote: "Entry crew · with ads",
-    line: "Four hand-built chart tools. A beginner's chart that looks like a pro's.",
-    products: "BC · CL · TL · SR",
-    pages: 8,
-    pageW: 1192,
-    pageH: 1684,
+    tierNote: "Tier 1 · free for everyone",
+    line: "Three hand-built chart tools. A beginner's chart that reads like a pro's.",
+    products: "BC · TL · SR",
     accent: "teal",
+    href: "/guides/crewmates.html",
   },
   {
-    id: "pnl",
+    id: "carepack",
     word: "DS",
-    wordMuted: "P&L",
-    tier: "Companion",
-    tierNote: "The companion dashboard",
-    line: "Every trade, one dashboard. Your own fills, rendered live.",
-    products: "Import · Analyze · Customize",
-    pages: 12,
-    pageW: 1224,
-    pageH: 1584,
-    accent: "teal",
+    wordMuted: "Carepack",
+    tier: "Exclusive",
+    tierNote: "Free with DS Systems · $29.99 value",
+    line: "Four finishing tools — the discipline, the math, the markup, and the exclusive DS P&L.",
+    products: "Checklist · Risk-Reward · Pen · P&L",
+    accent: "amber",
+    href: "/guides/carepack.html",
+    exclusive: true,
   },
 ];
