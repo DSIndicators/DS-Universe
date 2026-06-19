@@ -1,19 +1,22 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 
-// Curated rotation: clean chart shots + live product panels only.
-// Excludes the legacy gray-background crops and any image carrying a baked-in
-// dollar/profit figure (product-truth: no performance/profit claims).
+// Curated rotation: clean chart shots, live product panels, and product promos.
+// The two legacy gray-background raw charts (/indicators/orbit.webp 88% + pulse.webp 23%)
+// were removed (DSU-0011) and replaced with the new branded promos below.
 const CAPS = [
   "/capabilities/cap-03.webp", // Orbit — confidence-scored zones
+  "/promos/systems.png", // DS Systems — follow the big money movers
   "/indicators/panels/pilots.webp", // Pilots — live cockpit panel
   "/capabilities/cap-07.webp", // Ember — tuned heat map
-  "/indicators/orbit.webp", // clean Orbit chart
+  "/promos/pulse.png", // DS Pulse — order flow (free with DS Systems)
   "/capabilities/cap-02.webp", // BC — BOS & CHoCH
   "/indicators/panels/sweeper.webp", // Sweeper — predator zone panel
+  "/promos/carepack.png", // DS Carepack — Pen/RR/Checklist/P&L (free with DS Systems)
   "/capabilities/cap-06.webp", // Orbit — order blocks
-  "/indicators/pulse.webp", // clean Pulse order-flow chart
+  "/promos/riskreward.png", // DS Risk-Reward — R-multiple target rails
   "/capabilities/cap-04.webp", // Orbit — premium / discount
+  "/promos/checklist.png", // DS Checklist — trade entry discipline
   "/indicators/panels/everguard.webp", // Everguard — integrity panel
   "/capabilities/cap-11.webp", // SR — support & resistance
   "/capabilities/cap-05.webp", // Orbit — backed by real data
