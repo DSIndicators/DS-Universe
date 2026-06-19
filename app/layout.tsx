@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "DS Universe — Futures Intelligence, Every Timeframe",
-    description: "Nine instruments. The Systems run on one mind. Precision from orbit.",
+    description: "Thirteen indicators, two drawing tools, an add-on and the DS P&L — the Systems run on one mind. Precision from orbit.",
     images: ["/brand/banner.png"],
   },
 };

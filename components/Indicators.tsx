@@ -96,9 +96,9 @@ export function Indicators() {
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
           eyebrow="The Instruments"
-          title="Nine indicators."
+          title="Two suites."
           titleMuted="One intelligence."
-          intro="Two suites, built for every timeframe. The Systems map the field; the Radars decode the live tape. Cross-referenced and rendered without a hint of lag."
+          intro="Thirteen indicators, two drawing tools, the DS Registry add-on and the DS P&L — the full DS Universe arsenal. Two suites lead the read below: the Systems map the field, the Radars decode the live tape. Cross-referenced and rendered without a hint of lag."
           className="mb-16 max-w-3xl"
         />
 

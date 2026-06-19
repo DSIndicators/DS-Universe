@@ -5,13 +5,13 @@ import { Reveal } from "@/components/ui/Reveal";
 const STEPS = [
   {
     n: "01",
-    title: "Connect",
-    body: "Drop the DS Universe suite onto your NinjaTrader chart and link it to your live data feed — any instrument, any timeframe.",
+    title: "Install",
+    body: "Our packaging DLL handles the install. DS Carepack, DS Crewmates and DS Radars load onto NinjaTrader 8 as regular indicators; the DS Systems get the DS Registry add-on wired in first, automatically — so the suite is bound before your first chart.",
   },
   {
     n: "02",
     title: "Load the read",
-    body: "Pilots, Sweeper and Everguard light up the tape; Orbit, Stars, Balance, Ember and Council map the field on one core — the Registry — while Pulse reads the raw order flow standalone.",
+    body: "Pilots, Sweeper and Everguard light up the tape; Orbit, Stars, Balance, Ember and Council map the field on the DS Registry core — while DS Pulse reads raw order flow as the standalone, no Registry required.",
   },
   {
     n: "03",
@@ -22,7 +22,7 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section className="relative scroll-mt-24 py-24 sm:py-32">
+    <section className="relative scroll-mt-24 pb-24 pt-12 sm:pb-32 sm:pt-16">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
           eyebrow="How it works"

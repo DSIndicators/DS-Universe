@@ -1,6 +1,8 @@
 /**
  * Product copy sourced from the official DS Radars + DS Systems brochures.
- * Nine indicators across two suites. Edit here to update every card on the site.
+ * The two flagship on-chart suites — DS Systems (6) and DS Radars (3). Part of the
+ * full DS Universe catalog: 13 indicators, 2 drawing tools, 1 add-on (DS Registry)
+ * and the DS P&L. Edit here to update every Systems/Radars card on the site.
  *
  * NOTE: PULSE has no dedicated brochure page yet — only the one-line description
  * "hears the order flow". Copy below is a faithful expansion of that line.
