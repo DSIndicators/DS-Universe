@@ -24,10 +24,10 @@ export function Planet({ className, size = 360 }: PlanetProps) {
       <div className="absolute inset-0 rounded-full bg-aurora opacity-40 blur-3xl" />
 
       {/* Planet body */}
-      <div className="absolute inset-[12%] rounded-full bg-aurora shadow-glow animate-float" />
+      <div className="absolute inset-[5%] rounded-full bg-aurora shadow-glow animate-float" />
 
       {/* Cool rim light */}
-      <div className="absolute inset-[12%] rounded-full ring-1 ring-space-cyan/40" />
+      <div className="absolute inset-[5%] rounded-full ring-1 ring-space-cyan/40" />
 
       {/* Tilted orbit ring + moon */}
       <div className="absolute inset-0 animate-orbit [transform:rotateX(74deg)_rotateZ(20deg)]">
