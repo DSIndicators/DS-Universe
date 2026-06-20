@@ -13,6 +13,13 @@ const nextConfig = {
         source: "/showcase",
         headers: [{ key: "Cache-Control", value: htmlCache }],
       },
+      // Static system-guide pages (/guides/*.html) — same always-revalidate
+      // policy so guide edits show up immediately after a deploy instead of
+      // lingering stale in the browser/CDN cache.
+      {
+        source: "/guides/:path*",
+        headers: [{ key: "Cache-Control", value: htmlCache }],
+      },
     ];
   },
 };
