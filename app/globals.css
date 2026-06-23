@@ -374,8 +374,7 @@
 a[class*="rounded-full"],
 button[class*="rounded-full"],
 [class*="rounded-full"][class*="px-"],
-[class*="rounded-full"][class*="py-"],
-[class*="rounded-full"][class*="p-"]:not([class*="px-0"]) {
+[class*="rounded-full"][class*="py-"] {
   border-radius: 0 !important;
 }
 input,
@@ -384,4 +383,20 @@ select,
 img,
 video {
   border-radius: 0 !important;
+}
+
+/* Ambient glow blobs square off too, so no soft circular halos linger around the
+   sharp panels — their heavy blur keeps them soft, just rectangular now. (The orb's
+   round glow is restored by the .ds-orb rule below, which wins by coming later.) */
+[class*="rounded-full"][class*="blur-"] {
+  border-radius: 0 !important;
+}
+
+/* The signature planet orb stays perfectly round — exempt every circular part of
+   it (body, rim, orbit ring, moon dot) from the sharpen, so no utility-class
+   false positive can square it. */
+.ds-orb [class*="rounded-full"],
+.ds-orb [class*="rounded-full"]::before,
+.ds-orb [class*="rounded-full"]::after {
+  border-radius: 9999px !important;
 }

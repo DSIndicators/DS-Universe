@@ -5,6 +5,12 @@ import { Reveal } from "@/components/ui/Reveal";
 // The two legacy gray-background raw charts (/indicators/orbit.webp 88% + pulse.webp 23%)
 // were removed (DSU-0011) and replaced with the new branded promos below.
 const CAPS = [
+  "/suite/systems.png",
+  "/suite/radars.png",
+  "/suite/carepack.png",
+  "/suite/crewmates.png",
+  "/suite/guides.png",
+  "/suite/pnl.png",
   "/capabilities/cap-03.webp", // Orbit — confidence-scored zones
   "/promos/systems.png", // DS Systems — follow the big money movers
   "/indicators/panels/pilots.webp", // Pilots — live cockpit panel

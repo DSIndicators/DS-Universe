@@ -7,6 +7,8 @@ import { cn } from "@/components/ui/cn";
 
 type Tier = {
   name: string;
+  /** Glowing mini-banner shown as the tier header (replaces the plain name). */
+  banner: string;
   price: string;
   /** Struck-through list price, shown above the sale price. */
   originalPrice?: string;
@@ -24,6 +26,7 @@ type Tier = {
 const TIERS: Tier[] = [
   {
     name: "Free",
+    banner: "/banners/crewmates.png",
     price: "Free",
     cadence: "forever",
     lifetime: false,
@@ -39,7 +42,8 @@ const TIERS: Tier[] = [
   },
   {
     name: "Radars",
-    price: "$49.99",
+    banner: "/banners/radars.png",
+    price: "$99.99",
     cadence: "one-time",
     lifetime: true,
     blurb: "The DS Radars. Three radars reading the tape, decoded live.",
@@ -55,9 +59,10 @@ const TIERS: Tier[] = [
   },
   {
     name: "Systems",
+    banner: "/banners/systems.png",
     price: "$199.99",
-    originalPrice: "$249.99",
-    saleNote: "−20% · Limited time",
+    originalPrice: "$399.99",
+    saleNote: "−50% · Limited time",
     cadence: "one-time",
     lifetime: true,
     blurb: "The DS Systems. The full suite, run on the Registry core.",
@@ -104,9 +109,12 @@ export function Pricing() {
               </span>
               <div className="flex flex-1 flex-col gap-1.5">
                 <div className="flex flex-wrap items-center justify-center gap-2.5 sm:justify-start">
-                  <span className="font-sans text-lg font-bold text-ink-white">
-                    The DS Carepack
-                  </span>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/banners/carepack.png"
+                    alt="The DS Carepack"
+                    className="h-10 w-auto object-contain"
+                  />
                   <span className="rounded-full bg-[#ff9a3c]/15 px-2.5 py-0.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-[#ffb986] ring-1 ring-[#ff9a3c]/40">
                     $29.99 value — free
                   </span>
@@ -141,8 +149,13 @@ export function Pricing() {
                     New Release Sale
                   </span>
                 )}
-                <div className="flex items-center justify-between">
-                  <h3 className="label-caps !text-sm">{tier.name}</h3>
+                <div className="flex items-center justify-between gap-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={tier.banner}
+                    alt={`DS ${tier.name}`}
+                    className="h-11 w-auto max-w-[68%] object-contain object-left sm:h-12"
+                  />
                   {tier.featured && (
                     <span className="rounded-full border border-accent-teal/40 bg-accent-teal/10 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-accent-teal">
                       Most Popular

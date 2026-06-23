@@ -16,7 +16,7 @@ type PlanetProps = {
 export function Planet({ className, size = 360 }: PlanetProps) {
   return (
     <div
-      className={cn("relative", className)}
+      className={cn("ds-orb relative", className)}
       style={{ width: size, height: size }}
       aria-hidden
     >
