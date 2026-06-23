@@ -94,7 +94,7 @@ function Row({ row }: { row: (typeof GRID)[number] }) {
 
 export function CouncilEngine() {
   return (
-    <div className="relative mt-24">
+    <div className="relative mt-12">
       {/* Ambient premium glow — the signature aurora wash behind the engine. */}
       <div className="pointer-events-none absolute left-1/2 top-10 -z-10 h-80 w-[48rem] -translate-x-1/2 rounded-full bg-space-violet/10 blur-[100px]" />
 

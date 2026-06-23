@@ -89,7 +89,7 @@ function SuiteBlock({ suite, premium }: { suite: Suite; premium?: boolean }) {
 
 export function Indicators() {
   return (
-    <section id="indicators" className="relative scroll-mt-24 py-24 sm:py-32">
+    <section id="indicators" className="relative scroll-mt-24 py-12 sm:py-16">
       {/* soft ambient glow */}
       <div className="pointer-events-none absolute left-1/2 top-24 h-72 w-[40rem] -translate-x-1/2 rounded-full bg-space-violet/10 blur-[100px]" />
 
@@ -99,10 +99,10 @@ export function Indicators() {
           title="Two suites."
           titleMuted="One intelligence."
           intro="Thirteen indicators, two drawing tools, the DS Registry add-on and the DS P&L — the full DS Universe arsenal. Two suites lead the read below: the Systems map the field, the Radars decode the live tape. Cross-referenced and rendered without a hint of lag."
-          className="mb-16 max-w-3xl"
+          className="mb-10 max-w-3xl"
         />
 
-        <div className="flex flex-col gap-20">
+        <div className="flex flex-col gap-12">
           <SuiteBlock suite="systems" premium />
           <SuiteBlock suite="radars" />
         </div>

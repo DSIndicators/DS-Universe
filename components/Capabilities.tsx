@@ -27,7 +27,7 @@ export function Capabilities() {
   return (
     <section
       id="capabilities"
-      className="relative scroll-mt-24 overflow-hidden py-20 sm:py-28"
+      className="relative scroll-mt-24 overflow-hidden py-10 sm:py-14"
     >
       <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-60 [mask-image:radial-gradient(circle_at_50%_40%,#000_30%,transparent_80%)]" />
 

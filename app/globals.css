@@ -360,3 +360,28 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ─── Sharp-edge treatment (site-wide) ───────────────────────────────────────
+   The crisp "luxury rectangle" look: square every rectangle, card, panel, image,
+   input, button and padded pill/badge. Genuinely circular brand elements — the
+   planet orb, the floating mascot, and bare status dots — stay round, because
+   they use border-radius:50% directly or a bare rounded-full with no padding. */
+[class*="rounded-"]:not([class*="rounded-full"]),
+[class*="rounded-"]:not([class*="rounded-full"])::before,
+[class*="rounded-"]:not([class*="rounded-full"])::after {
+  border-radius: 0 !important;
+}
+a[class*="rounded-full"],
+button[class*="rounded-full"],
+[class*="rounded-full"][class*="px-"],
+[class*="rounded-full"][class*="py-"],
+[class*="rounded-full"][class*="p-"]:not([class*="px-0"]) {
+  border-radius: 0 !important;
+}
+input,
+textarea,
+select,
+img,
+video {
+  border-radius: 0 !important;
+}

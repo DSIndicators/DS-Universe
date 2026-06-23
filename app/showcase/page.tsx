@@ -26,7 +26,7 @@ export default function ShowcasePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-space-black/40 via-transparent to-space-black/70" />
         </div>
 
-        <section className="relative mx-auto max-w-6xl px-5 pb-24 pt-32 sm:px-8 sm:pt-40">
+        <section className="relative mx-auto max-w-6xl px-5 pb-16 pt-24 sm:px-8 sm:pt-28">
           <Link
             href="/"
             className="mb-10 inline-flex items-center gap-2 text-sm text-ink-gray transition-colors hover:text-ink-white"
@@ -40,7 +40,7 @@ export default function ShowcasePage() {
             titleMuted="universe."
             intro="Four interactive guides, one design language. Systems to map the field, Radars to decode the tape, the free Crewmates to learn the chart — and the exclusive DS Carepack to finish every trade."
             align="center"
-            className="mb-14"
+            className="mb-10"
           />
 
           <Showcase />

@@ -26,7 +26,7 @@ const SOCIALS = [
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/[0.06] py-16">
+    <footer className="relative border-t border-white/[0.06] py-10">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
           {/* Brand block */}

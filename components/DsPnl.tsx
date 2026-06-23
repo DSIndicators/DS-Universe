@@ -18,7 +18,7 @@ const SHOTS = [
 
 export function DsPnl() {
   return (
-    <section id="pnl" className="relative scroll-mt-24 py-24 sm:py-32">
+    <section id="pnl" className="relative scroll-mt-24 py-12 sm:py-16">
       {/* soft ambient glow */}
       <div className="pointer-events-none absolute left-1/2 top-24 -z-10 h-72 w-[40rem] -translate-x-1/2 rounded-full bg-accent-teal/10 blur-[100px]" />
 

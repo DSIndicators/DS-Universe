@@ -11,9 +11,9 @@ const PARAGRAPHS = [
 
 export function CTASection() {
   return (
-    <section id="about" className="relative scroll-mt-24 px-5 py-24 sm:px-8 sm:py-32">
+    <section id="about" className="relative scroll-mt-24 px-5 py-12 sm:px-8 sm:py-16">
       <Reveal className="mx-auto max-w-5xl">
-        <div className="glass-strong relative overflow-hidden rounded-3xl px-6 py-16 sm:px-16 sm:py-20">
+        <div className="glass-strong relative overflow-hidden rounded-3xl px-6 py-10 sm:px-16 sm:py-14">
           {/* ambient aurora + ember glows so the panel feels alive */}
           <div className="pointer-events-none absolute -left-24 top-[-20%] h-[26rem] w-[26rem] rounded-full bg-aurora opacity-25 blur-[100px]" />
           <div className="pointer-events-none absolute -right-20 bottom-[-25%] h-[24rem] w-[24rem] rounded-full bg-[#ff7a2f]/15 blur-[100px]" />

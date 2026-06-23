@@ -31,7 +31,7 @@ const FEATURES = [
 
 export function Features() {
   return (
-    <section id="features" className="relative scroll-mt-24 py-24 sm:py-32">
+    <section id="features" className="relative scroll-mt-24 py-12 sm:py-16">
       {/* Ambient ember glow — this is the section that should catch the eye. */}
       <div className="pointer-events-none absolute left-1/2 top-24 h-80 w-[48rem] -translate-x-1/2 rounded-full bg-[#ff7a2f]/10 blur-[100px]" />
 
@@ -171,7 +171,7 @@ export function Features() {
         <DsBalance />
 
         {/* The trust grid — the rest of the edge that earns trader attention. */}
-        <div className="mt-16">
+        <div className="mt-10">
           <SectionHeading
             eyebrow="Why DS Universe"
             title="A clean chart"

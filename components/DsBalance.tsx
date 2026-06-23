@@ -129,7 +129,7 @@ function Cockpit() {
 
 export function DsBalance() {
   return (
-    <div className="relative mt-24">
+    <div className="relative mt-12">
       {/* Ambient premium glow */}
       <div className="pointer-events-none absolute left-1/2 top-6 -z-10 h-80 w-[46rem] -translate-x-1/2 rounded-full bg-[#7a3fb0]/12 blur-[100px]" />
 

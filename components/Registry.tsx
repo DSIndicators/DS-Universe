@@ -10,7 +10,7 @@ const STATS = [
 
 export function Registry() {
   return (
-    <section className="relative scroll-mt-24 py-24 sm:py-32">
+    <section className="relative scroll-mt-24 py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2">
           <div className="flex flex-col gap-6">
