@@ -13,7 +13,7 @@ const glowMap: Record<NonNullable<GlassCardProps["glow"]>, string> = {
   violet: "before:bg-space-violet/20",
   cyan: "before:bg-space-cyan/20",
   teal: "before:bg-accent-teal/20",
-  ember: "before:bg-[#ff7a2f]/30",
+  ember: "before:bg-[#d99a3a]/30",
   none: "before:bg-transparent",
 };
 
@@ -33,7 +33,7 @@ export function GlassCard({
         "before:pointer-events-none before:absolute before:-inset-px before:-z-10 before:rounded-2xl before:opacity-0 before:blur-2xl before:transition-opacity before:duration-500",
         glowMap[glow],
         interactive &&
-          "transition-all duration-500 hover:-translate-y-1.5 hover:border-white/[0.16] hover:bg-white/[0.06] hover:before:opacity-100",
+          "transition-all duration-500 hover:-translate-y-1.5 hover:border-[#e3b24f]/[0.14] hover:bg-white/[0.06] hover:before:opacity-100",
         className,
       )}
       {...rest}

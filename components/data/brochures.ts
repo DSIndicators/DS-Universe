@@ -45,7 +45,7 @@ export const GUIDES: ShowcaseGuide[] = [
     tier: "Radars",
     tierNote: "The radar series",
     line: "Three radars. One read. The tape, decoded live.",
-    products: "Pilots · Sweeper · Everguard",
+    products: "Pilots · Sweeper · Beacon",
     accent: "cyan",
     href: "/guides/radars.html",
   },

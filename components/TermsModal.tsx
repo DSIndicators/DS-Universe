@@ -31,10 +31,11 @@ const SECTIONS: Section[] = [
       },
       {
         ul: [
-          "DS Radars (paid) — panel overlay indicators, comprising Sweeper (DSSweeperLV100), Everguard (DSEverguardLV100), and Pilots (DSPilotsLv100).",
+          "DS Radars (paid) — panel overlay indicators, comprising Pilots (DSPilotsLv100), Sweeper (DSSweeperLV100), and Beacon (DSBeaconLV100).",
           "DS Systems (paid) — chart overlay indicators, comprising DS Orbit, DS Stars, DS Balance, DS Council, DS Ember, and DS Pulse, together with the shared OrbitStarsRegistry component on which certain of them depend.",
-          "Tier 1 (free) — the DS BC, DS SR, and DS TL indicators, provided free of charge.",
-          "DS Carepack (included free with each DS Systems purchase) — the DS CL (Checklist), DS Risk-Reward, and DS Pen tools, together with the DS P&L companion dashboard.",
+          "DS Crewmates (free) — the DS BC, DS SR, and DS TL indicators, provided free of charge.",
+          "DS Carepack (included free with each DS Systems purchase, or available as a separate paid purchase) — the DS CL (Checklist), DS Risk-Reward, and DS Pen tools, together with the DS P&L companion dashboard.",
+          "DS Playbook and DS Pattern guides (included free with each DS Systems purchase) — educational reference guides provided at no additional charge.",
         ],
       },
       {
@@ -71,14 +72,14 @@ const SECTIONS: Section[] = [
           "Use the Software to develop a competing product or service.",
         ],
       },
-      { p: "These restrictions apply equally to the free Tier 1 components." },
+      { p: "These restrictions apply equally to the free DS Crewmates components." },
     ],
   },
   {
     heading: "4. Intellectual Property",
     blocks: [
       {
-        p: 'All intellectual property rights in the Software — including source code, compiled code, methodologies, scoring engines, visual designs, panel layouts, naming, documentation, branding, and the "DS Universe," "DS Radars," "DS Systems," and "Tier 1" marks — are and remain the exclusive property of the Provider. These Terms do not transfer any ownership rights to you, whether you obtain paid or free components.',
+        p: 'All intellectual property rights in the Software — including source code, compiled code, methodologies, scoring engines, visual designs, panel layouts, naming, documentation, branding, and the "DS Universe," "DS Radars," "DS Systems," and "DS Crewmates" marks — are and remain the exclusive property of the Provider. These Terms do not transfer any ownership rights to you, whether you obtain paid or free components.',
       },
     ],
   },
@@ -130,7 +131,7 @@ const SECTIONS: Section[] = [
     heading: "9. No Warranty",
     blocks: [
       {
-        p: 'THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. TO THE MAXIMUM EXTENT PERMITTED BY LAW, WE DISCLAIM ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, ACCURACY, AND NON-INFRINGEMENT. This disclaimer applies fully to the free Tier 1 components.',
+        p: 'THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. TO THE MAXIMUM EXTENT PERMITTED BY LAW, WE DISCLAIM ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, ACCURACY, AND NON-INFRINGEMENT. This disclaimer applies fully to the free DS Crewmates components.',
       },
       {
         p: "We do not warrant that the Software will be uninterrupted, error-free, secure, or free of defects, or that it will meet your requirements or operate in any combination with other software, hardware, or data feeds you may use.",
@@ -144,7 +145,7 @@ const SECTIONS: Section[] = [
         p: "TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL THE PROVIDER, ITS OWNERS, AFFILIATES, OR CONTRIBUTORS BE LIABLE FOR ANY TRADING LOSSES, LOST PROFITS, LOST DATA, OR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF OR RELATED TO THE SOFTWARE OR THESE TERMS, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.",
       },
       {
-        p: "OUR TOTAL AGGREGATE LIABILITY FOR ANY AND ALL CLAIMS ARISING OUT OF OR RELATED TO THE SOFTWARE OR THESE TERMS SHALL NOT EXCEED THE TOTAL AMOUNT YOU ACTUALLY PAID FOR THE SOFTWARE. For the free Tier 1 components, for which no fee is paid, our aggregate liability shall not exceed USD $0.",
+        p: "OUR TOTAL AGGREGATE LIABILITY FOR ANY AND ALL CLAIMS ARISING OUT OF OR RELATED TO THE SOFTWARE OR THESE TERMS SHALL NOT EXCEED THE TOTAL AMOUNT YOU ACTUALLY PAID FOR THE SOFTWARE. For the free DS Crewmates components, for which no fee is paid, our aggregate liability shall not exceed USD $0.",
       },
       {
         p: "Some jurisdictions do not allow certain limitations, so some of the above may not apply to you.",
@@ -164,8 +165,8 @@ const SECTIONS: Section[] = [
     blocks: [
       {
         ul: [
-          "DS Radars and DS Systems (paid). Each paid suite is offered as a one-time purchase granting a lifetime license, payable in USD at the point of sale. There are no recurring or subscription fees.",
-          "Tier 1 (free). The Tier 1 components are provided free of charge. We may modify, limit, or discontinue the availability of the free components at any time without notice or liability.",
+          "DS Radars, DS Systems, and DS Carepack (paid). Each is offered as a one-time purchase granting a lifetime license, payable in USD at the point of sale. There are no recurring or subscription fees. The DS Carepack is included free with each DS Systems purchase and is also available to buy separately.",
+          "DS Crewmates (free). The DS Crewmates components are provided free of charge. We may modify, limit, or discontinue the availability of the free components at any time without notice or liability.",
           "Lifetime scope. Your lifetime license entitles you to continued use of the components you obtained for the operational lifetime of the Provider. It does not entitle you to any specific future component, feature, or platform-compatibility guarantee.",
           "Updates. Any updates, patches, or new versions we choose to provide are governed by these Terms and are offered at our discretion. We are under no obligation to provide updates or to maintain compatibility with future NinjaTrader or operating-system versions.",
         ],
@@ -176,7 +177,7 @@ const SECTIONS: Section[] = [
     heading: "13. Refunds — All Sales Final",
     blocks: [
       {
-        p: "All sales are final and non-refundable. Because the Software is delivered digitally and can be copied upon delivery, no refunds, exchanges, or credits are provided once download access, license keys, or files have been issued, except where a refund is required by applicable law. By completing your purchase, you expressly acknowledge and consent to this policy. The free Tier 1 components are provided without charge and are likewise non-refundable.",
+        p: "All sales are final and non-refundable. Because the Software is delivered digitally and can be copied upon delivery, no refunds, exchanges, or credits are provided once download access, license keys, or files have been issued, except where a refund is required by applicable law. By completing your purchase, you expressly acknowledge and consent to this policy. The free DS Crewmates components are provided without charge and are likewise non-refundable.",
       },
     ],
   },
@@ -277,7 +278,7 @@ export function TermsModal() {
           <div className="glass-strong relative flex max-h-[88vh] w-full max-w-2xl flex-col overflow-hidden rounded-3xl">
             <div className="bg-ai pointer-events-none absolute -inset-x-10 -top-24 h-48 opacity-[0.08] blur-3xl" />
 
-            <div className="relative flex items-start justify-between gap-4 border-b border-white/[0.08] px-6 py-5 sm:px-8">
+            <div className="relative flex items-start justify-between gap-4 border-b border-[#e3b24f]/[0.06] px-6 py-5 sm:px-8">
               <div className="flex flex-col gap-1">
                 <span className="font-mono text-[0.6rem] uppercase tracking-[0.22em] text-accent-teal">
                   Legal
@@ -293,7 +294,7 @@ export function TermsModal() {
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Close terms"
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-ink-gray transition-colors hover:border-white/20 hover:text-ink-white"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#e3b24f]/[0.06] bg-white/[0.03] text-ink-gray transition-colors hover:border-[#e3b24f]/[0.16] hover:text-ink-white"
               >
                 <X size={16} />
               </button>
@@ -327,14 +328,14 @@ export function TermsModal() {
                 </div>
               ))}
 
-              <p className="border-t border-white/[0.06] pt-5 text-xs italic text-ink-gray/70">
+              <p className="border-t border-[#e3b24f]/[0.05] pt-5 text-xs italic text-ink-gray/70">
                 By installing or using DS Universe Indicators, you acknowledge that
                 you have read, understood, and agree to be bound by these Terms and
                 Conditions.
               </p>
             </div>
 
-            <div className="relative border-t border-white/[0.08] px-6 py-4 text-xs text-ink-gray/70 sm:px-8">
+            <div className="relative border-t border-[#e3b24f]/[0.06] px-6 py-4 text-xs text-ink-gray/70 sm:px-8">
               Questions? Contact{" "}
               <a
                 href={`mailto:${SUPPORT_EMAIL}`}

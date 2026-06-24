@@ -16,7 +16,7 @@ export function CTASection() {
         <div className="glass-strong relative overflow-hidden rounded-3xl px-6 py-10 sm:px-16 sm:py-14">
           {/* ambient aurora + ember glows so the panel feels alive */}
           <div className="pointer-events-none absolute -left-24 top-[-20%] h-[26rem] w-[26rem] rounded-full bg-aurora opacity-25 blur-[100px]" />
-          <div className="pointer-events-none absolute -right-20 bottom-[-25%] h-[24rem] w-[24rem] rounded-full bg-[#ff7a2f]/15 blur-[100px]" />
+          <div className="pointer-events-none absolute -right-20 bottom-[-25%] h-[24rem] w-[24rem] rounded-full bg-[#d99a3a]/15 blur-[100px]" />
           <div className="starfield pointer-events-none absolute inset-0 opacity-[0.18]" />
 
           <div className="relative flex flex-col gap-8">

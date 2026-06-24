@@ -52,7 +52,7 @@ const TIERS: Tier[] = [
       "Everything in Free",
       "DS Pilots — direction & conviction",
       "DS Sweeper — the trap hunter",
-      "DS Everguard — integrity & conviction",
+      "DS Beacon — news & volatility watchtower",
     ],
     featured: false,
     cta: "Get Radars — Lifetime",
@@ -140,7 +140,7 @@ export function Pricing() {
                 className={cn(
                   "flex h-full flex-col gap-6 p-7 sm:p-8",
                   tier.featured
-                    ? "border-white/[0.16] bg-white/[0.06] shadow-glow lg:-translate-y-3 lg:scale-[1.03]"
+                    ? "border-[#e3b24f]/[0.14] bg-white/[0.06] shadow-glow lg:-translate-y-3 lg:scale-[1.03]"
                     : "",
                 )}
               >
@@ -170,7 +170,7 @@ export function Pricing() {
                         {tier.originalPrice}
                       </span>
                       {tier.saleNote && (
-                        <span className="rounded-full bg-[#ff7a2f]/15 px-2.5 py-0.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-[#ffb986] ring-1 ring-[#ff7a2f]/40">
+                        <span className="rounded-full bg-[#d99a3a]/15 px-2.5 py-0.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-[#ffb986] ring-1 ring-[#d99a3a]/40">
                           {tier.saleNote}
                         </span>
                       )}

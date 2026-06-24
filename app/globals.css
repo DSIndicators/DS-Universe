@@ -3,33 +3,44 @@
 @tailwind utilities;
 
 :root {
-  /* Core palette (also mirrored in tailwind.config.ts) */
-  --space-black: #050507;
-  --space-deep: #0a0a0f;
-  --space-violet: #7735b0;
-  --space-magenta: #b566d3;
-  --space-cyan: #5fd4e0;
-  --space-peach: #ffb986;
-  --space-amber: #ffd099;
-  --accent-teal: #2dd4bf;
-  --ink-white: #f2f1f6;
-  --ink-gray: #8a8a96;
+  /* Core palette — PREMIUM GOLD (also mirrored in tailwind.config.ts).
+     Variable names kept stable; only the values changed from the old
+     violet/magenta/cyan scheme to a warm champagne -> gold -> bronze ramp. */
+  --space-black: #050505;
+  --space-deep: #0c0a07;
+  --space-violet: #8a6a2e; /* deep bronze (old: violet) */
+  --space-magenta: #c4922f; /* deep gold (old: magenta) */
+  --space-cyan: #f4cd7a; /* champagne-gold rim/accent (old: cyan) */
+  --space-peach: #ffd9a0;
+  --space-amber: #ffe7b0;
+  --accent-teal: #e3b24f; /* signature gold — focus rings, labels (old: teal) */
+  --ink-white: #f4f0e6;
+  --ink-gray: #9a948a;
 
-  /* AI-intelligence accent system — electric cyan -> indigo -> violet. */
-  --space-indigo: #6d8cff;
-  --space-electric: #3dd7e6;
-  --ai-grad: linear-gradient(92deg, #5fe6ee 0%, #6d8cff 48%, #a86bff 100%);
+  /* Intelligence accent system — champagne -> gold -> bronze. */
+  --space-indigo: #d8a64e;
+  --space-electric: #f0d18a;
+  --ai-grad: linear-gradient(92deg, #ffe7b0 0%, #e8b44c 48%, #b8801f 100%);
 
-  /* Signature gradients — the planet, abstracted.
-     Hot amber/peach core -> violet/magenta body -> cool cyan rim, on near-black. */
+  /* Signature gradient — the gold orb, abstracted.
+     Champagne core -> warm gold body -> deep bronze rim, on near-black. */
   --aurora: radial-gradient(
     circle at 38% 32%,
-    var(--space-amber) 0%,
-    var(--space-peach) 12%,
+    #fff1cf 0%,
+    var(--space-amber) 12%,
     var(--space-magenta) 42%,
     var(--space-violet) 64%,
-    rgba(95, 212, 224, 0.55) 88%,
+    rgba(138, 106, 46, 0.5) 88%,
     rgba(5, 5, 7, 0) 100%
+  );
+
+  /* Gold metallic sheen — used for premium beveled surfaces. */
+  --gold-sheen: linear-gradient(
+    135deg,
+    rgba(255, 231, 176, 0.9) 0%,
+    rgba(227, 178, 79, 0.7) 30%,
+    rgba(184, 128, 31, 0.55) 60%,
+    rgba(120, 86, 28, 0.4) 100%
   );
 
   /* Soft vignette so hero text stays legible over the banner. */
@@ -62,27 +73,48 @@
   }
 
   ::selection {
-    background: rgba(45, 212, 191, 0.25);
+    background: rgba(227, 178, 79, 0.28);
     color: var(--ink-white);
   }
 }
 
 @layer components {
-  /* Frosted glass surface — the brand signature. */
+  /* Frosted glass surface — the brand signature. Now with a faint warm-gold
+     edge + layered depth (top highlight, soft drop shadow) so panels read as
+     raised, lit objects instead of flat rectangles. */
+  /* Pure dark glass. Translucent panel, a thin gold edge, a faint top highlight
+     for the glass sheen, and a soft DARK drop shadow for separation. No gold
+     outer glow/bloom anywhere. */
   .glass {
-    background-color: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+    background:
+      linear-gradient(180deg, rgba(255, 231, 176, 0.025), rgba(6, 5, 3, 0.30));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(227, 178, 79, 0.08);
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 231, 176, 0.08),
+      0 24px 60px -36px rgba(0, 0, 0, 0.9);
   }
 
   .glass-strong {
-    background-color: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+    background:
+      linear-gradient(180deg, rgba(255, 231, 176, 0.04), rgba(6, 5, 3, 0.42));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(227, 178, 79, 0.1);
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 231, 176, 0.1),
+      0 30px 70px -38px rgba(0, 0, 0, 0.92);
+  }
+
+  /* Dark glass card (no glow), thin gold edge. */
+  .panel-soft {
+    position: relative;
+    background: linear-gradient(180deg, rgba(16, 12, 6, 0.5), rgba(6, 5, 3, 0.4));
+    border: 1px solid rgba(227, 178, 79, 0.07);
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 231, 176, 0.06),
+      0 30px 80px -44px rgba(0, 0, 0, 0.95);
   }
 
   /* Spaced small-caps label, echoing the banner lettering. */
@@ -94,14 +126,22 @@
     color: var(--accent-teal);
   }
 
-  /* Aurora gradient text (the magenta -> cyan wash used on accents). */
+  /* Aurora gradient text — now a warm gold wash used on accents. */
   .text-aurora {
     background: linear-gradient(
       90deg,
-      var(--space-cyan),
+      #f4cd7a,
       var(--space-magenta) 55%,
-      var(--space-peach)
+      #ffe7b0
     );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Gold metallic text — premium headline accent. */
+  .text-gold {
+    background: linear-gradient(180deg, #fff1cf 0%, #f4cd7a 42%, #c4922f 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -111,12 +151,12 @@
 /* Faint starfield + noise, layered at very low opacity behind everything. */
 .starfield {
   background-image:
-    radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.5) 0, transparent 100%),
-    radial-gradient(1px 1px at 75% 18%, rgba(255, 255, 255, 0.4) 0, transparent 100%),
-    radial-gradient(1px 1px at 50% 70%, rgba(255, 255, 255, 0.35) 0, transparent 100%),
-    radial-gradient(1.5px 1.5px at 88% 60%, rgba(95, 212, 224, 0.5) 0, transparent 100%),
-    radial-gradient(1px 1px at 33% 85%, rgba(255, 255, 255, 0.3) 0, transparent 100%),
-    radial-gradient(1.5px 1.5px at 12% 65%, rgba(181, 102, 211, 0.4) 0, transparent 100%);
+    radial-gradient(1px 1px at 20% 30%, rgba(255, 248, 230, 0.5) 0, transparent 100%),
+    radial-gradient(1px 1px at 75% 18%, rgba(255, 248, 230, 0.4) 0, transparent 100%),
+    radial-gradient(1px 1px at 50% 70%, rgba(255, 248, 230, 0.35) 0, transparent 100%),
+    radial-gradient(1.5px 1.5px at 88% 60%, rgba(244, 205, 122, 0.55) 0, transparent 100%),
+    radial-gradient(1px 1px at 33% 85%, rgba(255, 248, 230, 0.3) 0, transparent 100%),
+    radial-gradient(1.5px 1.5px at 12% 65%, rgba(227, 178, 79, 0.45) 0, transparent 100%);
   background-repeat: repeat;
   background-size: 600px 600px;
 }
@@ -139,8 +179,8 @@
 /* Faint intelligence grid — subtle tech texture behind sections. */
 .bg-grid {
   background-image:
-    linear-gradient(rgba(120, 150, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(120, 150, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(227, 178, 79, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(227, 178, 79, 0.05) 1px, transparent 1px);
   background-size: 46px 46px;
 }
 
@@ -158,9 +198,9 @@
   will-change: transform;
   background: radial-gradient(
     560px 560px at center,
-    rgba(61, 215, 230, 0.1),
-    rgba(109, 140, 255, 0.07) 38%,
-    rgba(168, 107, 255, 0.05) 58%,
+    rgba(244, 205, 122, 0.12),
+    rgba(227, 178, 79, 0.08) 38%,
+    rgba(184, 128, 31, 0.05) 58%,
     transparent 72%
   );
 }
@@ -331,9 +371,9 @@
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(58% 62% at 22% 50%, rgba(95, 212, 224, 0.18), transparent 70%),
-    radial-gradient(54% 66% at 55% 50%, rgba(181, 102, 211, 0.16), transparent 72%),
-    radial-gradient(50% 60% at 84% 50%, rgba(45, 212, 191, 0.12), transparent 72%);
+    radial-gradient(58% 62% at 22% 50%, rgba(244, 205, 122, 0.18), transparent 70%),
+    radial-gradient(54% 66% at 55% 50%, rgba(227, 178, 79, 0.16), transparent 72%),
+    radial-gradient(50% 60% at 84% 50%, rgba(184, 128, 31, 0.12), transparent 72%);
   filter: blur(10px);
   will-change: transform, opacity;
   animation: cap-ambience-drift 14s ease-in-out infinite alternate;
@@ -349,6 +389,12 @@
   }
 }
 
+/* Full-page warm vignette (used by the home page over the WebGL starfield). */
+.page-vignette {
+  background:
+    radial-gradient(110% 80% at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.45) 100%);
+}
+
 /* Honor reduced-motion: kill ambient + entrance animations. */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -361,11 +407,10 @@
   }
 }
 
-/* ─── Sharp-edge treatment (site-wide) ───────────────────────────────────────
-   The crisp "luxury rectangle" look: square every rectangle, card, panel, image,
-   input, button and padded pill/badge. Genuinely circular brand elements — the
-   planet orb, the floating mascot, and bare status dots — stay round, because
-   they use border-radius:50% directly or a bare rounded-full with no padding. */
+/* Sharp-edge treatment (site-wide): square every rectangle, card, panel, image,
+   input, button and padded pill/badge. Genuinely circular brand elements stay
+   round because they use border-radius:50% or a bare rounded-full with no
+   padding. */
 [class*="rounded-"]:not([class*="rounded-full"]),
 [class*="rounded-"]:not([class*="rounded-full"])::before,
 [class*="rounded-"]:not([class*="rounded-full"])::after {
@@ -386,17 +431,37 @@ video {
 }
 
 /* Ambient glow blobs square off too, so no soft circular halos linger around the
-   sharp panels — their heavy blur keeps them soft, just rectangular now. (The orb's
-   round glow is restored by the .ds-orb rule below, which wins by coming later.) */
+   sharp panels. Their heavy blur keeps them soft, just rectangular now. */
 [class*="rounded-full"][class*="blur-"] {
   border-radius: 0 !important;
 }
 
-/* The signature planet orb stays perfectly round — exempt every circular part of
-   it (body, rim, orbit ring, moon dot) from the sharpen, so no utility-class
-   false positive can square it. */
+/* The signature emblem stays perfectly round. */
 .ds-orb [class*="rounded-full"],
 .ds-orb [class*="rounded-full"]::before,
 .ds-orb [class*="rounded-full"]::after {
   border-radius: 9999px !important;
+}
+
+/* ---- Pure dark glass aesthetic ---------------------------------------------
+   Only the decorative glow layers are killed: the rotating-strip aurora and the
+   cursor-follow glow. (The big ambient blobs are removed per-section in their
+   components.) Product cards/content are untouched. */
+.cap-ambience {
+  opacity: 0 !important;
+}
+.mouse-glow {
+  display: none !important;
+}
+/* GlassCard hover halo off (it was a glowing border on hover). */
+.glass.before\:blur-2xl::before {
+  display: none !important;
+}
+/* Glowing-border shadows off site-wide -> clean dark glass panels. Targets only
+   these glow utilities, never content. */
+.shadow-glow,
+.shadow-glow-cyan,
+.shadow-glow-teal,
+.shadow-gold {
+  box-shadow: none !important;
 }

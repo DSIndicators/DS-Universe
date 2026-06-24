@@ -35,7 +35,7 @@ export function SectionHeading({
         {titleMuted && (
           <>
             {" "}
-            <span className="text-ink-gray">{titleMuted}</span>
+            <span className="text-gold">{titleMuted}</span>
           </>
         )}
       </h2>

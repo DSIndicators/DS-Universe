@@ -10,20 +10,26 @@ const config: Config = {
       colors: {
         // Sampled directly from the DS Universe emblem + banner.
         space: {
-          black: "#050507",
-          deep: "#0a0a0f",
-          violet: "#7735b0",
-          magenta: "#b566d3",
-          cyan: "#5fd4e0",
-          peach: "#ffb986",
-          amber: "#ffd099",
+          black: "#050505",
+          deep: "#0c0a07",
+          violet: "#8a6a2e", // deep bronze (legacy name)
+          magenta: "#c4922f", // deep gold (legacy name)
+          cyan: "#f4cd7a", // champagne-gold (legacy name)
+          peach: "#ffd9a0",
+          amber: "#ffe7b0",
         },
         accent: {
-          teal: "#2dd4bf",
+          teal: "#e3b24f", // signature gold (legacy name)
+        },
+        gold: {
+          light: "#ffe7b0",
+          DEFAULT: "#e3b24f",
+          deep: "#c4922f",
+          bronze: "#8a6a2e",
         },
         ink: {
-          white: "#f2f1f6",
-          gray: "#8a8a96",
+          white: "#f4f0e6",
+          gray: "#9a948a",
         },
       },
       fontFamily: {
@@ -35,10 +41,12 @@ const config: Config = {
         wide2: "0.35em",
       },
       boxShadow: {
-        glow: "0 0 60px -10px rgba(119, 53, 176, 0.55)",
-        "glow-cyan": "0 0 50px -12px rgba(95, 212, 224, 0.45)",
-        "glow-teal": "0 0 40px -8px rgba(45, 212, 191, 0.5)",
-        glass: "inset 0 1px 0 0 rgba(255,255,255,0.06)",
+        glow: "0 0 60px -10px rgba(227, 178, 79, 0.55)",
+        "glow-cyan": "0 0 50px -12px rgba(244, 205, 122, 0.45)",
+        "glow-teal": "0 0 40px -8px rgba(227, 178, 79, 0.5)",
+        glass: "inset 0 1px 0 0 rgba(255, 231, 176, 0.1)",
+        gold: "0 0 50px -10px rgba(227, 178, 79, 0.5)",
+        lift: "0 30px 70px -32px rgba(0,0,0,0.9)",
       },
       backgroundImage: {
         aurora: "var(--aurora)",
@@ -70,6 +78,15 @@ const config: Config = {
           "0%, 100%": { transform: "translate3d(0,0,0) scale(1.05)" },
           "50%": { transform: "translate3d(-7%, 5%, 0) scale(1)" },
         },
+        // Sweeping gold glint across a surface (premium sheen).
+        shimmer: {
+          "0%": { backgroundPosition: "-150% 0" },
+          "100%": { backgroundPosition: "250% 0" },
+        },
+        "glow-pulse": {
+          "0%, 100%": { opacity: "0.55", filter: "brightness(1)" },
+          "50%": { opacity: "1", filter: "brightness(1.25)" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.7s cubic-bezier(0.22,1,0.36,1) both",
@@ -78,6 +95,8 @@ const config: Config = {
         float: "float 8s ease-in-out infinite",
         drift: "drift 26s ease-in-out infinite",
         "drift-rev": "drift-rev 32s ease-in-out infinite",
+        shimmer: "shimmer 6s linear infinite",
+        "glow-pulse": "glow-pulse 5s ease-in-out infinite",
       },
     },
   },

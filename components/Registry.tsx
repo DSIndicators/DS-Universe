@@ -1,6 +1,6 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { FusedCore } from "@/components/ui/FusedCore";
+import { IntelligenceCore } from "@/components/ui/IntelligenceCore";
 
 const STATS = [
   { value: "0", label: "Repaints" },
@@ -26,7 +26,7 @@ export function Registry() {
                 {STATS.map((s) => (
                   <div
                     key={s.label}
-                    className="flex flex-col gap-1 border-l border-white/[0.08] pl-4"
+                    className="flex flex-col gap-1 border-l border-[#e3b24f]/[0.06] pl-4"
                   >
                     <span className="font-sans text-4xl font-extrabold text-aurora sm:text-5xl">
                       {s.value}
@@ -44,8 +44,8 @@ export function Registry() {
               titled like the suite panels to signify it's the brain of it all. */}
           <Reveal delay={0.1} className="flex justify-center">
             <div className="relative flex flex-col items-center gap-4 py-10">
-              <div className="pointer-events-none absolute inset-0 rounded-full bg-space-cyan/10 blur-[100px]" />
-              <FusedCore size={360} />
+              <div className="pointer-events-none absolute inset-0 rounded-full bg-[#e3b24f]/[0.04] blur-[110px]" />
+              <IntelligenceCore size={360} />
 
               <div className="relative flex flex-col items-center gap-1.5 text-center">
                 <span className="font-mono text-[0.6rem] uppercase tracking-[0.22em] text-space-electric">

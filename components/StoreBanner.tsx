@@ -22,7 +22,7 @@ export function StoreBanner() {
     <div
       role="status"
       aria-live="polite"
-      className="fixed inset-x-0 top-0 z-[60] flex h-9 items-center justify-center border-b border-black/10 bg-gradient-to-r from-[#ff7a2f] via-[#ff9d52] to-[#ff7a2f] px-4 text-center shadow-[0_2px_18px_rgba(255,122,47,0.35)]"
+      className="fixed inset-x-0 top-0 z-[60] flex h-9 items-center justify-center border-b border-black/10 bg-gradient-to-r from-[#d99a3a] via-[#e8b35a] to-[#d99a3a] px-4 text-center shadow-[0_2px_18px_rgba(227, 178, 79,0.35)]"
     >
       <p className="whitespace-nowrap font-mono text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-space-black sm:text-[0.66rem]">
         <span aria-hidden="true">✦ </span>

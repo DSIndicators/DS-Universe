@@ -10,7 +10,7 @@ These Terms and Conditions ("Terms") govern your purchase, download, installatio
 
 DS Universe is a collection of custom NinjaScript indicators designed for the NinjaTrader 8 platform, offered in the following components:
 
-- **DS Radars** *(paid)* — panel overlay indicators, comprising **Sweeper** (DSSweeperLV100), **Everguard** (DSEverguardLV100), and **Pilots** (DSPilotsLv100).
+- **DS Radars** *(paid)* — panel overlay indicators, comprising **Pilots** (DSPilotsLv100), **Sweeper** (DSSweeperLV100), and **Beacon** (DSBeaconLV100).
 - **DS Systems** *(paid)* — chart overlay indicators, comprising **DS Orbit**, **DS Stars**, **DS Balance**, **DS Council**, **DS Ember**, and **DS Pulse**, together with the shared OrbitStarsRegistry component on which certain of them depend.
 - **Tier 1** *(free)* — the DS BC, DS SR, DS TL, and DS CL indicators, provided free of charge.
 

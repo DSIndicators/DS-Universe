@@ -9,7 +9,7 @@ const SUPPORT_EMAIL = "support@dsuniverse.net";
 const COLUMNS = [
   {
     heading: "Radars",
-    links: ["Pilots", "Sweeper", "Everguard"],
+    links: ["Pilots", "Sweeper", "Beacon"],
   },
   {
     heading: "Systems",
@@ -26,7 +26,7 @@ const SOCIALS = [
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/[0.06] py-10">
+    <footer className="relative border-t border-[#e3b24f]/[0.05] py-10">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
           {/* Brand block */}
@@ -35,9 +35,9 @@ export function Footer() {
               <Image
                 src="/brand/emblem.png"
                 alt="DS Universe emblem"
-                width={40}
-                height={40}
-                className="h-10 w-10 rounded-full"
+                width={44}
+                height={44}
+                className="h-10 w-10 object-contain"
               />
               <span className="font-sans text-lg font-bold tracking-tight">
                 <span className="text-ink-white">DS</span>{" "}
@@ -74,7 +74,7 @@ export function Footer() {
                     key={s.label}
                     href={s.href}
                     aria-label={s.label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-ink-gray transition-colors hover:border-white/20 hover:text-ink-white"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[#e3b24f]/[0.06] bg-white/[0.03] text-ink-gray transition-colors hover:border-[#e3b24f]/[0.16] hover:text-ink-white"
                   >
                     <Icon size={16} />
                   </Link>
@@ -141,7 +141,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-6 border-t border-white/[0.06] pt-8 text-xs text-ink-gray/70">
+        <div className="mt-14 flex flex-col gap-6 border-t border-[#e3b24f]/[0.05] pt-8 text-xs text-ink-gray/70">
           <div>
             <h4 className="mb-2 font-mono text-[0.62rem] uppercase tracking-[0.2em] text-ink-gray/70">
               Disclaimer

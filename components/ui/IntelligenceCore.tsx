@@ -19,8 +19,8 @@ export function IntelligenceCore({ className, size = 200 }: IntelligenceCoreProp
       style={{ width: size, height: size }}
       aria-hidden
     >
-      {/* Ambient bloom behind the core */}
-      <div className="bg-ai pointer-events-none absolute inset-[8%] rounded-full opacity-30 blur-2xl animate-pulse-slow" />
+      {/* Ambient bloom behind the core (kept subtle - no heavy halo) */}
+      <div className="bg-ai pointer-events-none absolute inset-[22%] rounded-full opacity-[0.12] blur-2xl animate-pulse-slow" />
 
       <svg
         viewBox="0 0 200 200"
@@ -29,19 +29,19 @@ export function IntelligenceCore({ className, size = 200 }: IntelligenceCoreProp
       >
         <defs>
           <linearGradient id="ic-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#5fe6ee" />
-            <stop offset="50%" stopColor="#6d8cff" />
-            <stop offset="100%" stopColor="#a86bff" />
+            <stop offset="0%" stopColor="#ffe7b0" />
+            <stop offset="50%" stopColor="#e3b65c" />
+            <stop offset="100%" stopColor="#d9a64a" />
           </linearGradient>
           <radialGradient id="ic-core" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="22%" stopColor="#d6f7fb" />
-            <stop offset="48%" stopColor="#5fe6ee" />
-            <stop offset="100%" stopColor="#5fe6ee" stopOpacity="0" />
+            <stop offset="22%" stopColor="#fff2d6" />
+            <stop offset="48%" stopColor="#ffe7b0" />
+            <stop offset="100%" stopColor="#ffe7b0" stopOpacity="0" />
           </radialGradient>
           <radialGradient id="ic-shell" cx="38%" cy="32%" r="72%">
-            <stop offset="0%" stopColor="#6d8cff" stopOpacity="0.18" />
-            <stop offset="70%" stopColor="#a86bff" stopOpacity="0.05" />
+            <stop offset="0%" stopColor="#e3b65c" stopOpacity="0.18" />
+            <stop offset="70%" stopColor="#d9a64a" stopOpacity="0.05" />
             <stop offset="100%" stopColor="#050507" stopOpacity="0" />
           </radialGradient>
         </defs>

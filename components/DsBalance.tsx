@@ -11,8 +11,8 @@ import { Reveal } from "@/components/ui/Reveal";
  * so the section stays clean.
  */
 const PREMIUM = "#f0892e";
-const EQUI = "#b074ff";
-const DISCOUNT = "#34cba1";
+const EQUI = "#f0c878";
+const DISCOUNT = "#b98f3a";
 
 type State = {
   pct: string;
@@ -25,7 +25,7 @@ type State = {
 };
 
 const STATES: State[] = [
-  { pct: "22.00%", zone: "DISCOUNT", sign: "+", rsi: "34.2", price: "29916.00", color: DISCOUNT, mark: 78 },
+  { pct: "22.00%", zone: "DISCOUNT", sign: "+", rsi: "27.4", price: "29916.00", color: DISCOUNT, mark: 78 },
   { pct: "49.00%", zone: "EQUILIBRIUM", sign: "+", rsi: "49.4", price: "29997.00", color: EQUI, mark: 51 },
   { pct: "87.83%", zone: "PREMIUM", sign: "−", rsi: "71.8", price: "30113.50", color: PREMIUM, mark: 12 },
 ];
@@ -39,7 +39,7 @@ const CARDS = [
     sub: "Price is expensive",
     chip: ["87.83%", "−", "RSI 71.8"],
     color: PREMIUM,
-    body: "Price has climbed near the ceiling, far above the midpoint, and RSI is overbought. The − flags the sell-side edge — the engine watches for reversion back toward value.",
+    body: "Price has climbed near the ceiling, far above the midpoint, and RSI is overbought (above 70). The − flags the sell-side edge — the engine watches for reversion back toward value.",
     benefit: "Stops you chasing longs into a stretched tape. This is where you hunt shorts back toward value off the orange ceiling.",
   },
   {
@@ -55,9 +55,9 @@ const CARDS = [
     tag: "Lower Runway",
     name: "Discount",
     sub: "Price is cheap",
-    chip: ["22.00%", "+", "RSI 34.2"],
+    chip: ["22.00%", "+", "RSI 27.4"],
     color: DISCOUNT,
-    body: "Price has dropped near the floor, well below the midpoint, and RSI is oversold. The + flags the buy-side edge — reversion back up toward value.",
+    body: "Price has dropped near the floor, well below the midpoint, and RSI is oversold (below 30). The + flags the buy-side edge — reversion back up toward value.",
     benefit: "Your buy-the-dip read. You look for longs back toward value off the teal floor, on BOS confirmation rather than catching the knife.",
   },
 ];
@@ -77,18 +77,18 @@ function Cockpit() {
     <div
       role="img"
       aria-label={`DS Balance cockpit — ${s.zone}, ${s.pct}`}
-      className="grid w-full max-w-[400px] grid-cols-[auto_1fr] items-center gap-7 rounded-2xl border border-[#b074ff]/20 bg-[#060409] px-7 py-8 shadow-[0_30px_70px_-40px_rgba(122,63,176,0.9)]"
+      className="grid w-full max-w-[400px] grid-cols-[auto_1fr] items-center gap-7 rounded-2xl border border-[#f0c878]/20 bg-[#060409] px-7 py-8 shadow-[0_30px_70px_-40px_rgba(138, 106, 46,0.9)]"
     >
       {/* Runway */}
       <div
         className="relative mx-auto h-56 w-1.5 rounded-full"
         style={{
           background:
-            "linear-gradient(180deg, rgba(240,137,46,.7), rgba(176,116,255,.5) 50%, rgba(52,203,161,.7))",
+            "linear-gradient(180deg, rgba(240,137,46,.7), rgba(244, 205, 122,.5) 50%, rgba(52,203,161,.7))",
         }}
       >
         <span
-          className="absolute left-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#0a0710] bg-[#ece6f5] transition-[top,box-shadow] duration-700 ease-[cubic-bezier(.5,0,.2,1)]"
+          className="absolute left-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#080706] bg-[#f4e6c4] transition-[top,box-shadow] duration-700 ease-[cubic-bezier(.5,0,.2,1)]"
           style={{ top: `${s.mark}%`, boxShadow: `0 0 14px ${s.color}` }}
         />
       </div>
@@ -131,48 +131,51 @@ export function DsBalance() {
   return (
     <div className="relative mt-12">
       {/* Ambient premium glow */}
-      <div className="pointer-events-none absolute left-1/2 top-6 -z-10 h-80 w-[46rem] -translate-x-1/2 rounded-full bg-[#7a3fb0]/12 blur-[100px]" />
+      <div className="pointer-events-none absolute left-1/2 top-6 -z-10 h-80 w-[46rem] -translate-x-1/2 rounded-full bg-[#8a6a2e]/12 blur-[100px]" />
 
-      {/* Heading */}
-      <div className="flex max-w-2xl flex-col gap-4">
-        <span className="flex items-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.28em] text-[#b074ff]">
-          <span className="h-px w-6 bg-[#b074ff]/60" />
-          DS Systems · VWAP Dealing Range
-        </span>
-        <h2 className="font-sans text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
-          <span className="text-ink-white">DS </span>
-          <span className="text-[#b074ff] [text-shadow:0_0_24px_rgba(176,116,255,0.45)]">
-            Balance
+      {/* Explanation + live panel, side by side */}
+      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-14">
+        {/* Heading + explanation */}
+        <div className="flex flex-col gap-4">
+          <span className="flex items-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.28em] text-[#f0c878]">
+            <span className="h-px w-6 bg-[#f0c878]/60" />
+            DS Systems · VWAP Dealing Range
           </span>
-        </h2>
-        <p className="text-base leading-relaxed text-ink-gray sm:text-lg">
-          Price spends most of the session rotating around value. DS Balance reads
-          that rotation in one glance —{" "}
-          <span className="text-ink-white">cheap, fair, or expensive</span> — and
-          points to the side the edge sits on. One runway, one price moving through
-          it, every field in agreement.
-        </p>
-      </div>
+          <h2 className="font-sans text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
+            <span className="text-ink-white">DS </span>
+            <span className="text-[#f0c878] [text-shadow:0_0_24px_rgba(244, 205, 122,0.45)]">
+              Balance
+            </span>
+          </h2>
+          <p className="text-base leading-relaxed text-ink-gray sm:text-lg">
+            Price spends most of the session rotating around value. DS Balance reads
+            that rotation in one glance —{" "}
+            <span className="text-ink-white">cheap, fair, or expensive</span> — and
+            points to the side the edge sits on. One runway, one price moving through
+            it, every field in agreement.
+          </p>
+        </div>
 
-      {/* Live cockpit */}
-      <Reveal className="mt-10 flex flex-col items-center gap-3">
-        <Cockpit />
-        <p className="max-w-md text-center text-xs leading-relaxed text-ink-gray/70">
-          The&nbsp;% is where price sits inside the Bollinger Band — 100% pinned to
-          the upper band, 0% at the lower band, 50% in the middle. A position in the
-          band, not an amount of premium or discount.
-        </p>
-      </Reveal>
+        {/* Live cockpit */}
+        <Reveal className="flex flex-col items-center gap-3">
+          <Cockpit />
+          <p className="max-w-md text-center text-xs leading-relaxed text-ink-gray/70">
+            The&nbsp;% is where price sits inside the Bollinger Band — 100% pinned to
+            the upper band, 0% at the lower band, 50% in the middle. A position in the
+            band, not an amount of premium or discount.
+          </p>
+        </Reveal>
+      </div>
 
       {/* State cards */}
       <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3">
         {CARDS.map((c, i) => (
           <Reveal key={c.name} delay={(i % 3) * 0.08} className="h-full">
             <article
-              className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] p-6 sm:p-7"
+              className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#e3b24f]/[0.06] p-6 sm:p-7"
               style={{
                 borderTop: `2px solid ${c.color}`,
-                background: "linear-gradient(180deg, #180f28, #130c20 60%)",
+                background: "linear-gradient(180deg, #0b0a07, #0a0908 60%)",
               }}
             >
               <span
@@ -198,7 +201,7 @@ export function DsBalance() {
               <p className="relative mt-1 text-xs font-semibold text-ink-gray">
                 {c.sub}
               </p>
-              <div className="relative mt-4 inline-flex w-fit gap-3 rounded-lg border border-white/[0.08] bg-[#060409]/60 px-3 py-2 font-mono text-xs text-ink-white">
+              <div className="relative mt-4 inline-flex w-fit gap-3 rounded-lg border border-[#e3b24f]/[0.06] bg-[#060409]/60 px-3 py-2 font-mono text-xs text-ink-white">
                 {c.chip.map((x, j) => (
                   <span key={j}>{x}</span>
                 ))}
@@ -220,7 +223,7 @@ export function DsBalance() {
 
       {/* Closer */}
       <Reveal className="mt-6">
-        <div className="grid grid-cols-[auto_1fr] items-center gap-7 rounded-2xl border border-white/[0.08] bg-[#130c20] px-7 py-7 sm:px-9">
+        <div className="grid grid-cols-[auto_1fr] items-center gap-7 rounded-2xl border border-[#e3b24f]/[0.06] bg-[#0a0908] px-7 py-7 sm:px-9">
           <span
             aria-hidden
             className="h-12 w-12 shrink-0 rounded-full"

@@ -57,7 +57,6 @@ export const PRODUCTS: Product[] = [
   },
   {
     name: "SWEEPER",
-    codename: "Hunta",
     suite: "radars",
     tagline: "The trap hunter.",
     description:
@@ -67,14 +66,14 @@ export const PRODUCTS: Product[] = [
     panel: "/indicators/panels/sweeper.webp",
   },
   {
-    name: "EVERGUARD",
+    name: "BEACON",
     suite: "radars",
-    tagline: "Integrity & conviction.",
+    tagline: "News & volatility watchtower.",
     description:
-      "Grades trust. Scores Signal Integrity and Candle Conviction in real time, then lines up strength from the 1-minute to the 4-hour so you see whether the whole board agrees. It answers the only question that matters: can I trust this move?",
-    icon: "ShieldCheck",
+      "Your pre-trade early-warning cockpit. Beacon watches the two things that wreck good setups out of nowhere — incoming high-impact news and the VIX. It ranks the three most-upcoming red-flag events by time-until, surfaces the latest breaking headline, and reads the volatility regime live, from Calm to Extreme. A two-stage warning lights the header amber as an event approaches, then full gold when it's imminent — so you size down, stand aside, or trade it on purpose.",
+    icon: "Beacon",
     glow: "violet",
-    panel: "/indicators/panels/everguard.webp",
+    panel: "/indicators/panels/beacon.webp",
   },
 
   // ── DS Systems ───────────────────────────────────────────────

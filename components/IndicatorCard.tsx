@@ -1,33 +1,23 @@
-import {
-  Navigation,
-  Crosshair,
-  ShieldCheck,
-  Orbit,
-  Sparkles,
-  Scale,
-  Flame,
-  Vote,
-  AudioLines,
-  type LucideIcon,
-} from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Emblem } from "@/components/ui/Emblem";
 import type { Product } from "@/components/data/products";
 import { cn } from "@/components/ui/cn";
 
-const ICONS: Record<string, LucideIcon> = {
-  Navigation,
-  Crosshair,
-  ShieldCheck,
-  Orbit,
-  Sparkles,
-  Scale,
-  Flame,
-  Vote,
-  AudioLines,
+// Map the product's stored icon key to a bespoke DS emblem name.
+const EMBLEM: Record<string, string> = {
+  Navigation: "pilots",
+  Crosshair: "sweeper",
+  Beacon: "beacon",
+  Orbit: "orbit",
+  Sparkles: "stars",
+  Scale: "balance",
+  Flame: "ember",
+  Vote: "council",
+  AudioLines: "pulse",
 };
 
 export function IndicatorCard({ product }: { product: Product }) {
-  const Icon = ICONS[product.icon] ?? Sparkles;
+  const emblem = EMBLEM[product.icon] ?? "stars";
   const isEmber = product.name === "EMBER";
 
   return (
@@ -40,18 +30,18 @@ export function IndicatorCard({ product }: { product: Product }) {
       {isEmber && (
         <div
           aria-hidden
-          className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] bg-[radial-gradient(circle_at_50%_38%,rgba(255,122,47,0.28),transparent_70%)] blur-2xl"
+          className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] bg-[radial-gradient(circle_at_50%_38%,rgba(227, 178, 79,0.28),transparent_70%)] blur-2xl"
         />
       )}
 
       <div className="flex items-start justify-between">
         <span
           className={cn(
-            "flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]",
+            "flex h-11 w-11 items-center justify-center rounded-xl border border-[#e3b24f]/[0.06] bg-white/[0.03]",
             isEmber ? "text-[#ff8a4c]" : "text-accent-teal",
           )}
         >
-          <Icon size={20} strokeWidth={1.6} />
+          <Emblem name={emblem} size={22} strokeWidth={1.5} />
         </span>
         {product.codename && (
           <span className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-ink-gray/70">
@@ -72,7 +62,7 @@ export function IndicatorCard({ product }: { product: Product }) {
 
       {/* HD product panel — the radar's live readout, shown inline under the copy. */}
       {product.panel && (
-        <div className="mt-auto flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl border border-white/[0.08] bg-space-deep">
+        <div className="mt-auto flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl border border-[#e3b24f]/[0.06] bg-space-deep">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={product.panel}

@@ -35,7 +35,7 @@ export function DsPnl() {
         <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
           {SHOTS.map((s) => (
             <Reveal key={s.src}>
-              <figure className="relative h-full overflow-hidden rounded-2xl border border-white/[0.08] bg-[#040406] shadow-glow">
+              <figure className="relative h-full overflow-hidden rounded-2xl border border-[#e3b24f]/[0.06] bg-[#040406] shadow-glow">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={s.src}
@@ -44,7 +44,7 @@ export function DsPnl() {
                   height={s.h}
                   loading="lazy"
                   decoding="async"
-                  className="block w-full border-b border-white/[0.06]"
+                  className="block w-full border-b border-[#e3b24f]/[0.05]"
                 />
                 <figcaption className="px-4 py-3 text-center font-mono text-[0.62rem] uppercase tracking-[0.18em] text-ink-gray/80">
                   {s.label}
@@ -68,7 +68,7 @@ export function DsPnl() {
         <Reveal className="mt-8 flex justify-center">
           <Link
             href="/showcase#carepack"
-            className="inline-flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-ink-white transition-colors hover:bg-white/[0.08]"
+            className="inline-flex items-center gap-2 rounded-full border border-[#e3b24f]/[0.10] bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-ink-white transition-colors hover:bg-white/[0.08]"
           >
             See the full P&amp;L showcase <ArrowRight size={16} />
           </Link>

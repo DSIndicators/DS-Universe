@@ -24,7 +24,7 @@ const ACCENT: Record<ShowcaseGuide["accent"], AccentClasses> = {
     badge: "border-space-magenta/40 bg-space-magenta/10 text-space-magenta",
     cta: "text-space-magenta",
     hoverBorder: "hover:border-space-magenta/40",
-    hoverGlow: "hover:shadow-[0_0_50px_-12px_rgba(176,116,255,0.55)]",
+    hoverGlow: "hover:shadow-[0_0_50px_-12px_rgba(244, 205, 122,0.55)]",
   },
   cyan: {
     muted: "text-space-cyan",
@@ -96,7 +96,7 @@ export function Showcase() {
               onClick={() => open(g.id)}
               aria-label={`Open the ${g.word} ${g.wordMuted} guide`}
               className={cn(
-                "group glass relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-white/[0.08] p-6 text-left transition-all duration-300 hover:-translate-y-1 sm:p-7",
+                "group glass relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-[#e3b24f]/[0.06] p-6 text-left transition-all duration-300 hover:-translate-y-1 sm:p-7",
                 a.hoverBorder,
                 a.hoverGlow,
               )}
@@ -163,7 +163,7 @@ export function Showcase() {
           aria-label={`${openGuide.word} ${openGuide.wordMuted} guide`}
           className="fixed inset-0 z-[100] flex flex-col bg-space-black/95 backdrop-blur-sm"
         >
-          <div className="flex items-center justify-between gap-4 border-b border-white/10 bg-space-black/80 px-4 py-3 sm:px-6">
+          <div className="flex items-center justify-between gap-4 border-b border-[#e3b24f]/[0.08] bg-space-black/80 px-4 py-3 sm:px-6">
             <span className="flex items-center gap-2 font-sans text-sm font-semibold">
               <span className="text-ink-white">{openGuide.word}</span>
               <span className={ACCENT[openGuide.accent].muted}>
@@ -177,7 +177,7 @@ export function Showcase() {
               type="button"
               onClick={close}
               aria-label="Close guide"
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.05] px-3.5 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-ink-white transition-colors hover:bg-white/[0.12]"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#e3b24f]/[0.12] bg-white/[0.05] px-3.5 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-ink-white transition-colors hover:bg-white/[0.12]"
             >
               Close <X size={14} />
             </button>
@@ -186,7 +186,7 @@ export function Showcase() {
             key={openGuide.id}
             src={openGuide.href}
             title={`${openGuide.word} ${openGuide.wordMuted} — DS Universe guide`}
-            className="h-full w-full flex-1 border-0 bg-[#07050d]"
+            className="h-full w-full flex-1 border-0 bg-[#070605]"
           />
         </motion.div>
       )}

@@ -1,4 +1,4 @@
-import { Crosshair, Zap, Layers, EyeOff } from "lucide-react";
+import { Emblem } from "@/components/ui/Emblem";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
@@ -8,22 +8,22 @@ import { DsBalance } from "@/components/DsBalance";
 // Sourced from the brochures' "The edge" + Registry pages.
 const FEATURES = [
   {
-    icon: Crosshair,
+    icon: "timeframe",
     title: "Built for every timeframe",
     body: "Every metric is tuned and normalised to read any timeframe — the same corroborated read from the 1-minute scalp to the daily swing, not lone guesses.",
   },
   {
-    icon: Layers,
+    icon: "registry",
     title: "Cross-referenced by the Registry",
     body: "Five of the six Systems report to one core. Every reading is checked against every other before a single mark is drawn. The systems agree, or you see nothing.",
   },
   {
-    icon: EyeOff,
+    icon: "norepaint",
     title: "Zero repaints",
     body: "What you saw is what happened. Signals lock to the bar and never rewrite history — the chart you trade is the chart that was true.",
   },
   {
-    icon: Zap,
+    icon: "nolag",
     title: "No lag, ever",
     body: "Heavy intelligence that never drags your chart. Every read is cross-referenced and rendered instantly, so the tape stays smooth even mid-session.",
   },
@@ -33,7 +33,7 @@ export function Features() {
   return (
     <section id="features" className="relative scroll-mt-24 py-12 sm:py-16">
       {/* Ambient ember glow — this is the section that should catch the eye. */}
-      <div className="pointer-events-none absolute left-1/2 top-24 h-80 w-[48rem] -translate-x-1/2 rounded-full bg-[#ff7a2f]/10 blur-[100px]" />
+      <div className="pointer-events-none absolute left-1/2 top-24 h-80 w-[48rem] -translate-x-1/2 rounded-full bg-[#d99a3a]/10 blur-[100px]" />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
@@ -46,8 +46,8 @@ export function Features() {
 
         {/* Hero — the annotated Ember chart, calling its own shots live. */}
         <Reveal>
-          <figure className="relative overflow-hidden rounded-3xl border border-[#ff7a2f]/20 bg-[#040406] shadow-glow">
-            <div className="pointer-events-none absolute -inset-x-10 -top-24 h-56 bg-[#ff7a2f]/15 opacity-60 blur-3xl" />
+          <figure className="relative overflow-hidden rounded-3xl border border-[#d99a3a]/20 bg-[#040406] shadow-glow">
+            <div className="pointer-events-none absolute -inset-x-10 -top-24 h-56 bg-[#d99a3a]/15 opacity-60 blur-3xl" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/ember/ember-annotated.webp"
@@ -58,7 +58,7 @@ export function Features() {
               decoding="async"
               className="relative block w-full"
             />
-            <figcaption className="relative border-t border-white/[0.06] px-6 py-4 text-sm text-ink-gray">
+            <figcaption className="relative border-t border-[#e3b24f]/[0.05] px-6 py-4 text-sm text-ink-gray">
               <span className="font-semibold text-ink-white">Ember in action.</span>{" "}
               It calls exhaustion, recognizes the shift, and warns you the trend is
               cooling — early, on the candle, with zero repaints.
@@ -71,7 +71,7 @@ export function Features() {
           <Reveal>
             <GlassCard glow="ember" className="flex h-full flex-col overflow-hidden">
               <div className="grid grid-cols-2">
-                <figure className="relative border-b border-r border-white/[0.06]">
+                <figure className="relative border-b border-r border-[#e3b24f]/[0.05]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/ember/ember-before-2.webp"
@@ -86,7 +86,7 @@ export function Features() {
                     Before
                   </figcaption>
                 </figure>
-                <figure className="relative border-b border-white/[0.06]">
+                <figure className="relative border-b border-[#e3b24f]/[0.05]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/ember/ember-after-2.webp"
@@ -97,7 +97,7 @@ export function Features() {
                     decoding="async"
                     className="block w-full"
                   />
-                  <figcaption className="absolute left-3 top-3 rounded-full bg-[#ff7a2f]/20 px-2.5 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.16em] text-[#ffb986]">
+                  <figcaption className="absolute left-3 top-3 rounded-full bg-[#d99a3a]/20 px-2.5 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.16em] text-[#ffb986]">
                     After
                   </figcaption>
                 </figure>
@@ -119,7 +119,7 @@ export function Features() {
           <Reveal delay={0.08}>
             <GlassCard glow="ember" className="flex h-full flex-col overflow-hidden">
               <div className="grid grid-cols-2">
-                <figure className="relative border-b border-r border-white/[0.06]">
+                <figure className="relative border-b border-r border-[#e3b24f]/[0.05]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/ember/ember-before-1.webp"
@@ -134,7 +134,7 @@ export function Features() {
                     Before
                   </figcaption>
                 </figure>
-                <figure className="relative border-b border-white/[0.06]">
+                <figure className="relative border-b border-[#e3b24f]/[0.05]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/ember/ember-after-1.webp"
@@ -145,7 +145,7 @@ export function Features() {
                     decoding="async"
                     className="block w-full"
                   />
-                  <figcaption className="absolute left-3 top-3 rounded-full bg-[#ff7a2f]/20 px-2.5 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.16em] text-[#ffb986]">
+                  <figcaption className="absolute left-3 top-3 rounded-full bg-[#d99a3a]/20 px-2.5 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.16em] text-[#ffb986]">
                     After
                   </figcaption>
                 </figure>
@@ -182,12 +182,11 @@ export function Features() {
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             {FEATURES.map((f, i) => {
-              const Icon = f.icon;
               return (
                 <Reveal key={f.title} delay={(i % 2) * 0.08}>
                   <GlassCard className="flex h-full items-start gap-5 p-6 sm:p-8">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-space-violet/30 to-space-cyan/20 text-space-cyan ring-1 ring-white/[0.08]">
-                      <Icon size={22} strokeWidth={1.6} />
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-space-violet/30 to-space-cyan/20 text-[#f4cd7a] ring-1 ring-[#e3b24f]/[0.06]">
+                      <Emblem name={f.icon} size={24} strokeWidth={1.5} />
                     </span>
                     <div className="flex flex-col gap-2">
                       <h3 className="font-sans text-lg font-semibold text-ink-white">

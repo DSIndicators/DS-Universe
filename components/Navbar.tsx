@@ -11,6 +11,7 @@ const LINKS = [
   { label: "Capabilities", href: "/#capabilities" },
   { label: "Features", href: "/#features" },
   { label: "Showcase", href: "/showcase" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Pricing", href: "/#pricing" },
 ];
 
@@ -28,10 +29,10 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        // top-9 leaves room for the temporary StoreBanner (h-9). Revert to top-0 when that banner is removed.
+        // top-9 leaves room for the temporary StoreBanner (h-9).
         "fixed inset-x-0 top-9 z-50 transition-all duration-500",
         scrolled
-          ? "glass-strong border-b border-white/[0.08]"
+          ? "glass-strong border-b border-[#e3b24f]/[0.06]"
           : "border-b border-transparent bg-transparent",
       )}
     >
@@ -41,14 +42,14 @@ export function Navbar() {
           <Image
             src="/brand/emblem.png"
             alt="DS Universe emblem"
-            width={36}
-            height={36}
-            className="h-9 w-9 rounded-full"
+            width={44}
+            height={44}
+            className="h-10 w-10 object-contain"
             priority
           />
           <span className="font-sans text-lg font-bold tracking-tight">
             <span className="text-ink-white">DS</span>{" "}
-            <span className="text-ink-gray">UNIVERSE</span>
+            <span className="text-gold">UNIVERSE</span>
           </span>
         </a>
 
@@ -82,7 +83,7 @@ export function Navbar() {
 
       {/* Mobile drawer */}
       {open && (
-        <div className="glass-strong border-t border-white/[0.08] md:hidden">
+        <div className="glass-strong border-t border-[#e3b24f]/[0.06] md:hidden">
           <div className="flex flex-col gap-1 px-5 py-4">
             {LINKS.map((l) => (
               <a
@@ -94,10 +95,7 @@ export function Navbar() {
                 {l.label}
               </a>
             ))}
-            <GlowButton
-              href="/#pricing"
-              className="mt-2 w-full"
-            >
+            <GlowButton href="/#pricing" className="mt-2 w-full">
               Get Access
             </GlowButton>
           </div>

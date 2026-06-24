@@ -1,4 +1,4 @@
-import { Anchor, Gavel, Zap } from "lucide-react";
+import { Emblem } from "@/components/ui/Emblem";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
@@ -10,8 +10,8 @@ const AIS = [
     name: "Atlas",
     role: "The Anchor",
     facet: "Trend · Timeframe · Structure",
-    color: "#6d8cff",
-    icon: Anchor,
+    color: "#e3b65c",
+    icon: "atlas",
     body: "Atlas holds the weight of the larger chart — dominant structure and prevailing order flow. He doesn't change his mind without a real reason: the steady hand while the lower frames thrash.",
     payoff:
       "Keeps you on the side the market actually plays. When Atlas votes, you know where the weight of the chart is leaning — so you stop fading moves that have real structure behind them.",
@@ -20,8 +20,8 @@ const AIS = [
     name: "Sage",
     role: "The Judge",
     facet: "Momentum · Confluence",
-    color: "#a86bff",
-    icon: Gavel,
+    color: "#d9a64a",
+    icon: "sage",
     body: "Sage weighs evidence instead of reacting to it. Calm, deliberate, hard to spook — the voice asking whether a move has genuine confluence or is just noise, sitting between macro intent and live momentum.",
     payoff:
       "Filters the chop. Sage is often the deciding vote — the one that turns two disagreeing extremes into a single, clear call.",
@@ -30,8 +30,8 @@ const AIS = [
     name: "Nova",
     role: "The Spark",
     facet: "Momentum · Instinct",
-    color: "#f06ab8",
-    icon: Zap,
+    color: "#c98a3e",
+    icon: "nova",
     body: "Nova is fast and curious — first to feel a shift in momentum, first to call a turn forming. Sharp early, and the first to admit she can be too quick on her own.",
     payoff:
       "Gets you there early. Because she only counts when Atlas or Sage agrees, you get her speed without the false starts.",
@@ -41,9 +41,9 @@ const AIS = [
 const TFS = ["1m", "5m", "10m", "15m", "60m"];
 // 1 = bullish (green), 0 = bearish (red). A realistic, mostly-aligned read.
 const GRID: { label: string; color: string; cells: number[] }[] = [
-  { label: "ATLAS", color: "#6d8cff", cells: [1, 1, 1, 1, 0] },
-  { label: "SAGE", color: "#a86bff", cells: [1, 1, 1, 1, 1] },
-  { label: "NOVA", color: "#f06ab8", cells: [0, 1, 1, 0, 1] },
+  { label: "ATLAS", color: "#e3b65c", cells: [1, 1, 1, 1, 0] },
+  { label: "SAGE", color: "#d9a64a", cells: [1, 1, 1, 1, 1] },
+  { label: "NOVA", color: "#c98a3e", cells: [0, 1, 1, 0, 1] },
   { label: "COUNCIL", color: "#f2f1f6", cells: [1, 1, 1, 1, 1] },
 ];
 
@@ -120,7 +120,6 @@ export function CouncilEngine() {
       {/* The three voters */}
       <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
         {AIS.map((ai, i) => {
-          const Icon = ai.icon;
           return (
             <Reveal key={ai.name} delay={(i % 3) * 0.08} className="h-full">
               <GlassCard className="relative flex h-full flex-col gap-4 overflow-hidden p-6 sm:p-7">
@@ -139,7 +138,7 @@ export function CouncilEngine() {
                       boxShadow: `inset 0 0 0 1px ${ai.color}40`,
                     }}
                   >
-                    <Icon size={20} strokeWidth={1.7} />
+                    <Emblem name={ai.icon} size={22} strokeWidth={1.5} />
                   </span>
                   <div className="flex flex-col">
                     <h3
@@ -157,7 +156,7 @@ export function CouncilEngine() {
                   {ai.facet}
                 </span>
                 <p className="text-sm leading-relaxed text-ink-gray">{ai.body}</p>
-                <p className="mt-auto border-t border-white/[0.06] pt-4 text-sm leading-relaxed text-ink-white/85">
+                <p className="mt-auto border-t border-[#e3b24f]/[0.05] pt-4 text-sm leading-relaxed text-ink-white/85">
                   {ai.payoff}
                 </p>
               </GlassCard>

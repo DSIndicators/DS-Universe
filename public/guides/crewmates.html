@@ -6,22 +6,22 @@
 <title>DS Crewmates — System Guide · DS Universe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#07050d;--bg2:#0c0a18;--ink:#eef0f6;--muted:#9aa0b5;--faint:#5a5f73;
-    --line:rgba(255,255,255,.07);--card:rgba(255,255,255,.022);
-    --teal:#2ee6c0;--purple:#9b6bf0;--pink:#ff5aa0;--green:#33d684;--amber:#ff9a3c;--gold:#e8c24a;
+    --bg:#080604;--bg2:#0e0a05;--ink:#f4efe4;--muted:#b1a791;--faint:#6e6450;
+    --line:rgba(240,200,90,.10);--card:rgba(240,200,90,.030);
+    --teal:#2ee6c0;--purple:#e0a52e;--pink:#ff8a3c;--green:#33d684;--amber:#ff9a3c;--red:#e0573f;--gold:#f0b429;--gold2:#ffd45e;--orange:#e6731a;
     --maxw:980px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
     background:
-      radial-gradient(1200px 700px at 80% -8%, rgba(123,92,240,.18), transparent 60%),
-      radial-gradient(1000px 640px at 12% 8%, rgba(51,214,132,.08), transparent 55%),
+      radial-gradient(1200px 700px at 80% -8%, rgba(240,180,60,.18), transparent 60%),
+      radial-gradient(1000px 620px at 10% 8%, rgba(255,154,60,.07), transparent 55%),
       linear-gradient(180deg,var(--bg) 0%, var(--bg2) 50%, var(--bg) 100%);
-    color:var(--ink);font-family:'Inter',-apple-system,'Segoe UI',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;letter-spacing:.01em;
+    color:var(--ink);font-family:'Space Grotesk',-apple-system,'Segoe UI',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;letter-spacing:.01em;
   }
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
   section{padding:84px 0;border-bottom:1px solid var(--line);position:relative}
@@ -35,29 +35,29 @@
   .mh .planet::before{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset -28px -36px 96px rgba(18,5,38,.55),inset 28px 28px 80px rgba(255,255,255,.05)}
   .mh .vignette{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(150% 130% at 26% 50%,transparent 36%,rgba(4,2,10,.66) 100%)}
   .mh .inner{position:relative;z-index:4;max-width:var(--maxw);margin:0 auto;width:100%;padding:46px 32px}
-  .mh .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--teal);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  .mh .eyebrow{font-family:'Space Grotesk',monospace;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--teal);margin-bottom:18px;display:flex;align-items:center;gap:10px}
   .mh .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal)}
-  .mh .index{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;line-height:2.05;text-transform:uppercase;color:var(--faint);margin-bottom:24px}
+  .mh .index{font-family:'Space Grotesk',monospace;font-size:11px;letter-spacing:.12em;line-height:2.05;text-transform:uppercase;color:var(--faint);margin-bottom:24px}
   .mh .index b{font-weight:600}
   .mh .index .msys{color:var(--purple)}.mh .index .mrad{color:var(--teal)}.mh .index .mcrew{color:var(--green)}.mh .index .mcare{color:var(--amber)}
   .mh .index .pill{display:inline-block;border:1px solid var(--amber);color:var(--amber);border-radius:20px;padding:1px 8px;font-size:9px;letter-spacing:.12em;vertical-align:middle;margin-left:4px}
-  .mh .wm{font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(60px,12.5vw,158px);line-height:.84;letter-spacing:-.03em;text-shadow:0 2px 50px rgba(0,0,0,.55)}
+  .mh .wm{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:clamp(60px,12.5vw,158px);line-height:.84;letter-spacing:-.03em;text-shadow:0 2px 50px rgba(0,0,0,.55)}
   .mh .wm b{color:#fff}.mh .wm span{color:#aeb2c8}
   .mh .rule{height:2px;width:min(460px,60%);border-radius:2px;margin:22px 0 14px;background:linear-gradient(90deg,var(--teal),var(--purple) 48%,var(--pink) 74%,var(--amber))}
-  .mh .tag{font-family:'JetBrains Mono',monospace;font-size:clamp(12px,1.5vw,15px);letter-spacing:.32em;text-transform:uppercase;color:var(--teal)}
-  .mh .sub{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);margin-top:9px}
+  .mh .tag{font-family:'Space Grotesk',monospace;font-size:clamp(12px,1.5vw,15px);letter-spacing:.32em;text-transform:uppercase;color:var(--teal)}
+  .mh .sub{font-family:'Space Grotesk',monospace;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);margin-top:9px}
   @media(max-width:720px){.mh .planet{right:-34%;opacity:.8}.mh .index{font-size:9px;letter-spacing:.04em;line-height:2.2}.mh .inner{padding:38px 20px}.mh{min-height:300px}}
-  .logo-seal{display:inline-block;background:#fff;border-radius:26px;padding:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);margin-bottom:30px}
+  .logo-seal{display:inline-block;background:rgba(18,13,5,.55);border:1px solid rgba(240,200,90,.18);border-radius:26px;padding:16px;box-shadow:0 24px 70px rgba(0,0,0,.55), inset 0 0 70px rgba(240,180,60,.06);margin-bottom:30px;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
   .logo-seal img{display:block;width:200px;height:auto;border-radius:12px}
-  .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+  .kicker{font-family:'Space Grotesk',monospace;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:12px;margin-bottom:22px}
   .kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal);flex:0 0 auto}
   .kicker.green{color:var(--green)}.kicker.green::before{background:var(--green);box-shadow:0 0 12px var(--green)}
   .kicker.amber{color:var(--amber)}.kicker.amber::before{background:var(--amber);box-shadow:0 0 12px var(--amber)}
   .kicker.purple{color:var(--purple)}.kicker.purple::before{background:var(--purple);box-shadow:0 0 12px var(--purple)}
   .kicker .n{color:var(--faint);letter-spacing:.3em}
-  .badge{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#cfd3e2;border:1px solid var(--line);border-radius:20px;padding:6px 14px}
-  h1.display{font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(50px,12vw,118px);line-height:.9;letter-spacing:-.02em}
-  h2{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(38px,6vw,68px);line-height:.98;letter-spacing:-.02em;margin-bottom:8px}
+  .badge{font-family:'Space Grotesk',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#cfd3e2;border:1px solid var(--line);border-radius:20px;padding:6px 14px}
+  h1.display{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:clamp(50px,12vw,118px);line-height:.9;letter-spacing:-.02em}
+  h2{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:clamp(38px,6vw,68px);line-height:.98;letter-spacing:-.02em;margin-bottom:8px}
   h2 .lite{font-weight:300;color:#b9bdd0}
   .underbar{width:108px;height:4px;border-radius:4px;margin:22px 0 28px;background:linear-gradient(90deg,var(--green),var(--teal) 40%,var(--purple) 75%,var(--amber))}
   .lead{font-size:18px;color:#c3c7d8;max-width:760px}
@@ -65,36 +65,36 @@
   .em-green{color:var(--green)}.em-amber{color:var(--amber)}.em-purple{color:var(--purple)}.em-teal{color:var(--teal)}
   /* hero */
   .hero{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:70px 32px 64px;border-bottom:1px solid var(--line)}
-  .toptag{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.5em;color:var(--faint);text-transform:uppercase;margin-bottom:42px}
-  .logobox{width:64px;height:64px;border-radius:16px;background:linear-gradient(160deg,#a06bff,#6a3fd0);display:flex;align-items:center;justify-content:center;font-family:'Archivo';font-weight:900;font-size:24px;color:#fff;box-shadow:0 0 40px rgba(155,107,240,.5);margin-bottom:26px}
-  .brandsub{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.34em;color:var(--teal);text-transform:uppercase;margin-top:14px}
-  .free-chip{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.32em;color:var(--green);text-transform:uppercase;margin:40px 0 14px;display:flex;align-items:center;gap:10px}
+  .toptag{font-family:'Space Grotesk',monospace;font-size:12px;letter-spacing:.5em;color:var(--faint);text-transform:uppercase;margin-bottom:42px}
+  .logobox{width:64px;height:64px;border-radius:16px;background:linear-gradient(160deg,#a06bff,#6a3fd0);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:900;font-size:24px;color:#fff;box-shadow:0 0 40px rgba(155,107,240,.5);margin-bottom:26px}
+  .brandsub{font-family:'Space Grotesk',monospace;font-size:12px;letter-spacing:.34em;color:var(--teal);text-transform:uppercase;margin-top:14px}
+  .free-chip{font-family:'Space Grotesk',monospace;font-size:12px;letter-spacing:.32em;color:var(--green);text-transform:uppercase;margin:40px 0 14px;display:flex;align-items:center;gap:10px}
   .free-chip::before,.free-chip::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--green)}
   .hero h1.display .lite{font-weight:300;color:#aeb2c8}
   .tagline{font-size:19px;color:#d4d7e4;margin-top:18px;max-width:620px}
   .tagline b{color:#fff}
-  .freepill{margin-top:34px;border:1px solid rgba(51,214,132,.4);border-radius:30px;padding:12px 22px;font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.16em;color:var(--green);text-transform:uppercase;display:flex;align-items:center;gap:10px;box-shadow:0 0 30px -8px rgba(51,214,132,.5)}
+  .freepill{margin-top:34px;border:1px solid rgba(51,214,132,.4);border-radius:30px;padding:12px 22px;font-family:'Space Grotesk',monospace;font-size:12.5px;letter-spacing:.16em;color:var(--green);text-transform:uppercase;display:flex;align-items:center;gap:10px;box-shadow:0 0 30px -8px rgba(51,214,132,.5)}
   .freepill::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
-  .systemrow{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.3em;color:var(--faint);text-transform:uppercase;margin-top:30px}
+  .systemrow{font-family:'Space Grotesk',monospace;font-size:12.5px;letter-spacing:.3em;color:var(--faint);text-transform:uppercase;margin-top:30px}
   .systemrow span{color:#cfd3e2}
   /* runhead */
   .runhead{padding-top:54px}
-  .runhead .map{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;line-height:2.1;color:var(--faint);text-transform:uppercase}
+  .runhead .map{font-family:'Space Grotesk',monospace;font-size:11px;letter-spacing:.18em;line-height:2.1;color:var(--faint);text-transform:uppercase}
   .runhead .map b{color:#c9cddd;font-weight:500}
   .runhead .map .sys{color:var(--purple)}.runhead .map .rad{color:var(--teal)}.runhead .map .crew{color:var(--green)}.runhead .map .care{color:var(--amber)}
-  .bigbrand{font-family:'Archivo',sans-serif;font-weight:300;font-size:clamp(40px,8vw,76px);letter-spacing:-.01em;margin-top:18px}
+  .bigbrand{font-family:'Space Grotesk',sans-serif;font-weight:300;font-size:clamp(40px,8vw,76px);letter-spacing:-.01em;margin-top:18px}
   .bigbrand b{font-weight:900}
-  .bigbrand-sub{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.3em;color:var(--teal);text-transform:uppercase;margin-top:8px}
+  .bigbrand-sub{font-family:'Space Grotesk',monospace;font-size:12px;letter-spacing:.3em;color:var(--teal);text-transform:uppercase;margin-top:8px}
   .hr-grad{height:1px;background:linear-gradient(90deg,var(--green),var(--purple),transparent);margin:26px 0 0}
   /* shot */
   .shot{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:30px 0;background:#000;box-shadow:0 30px 80px rgba(0,0,0,.5)}
   .shot img{display:block;width:100%;height:auto}
-  .shot .bar{display:flex;justify-content:space-between;padding:11px 18px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--faint);text-transform:uppercase;border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.015),transparent)}
+  .shot .bar{display:flex;justify-content:space-between;padding:11px 18px;font-family:'Space Grotesk',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--faint);text-transform:uppercase;border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.015),transparent)}
   /* four tools grid */
   .tools{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
   .tool{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 26px}
-  .tool .nm{font-family:'Archivo';font-weight:800;font-size:24px;margin-bottom:2px}
-  .tool .sub{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--green);text-transform:uppercase;margin-bottom:12px}
+  .tool .nm{font-family:'Space Grotesk';font-weight:800;font-size:24px;margin-bottom:2px}
+  .tool .sub{font-family:'Space Grotesk',monospace;font-size:10.5px;letter-spacing:.22em;color:var(--green);text-transform:uppercase;margin-bottom:12px}
   .tool p{font-size:14px;color:var(--muted);line-height:1.55}
   /* feature cards */
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
@@ -104,7 +104,7 @@
   .fcard p{font-size:14px;color:var(--muted);line-height:1.55}
   .fcard.purple::before{background:var(--purple)}.fcard.amber::before{background:var(--amber)}
   /* htr */
-  .htr-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.32em;color:var(--green);text-transform:uppercase;margin:34px 0 14px;display:flex;gap:10px;align-items:center}
+  .htr-label{font-family:'Space Grotesk',monospace;font-size:11px;letter-spacing:.32em;color:var(--green);text-transform:uppercase;margin:34px 0 14px;display:flex;gap:10px;align-items:center}
   .htr-label::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
   .htr{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
   .htr .chip{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
@@ -112,8 +112,8 @@
   .htr .chip .t .dot{width:9px;height:9px;border-radius:50%}
   .htr .chip p{font-size:12.5px;color:var(--muted);line-height:1.45}
   .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-  .tags span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;border:1px solid var(--line);border-radius:20px;padding:6px 12px}
-  .pull{border-left:3px solid var(--green);padding:6px 0 6px 24px;margin:40px 0 0;font-family:'Archivo',sans-serif;font-weight:300;font-size:clamp(22px,3.4vw,30px);line-height:1.28;color:#dfe2ee}
+  .tags span{font-family:'Space Grotesk',monospace;font-size:10px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;border:1px solid var(--line);border-radius:20px;padding:6px 12px}
+  .pull{border-left:3px solid var(--green);padding:6px 0 6px 24px;margin:40px 0 0;font-family:'Space Grotesk',sans-serif;font-weight:300;font-size:clamp(22px,3.4vw,30px);line-height:1.28;color:#dfe2ee}
   .pull b{font-weight:700;color:#fff}
   .pull.purple{border-color:var(--purple)}.pull.amber{border-color:var(--amber)}
   /* CL checklist mock */
@@ -128,40 +128,41 @@
   /* steps */
   .steps{display:grid;grid-template-columns:1fr;gap:14px;margin-top:28px}
   .step{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px}
-  .step .num{flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:linear-gradient(160deg,#a06bff,#6a3fd0);display:flex;align-items:center;justify-content:center;font-family:'Archivo';font-weight:800;font-size:15px;color:#fff}
+  .step .num{flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:linear-gradient(160deg,#a06bff,#6a3fd0);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:800;font-size:15px;color:#fff}
   .step h4{font-size:15.5px;font-weight:600;margin-bottom:2px}
   .step p{font-size:13.5px;color:var(--muted)}
   /* closing + footer */
   .closing{text-align:center}
-  .closing h1{font-family:'Archivo';font-weight:900;font-size:clamp(48px,11vw,108px);line-height:.92;letter-spacing:-.02em}
+  .closing h1{font-family:'Space Grotesk';font-weight:900;font-size:clamp(48px,11vw,108px);line-height:.92;letter-spacing:-.02em}
   .grad-green{color:var(--green)}
   .footer{padding:40px 0 70px;text-align:center}
   .disc{font-size:12px;color:var(--faint);max-width:760px;margin:0 auto;line-height:1.7}
-  .footrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.26em;color:var(--faint);text-transform:uppercase;display:flex;justify-content:space-between;padding:18px 0 26px;border-top:1px solid var(--line);margin-top:30px}
+  .footrow{font-family:'Space Grotesk',monospace;font-size:11px;letter-spacing:.26em;color:var(--faint);text-transform:uppercase;display:flex;justify-content:space-between;padding:18px 0 26px;border-top:1px solid var(--line);margin-top:30px}
   @media(max-width:720px){.tools,.grid2,.htr{grid-template-columns:1fr}.checklist{flex:1 1 100%}.wrap{padding:0 20px}section{padding:60px 0}}
+
+  /* ===== DS UNIVERSE — GOLD FORMAT OVERRIDE ===== */
+  .mh{min-height:auto!important;display:block!important;align-items:initial!important;background:#060403!important;line-height:0!important;overflow:hidden}
+  .mh img{display:block!important;width:100%!important;height:auto!important}
+  .mh .fade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 70%,rgba(8,6,4,.85) 100%)}
+  .underbar{background:linear-gradient(90deg,var(--gold2),var(--gold) 45%,var(--amber) 80%,var(--orange))!important}
+  .hr-grad{background:linear-gradient(90deg,var(--gold),var(--amber),transparent)!important}
+  .rule{background:linear-gradient(90deg,var(--gold),var(--amber) 55%,var(--gold2))!important}
+  .grad-word{background:linear-gradient(90deg,var(--gold2),var(--gold),var(--amber),var(--orange));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent!important}
+  .stats .s b{background:linear-gradient(180deg,#fff,var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent!important}
+  .stats .s.t b{background:linear-gradient(180deg,#fff,var(--teal));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent!important}
+  .stats .s.a b{background:linear-gradient(180deg,#fff,var(--amber));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent!important}
+  .systemrow span{color:var(--gold2)!important}
+  .brandsub,.bigbrand-sub,.suite-chip,.toptag{color:var(--gold)!important}
+  .suite-chip::before,.suite-chip::after{background:var(--gold)!important}
+  .kicker{color:var(--gold)} .kicker::before{background:var(--gold)!important;box-shadow:0 0 12px var(--gold)!important}
 </style>
 </head>
 <body>
 
 <!-- MASTHEAD -->
 <header class="mh">
-  <div class="stars"></div>
-  <div class="arc"></div>
-  <div class="planet"></div>
-  <div class="vignette"></div>
-  <div class="inner">
-    <div class="eyebrow">The Free Crew · Tier 1</div>
-    <div class="index">
-      <b class="msys">DS Systems</b>&nbsp;&nbsp;Orbit · Stars · Balance · Ember · Council · Pulse <span class="pill">Premium</span><br>
-      <b class="mrad">DS Radars</b>&nbsp;&nbsp;Pilots · Sweeper · Everguard<br>
-      <b class="mcrew">DS Crewmates</b>&nbsp;&nbsp;BC · TL · SR<br>
-      <b class="mcare">DS Carepack</b>&nbsp;&nbsp;Checklist · Risk-Reward · Pen · P&amp;L
-    </div>
-    <div class="wm"><b>DS</b> <span>UNIVERSE</span></div>
-    <div class="rule"></div>
-    <div class="tag">Intelligence · Every Timeframe</div>
-    <div class="sub">Futures — Precision From Orbit</div>
-  </div>
+  <img src="DS%20Universe_BANNER_1920x600.png" alt="DS Universe — Systems · Radars · Crewmates · Carepack · Futures Intelligence, Every Timeframe">
+  <div class="fade"></div>
 </header>
 
 <!-- HERO -->
@@ -181,7 +182,7 @@
   <div class="wrap">
     <div class="map">
       <b class="sys">DS SYSTEMS</b> &nbsp;&nbsp;: &nbsp;ORBIT · STARS · BALANCE · EMBER · COUNCIL · PULSE<br>
-      <b class="rad">DS RADARS</b> &nbsp;&nbsp;&nbsp;: &nbsp;PILOTS · SWEEPER · EVERGUARD<br>
+      <b class="rad">DS RADARS</b> &nbsp;&nbsp;&nbsp;: &nbsp;PILOTS · SWEEPER · BEACON<br>
       <b class="crew">DS CREWMATES</b> : &nbsp;BC · TL · SR<br>
       <b class="care">DS CAREPACK</b> &nbsp;: &nbsp;CHECKLIST · RISK-REWARD · PEN · P&amp;L
     </div>
@@ -214,7 +215,7 @@
     <p class="lead">DS BC reads the chart's skeleton for you. It marks <b>BOS</b> when a trend pushes through its last swing and keeps going, <b>CHoCH</b> the moment momentum flips the other way, and the <b>EQH / EQL</b> liquidity pools price loves to hunt. Bullish events glow green, bearish events glow orange — so the story of the move is readable at a glance.</p>
 
     <div class="shot">
-      <img src="/capabilities/cap-02.webp" alt="DS BC — live BOS / CHoCH labelling across a full swing">
+      <img src="DS_20260617_035218.png" alt="DS BC — live BOS / CHoCH labelling across a full swing">
       <div class="bar"><span>DS BC · Live BOS / CHoCH</span><span>Green = bullish · Orange = bearish</span></div>
     </div>
 
@@ -244,7 +245,7 @@
     <p class="lead">DS TL draws one clean trend line — the one that actually matters right now. In an uptrend it tracks ascending support in green; in a downtrend it tracks descending resistance in orange; sideways, it greys out. Each new swing refreshes it to the freshest pivots, a retroactive check rejects any line that intervening candles already pierced, and the instant price breaks or drifts away from it, the line <b>deletes itself.</b> You never stare at a stale line again.</p>
 
     <div class="shot">
-      <img src="/capabilities/cap-01.webp" alt="DS TL — a single self-managing trend line tracking ascending support">
+      <img src="DS_20260617_034932.png" alt="DS TL — a single self-managing trend line tracking ascending support">
       <div class="bar"><span>DS TL · Self-Managing Trend Line</span><span>Green up · Orange down · Grey flat</span></div>
     </div>
 
@@ -273,7 +274,7 @@
     <p class="lead">DS SR finds the levels that earn their keep. Confirmed swing pivots are clustered into touch-weighted zones and ranked by strength — <b>S&nbsp;×1, S&nbsp;×2…</b> for support, <b>R&nbsp;×1, R&nbsp;×2…</b> for resistance — so the more a level is respected, the louder it speaks. Support glows green, resistance orange, and when price decisively closes through a level, DS SR erases it. The chart cleans itself after every sweep.</p>
 
     <div class="shot">
-      <img src="/capabilities/cap-11.webp" alt="DS SR — touch-ranked, self-cleaning support and resistance levels">
+      <img src="DS_20260617_215126.png" alt="DS SR — touch-ranked, self-cleaning support and resistance levels">
       <div class="bar"><span>DS SR · Touch-Ranked Levels</span><span>They're not just random lines</span></div>
     </div>
 
@@ -319,7 +320,7 @@
 <!-- CLOSING -->
 <section class="closing">
   <div class="wrap">
-    <div class="logo-seal"><img src="/brand/emblem.png" alt="DS Universe"></div>
+    <div class="logo-seal"><img src="DS%20Universe_Logo.png" alt="DS Universe"></div>
     <div class="free-chip" style="justify-content:center">DS Universe</div>
     <h1 class="display">Suit up.<br>The crew's<br><span class="grad-green">free.</span></h1>
     <p class="lead" style="margin:26px auto 0;text-align:center">Three tools. Zero cost. No ads. Put a pro-grade chart in front of yourself today — then keep going when you're ready for more.</p>

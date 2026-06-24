@@ -32,3 +32,11 @@ next-env.d.ts
 
 # scratch / private working folder (contains hosting notes, source dumps)
 What i need/
+
+# orphaned OS/editor file handles (deleted-but-open files) - never commit
+.fuse_hidden*
+**/.fuse_hidden*
+
+# local preview/debug logs
+_preview_console.log
+*.log

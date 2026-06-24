@@ -14,16 +14,9 @@ function SuiteBlock({ suite, premium }: { suite: Suite; premium?: boolean }) {
       className={cn(
         "relative flex flex-col gap-8",
         premium &&
-          "rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 shadow-glow sm:p-9",
+          "rounded-3xl border border-[#e3b24f]/[0.10] bg-white/[0.02] p-6 sm:p-9",
       )}
     >
-      {/* Premium ambient glow behind the flagship suite */}
-      {premium && (
-        <div
-          aria-hidden
-          className="bg-ai pointer-events-none absolute -inset-x-6 -inset-y-10 -z-10 rounded-[2rem] opacity-[0.07] blur-3xl"
-        />
-      )}
 
       <Reveal>
         <div
@@ -98,7 +91,7 @@ export function Indicators() {
           eyebrow="The Instruments"
           title="Two suites."
           titleMuted="One intelligence."
-          intro="Thirteen indicators, two drawing tools, the DS Registry add-on and the DS P&L — the full DS Universe arsenal. Two suites lead the read below: the Systems map the field, the Radars decode the live tape. Cross-referenced and rendered without a hint of lag."
+          intro="Thirteen indicators, two drawing tools, the DS Registry add-on and the DS P&L — the full DS Universe arsenal. Two suites lead the read below: the Systems map the field on one cross-referenced mind, the DS Registry; the Radars decode the live tape standalone. All rendered without a hint of lag."
           className="mb-10 max-w-3xl"
         />
 

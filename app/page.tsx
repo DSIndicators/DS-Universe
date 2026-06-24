@@ -10,13 +10,15 @@ import { Pricing } from "@/components/Pricing";
 import { CTASection } from "@/components/CTASection";
 import { Footer } from "@/components/Footer";
 
+// Home page. Orb: rigid rotation, no in-orb stars; uniform black background.
 export default function Home() {
   return (
     <>
       <Navbar />
       <main className="relative overflow-hidden">
-        {/* Global faint starfield behind the whole page */}
-        <div className="starfield pointer-events-none fixed inset-0 -z-10 opacity-[0.12]" />
+        {/* Background is the global WebGL starfield over a single uniform
+            space-black (set on <body>). No vignette overlay - keeps the
+            backdrop one consistent black with no uneven bands. */}
         <Hero />
         <Capabilities />
         <Indicators />

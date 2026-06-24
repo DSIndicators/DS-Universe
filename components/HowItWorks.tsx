@@ -11,7 +11,7 @@ const STEPS = [
   {
     n: "02",
     title: "Load the read",
-    body: "Pilots, Sweeper and Everguard light up the tape; Orbit, Stars, Balance, Ember and Council map the field on the DS Registry core — while DS Pulse reads raw order flow as the standalone, no Registry required.",
+    body: "Pilots, Sweeper and Beacon light up the tape; Orbit, Stars, Balance, Ember and Council map the field on the DS Registry core — while DS Pulse reads raw order flow as the standalone, no Registry required.",
   },
   {
     n: "03",
