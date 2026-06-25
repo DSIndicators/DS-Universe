@@ -176,6 +176,79 @@ export function Emblem({ name, size = 22, className, strokeWidth = 1.5 }: Emblem
         </svg>
       );
 
+    // ---- DS Carepack ---------------------------------------------------------
+    case "checklist":
+      // A plan panel with rules ticked off.
+      return (
+        <svg {...common}>
+          <rect x="4" y="3.5" width="16" height="17" rx="2" />
+          <path d="M6.8 8.4l1.3 1.3 2.3-2.5" />
+          <path d="M13.2 8.3h3.6" opacity="0.7" />
+          <path d="M6.8 14l1.3 1.3 2.3-2.5" />
+          <path d="M13.2 13.9h3.6" opacity="0.7" />
+        </svg>
+      );
+    case "riskreward":
+      // Entry line with stacked reward rails above and a risk rail below.
+      return (
+        <svg {...common}>
+          <path d="M5 5.5V18.5" />
+          <path d="M5 12h14" />
+          <path d="M5 8.4h11" opacity="0.7" />
+          <path d="M5 5.5h8" opacity="0.5" />
+          <path d="M5 18.5h11" opacity="0.85" />
+        </svg>
+      );
+    case "pen":
+      // Freehand stylus over a smooth stroke.
+      return (
+        <svg {...common}>
+          <path d="M16.3 4.4l3.3 3.3-9.6 9.6-4.1 .8 .8-4.1z" />
+          <path d="M14.1 6.6l3.3 3.3" opacity="0.7" />
+          <path d="M4.5 20c2-2.6 3.7-2.6 5.2-1" opacity="0.5" />
+        </svg>
+      );
+    case "pnl":
+      // Equity curve climbing inside the journal frame.
+      return (
+        <svg {...common}>
+          <path d="M4 4v16h16" />
+          <path d="M5.5 16l3-3 2.6 1.6 4-6 3 2.4" />
+          <circle cx="18.1" cy="11" r="1.1" fill="currentColor" stroke="none" />
+        </svg>
+      );
+
+    // ---- DS Crewmates --------------------------------------------------------
+    case "bc":
+      // Market structure: a rising zigzag with a broken level and a liquidity pool.
+      return (
+        <svg {...common}>
+          <path d="M3.5 16.5l4-5 3 3 4-7 2.5 3.4" />
+          <path d="M14 9.6h6" opacity="0.5" />
+          <circle cx="7.5" cy="11.5" r="0.95" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "tl":
+      // One clean trend line anchored on two pivots, with a touch.
+      return (
+        <svg {...common}>
+          <path d="M4 19L20 6" />
+          <circle cx="4" cy="19" r="1.2" fill="currentColor" stroke="none" />
+          <circle cx="20" cy="6" r="1.2" fill="currentColor" stroke="none" />
+          <path d="M9.2 16.4l3.4 1.9" opacity="0.45" />
+        </svg>
+      );
+    case "sr":
+      // Support & resistance rails with strength ticks.
+      return (
+        <svg {...common}>
+          <path d="M4 8h16" />
+          <path d="M4 16h16" />
+          <path d="M7.5 8V6.4M11.5 8V6.4" opacity="0.6" />
+          <path d="M7.5 16v1.6M11.5 16v1.6M15.5 16v1.6" opacity="0.6" />
+        </svg>
+      );
+
     default:
       return (
         <svg {...common}>

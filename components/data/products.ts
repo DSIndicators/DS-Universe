@@ -1,15 +1,15 @@
 /**
- * Product copy sourced from the official DS Radars + DS Systems brochures.
- * The two flagship on-chart suites — DS Systems (6) and DS Radars (3). Part of the
- * full DS Universe catalog: 13 indicators, 2 drawing tools, 1 add-on (DS Registry)
- * and the DS P&L. Edit here to update every Systems/Radars card on the site.
+ * Product copy sourced from the official DS Universe brochures + guides.
+ * Four suites in one shared card format: DS Systems (6) and DS Radars (3) flagship
+ * on-chart suites, plus the DS Carepack (4 finishing tools) and the free DS
+ * Crewmates (3). Edit here to update every suite card on the site.
  *
  * NOTE: PULSE has no dedicated brochure page yet — only the one-line description
  * "hears the order flow". Copy below is a faithful expansion of that line.
  * // TODO: replace PULSE copy once a PULSE brochure page exists.
  */
 
-export type Suite = "radars" | "systems";
+export type Suite = "radars" | "systems" | "carepack" | "crewmates";
 
 export type Product = {
   name: string;
@@ -39,6 +39,16 @@ export const SUITES: Record<
     label: "The DS Systems Suite",
     title: "DS Systems",
     line: "Six instruments. One mind. Precision from orbit.",
+  },
+  carepack: {
+    label: "The DS Carepack",
+    title: "DS Carepack",
+    line: "Four finishing tools. The part of the trade that's all you.",
+  },
+  crewmates: {
+    label: "The DS Crewmates",
+    title: "DS Crewmates",
+    line: "Three free chart tools. A beginner's chart that reads like a pro's.",
   },
 };
 
@@ -132,5 +142,75 @@ export const PRODUCTS: Product[] = [
       "Our most powerful read — Pulse hears the true order flow beneath the tape, the live pressure other tools only infer. It runs standalone — no Registry required — and comes free in the Systems package; just enable Tick Replay.",
     icon: "AudioLines",
     glow: "cyan",
+  },
+
+  // ── DS Carepack ──────────────────────────────────────────────
+  // Four finishing tools — free with DS Systems ($29.99 value).
+  {
+    name: "CHECKLIST",
+    suite: "carepack",
+    tagline: "Forces the process.",
+    description:
+      "Puts your trading plan where your eyes already are — write your own entry rules into a clean panel and tick them off before you ever click. Click a row to toggle it; click the title to wipe the slate for the next setup. No engine, no signals — just the discipline.",
+    icon: "Checklist",
+    glow: "ember",
+  },
+  {
+    name: "RISK-REWARD",
+    suite: "carepack",
+    tagline: "The math, as you drag.",
+    description:
+      "Click your entry, drag to your stop, and it draws the whole trade — a red risk zone below and stacked green rails at 1R, 2R, 3R above, each labelled in points and dollars. Size it by contracts and the numbers update live, so you see exactly what you risk before you commit.",
+    icon: "RiskReward",
+    glow: "ember",
+  },
+  {
+    name: "PEN",
+    suite: "carepack",
+    tagline: "Mark it up by hand.",
+    description:
+      "A smooth freehand drawing tool — sketch a path, circle a level, trace a pattern straight onto price. The stroke is curve-smoothed and frame-rate throttled under the hood, so it stays clean and effortless even on a busy, fast-moving chart.",
+    icon: "Pen",
+    glow: "cyan",
+  },
+  {
+    name: "P&L",
+    codename: "The command centre",
+    suite: "carepack",
+    tagline: "Your whole edge, on screen.",
+    description:
+      "Drop a NinjaTrader CSV and it matches your fills into round-trips and computes the P&L for you — no profit column needed. Cumulative net P&L over a living equity curve, drawdown, daily and weekday shape, R-multiple distribution and per-symbol analytics. Re-imports are safe, and everything stays on your computer.",
+    icon: "Pnl",
+    glow: "ember",
+  },
+
+  // ── DS Crewmates ─────────────────────────────────────────────
+  // The free Tier-1 set — same engine as the paid suite, scaled to the essentials.
+  {
+    name: "BC",
+    suite: "crewmates",
+    tagline: "Structure, in plain sight.",
+    description:
+      "Reads the chart's skeleton for you — marking BOS when a trend pushes through its last swing, CHoCH the moment momentum flips, and the EQH/EQL liquidity pools price loves to hunt. Bullish events glow green, bearish orange; closed-bar and feather-light.",
+    icon: "Bc",
+    glow: "teal",
+  },
+  {
+    name: "TL",
+    suite: "crewmates",
+    tagline: "Always the right line.",
+    description:
+      "Draws the one trend line that matters right now — green in an uptrend, orange in a downtrend, grey sideways. Each new swing re-anchors it, a retroactive check rejects any line price already pierced, and it deletes itself the instant the trend breaks. Never a stale line again.",
+    icon: "Tl",
+    glow: "cyan",
+  },
+  {
+    name: "SR",
+    suite: "crewmates",
+    tagline: "Strength you can read.",
+    description:
+      "Clusters confirmed swing pivots into touch-weighted zones, ranked by strength — S×1, S×2… for support, R×1, R×2… for resistance. Support glows green, resistance orange, and the chart erases a level the moment price decisively closes through it.",
+    icon: "Sr",
+    glow: "teal",
   },
 ];

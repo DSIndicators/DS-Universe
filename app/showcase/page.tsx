@@ -5,6 +5,9 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Showcase } from "@/components/Showcase";
+import { Features } from "@/components/Features";
+import { HowItWorks } from "@/components/HowItWorks";
+import { DsPnl } from "@/components/DsPnl";
 
 export const metadata: Metadata = {
   title: "Showcase — DS Universe (Systems · Radars · Crewmates · Carepack)",
@@ -45,6 +48,13 @@ export default function ShowcasePage() {
 
           <Showcase />
         </section>
+
+        {/* The deep-dive sections, relocated from the home page: the Signature
+            Ember story, How It Works, and the DS P&L command centre — they live
+            below the guides so the Showcase carries the full product narrative. */}
+        <Features />
+        <HowItWorks />
+        <DsPnl />
       </main>
       <Footer />
     </>

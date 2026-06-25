@@ -11,9 +11,10 @@ import { Reveal } from "@/components/ui/Reveal";
  * product screenshots (owner-approved imagery). The two shots sit side by side
  * with a single audience summary below the pair.
  */
+// The new gold DS P&L dashboard captures.
 const SHOTS = [
-  { src: "/pnl/overview.webp", w: 1564, h: 836, label: "The overview" },
-  { src: "/pnl/calendar.webp", w: 1564, h: 915, label: "The P&L calendar" },
+  { src: "/showcase/pnl-overview.png", w: 1600, h: 860, label: "The overview" },
+  { src: "/showcase/pnl-calendar.png", w: 1600, h: 860, label: "The P&L calendar" },
 ];
 
 export function DsPnl() {

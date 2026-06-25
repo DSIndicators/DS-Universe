@@ -1,13 +1,21 @@
+import { Sparkles } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { IndicatorCard } from "@/components/IndicatorCard";
 import { IntelligenceCore } from "@/components/ui/IntelligenceCore";
+import { GlassCard } from "@/components/ui/GlassCard";
+import { Emblem } from "@/components/ui/Emblem";
 import { PRODUCTS, SUITES, type Suite } from "@/components/data/products";
 import { cn } from "@/components/ui/cn";
 
 function SuiteBlock({ suite, premium }: { suite: Suite; premium?: boolean }) {
   const meta = SUITES[suite];
   const items = PRODUCTS.filter((p) => p.suite === suite);
+  // DS P&L is the one non-indicator in the Carepack — a standalone journal app.
+  // Pull it out of the card grid and give it a full-width "Exclusive" banner
+  // below the three on-chart tools. Every other suite is unaffected.
+  const wide = suite === "carepack" ? items.find((p) => p.name === "P&L") : undefined;
+  const gridItems = wide ? items.filter((p) => p !== wide) : items;
 
   return (
     <div
@@ -70,12 +78,57 @@ function SuiteBlock({ suite, premium }: { suite: Suite; premium?: boolean }) {
       </Reveal>
 
       <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {items.map((p, i) => (
+        {gridItems.map((p, i) => (
           <Reveal as="li" key={p.name} delay={(i % 3) * 0.08} className="h-full">
             <IndicatorCard product={p} />
           </Reveal>
         ))}
       </ul>
+
+      {/* DS P&L — the lone non-indicator add-on: a standalone P&L journal app.
+          Rendered as a full-width "Exclusive" banner spanning evenly below the
+          three on-chart Carepack tools. */}
+      {wide && (
+        <Reveal>
+          <GlassCard
+            glow="ember"
+            className="relative flex flex-col gap-5 overflow-hidden p-6 sm:flex-row sm:items-center sm:gap-8 sm:p-8"
+          >
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-12 -top-16 h-52 w-52 rounded-full bg-[#ff9a3c]/15 blur-3xl"
+            />
+
+            {/* Identity column — emblem, exclusive badge, name, tagline. */}
+            <div className="flex items-center gap-4 sm:w-[16rem] sm:shrink-0 sm:flex-col sm:items-start sm:gap-3">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#e3b24f]/[0.10] bg-white/[0.03] text-[#ffb986]">
+                <Emblem name="pnl" size={24} strokeWidth={1.5} />
+              </span>
+              <div className="flex flex-col gap-2">
+                <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-[#ff9a3c]/40 bg-[#ff9a3c]/10 px-2.5 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.18em] text-[#ffb986]">
+                  <Sparkles size={11} /> Exclusive
+                </span>
+                <h4 className="label-caps !text-sm !tracking-[0.22em]">
+                  {wide.name}
+                </h4>
+                <p className="font-sans text-lg font-semibold text-ink-white">
+                  {wide.tagline}
+                </p>
+              </div>
+            </div>
+
+            {/* Detail column — description + the "what it is" note. */}
+            <div className="flex flex-col gap-3 sm:border-l sm:border-[#e3b24f]/[0.08] sm:pl-8">
+              <p className="text-sm leading-relaxed text-ink-gray">
+                {wide.description}
+              </p>
+              <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-ink-gray/55">
+                The one non-indicator in the Carepack — a standalone P&amp;L journal app, free with DS Systems.
+              </p>
+            </div>
+          </GlassCard>
+        </Reveal>
+      )}
     </div>
   );
 }
@@ -89,15 +142,17 @@ export function Indicators() {
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
           eyebrow="The Instruments"
-          title="Two suites."
-          titleMuted="One intelligence."
-          intro="Thirteen indicators, two drawing tools, the DS Registry add-on and the DS P&L — the full DS Universe arsenal. Two suites lead the read below: the Systems map the field on one cross-referenced mind, the DS Registry; the Radars decode the live tape standalone. All rendered without a hint of lag."
+          title="Four suites."
+          titleMuted="One universe."
+          intro="The full DS Universe arsenal in one card language. The Systems map the field on one cross-referenced mind, the DS Registry; the Radars decode the live tape standalone; the DS Carepack finishes every trade with discipline, math and markup; and the free DS Crewmates give a beginner's chart that reads like a pro's. All rendered without a hint of lag."
           className="mb-10 max-w-3xl"
         />
 
         <div className="flex flex-col gap-12">
           <SuiteBlock suite="systems" premium />
           <SuiteBlock suite="radars" />
+          <SuiteBlock suite="carepack" />
+          <SuiteBlock suite="crewmates" />
         </div>
       </div>
     </section>

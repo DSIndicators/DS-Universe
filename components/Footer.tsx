@@ -147,16 +147,16 @@ export function Footer() {
               Disclaimer
             </h4>
             <p className="max-w-4xl leading-relaxed">
-              DS Universe provides both free, ad-supported tools and paid premium
-              suites, all designed as confirmation aids, not trading signals.
-              Nothing provided by DS Universe constitutes financial advice,
-              investment recommendations, or an offer to buy or sell any financial
-              instrument. Trading futures and other leveraged products involves
-              substantial risk and may not be suitable for all traders. Past
-              performance does not guarantee future results. Users are fully
-              responsible for their own trading decisions. DS Universe is not a
-              broker, financial advisor, or CTA. All tools are provided for
-              educational and informational purposes only.
+              DS Universe provides free tools and paid premium suites, all
+              designed as confirmation aids, not trading signals. Nothing provided
+              by DS Universe constitutes financial advice, investment
+              recommendations, or an offer to buy or sell any financial instrument.
+              Trading futures and other leveraged products involves substantial
+              risk and may not be suitable for all traders. Past performance does
+              not guarantee future results. Users are fully responsible for their
+              own trading decisions. DS Universe is not a broker, financial
+              advisor, or CTA. All tools are provided for educational and
+              informational purposes only.
             </p>
           </div>
           <p>© {new Date().getFullYear()} DS Universe. All rights reserved.</p>

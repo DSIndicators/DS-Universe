@@ -50,10 +50,10 @@ export function Features() {
             <div className="pointer-events-none absolute -inset-x-10 -top-24 h-56 bg-[#d99a3a]/15 opacity-60 blur-3xl" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/ember/ember-annotated.webp"
-              alt="DS Ember coloring a chart green and orange with check and cross marks — every trend re-read live, zero repaints."
-              width={1944}
-              height={1117}
+              src="/showcase/ember-hero.png"
+              alt="DS Ember turning candles into living heat signatures — every trend re-read live, zero repaints."
+              width={1600}
+              height={1000}
               loading="lazy"
               decoding="async"
               className="relative block w-full"
@@ -74,10 +74,10 @@ export function Features() {
                 <figure className="relative border-b border-r border-[#e3b24f]/[0.05]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/ember/ember-before-2.webp"
+                    src="/showcase/ember-before-2.png"
                     alt="Raw candles flipping color on every small pullback through a trend."
-                    width={2340}
-                    height={1251}
+                    width={1600}
+                    height={905}
                     loading="lazy"
                     decoding="async"
                     className="block w-full"
@@ -89,10 +89,10 @@ export function Features() {
                 <figure className="relative border-b border-[#e3b24f]/[0.05]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/ember/ember-after-2.webp"
+                    src="/showcase/ember-after-2.png"
                     alt="The same chart with DS Ember holding one color per trend and flipping only at the real turn."
-                    width={2332}
-                    height={1256}
+                    width={1600}
+                    height={905}
                     loading="lazy"
                     decoding="async"
                     className="block w-full"
@@ -122,10 +122,10 @@ export function Features() {
                 <figure className="relative border-b border-r border-[#e3b24f]/[0.05]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/ember/ember-before-1.webp"
+                    src="/showcase/ember-before-1.png"
                     alt="A raw candlestick chart before DS Ember."
-                    width={2267}
-                    height={1218}
+                    width={1600}
+                    height={1000}
                     loading="lazy"
                     decoding="async"
                     className="block w-full"
@@ -137,10 +137,10 @@ export function Features() {
                 <figure className="relative border-b border-[#e3b24f]/[0.05]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/ember/ember-after-1.webp"
+                    src="/showcase/ember-after-1.png"
                     alt="The same chart after DS Ember re-colors every candle to the trend's health."
-                    width={2266}
-                    height={1217}
+                    width={1600}
+                    height={1000}
                     loading="lazy"
                     decoding="async"
                     className="block w-full"

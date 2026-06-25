@@ -14,6 +14,15 @@ const EMBLEM: Record<string, string> = {
   Flame: "ember",
   Vote: "council",
   AudioLines: "pulse",
+  // DS Carepack
+  Checklist: "checklist",
+  RiskReward: "riskreward",
+  Pen: "pen",
+  Pnl: "pnl",
+  // DS Crewmates
+  Bc: "bc",
+  Tl: "tl",
+  Sr: "sr",
 };
 
 export function IndicatorCard({ product }: { product: Product }) {

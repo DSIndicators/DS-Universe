@@ -31,7 +31,7 @@ const SECTIONS: Section[] = [
       },
       {
         ul: [
-          "DS Radars (paid) — panel overlay indicators, comprising Pilots (DSPilotsLv100), Sweeper (DSSweeperLV100), and Beacon (DSBeaconLV100).",
+          "DS Radars (paid) — panel overlay indicators, comprising DS Pilots, DS Sweeper, and DS Beacon.",
           "DS Systems (paid) — chart overlay indicators, comprising DS Orbit, DS Stars, DS Balance, DS Council, DS Ember, and DS Pulse, together with the shared OrbitStarsRegistry component on which certain of them depend.",
           "DS Crewmates (free) — the DS BC, DS SR, and DS TL indicators, provided free of charge.",
           "DS Carepack (included free with each DS Systems purchase, or available as a separate paid purchase) — the DS CL (Checklist), DS Risk-Reward, and DS Pen tools, together with the DS P&L companion dashboard.",

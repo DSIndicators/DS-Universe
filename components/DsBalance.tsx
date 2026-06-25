@@ -1,36 +1,13 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 
 /**
- * DS Balance — the VWAP dealing-range read, ported from the DS Balance explainer
- * and condensed for the page: a live "cockpit" runway panel that cycles through
- * Discount → Equilibrium → Premium, three state cards, and the closer. The
- * heavier decode table and live clock from the source are intentionally dropped
- * so the section stays clean.
+ * DS Balance — the VWAP dealing-range read. The live UI is shown as the real
+ * gold DS Balance panel capture (replacing the older coded cockpit mockup);
+ * the explanation, three state cards and closer stay as the surrounding copy.
  */
 const PREMIUM = "#f0892e";
 const EQUI = "#f0c878";
 const DISCOUNT = "#b98f3a";
-
-type State = {
-  pct: string;
-  zone: string;
-  sign: string;
-  rsi: string;
-  price: string;
-  color: string;
-  mark: number; // % from top of the runway (low price = lower = higher %)
-};
-
-const STATES: State[] = [
-  { pct: "22.00%", zone: "DISCOUNT", sign: "+", rsi: "27.4", price: "29916.00", color: DISCOUNT, mark: 78 },
-  { pct: "49.00%", zone: "EQUILIBRIUM", sign: "+", rsi: "49.4", price: "29997.00", color: EQUI, mark: 51 },
-  { pct: "87.83%", zone: "PREMIUM", sign: "−", rsi: "71.8", price: "30113.50", color: PREMIUM, mark: 12 },
-];
-const RUN_HIGH = "30150.00";
-const RUN_LOW = "29850.00";
 
 const CARDS = [
   {
@@ -61,71 +38,6 @@ const CARDS = [
     benefit: "Your buy-the-dip read. You look for longs back toward value off the teal floor, on BOS confirmation rather than catching the knife.",
   },
 ];
-
-function Cockpit() {
-  const [i, setI] = useState(1); // open on Equilibrium
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => setI((p) => (p + 1) % STATES.length), 3500);
-    return () => clearInterval(id);
-  }, []);
-
-  const s = STATES[i];
-
-  return (
-    <div
-      role="img"
-      aria-label={`DS Balance cockpit — ${s.zone}, ${s.pct}`}
-      className="grid w-full max-w-[400px] grid-cols-[auto_1fr] items-center gap-7 rounded-2xl border border-[#f0c878]/20 bg-[#060409] px-7 py-8 shadow-[0_30px_70px_-40px_rgba(138, 106, 46,0.9)]"
-    >
-      {/* Runway */}
-      <div
-        className="relative mx-auto h-56 w-1.5 rounded-full"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(240,137,46,.7), rgba(244, 205, 122,.5) 50%, rgba(52,203,161,.7))",
-        }}
-      >
-        <span
-          className="absolute left-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#080706] bg-[#f4e6c4] transition-[top,box-shadow] duration-700 ease-[cubic-bezier(.5,0,.2,1)]"
-          style={{ top: `${s.mark}%`, boxShadow: `0 0 14px ${s.color}` }}
-        />
-      </div>
-
-      {/* Readout */}
-      <div className="flex flex-col items-center gap-1 text-center">
-        <span
-          className="font-sans text-[2.6rem] font-extrabold leading-none tracking-tight transition-colors duration-500"
-          style={{ color: s.color, textShadow: `0 0 26px ${s.color}88` }}
-        >
-          {s.pct}
-        </span>
-        <span
-          className="flex items-center gap-3 font-sans text-sm font-semibold uppercase tracking-[0.34em] transition-colors duration-500"
-          style={{ color: s.color }}
-        >
-          {s.zone}
-          <span className="font-mono text-base text-ink-gray">{s.sign}</span>
-        </span>
-        <span className="mt-2 font-mono text-[0.7rem] tracking-wide" style={{ color: EQUI }}>
-          MNQ · 1m · RSI {s.rsi}
-        </span>
-        <span className="mt-2 font-mono text-base text-ink-white">{s.price}</span>
-        <span className="mt-1 flex gap-5 font-mono text-sm">
-          <span style={{ color: PREMIUM }}>
-            {RUN_HIGH}
-            <sup className="text-[0.5rem] opacity-80">H</sup>
-          </span>
-          <span style={{ color: DISCOUNT }}>
-            {RUN_LOW}
-            <sup className="text-[0.5rem] opacity-80">L</sup>
-          </span>
-        </span>
-      </div>
-    </div>
-  );
-}
 
 export function DsBalance() {
   return (
@@ -158,7 +70,23 @@ export function DsBalance() {
 
         {/* Live cockpit */}
         <Reveal className="flex flex-col items-center gap-3">
-          <Cockpit />
+          {/* The real DS Balance panel — clean UI, universal bar timer. */}
+          <figure className="relative w-full max-w-[340px] overflow-hidden rounded-2xl border border-[#f0c878]/20 bg-[#060409] shadow-[0_30px_70px_-40px_rgba(138,106,46,0.9)]">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -inset-x-8 -top-16 h-40 bg-[#f0c878]/12 opacity-70 blur-3xl"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/showcase/balance-ui.png"
+              alt="The DS Balance panel — premium / value / discount runway with %B, RSI and VWAP all aligned on one read."
+              width={628}
+              height={700}
+              loading="lazy"
+              decoding="async"
+              className="relative block w-full"
+            />
+          </figure>
           <p className="max-w-md text-center text-xs leading-relaxed text-ink-gray/70">
             The&nbsp;% is where price sits inside the Bollinger Band — 100% pinned to
             the upper band, 0% at the lower band, 50% in the middle. A position in the

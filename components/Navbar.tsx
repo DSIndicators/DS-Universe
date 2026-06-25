@@ -9,7 +9,7 @@ import { cn } from "@/components/ui/cn";
 const LINKS = [
   { label: "Indicators", href: "/#indicators" },
   { label: "Capabilities", href: "/#capabilities" },
-  { label: "Features", href: "/#features" },
+  { label: "Features", href: "/showcase#features" },
   { label: "Showcase", href: "/showcase" },
   { label: "Gallery", href: "/gallery" },
   { label: "Pricing", href: "/#pricing" },
