@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { SmoothAnchors } from "@/components/SmoothAnchors";
 import { StoreBanner } from "@/components/StoreBanner";
+import { ComingSoon } from "@/components/ComingSoon";
 import { SpaceBackground } from "@/components/ui/SpaceBackground";
 import "./globals.css";
 
@@ -77,6 +78,10 @@ export default function RootLayout({
         {/* Mascot intentionally OFF (premium gold direction). */}
         <SmoothAnchors />
         {children}
+        {/* TEMP: full-screen "Coming Soon" cover over the whole site.
+            Preview the real site at /?preview=gargantua · re-lock with /?preview=off
+            Remove THIS line (and components/ComingSoon.tsx) to launch. */}
+        <ComingSoon />
       </body>
     </html>
   );
