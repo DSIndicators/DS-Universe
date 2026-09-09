@@ -13,8 +13,13 @@
  */
 
 export const NT_LINKS = {
-  /** NinjaTrader-issued partner link — use for the NinjaTrader logo and the main CTA. */
-  partner: "https://ninjatraderus.pxf.io/L0yA73",
+  /**
+   * Tom's NinjaTrader affiliate link (given 2026-09-09). This is the ONLY
+   * place it is written down — every NinjaTrader logo and CTA on the site
+   * reads it from here, including the black bar in app/layout.tsx. Change it
+   * here and it changes everywhere; never paste the URL into a component.
+   */
+  partner: "https://ninjatraderus.pxf.io/c/7730005/3067403/37538",
   /** Text-link targets from NinjaTrader_Text_with_Links. */
   home: "https://ninjatrader.com",
   getStarted: "https://ninjatrader.com/GetStarted",
