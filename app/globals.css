@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   DS Universe — base
+   White ground. Cool grey type. One gold accent. Generous air.
+   ------------------------------------------------------------------ */
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-ground font-sans text-[17px] leading-[1.6] text-ink;
+    font-feature-settings: "cv11", "ss01", "kern";
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: #f4ebd6;
+    color: #14161a;
+  }
+  :focus-visible {
+    outline: 2px solid #c39b45;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-wrap px-6 sm:px-8 lg:px-10;
+  }
+
+  /* Type scale — display is light and tight, the way the reference sets it. */
+  .display-xl {
+    @apply font-display font-light tracking-tightest text-[clamp(2.75rem,6.2vw,5rem)] leading-[1.02];
+  }
+  .display-lg {
+    @apply font-display font-light tracking-tightest text-[clamp(2.25rem,4.6vw,3.5rem)] leading-[1.06];
+  }
+  .display-md {
+    @apply font-display font-light tracking-[-0.025em] text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.1];
+  }
+  .display-sm {
+    @apply font-display font-normal tracking-[-0.015em] text-[1.375rem] leading-[1.25];
+  }
+  .lede {
+    @apply text-[clamp(1.125rem,1.5vw,1.375rem)] leading-[1.5] text-slate;
+  }
+  .body {
+    @apply text-[17px] leading-[1.65] text-slate;
+  }
+  .label {
+    @apply text-[12.5px] font-medium uppercase tracking-[0.14em] text-mute;
+  }
+  .hairline {
+    @apply border-t border-line;
+  }
+
+  /* Buttons — two, that's it. */
+  .btn {
+    @apply inline-flex h-12 items-center justify-center gap-2 rounded-md px-6 text-[15px] font-medium transition-all duration-300 ease-silk;
+  }
+  .btn-primary {
+    @apply btn bg-ink text-white hover:bg-[#2A2E35] hover:shadow-lift;
+  }
+  .btn-ghost {
+    @apply btn border border-line-strong bg-white text-ink hover:border-ink;
+  }
+
+  /* Chip — categories, hooks. */
+  .chip {
+    @apply inline-flex items-center rounded-full border border-line bg-white px-3.5 py-1.5 text-[13.5px] text-slate;
+  }
+  .chip-gold {
+    @apply inline-flex items-center gap-2 rounded-full bg-gold-soft px-3.5 py-1.5 text-[13px] font-medium text-gold-deep;
+  }
+
+  /* The soft hero wash — white into a barely-there gold. */
+  .hero-wash {
+    background:
+      radial-gradient(120% 80% at 85% 10%, rgba(195, 155, 69, 0.10) 0%, rgba(195, 155, 69, 0) 55%),
+      linear-gradient(180deg, #ffffff 0%, #fbf8f1 100%);
+  }
+
+  /* Diagonal hem under the hero, like the reference. */
+  .hem {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  @screen md {
+    .hem {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 58% 100%, 46% 86%, 0 86%);
+    }
+  }
+
+  /* Card with a real, quiet lift on hover. */
+  .card {
+    @apply rounded-2xl border border-line bg-white transition-all duration-500 ease-silk;
+  }
+  .card:hover {
+    @apply -translate-y-0.5 border-line-strong shadow-lift;
+  }
+}
+
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+/* Hero entrance — CSS only, so the first paint is already moving. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes rise-monitor {
+  from { opacity: 0; transform: translateY(28px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+.rise { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.rise-monitor { animation: rise-monitor 1.3s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both; }
