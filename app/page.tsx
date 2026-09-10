@@ -62,7 +62,7 @@ export default function HomePage() {
           <Reveal className="lg:col-span-5">
             {/* Official wordmark, ≥18px clear space, NinjaTrader partner link. */}
             <a
-              href={NT_LINKS.partner}
+              href={NT_LINKS.logo}
               target="_blank"
               rel="sponsored noopener"
               className="inline-block py-[18px] pr-[18px]"

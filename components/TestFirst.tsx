@@ -43,7 +43,7 @@ export function TestFirst({ productName }: { productName: string }) {
                 and it links where the buttons do. Official artwork, unmodified,
                 with its required 18px of clear space on every side. */}
             <a
-              href={NT_LINKS.partner}
+              href={NT_LINKS.logo}
               target="_blank"
               rel="sponsored noopener"
               className="inline-block py-[18px] pr-[18px]"

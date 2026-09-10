@@ -26,7 +26,7 @@ export default function NinjaTraderPage() {
             <Reveal>
               {/* Official wordmark, ≥18px clear space on all sides, partner link. */}
               <a
-                href={NT_LINKS.partner}
+                href={NT_LINKS.logo}
                 target="_blank"
                 rel="sponsored noopener"
                 className="inline-block py-[18px] pr-[18px]"

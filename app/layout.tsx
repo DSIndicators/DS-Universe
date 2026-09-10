@@ -70,7 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="bg-ink">
           <div className="wrap flex h-14 items-center justify-center gap-5 text-[13px] text-white/85">
             <a
-              href={NT_LINKS.partner}
+              href={NT_LINKS.logo}
               target="_blank"
               rel="sponsored noopener"
               className="inline-flex h-14 shrink-0 items-center"

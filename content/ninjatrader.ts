@@ -30,7 +30,16 @@ const AFFILIATE = "https://ninjatraderus.pxf.io/c/7730005/3067403/37538";
 const via = (url: string) => `${AFFILIATE}?u=${encodeURIComponent(url)}`;
 
 export const NT_LINKS = {
-  /** The bare affiliate link — logos and the platform bar. */
+  /**
+   * THE LOGO LINK. NinjaTrader specified this exact short link for logo
+   * placements (Gianluca Vaccari, business development, by email). It is the
+   * same partner account — following it lands on lp.ninjatrader.com/platform
+   * carrying irpid=7730005 — but it is the URL they asked for, so every
+   * NinjaTrader logo on the site uses it and nothing else.
+   */
+  logo: "https://ninjatraderus.pxf.io/L0yA73",
+
+  /** The bare affiliate link — CTAs that are not the logo. */
   partner: AFFILIATE,
 
   /**
