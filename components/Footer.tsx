@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cta } from "@/content/launch";
 import { Badge } from "@/components/ui/Badge";
 import { DISCLOSURE, NAV, SITE } from "@/content/site";
 
@@ -35,7 +36,7 @@ export function Footer() {
             <ul className="space-y-3 text-[15px]">
               <li>
                 <Link href="/products" className="text-slate transition-colors hover:text-ink">
-                  Get access
+                  {cta("Get access", "See what's coming")}
                 </Link>
               </li>
               <li>
@@ -49,20 +50,28 @@ export function Footer() {
 
         {/* Disclosures — required on every page (NinjaTrader vendor guidelines):
             futures risk disclosure, CFTC hypothetical performance disclosure, and
-            the verbatim NinjaTrader trademark statement. Visible body-style text. */}
+            the verbatim NinjaTrader trademark statement.
+
+            SIZE IS A COMPLIANCE PROPERTY, NOT A DESIGN ONE. The guidelines ask
+            for the disclosures "in same or similar style text as the primary
+            content that is easily visible", and Appendix A repeats it. These
+            were set at 13.5px against 17px body copy, which reads as fine print
+            — the single most flagged thing in a vendor review. They now match
+            the footer's own primary text at 15px, in the same colour as body
+            copy, with normal leading. Do not shrink them again. */}
         <div className="hairline mt-12 space-y-4 pt-8">
           <p className="label">Disclosures</p>
-          <p className="max-w-4xl text-[13.5px] leading-relaxed text-slate">{DISCLOSURE.short}</p>
-          <p className="max-w-4xl text-[13.5px] leading-relaxed text-slate">
+          <p className="max-w-4xl text-[15px] leading-relaxed text-slate">{DISCLOSURE.short}</p>
+          <p className="max-w-4xl text-[15px] leading-relaxed text-slate">
             <strong className="font-medium text-ink">Risk disclosure.</strong> {DISCLOSURE.risk}
           </p>
-          <p className="max-w-4xl text-[13.5px] leading-relaxed text-slate">
+          <p className="max-w-4xl text-[15px] leading-relaxed text-slate">
             <strong className="font-medium text-ink">Hypothetical performance disclosure.</strong>{" "}
             {DISCLOSURE.hypothetical}
           </p>
-          <p className="max-w-4xl text-[13.5px] leading-relaxed text-slate">{DISCLOSURE.long}</p>
-          <p className="max-w-4xl text-[13.5px] leading-relaxed text-slate">{DISCLOSURE.trademark}</p>
-          <p className="pt-2 text-[13px] text-mute">
+          <p className="max-w-4xl text-[15px] leading-relaxed text-slate">{DISCLOSURE.long}</p>
+          <p className="max-w-4xl text-[15px] leading-relaxed text-slate">{DISCLOSURE.trademark}</p>
+          <p className="pt-2 text-[13.5px] text-mute">
             © {year} {SITE.name}. An independent software developer. Kinetick® is a registered
             trademark of its owner.
           </p>

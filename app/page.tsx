@@ -1,22 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Monitor } from "@/components/ui/Monitor";
+import { WaitlistNote } from "@/components/ui/WaitlistNote";
+import { cta } from "@/content/launch";
 import { Reveal } from "@/components/ui/Reveal";
 import { Marketplace } from "@/components/Marketplace";
+import { Bundles } from "@/components/Bundles";
 import { NT_ASSETS, NT_LINKS } from "@/content/ninjatrader";
-import { ABOUT, CLOSING, FACTS, HERO, PRINCIPLES, SITE } from "@/content/site";
+import { ABOUT, CLOSING, DISCLOSURE, FACTS, HERO, PRINCIPLES, SITE } from "@/content/site";
 
 /**
- * Home order (Tom, 2026-09-08 evening): hero → NinjaTrader featured (took the
- * old About slot) → principles → storefront → About ("Built for the trader",
- * moved to the bottom) → closing.
+ * Home order: hero → NinjaTrader featured → principles → storefront →
+ * bundles → About ("Built for the trader") → closing.
  */
 export default function HomePage() {
   return (
     <>
       {/* ---------------------------------------------------------------- hero */}
       <section className="hero-wash hem relative overflow-hidden">
-        <div className="wrap grid items-center gap-12 pb-20 pt-10 sm:pt-16 lg:grid-cols-12 lg:gap-8 lg:pb-14 lg:pt-16">
+        {/* pb below md+ is deliberately larger than the hem's 88px depth so the
+            diagonal can never cut into the buttons. See .hem in globals.css. */}
+        <div className="wrap grid items-center gap-12 pb-20 pt-10 sm:pt-16 md:pb-32 lg:grid-cols-12 lg:gap-8 lg:pt-16">
           <div className="lg:col-span-5">
             <p className="label rise">{HERO.eyebrow}</p>
             <h1 className="display-xl rise mt-5 text-ink text-balance" style={{ animationDelay: "80ms" }}>
@@ -30,13 +34,24 @@ export default function HomePage() {
                 {HERO.primary.label}
               </Link>
               <Link href={HERO.secondary.href} className="btn-ghost">
-                {HERO.secondary.label}
+                {cta(HERO.secondary.label, "See what's coming")}
               </Link>
             </div>
+            {/* Said once, at the top of the site, before anyone reaches a price. */}
+            <WaitlistNote className="rise mt-7 max-w-md" />
           </div>
 
           <div className="lg:col-span-7">
             <Monitor priority className="rise-monitor lg:mt-4 lg:w-[128%]" />
+            {/* Chart images may not appear without the risk disclosure
+                alongside them (NinjaTrader vendor guidelines, p.2). The full
+                risk and hypothetical-performance disclosures are in the footer
+                of every page; this puts the plain-English one directly under
+                the charts it belongs to, in body-style text rather than fine
+                print. */}
+            <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-slate lg:mt-8">
+              {DISCLOSURE.short}
+            </p>
           </div>
         </div>
       </section>
@@ -44,7 +59,7 @@ export default function HomePage() {
       {/* ------------------------------------------- the platform, featured */}
       <section className="border-b border-line bg-wash">
         <div className="wrap grid items-center gap-12 py-16 lg:grid-cols-12 lg:gap-8 lg:py-20">
-          <Reveal className="lg:col-span-7">
+          <Reveal className="lg:col-span-5">
             {/* Official wordmark, ≥18px clear space, NinjaTrader partner link. */}
             <a
               href={NT_LINKS.partner}
@@ -70,14 +85,37 @@ export default function HomePage() {
               </Link>
             </div>
           </Reveal>
-          <Reveal delay={120} className="lg:col-span-5">
-            <Image
-              src={NT_ASSETS.monitor}
-              alt="The NinjaTrader platform on a desktop monitor"
-              width={500}
-              height={465}
-              className="mx-auto w-full max-w-[360px]"
-            />
+          {/* The devices sit in the LEFT column at desktop so the desktop
+              render's angle points into the copy rather than off the page. Kept
+              last in the DOM, so the reading order and the mobile stack still
+              lead with the words. */}
+          <Reveal delay={120} className="lg:col-span-7 lg:order-first">
+            {/* No panel and no backdrop: the desktop render ships transparent
+                and the phone photograph's flat grey ground was keyed out, so
+                both devices sit directly on the section. Neither device itself
+                is cropped, recoloured, distorted or mirrored — only the empty
+                backdrop behind the phones was removed.
+
+                items-end puts them on one floor line rather than centring two
+                objects of different heights against each other. */}
+            <div className="flex items-end justify-center gap-2 sm:gap-4">
+              <Image
+                src={NT_ASSETS.desktop}
+                alt="The NinjaTrader platform on a desktop"
+                width={510}
+                height={531}
+                sizes="(min-width: 1024px) 340px, 55vw"
+                className="w-[62%] max-w-[340px]"
+              />
+              <Image
+                src={NT_ASSETS.mobile}
+                alt="The NinjaTrader mobile app running on two phones"
+                width={1500}
+                height={1216}
+                sizes="(min-width: 1024px) 215px, 34vw"
+                className="mb-[6%] w-[38%] max-w-[215px]"
+              />
+            </div>
           </Reveal>
         </div>
       </section>
@@ -96,6 +134,11 @@ export default function HomePage() {
 
       {/* ---------------------------------------------------------- storefront */}
       <Marketplace />
+
+      {/* ------------------------------------------------------------ bundles */}
+      {/* Straight after the shelves — the moment the visitor has just seen
+          everything priced one at a time (Tom, 2026-09-10). */}
+      <Bundles />
 
       {/* --------------------------------------------------------------- about */}
       <section className="border-t border-line">
@@ -133,7 +176,7 @@ export default function HomePage() {
           <p className="lede mx-auto mt-6 max-w-xl text-pretty">{CLOSING.text}</p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <Link href={CLOSING.primary.href} className="btn-primary">
-              {CLOSING.primary.label}
+              {cta(CLOSING.primary.label, "See what's coming")}
             </Link>
             <Link href={CLOSING.secondary.href} className="btn-ghost">
               {CLOSING.secondary.label}

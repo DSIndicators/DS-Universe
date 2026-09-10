@@ -98,13 +98,27 @@
       linear-gradient(180deg, #ffffff 0%, #fbf8f1 100%);
   }
 
-  /* Diagonal hem under the hero, like the reference. */
+  /* Diagonal hem under the hero, like the reference.
+     The depth is a FIXED distance from the bottom, not a percentage. It used
+     to be 86%, which meant the cut moved with the section's height and, once
+     the hero grew, sliced 16px off the bottom of the "Explore the products"
+     button at 1440 and 9px at 1024. A fixed depth cannot do that: the hero's
+     bottom padding below is set larger than --hem, so content always clears
+     the diagonal at every viewport and every content height. */
   .hem {
+    --hem: 88px;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
   @screen md {
     .hem {
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 58% 100%, 46% 86%, 0 86%);
+      clip-path: polygon(
+        0 0,
+        100% 0,
+        100% 100%,
+        58% 100%,
+        46% calc(100% - var(--hem)),
+        0 calc(100% - var(--hem))
+      );
     }
   }
 

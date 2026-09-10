@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { cta } from "@/content/launch";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/Badge";
@@ -50,7 +51,7 @@ export function Navbar() {
             );
           })}
           <Link href="/products" className="btn-ghost h-11 px-5">
-            Get access
+            {cta("Get access", "See what's coming")}
           </Link>
         </nav>
 
@@ -94,7 +95,7 @@ export function Navbar() {
             </Link>
           ))}
           <Link href="/products" className="btn-primary mb-3 mt-2">
-            Get access
+            {cta("Get access", "See what's coming")}
           </Link>
         </nav>
       </div>

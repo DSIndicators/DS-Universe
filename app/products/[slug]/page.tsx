@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/ui/Reveal";
 import { ProductCard, Arrow } from "@/components/ProductCard";
+import { ProductGallery } from "@/components/ProductGallery";
+import { ListingDetail } from "@/components/ListingDetail";
+import { TestFirst } from "@/components/TestFirst";
+import { WaitlistNote } from "@/components/ui/WaitlistNote";
 import { BY_SLUG, KIND_LABEL, PRODUCTS, byKind } from "@/content/products";
-import { DEMOS, isReleased } from "@/content/release";
-import { buyLabel, listingFor } from "@/content/whop";
+import { isReleased } from "@/content/release";
+import { shotsFor } from "@/content/shots";
+import { listingCopyFor } from "@/content/listing-copy";
+import { buyHref, buyLabel, listingFor } from "@/content/whop";
+import { money, priceFor } from "@/content/pricing";
 import { DISCLOSURE, SITE } from "@/content/site";
 
 type Params = { slug: string };
@@ -33,8 +39,10 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const siblings = kin.filter((s) => s.slug !== p.slug);
   const idx = kin.findIndex((s) => s.slug === p.slug);
   const more = [...siblings.slice(idx), ...siblings.slice(0, idx)].slice(0, 3);
-  const demo = DEMOS[p.slug];
+  const shots = shotsFor(p.slug);
+  const listingCopy = listingCopyFor(p.slug);
   const listing = listingFor(p.slug);
+  const price = priceFor(p.slug);
 
   return (
     <>
@@ -47,7 +55,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               All products
             </Link>
           </Reveal>
-          <div className={`grid gap-10 pt-10 lg:grid-cols-12 lg:items-end ${demo || p.cover ? "pb-28 lg:pb-36" : "pb-16 lg:pb-20"}`}>
+          <div className={`grid gap-10 pt-10 lg:grid-cols-12 lg:items-end ${shots.length ? "pb-28 lg:pb-36" : "pb-16 lg:pb-20"}`}>
             <Reveal className="lg:col-span-7">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="chip-gold">{KIND_LABEL[p.kind].singular}</span>
@@ -70,36 +78,13 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         </div>
       </section>
 
-      {/* ------------------------------------------------------- still or demo */}
-      {(demo || p.cover) && (
+      {/* ------------------------------------------------------------ pictures */}
+      {/* Every real view of the tool, one stage and a rail. The page is the
+          same height whether a product has one picture or six. */}
+      {shots.length > 0 && (
         <section className="wrap -mt-16 lg:-mt-24">
           <Reveal>
-            <div className="overflow-hidden rounded-2xl border border-line bg-[#0f1114] shadow-monitor">
-              <div className="relative aspect-[16/9]">
-                {demo ? (
-                  <video
-                    className="absolute inset-0 h-full w-full object-cover"
-                    src={demo.src}
-                    poster={demo.poster}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    aria-label={`${p.name} running in NinjaTrader 8`}
-                  />
-                ) : (
-                  <Image
-                    src={p.cover!}
-                    alt={`${p.name} on a NinjaTrader 8 chart`}
-                    fill
-                    priority
-                    sizes="(min-width: 1280px) 1200px, 100vw"
-                    className="object-cover object-left-top"
-                  />
-                )}
-              </div>
-            </div>
+            <ProductGallery name={p.name} shots={shots} />
           </Reveal>
         </section>
       )}
@@ -125,19 +110,70 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         </Reveal>
         <Reveal className="lg:col-span-7 lg:col-start-6" delay={80}>
           <p className="display-sm leading-[1.45] text-ink text-pretty">{p.helps}</p>
-          <div className="mt-10 flex flex-wrap items-center gap-3">
+
+          {/* The price, once, right above the button that acts on it. One list
+              price struck through, one live price. Never a second anchor. */}
+          {price && (
+            <div className="mt-10 border-t border-line pt-6">
+              {price.free ? (
+                <>
+                  <p className="font-display text-[30px] leading-none text-ink">Free</p>
+                  <p className="mt-2 text-[14px] text-slate">
+                    Yours to keep. Not a trial, and it does not expire.
+                  </p>
+                </>
+              ) : price.bundleOnly ? (
+                <>
+                  <p className="font-display text-[30px] leading-none text-ink">In the bundle</p>
+                  <p className="mt-2 text-[14px] text-slate">
+                    DS Toolkit is not sold on its own — it comes with the indicators bundle.{" "}
+                    <Link href="/pricing" className="text-ink underline decoration-line underline-offset-4 hover:decoration-gold">
+                      See what that costs
+                    </Link>
+                    .
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="flex flex-wrap items-baseline gap-3">
+                    <span className="font-display text-[30px] leading-none tabular-nums text-ink">
+                      {money(price.now)}
+                    </span>
+                    <span className="text-[16px] tabular-nums text-mute line-through">
+                      {money(price.list)}
+                    </span>
+                    <span className="chip-gold">Founders</span>
+                  </div>
+                  <p className="mt-2 text-[14px] text-slate">
+                    One payment, not a subscription. Later versions included.
+                  </p>
+                </>
+              )}
+              {/* Under the number, above the button that acts on it. */}
+              <WaitlistNote className="mt-4" />
+            </div>
+          )}
+
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             {listing ? (
               <>
-                <a href={listing.product} target="_blank" rel="noopener" className="btn-primary">
+                {/* Straight to the Whop payment window when we have the checkout
+                    link; the listing page otherwise (buyHref decides, one place). */}
+                <a href={buyHref(listing)} target="_blank" rel="noopener" className="btn-primary">
                   {buyLabel(listing)}
                 </a>
-                {/* Appears the moment a Whop checkout link is added in content/whop.ts */}
+                {/* Only worth showing once the primary button skips the listing —
+                    for buyers who want the Whop page, its details and reviews. */}
                 {listing.checkout && (
-                  <a href={listing.checkout} target="_blank" rel="noopener" className="btn-ghost">
-                    Quick checkout
+                  <a href={listing.product} target="_blank" rel="noopener" className="btn-ghost">
+                    See it on Whop
                   </a>
                 )}
               </>
+            ) : price?.bundleOnly ? (
+              <Link href="/pricing" className="btn-primary">
+                See the bundle
+              </Link>
             ) : (
               <span className="inline-flex h-12 items-center rounded-md border border-dashed border-line-strong px-5 text-[15px] text-slate">
                 Coming soon
@@ -147,9 +183,15 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               Ask a question
             </Link>
           </div>
-          <p className="mt-8 max-w-xl text-[13px] leading-relaxed text-mute">{DISCLOSURE.short}</p>
+          <p className="mt-8 max-w-xl text-[15px] leading-relaxed text-slate">{DISCLOSURE.short}</p>
         </Reveal>
       </section>
+
+      {/* ------------------------------------------------------------ in detail */}
+      {listingCopy && <ListingDetail copy={listingCopy} />}
+
+      {/* ----------------------------------------------------- test it yourself */}
+      <TestFirst productName={p.name} />
 
       {/* ---------------------------------------------------------------- more */}
       {more.length > 0 && (

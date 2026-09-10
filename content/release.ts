@@ -10,8 +10,11 @@ import { PRODUCTS, type Product } from "./products";
  *    Tom's covers arrive 880x1189 already composed portrait and aligned; each
  *    is centre-cropped 8px top and bottom to land on an exact 3:4, so the tile
  *    frame trims nothing and the art is native (no upscaling) to 2x DPR.
- *  - add-ons ship LANDSCAPE banners    -> /boxart/<slug>-wide.webp (1280x698)
- *    so the add-on shelf renders as wide tiles rather than cropping the art.
+ *  - add-ons ship their own shape      -> /boxart/<slug>-wide.webp (1134x928)
+ *    Tom's add-on covers stand a portrait box inside a wider scene, and the
+ *    box is wider than a 3:4 window: cropping to the indicator shape clips the
+ *    title off every one of them (tested 2026-09-10). So the add-on shelf keeps
+ *    the art's own 11:9 proportion and runs three across. Nothing is cropped.
  */
 
 export type ShelfEntry =
@@ -19,10 +22,10 @@ export type ShelfEntry =
   | { pending: { name: string }; free?: boolean; boxart?: null; slug?: undefined };
 
 /**
- * `live: false` keeps a whole shelf off the site. Launch order (Tom, 2026-09-09):
- * indicators first, add-ons after. Flip the add-on shelf back to live when its
- * Whop pages and real screenshots exist — that is the only change needed; the
- * product pages, art and copy are all already in place behind it.
+ * `live: false` keeps a whole shelf off the site. The add-on shelf was held
+ * back for the indicators-first launch and came back on 2026-09-10, once Tom
+ * supplied NT-mark-free covers, real screenshots of each running window, and
+ * the four Whop product pages.
  */
 export const SHELVES: { title: string; blurb: string; wide?: boolean; live?: boolean; entries: ShelfEntry[] }[] = [
   {
@@ -45,11 +48,12 @@ export const SHELVES: { title: string; blurb: string; wide?: boolean; live?: boo
     title: "Add-ons",
     blurb: "Mounted on the platform, not the chart. Workflow, screening and data utilities.",
     wide: true,
-    live: false, // ← launching after the indicators. One word to bring back.
     entries: [
       { slug: "screener", boxart: "/boxart/screener-wide.webp" },
       { slug: "bulk-replay-downloader", boxart: "/boxart/bulk-replay-downloader-wide.webp" },
-      { slug: "toolkit", free: true, boxart: "/boxart/toolkit-wide.webp" },
+      // DS Toolkit ships only inside the indicators bundle (Tom, 2026-09-10),
+      // so it keeps a page but carries no price and no buy button.
+      { slug: "toolkit", boxart: "/boxart/toolkit-wide.webp" },
       { slug: "marketwatch", free: true, boxart: "/boxart/marketwatch-wide.webp" },
       { slug: "time-intervals", free: true, boxart: "/boxart/time-intervals-wide.webp" },
     ],
@@ -69,6 +73,22 @@ export const DEMOS: Record<string, { src: string; poster: string }> = {
     // whether or not the browser lets the video autoplay.
     poster: "/covers/bulk-replay-downloader-poster.webp",
   },
+};
+
+/**
+ * A SECOND real chart shot, for products that have one (Tom's 2026-09-10 media
+ * folders). The product page shows it under the first as a quiet pair — two
+ * shots of the same tool in different conditions say more than one, and it is
+ * the cheapest possible proof that the thing runs.
+ *
+ * Kept here, hand-curated, because products.ts is generated.
+ */
+export const SECOND_SHOT: Record<string, string> = {
+  oracle: "/covers/oracle-2.webp",
+  sonar: "/covers/sonar-2.webp",
+  zones: "/covers/zones-2.webp",
+  gex: "/covers/gex-2.webp",
+  iceberg: "/covers/iceberg-2.webp",
 };
 
 /** The shelves actually shown on the site. */

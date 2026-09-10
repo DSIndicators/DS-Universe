@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Marketplace } from "@/components/Marketplace";
 import { Reveal } from "@/components/ui/Reveal";
+import { WaitlistNote } from "@/components/ui/WaitlistNote";
 
 export const metadata: Metadata = {
   title: "Products",
@@ -21,6 +22,8 @@ export default function ProductsPage() {
             <a href="#indicators" className="chip hover:border-ink hover:text-ink">Indicators</a>
             <a href="#add-ons" className="chip hover:border-ink hover:text-ink">Add-ons</a>
           </nav>
+          {/* Anyone landing straight on the shelf sees it before the tiles. */}
+          <WaitlistNote tone="band" className="mt-8" />
         </Reveal>
       </section>
       <Marketplace withHeading={false} />

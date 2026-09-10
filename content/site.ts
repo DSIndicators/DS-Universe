@@ -25,6 +25,7 @@ export const SITE = {
 
 export const NAV = [
   { label: "Products", href: "/products" },
+  { label: "Pricing", href: "/pricing" },
   { label: "NinjaTrader", href: "/ninjatrader" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -104,9 +105,21 @@ export const CATALOGUE = {
 };
 
 /** The hero monitor. Point `src` at a chart still (16:9) or an .mp4 recording. */
+/**
+ * The hero screen. Six real NinjaTrader charts running the paid indicators
+ * (Tom, 2026-09-10), ordered LIGHT, DARK, LIGHT, DARK… so each rotation reads
+ * as a change rather than a slow wobble — and so a visitor sees within a few
+ * seconds that the tools work in either theme. Add or remove frames freely;
+ * one frame on its own simply stops the rotation.
+ */
 export const MONITOR = {
-  kind: "image" as "image" | "video",
-  src: "/covers/hero-suite.webp",
-  poster: "/covers/hero-suite.webp",
-  alt: "DS Universe indicators working together on a NinjaTrader 8 chart",
+  frames: [
+    "/covers/hero/01.webp",
+    "/covers/hero/02.webp",
+    "/covers/hero/03.webp",
+    "/covers/hero/04.webp",
+    "/covers/hero/05.webp",
+    "/covers/hero/06.webp",
+  ],
+  alt: "DS Universe indicators running on NinjaTrader 8 charts, in light and dark themes",
 };

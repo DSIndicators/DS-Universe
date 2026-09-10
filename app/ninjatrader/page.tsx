@@ -49,13 +49,13 @@ export default function NinjaTraderPage() {
             <Reveal delay={80} className="mt-7 max-w-2xl space-y-5">
               <p className="body text-pretty">
                 NinjaTrader® is our #1 recommended{" "}
-                <a href={NT_LINKS.getStarted} target="_blank" rel="noopener" className={linkCls}>
+                <a href={NT_LINKS.getStarted} target="_blank" rel="sponsored noopener" className={linkCls}>
                   trading software platform
                 </a>{" "}
                 preferred by traders worldwide including our clients.
               </p>
               <p className="body">
-                <a href={NT_LINKS.home} target="_blank" rel="noopener" className={linkCls}>
+                <a href={NT_LINKS.home} target="_blank" rel="sponsored noopener" className={linkCls}>
                   Download NinjaTrader
                 </a>{" "}
                 &amp; receive immediate FREE access to:
@@ -76,7 +76,7 @@ export default function NinjaTraderPage() {
               </p>
               <p className="body text-pretty">
                 For new traders, start preparing for the live markets with a free{" "}
-                <a href={NT_LINKS.simulator} target="_blank" rel="noopener" className={linkCls}>
+                <a href={NT_LINKS.simulator} target="_blank" rel="sponsored noopener" className={linkCls}>
                   trading simulator
                 </a>{" "}
                 featuring real-time market data.
@@ -89,14 +89,33 @@ export default function NinjaTraderPage() {
             </Reveal>
           </div>
 
-          <Reveal delay={160} className="lg:col-span-5">
-            <Image
-              src={NT_ASSETS.monitor}
-              alt="The NinjaTrader platform on a desktop monitor"
-              width={500}
-              height={465}
-              className="mx-auto w-full max-w-[420px]"
-            />
+          <Reveal delay={160} className="lg:col-span-6">
+            {/* No panel and no backdrop: the desktop render ships transparent
+                and the phone photograph's flat grey ground was keyed out, so
+                both devices sit directly on the section. Neither device itself
+                is cropped, recoloured, distorted or mirrored — only the empty
+                backdrop behind the phones was removed.
+
+                items-end puts them on one floor line rather than centring two
+                objects of different heights against each other. */}
+            <div className="flex items-end justify-center gap-2 sm:gap-4">
+              <Image
+                src={NT_ASSETS.desktop}
+                alt="The NinjaTrader platform on a desktop"
+                width={510}
+                height={531}
+                sizes="(min-width: 1024px) 340px, 55vw"
+                className="w-[62%] max-w-[340px]"
+              />
+              <Image
+                src={NT_ASSETS.mobile}
+                alt="The NinjaTrader mobile app running on two phones"
+                width={1500}
+                height={1216}
+                sizes="(min-width: 1024px) 215px, 34vw"
+                className="mb-[6%] w-[38%] max-w-[215px]"
+              />
+            </div>
           </Reveal>
         </div>
       </section>
