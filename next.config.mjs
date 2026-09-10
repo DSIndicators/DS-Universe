@@ -33,6 +33,7 @@ const PAGES = [
   "/about",
   "/contact",
   "/terms",
+  "/disclosures",
   "/sitemap.xml",
   "/robots.txt",
 ];

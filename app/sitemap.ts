@@ -6,7 +6,7 @@ import { SITE } from "@/content/site";
 /** Only pages that actually exist: unreleased products 404, so they stay out. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const fixed = ["", "/products", "/pricing", "/ninjatrader", "/about", "/contact", "/terms"];
+  const fixed = ["", "/products", "/pricing", "/ninjatrader", "/about", "/contact", "/terms", "/disclosures"];
   return [
     ...fixed.map((path) => ({
       url: `${SITE.url}${path}`,

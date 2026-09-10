@@ -44,6 +44,11 @@ export function Footer() {
                   Terms
                 </Link>
               </li>
+              <li>
+                <Link href="/disclosures" className="text-slate transition-colors hover:text-ink">
+                  Disclosures
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>
