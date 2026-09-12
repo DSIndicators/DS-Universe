@@ -67,7 +67,22 @@ export const SHOTS: Record<string, Shot[]> = {
     },
     { src: s("flow", 1), caption: "On a NinjaTrader 8 chart" },
   ],
-  parallax: [{ src: s("parallax", 1) }],
+  parallax: [
+    {
+      src: s("parallax", 1),
+      caption: "Four higher timeframes beside the chart, each counting down to its own close",
+      /* The only demo delivered at a true 16:9. The stage is 16:9 and every
+         other clip is 1920x970, so object-cover trims 98px off EACH side of
+         them; on this one that cut the fourth mini-chart - the daily - clean
+         off the right edge. Re-cut from the 4276x2160 master with the crop
+         taken entirely from the LEFT (Tom, 2026-09-12), so nothing on the
+         right is lost and the stage crops nothing at all. Its poster is the
+         same risk-disclosure card padded to 16:9 for the same reason. */
+      video: { src: "/covers/parallax.mp4", poster: "/covers/disclosure-card-16x9.webp" },
+      thumb: "/covers/parallax-poster.webp",
+    },
+    { src: s("parallax", 1), caption: "The panel on a NinjaTrader 8 chart" },
+  ],
   "isotropic-lines": [{ src: s("isotropic-lines", 1) }],
   "adaptive-priceline": [
     {

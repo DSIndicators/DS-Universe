@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { BoxCard } from "@/components/BoxCard";
+import { ChartRow } from "@/components/ChartRow";
 import { LIVE_SHELVES } from "@/content/release";
 import { CATALOGUE } from "@/content/site";
 
@@ -11,6 +12,12 @@ import { CATALOGUE } from "@/content/site";
  * A shelf marked `wide` lays its art out in 16:9 tiles instead of 3:4 boxes -
  * the add-on art is drawn landscape, so cropping it to a box would cut the
  * product's own copy off its cover.
+ *
+ * Between the heading and the first shelf sits ChartRow: four real charts, one
+ * row, any of them full screen on click (Tom, 2026-09-12). It is inside this
+ * component rather than on the pages so home and /products cannot drift, and
+ * so the pictures are the first thing under the heading on both - the shelves
+ * below are box art, and box art shows the packaging, not the software.
  */
 export function Marketplace({ withHeading = true }: { withHeading?: boolean }) {
   return (
@@ -23,7 +30,9 @@ export function Marketplace({ withHeading = true }: { withHeading?: boolean }) {
         </Reveal>
       )}
 
-      <div className={withHeading ? "mt-16 space-y-24" : "space-y-24"}>
+      <ChartRow className={withHeading ? "mt-14" : ""} />
+
+      <div className="mt-20 space-y-24">
         {LIVE_SHELVES.map((shelf, si) => {
           const perRow = shelf.wide ? 3 : 5;
           return (

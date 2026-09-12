@@ -6,3 +6,4 @@ out
 tsconfig.tsbuildinfo
 .env*.local
 .vercel
+_to_delete/

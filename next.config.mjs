@@ -41,7 +41,10 @@ const PAGES = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  images: { formats: ["image/avif", "image/webp"] },
+  // 92 is the lightbox: a 2560x1440 chart downscaled to ~1140 and read for
+  // detail. Listing it keeps Next from rejecting the value once qualities are
+  // enforced; 75 is the default every other picture uses.
+  images: { formats: ["image/avif", "image/webp"], qualities: [75, 92] },
   // Pin the workspace root to this folder so a stray lockfile elsewhere on the
   // machine (e.g. C:\Users\<you>\package-lock.json) is never picked up.
   outputFileTracingRoot: path.dirname(fileURLToPath(import.meta.url)),
