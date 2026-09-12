@@ -52,7 +52,7 @@ export const SHOTS: Record<string, Shot[]> = {
     {
       src: s("iceberg", 1),
       caption: "Zones confirming and breaking as the session runs",
-      video: { src: "/covers/iceberg.mp4", poster: "/covers/disclosure-card.webp" },
+      video: { src: "/covers/iceberg.mp4", poster: "/covers/disclosure-iceberg.webp" },
       thumb: "/covers/iceberg-poster.webp",
     },
     { src: s("iceberg", 1), caption: "Iceberg zones, including the ones already broken" },
@@ -62,7 +62,7 @@ export const SHOTS: Record<string, Shot[]> = {
     {
       src: s("flow", 1),
       caption: "Order flow and volume profile building through the session",
-      video: { src: "/covers/flow.mp4", poster: "/covers/disclosure-card.webp" },
+      video: { src: "/covers/flow.mp4", poster: "/covers/disclosure-flow.webp" },
       thumb: "/covers/flow-poster.webp",
     },
     { src: s("flow", 1), caption: "On a NinjaTrader 8 chart" },
@@ -71,14 +71,7 @@ export const SHOTS: Record<string, Shot[]> = {
     {
       src: s("parallax", 1),
       caption: "Four higher timeframes beside the chart, each counting down to its own close",
-      /* The only demo delivered at a true 16:9. The stage is 16:9 and every
-         other clip is 1920x970, so object-cover trims 98px off EACH side of
-         them; on this one that cut the fourth mini-chart - the daily - clean
-         off the right edge. Re-cut from the 4276x2160 master with the crop
-         taken entirely from the LEFT (Tom, 2026-09-12), so nothing on the
-         right is lost and the stage crops nothing at all. Its poster is the
-         same risk-disclosure card padded to 16:9 for the same reason. */
-      video: { src: "/covers/parallax.mp4", poster: "/covers/disclosure-card-16x9.webp" },
+      video: { src: "/covers/parallax.mp4", poster: "/covers/disclosure-parallax.webp" },
       thumb: "/covers/parallax-poster.webp",
     },
     { src: s("parallax", 1), caption: "The panel on a NinjaTrader 8 chart" },
@@ -88,7 +81,7 @@ export const SHOTS: Record<string, Shot[]> = {
     {
       src: s("adaptive-priceline", 1),
       caption: "The price line re-anchoring as the candle moves",
-      video: { src: "/covers/adaptive-priceline.mp4", poster: "/covers/disclosure-card.webp" },
+      video: { src: "/covers/adaptive-priceline.mp4", poster: "/covers/disclosure-adaptive-priceline.webp" },
       thumb: "/covers/adaptive-priceline-poster.webp",
     },
     { src: s("adaptive-priceline", 1), caption: "On a NinjaTrader 8 chart" },
@@ -97,7 +90,7 @@ export const SHOTS: Record<string, Shot[]> = {
     {
       src: s("chart-price", 1),
       caption: "The read-out counting with the last price",
-      video: { src: "/covers/chart-price.mp4", poster: "/covers/disclosure-card.webp" },
+      video: { src: "/covers/chart-price.mp4", poster: "/covers/disclosure-chart-price.webp" },
       thumb: "/covers/chart-price-poster.webp",
     },
     { src: s("chart-price", 1), caption: "On a NinjaTrader 8 chart" },
@@ -127,7 +120,7 @@ export const SHOTS: Record<string, Shot[]> = {
     {
       src: s("bulk-replay-downloader", 1),
       caption: "Downloading a month of market replay data",
-      video: { src: "/covers/bulk-replay-downloader.mp4", poster: "/covers/disclosure-card.webp" },
+      video: { src: "/covers/bulk-replay-downloader.mp4", poster: "/covers/disclosure-bulk-replay-downloader.webp" },
       thumb: "/covers/bulk-replay-downloader-poster.webp",
     },
     { src: s("bulk-replay-downloader", 2), caption: "The download queue, file by file" },

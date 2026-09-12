@@ -106,6 +106,15 @@ export const DISCLOSURE = {
    */
   chart:
     "Chart pictures are illustrations of the software, not a performance record. Futures trading carries substantial risk of loss and is not suitable for every investor, and hypothetical or simulated results have inherent limitations that may differ materially from live trading.",
+  /**
+   * The line that sits ABOVE a demo player. The footer carries the full text on
+   * every page and the video opens on the card, but a visitor scrolling past
+   * should not have to hunt for either: the guidelines require video "be
+   * accompanied by relevant Risk Disclosures", and directly above the thing it
+   * refers to is the only placement that is unambiguously accompanying.
+   */
+  demo:
+    "These are screen recordings of the software, not a performance record. Futures trading carries substantial risk of loss and is not suitable for every investor, and hypothetical or simulated results have inherent limitations that may differ materially from live trading.",
   trademark:
     "NinjaTrader® is a registered trademark of NinjaTrader Group, LLC. No NinjaTrader company has any affiliation with the owner, developer, or provider of the products or services described herein, or any interest, ownership or otherwise, in any such product or service, or endorses, recommends or approves any such product or service.",
 };
