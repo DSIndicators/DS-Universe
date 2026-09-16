@@ -28,7 +28,11 @@ export type Shot = {
   thumb?: string;
 };
 
-const s = (slug: string, n: number) => `/shots/${slug}/${String(n).padStart(2, "0")}.webp`;
+/** `v` versions a re-shot picture. Assets are served with a one-year immutable
+ *  cache and the image optimiser keys on the URL, so a replaced picture must
+ *  get a NEW filename or returning visitors keep seeing the old one. */
+const s = (slug: string, n: number, v?: number) =>
+  `/shots/${slug}/${String(n).padStart(2, "0")}${v ? `-v${v}` : ""}.webp`;
 
 export const SHOTS: Record<string, Shot[]> = {
   /* ---------------------------------------------------------- indicators */
@@ -105,11 +109,14 @@ export const SHOTS: Record<string, Shot[]> = {
     { src: s("screener", 5), caption: "The calendar in light mode" },
     { src: s("screener", 6), caption: "Watchlist and chart in light mode" },
   ],
+  /* Re-shot 2026-09-15 on the current build (graphite panel, docked bottom-right).
+     Readouts always mean TODAY; 4H/1D lines are shaded against yesterday's
+     close, 1W and longer against the first bar of the window
+     (DSMarketWatch.cs DSMwWindow notes + DSMarketWatchUI.cs baseline). */
   marketwatch: [
-    { src: s("marketwatch", 1), caption: "The bar up close — session change on everything you follow" },
-    { src: s("marketwatch", 2), caption: "Docked above the chart" },
-    { src: s("marketwatch", 3), caption: "A second colour scheme" },
-    { src: s("marketwatch", 4), caption: "On a light chart" },
+    { src: s("marketwatch", 1, 2), caption: "Up close on the one-day window — each line shaded against yesterday's close" },
+    { src: s("marketwatch", 2, 2), caption: "The one-month window: each line measured from a month back, the readout still today's change" },
+    { src: s("marketwatch", 3, 2), caption: "Docked in the chart's corner, clear of price" },
   ],
   toolkit: [
     { src: s("toolkit", 1), caption: "The dock and the drawing-tool picker, side by side" },

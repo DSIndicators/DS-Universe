@@ -239,7 +239,7 @@ export const PRODUCTS: Product[] = [
       ],
       "helps": "Keep the instruments you care about in view without leaving the chart you are trading. Each tile is a two-colour baseline sparkline plus one readout you choose – net change, percent change, last price or day range – and a single toolbar chip toggles the whole panel.",
       "description": "DS MarketWatch mounts a floating, draggable market-watch panel over every NinjaTrader 8 chart, toggled from a chip on the chart's top toolbar. Each tile shows a two-colour baseline sparkline plus one readout across a timeframe window you choose, and tiles are organised into group tabs. The panel is theme-aware, following your live NinjaTrader skin dark or light and coordinating its accent and up/down colours with the shared DS Universe colour themes. Under the hood each tile issues one intraday request for the sparkline shape plus a small daily request for the readouts, with identical tiles sharing a single ref-counted request so duplicates cost nothing; callbacks arrive on a background thread and only write into a locked snapshot, which the UI polls and redraws only when it changed, so fast markets never stutter the panel. Market Replay is handled by a purpose-built one-shot feed path that refreshes immediately when you navigate the replay date and otherwise on a slow cadence – a root-cause fix for the freeze a persistent subscription causes – and a stalled request is abandoned and re-issued rather than leaving a tile showing a confidently wrong price.",
-      "cover": "/covers/marketwatch.webp"
+      "cover": "/covers/marketwatch-v2.webp"
   },
   {
       "slug": "time-intervals",
