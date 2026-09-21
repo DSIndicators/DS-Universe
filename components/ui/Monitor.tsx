@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import { DISCLOSURE, MONITOR, type ScreenFrame } from "@/content/site";
+import { MONITOR, type ScreenFrame } from "@/content/site";
+import { Viewer } from "@/components/Viewer";
 import { BY_SLUG } from "@/content/products";
 
 /**
@@ -24,10 +25,12 @@ import { BY_SLUG } from "@/content/products";
  *  · Pause / Play sits on the left of the control row, the segments on the
  *    right. Pausing also eases the push-in back to 100%, so the WHOLE chart is
  *    on screen, uncropped, while it is being read;
- *  · the screen itself is a button: it opens the picture at the full width of
- *    the window from the 2560px file, with a pager, Escape to close and the
- *    risk disclosure pinned under it (vendor guidelines rev 2.11.2025 p.2 —
- *    a modal hides the page's own disclosure, so it travels into the modal);
+ *  · the screen itself is a button: it opens the shared full-screen Viewer
+ *    (components/Viewer.tsx) on the 2560px file — swipe, arrows or keys to
+ *    page, Escape to close. No disclosure bar inside it any more (Tom,
+ *    2026-09-21: "we don't need the disclaimer EVERYWHERE"); the line under
+ *    this screen and the footer carry it;
+ *  · on a phone, a horizontal flick on the screen moves between charts;
  *  · every picture has a title (what it shows) and the tools on it, named from
  *    their on-chart labels (see content/site.ts).
  *
@@ -59,9 +62,8 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
   const [moved, setMoved] = useState(false); // the visitor has moved the pictures: captions may be announced
   const loaded = useRef<Set<number>>(new Set());
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const dlg = useRef<HTMLDialogElement>(null);
-  const screenBtn = useRef<HTMLButtonElement>(null);
-  const closeBtn = useRef<HTMLButtonElement>(null);
+  const swipe = useRef<{ x: number; y: number; id: number } | null>(null);
+  const swiped = useRef(false); // a swipe just happened: the click that follows it is not "enlarge"
 
   const running = mounted && !paused && !held && !open && count > 1;
 
@@ -118,29 +120,6 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
     setMoved(true);
   }, []);
 
-  // enlarged view: open/close the native dialog, and lock the page behind it
-  useEffect(() => {
-    const d = dlg.current;
-    if (!d) return;
-    if (open && !d.open) {
-      d.showModal();
-      // showModal() focuses the first focusable element — the header's product
-      // links. Close is the right first stop (Escape works either way).
-      closeBtn.current?.focus();
-    }
-    if (!open && d.open) d.close();
-  }, [open]);
-
-  useEffect(() => {
-    if (!open) return;
-    const root = document.documentElement;
-    const prev = root.style.overflow;
-    root.style.overflow = "hidden";
-    return () => {
-      root.style.overflow = prev;
-    };
-  }, [open]);
-
   const frame = frames[i];
 
   return (
@@ -152,14 +131,40 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
         onPointerLeave={() => setHeld(document.hidden)}
       >
         <div className="relative rounded-[14px] bg-gradient-to-b from-[#2B2F35] via-[#1C1F24] to-[#15171B] p-[10px] shadow-monitor ring-1 ring-white/[0.08]">
+          {/* SWIPE (Tom, 2026-09-21: "trouble scrolling through the monitor…
+              on mobile"). A horizontal flick on the screen moves to the next or
+              previous chart with the same crossfade; a vertical one still
+              scrolls the page (`touch-action: pan-y`), and a tap still enlarges. */}
           <button
-            ref={screenBtn}
             type="button"
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              if (swiped.current) {
+                swiped.current = false;
+                return;
+              }
+              setOpen(true);
+            }}
+            onPointerDown={(e) => {
+              if (e.pointerType === "mouse") return;
+              swipe.current = { x: e.clientX, y: e.clientY, id: e.pointerId };
+            }}
+            onPointerUp={(e) => {
+              const s0 = swipe.current;
+              swipe.current = null;
+              if (!s0 || s0.id !== e.pointerId) return;
+              const dx = e.clientX - s0.x;
+              const dy = e.clientY - s0.y;
+              if (Math.abs(dx) > 36 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+                swiped.current = true;
+                go(i + (dx < 0 ? 1 : -1));
+                window.setTimeout(() => (swiped.current = false), 400);
+              }
+            }}
+            onPointerCancel={() => (swipe.current = null)}
             aria-haspopup="dialog"
             aria-label={`Enlarge the chart: ${frame.title}`}
-            className="group/screen relative block aspect-[16/9] w-full cursor-zoom-in overflow-hidden rounded-[7px] outline-none ring-1 ring-black/60 focus-visible:ring-2 focus-visible:ring-gold"
-            style={{ background: MONITOR.ground }}
+            className="group/screen relative block aspect-[16/9] w-full cursor-zoom-in select-none overflow-hidden rounded-[7px] outline-none ring-1 ring-black/60 focus-visible:ring-2 focus-visible:ring-gold"
+            style={{ background: MONITOR.ground, touchAction: "pan-y pinch-zoom" }}
           >
             {frames.map((f, n) => {
               const on = n === i;
@@ -277,99 +282,24 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
       </div>
 
       {/* ------------------------------------------------------ enlarged view */}
-      <dialog
-        ref={dlg}
-        aria-label="DS Universe chart pictures"
-        onClose={() => {
-          setOpen(false);
-          screenBtn.current?.focus();
-        }}
-        onClick={(e) => {
-          if (e.target === dlg.current) setOpen(false);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-            e.preventDefault();
-            go(i + 1);
-          }
-          if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-            e.preventDefault();
-            go(i - 1);
-          }
-        }}
-        className="m-0 h-[100svh] max-h-none w-screen max-w-none bg-transparent p-2 text-ink backdrop:bg-[rgba(4,5,6,0.92)] sm:p-4 [@media(max-height:500px)]:p-0"
-      >
-        {open && (
-          <div className="mx-auto flex h-full max-w-[1680px] flex-col overflow-hidden rounded-2xl border border-line bg-mist shadow-monitor [@media(max-height:500px)]:rounded-none [@media(max-height:500px)]:border-0">
-            {/* A phone on its side has ~390px of height: the bars go compact
-                (one-line header, smaller disclosure, no frame) so the chart
-                gets the height — otherwise turning the phone would not make
-                the chart any bigger. */}
-            <div className="flex shrink-0 flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b border-line px-4 py-2.5 sm:px-5 [@media(max-height:500px)]:py-1.5">
-              <div className="min-w-0">
-                <p className="text-[15px] font-medium leading-snug text-ink [@media(max-height:500px)]:text-[14px]">{frame.title}</p>
-                <Tools frame={frame} className="mt-0.5 [@media(max-height:500px)]:hidden" />
-              </div>
-              <div className="flex shrink-0 items-center gap-1">
-                <Step dir="prev" onClick={() => go(i - 1)} />
-                <span className="w-14 text-center text-[13.5px] tabular-nums text-mute">
-                  {i + 1} / {count}
-                </span>
-                <Step dir="next" onClick={() => go(i + 1)} />
-                <button
-                  ref={closeBtn}
-                  type="button"
-                  onClick={() => setOpen(false)}
-                  className="ml-2 inline-flex h-9 items-center rounded-md border border-line-strong bg-surface px-3.5 text-[14px] text-ink transition-colors hover:border-ink/60 [@media(max-height:500px)]:h-8"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-
-            {/* The picture at the full width of the window (up to its 2560px
-                file), fitted so the whole chart is always visible. The pane is
-                the charts' own black, so any letterbox is invisible. The
-                current picture and its neighbours are mounted, cross-fading. */}
-            <div className="relative min-h-0 flex-1" style={{ background: MONITOR.ground }}>
-              {frames.map((f, n) => {
-                const near = n === i || n === (i + 1) % count || n === (i - 1 + count) % count;
-                if (!near) return null;
-                return (
-                  <div
-                    key={f.src}
-                    className={`absolute inset-0 transition-opacity duration-500 ease-silk ${n === i ? "opacity-100" : "opacity-0"}`}
-                    aria-hidden={n !== i}
-                  >
-                    <Image
-                      src={f.src}
-                      alt={`${f.title}. On screen: ${f.tools.map((s) => BY_SLUG[s]?.name).filter(Boolean).join(", ")}.`}
-                      fill
-                      quality={92}
-                      placeholder="blur"
-                      blurDataURL={f.blur}
-                      sizes="(min-width: 1680px) 1680px, 100vw"
-                      className="object-contain"
-                    />
-                  </div>
-                );
-              })}
-              <p className="pointer-events-none absolute inset-x-0 bottom-3 hidden text-center text-[12.5px] text-slate [@media(orientation:portrait)_and_(max-width:767px)]:block">
-                Turn your phone sideways for a larger chart.
-              </p>
-            </div>
-
-            {/* Required beside the picture — the page's own disclosure is behind the modal. */}
-            <p className="shrink-0 border-t border-line bg-surface px-4 py-2.5 text-[13px] leading-relaxed text-slate sm:px-5 [@media(max-height:500px)]:py-1.5 [@media(max-height:500px)]:text-[11.5px] [@media(max-height:500px)]:leading-snug">
-              {DISCLOSURE.chart}{" "}
-              <Link href="/disclosures" className="text-ink underline decoration-line underline-offset-4 hover:decoration-gold">
-                Full risk disclosures
-              </Link>
-              .
-            </p>
-          </div>
-        )}
-      </dialog>
+      <Viewer
+        open={open}
+        onClose={() => setOpen(false)}
+        slides={frames.map((f) => ({
+          src: f.src,
+          w: 2560,
+          h: 1440,
+          blur: f.blur,
+          title: f.title,
+          alt: `${f.title}. On screen: ${f.tools.map((s) => BY_SLUG[s]?.name).filter(Boolean).join(", ")}.`,
+          sub: <Tools frame={f} />,
+        }))}
+        index={i}
+        onIndex={(n) => go(n)}
+        mode="fit"
+        ground={MONITOR.ground}
+        label="DS Universe chart pictures"
+      />
     </div>
   );
 }
@@ -427,21 +357,5 @@ function Expand() {
     <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M9.5 2.5H13.5V6.5M6.5 13.5H2.5V9.5M13.5 2.5L9 7M2.5 13.5L7 9" />
     </svg>
-  );
-}
-
-function Step({ dir, onClick }: { dir: "prev" | "next"; onClick: () => void }) {
-  const back = dir === "prev";
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={back ? "Previous picture" : "Next picture"}
-      className="grid h-9 w-9 place-items-center rounded-md border border-line bg-surface text-slate transition-colors hover:border-ink/60 hover:text-ink [@media(max-height:500px)]:h-8 [@media(max-height:500px)]:w-8"
-    >
-      <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d={back ? "M10 3L5 8l5 5" : "M6 3l5 5-5 5"} />
-      </svg>
-    </button>
   );
 }

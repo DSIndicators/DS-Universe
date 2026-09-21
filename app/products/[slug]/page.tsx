@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/ui/Reveal";
 import { Arrow } from "@/components/ui/Arrow";
-import { ProductGallery } from "@/components/ProductGallery";
+import { Gallery } from "@/components/Gallery";
 import { ListingDetail } from "@/components/ListingDetail";
 import { TestFirst } from "@/components/TestFirst";
 import { BoxCard } from "@/components/BoxCard";
@@ -12,7 +12,8 @@ import { BuyButton, CtaNote } from "@/components/BuyButton";
 import { PriceBlock } from "@/components/Price";
 import { BY_SLUG, KIND_LABEL, PRODUCTS } from "@/content/products";
 import { COVER_RATIO, boxartFor, isReleased, seriesMates, SHELVES } from "@/content/release";
-import { shotsFor } from "@/content/shots";
+import { BOARD_GROUND, shotsFor } from "@/content/shots";
+import { CHART_GROUND, CHART_H, CHART_W, chartsFor } from "@/content/charts";
 import { listingCopyFor } from "@/content/listing-copy";
 import { COMPLETE, money, priceFor, seriesInfo } from "@/content/pricing";
 import { DISCLOSURE, SITE } from "@/content/site";
@@ -38,7 +39,40 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const price = priceFor(p.slug);
   const series = seriesInfo(p.series);
   const shots = shotsFor(p.slug);
+  const charts = chartsFor(p.slug);
   const listingCopy = listingCopyFor(p.slug);
+
+  // ON THE CHART leads the page — the product as it looks on a real chart
+  // (Tom, 2026-09-21). The annotated product-guide boards follow the body, as
+  // the reading. A product with no chart of its own (the data utility) leads
+  // with its boards instead.
+  const chartSlides = charts.map((c) => ({
+    src: c.src,
+    w: CHART_W,
+    h: CHART_H,
+    blur: c.blur,
+    title: c.caption,
+    alt: `${p.name} on a NinjaTrader 8 chart — ${c.caption}`,
+  }));
+  const boardSlides = shots.map((b) => ({
+    src: b.src,
+    w: b.w,
+    h: b.h,
+    blur: b.blur,
+    title: b.caption,
+    alt: `${p.name} product guide — ${b.caption}`,
+  }));
+  const boardRatio = shots[0] ? shots[0].w / shots[0].h : 1;
+  // The risk line travels with the FIRST pictures on the page — once, not per gallery.
+  const riskLine = (
+    <>
+      {DISCLOSURE.chart}{" "}
+      <Link href="/disclosures" className="whitespace-nowrap text-slate underline decoration-line underline-offset-4 hover:decoration-gold">
+        Risk disclosures
+      </Link>
+      .
+    </>
+  );
 
   // "More like this" = the rest of the same series. A series of one (the data
   // utility) points at the flagship shelf instead, so no page ends in a dead end.
@@ -81,13 +115,23 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         </div>
       </section>
 
-      {/* ------------------------------------------------------------ pictures */}
-      {shots.length > 0 && (
-        <section className="wrap -mt-16 lg:-mt-24">
+      {/* ------------------------------------------------------ on the chart */}
+      {chartSlides.length > 0 ? (
+        <section className="wrap -mt-16 lg:-mt-24" aria-label={`${p.name} on the chart`}>
           <Reveal>
-            <ProductGallery name={p.name} shots={shots} />
+            <p className="label mb-4">On the chart</p>
+            <Gallery slides={chartSlides} ratio={CHART_W / CHART_H} ground={CHART_GROUND} label={`${p.name} on the chart`} priority footnote={riskLine} />
           </Reveal>
         </section>
+      ) : (
+        boardSlides.length > 0 && (
+          <section className="wrap -mt-16 lg:-mt-24" aria-label={`${p.name} product guide`}>
+            <Reveal>
+              <p className="label mb-4">Product guide</p>
+              <Gallery slides={boardSlides} ratio={boardRatio} ground={BOARD_GROUND} label={`${p.name} product guide`} mode="read" priority footnote={riskLine} />
+            </Reveal>
+          </section>
+        )
       )}
 
       {/* ---------------------------------------------------------------- body */}
@@ -135,6 +179,24 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <p className="mt-8 max-w-xl text-[15px] leading-relaxed text-slate">{DISCLOSURE.short}</p>
         </Reveal>
       </section>
+
+      {/* ------------------------------------------------------- product guide */}
+      {chartSlides.length > 0 && boardSlides.length > 0 && (
+        <section className="border-t border-line bg-wash" aria-label={`${p.name} product guide`}>
+          <div className="wrap py-20 lg:py-28">
+            <Reveal className="max-w-2xl">
+              <p className="label">Product guide</p>
+              <h2 className="display-md mt-3 text-ink text-balance">Every mark on the chart, explained</h2>
+              <p className="body mt-4 text-pretty">
+                The annotated boards: a chart, with what each part of {p.name} shows laid out beside it. Open any board to read it at full size.
+              </p>
+            </Reveal>
+            <Reveal className="mt-10" delay={80}>
+              <Gallery slides={boardSlides} ratio={boardRatio} ground={BOARD_GROUND} label={`${p.name} product guide`} mode="read" />
+            </Reveal>
+          </div>
+        </section>
+      )}
 
       {/* ------------------------------------------------------------ in detail */}
       {listingCopy && <ListingDetail copy={listingCopy} />}

@@ -198,6 +198,14 @@
   .text-pretty {
     text-wrap: pretty;
   }
+  /* Picture tracks swipe; they don't need a scrollbar to say so. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Hero entrance — CSS only, so the first paint is already moving. */
