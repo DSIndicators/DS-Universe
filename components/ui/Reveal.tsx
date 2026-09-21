@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 
 /** Fades content in once, when it enters the viewport. Renders visible without JS. */
 export function Reveal({
@@ -8,11 +8,14 @@ export function Reveal({
   className = "",
   delay = 0,
   as: Tag = "div",
+  style,
 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
   as?: "div" | "section" | "li" | "article";
+  /** For layout values that have to be computed, e.g. PackShelf's --row-max. */
+  style?: CSSProperties;
 }) {
   const ref = useRef<HTMLElement | null>(null);
 
@@ -42,7 +45,7 @@ export function Reveal({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Comp = Tag as any;
   return (
-    <Comp ref={ref} className={`reveal ${className}`}>
+    <Comp ref={ref} className={`reveal ${className}`} style={style}>
       {children}
     </Comp>
   );

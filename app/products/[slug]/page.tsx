@@ -1,25 +1,25 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/ui/Reveal";
-import { ProductCard, Arrow } from "@/components/ProductCard";
+import { Arrow } from "@/components/ui/Arrow";
 import { ProductGallery } from "@/components/ProductGallery";
 import { ListingDetail } from "@/components/ListingDetail";
 import { TestFirst } from "@/components/TestFirst";
-import { WaitlistNote } from "@/components/ui/WaitlistNote";
-import { BY_SLUG, KIND_LABEL, PRODUCTS, byKind } from "@/content/products";
-import { isReleased } from "@/content/release";
+import { BoxCard } from "@/components/BoxCard";
+import { BuyButton, CtaNote } from "@/components/BuyButton";
+import { PriceBlock } from "@/components/Price";
+import { BY_SLUG, KIND_LABEL, PRODUCTS } from "@/content/products";
+import { COVER_RATIO, boxartFor, isReleased, seriesMates, SHELVES } from "@/content/release";
 import { shotsFor } from "@/content/shots";
 import { listingCopyFor } from "@/content/listing-copy";
-import { buyHref, buyLabel, listingFor } from "@/content/whop";
-import { money, priceFor } from "@/content/pricing";
+import { COMPLETE, money, priceFor, seriesInfo } from "@/content/pricing";
 import { DISCLOSURE, SITE } from "@/content/site";
 
 type Params = { slug: string };
 
 export function generateStaticParams(): Params[] {
-  // Only the released lineup gets a public page; the rest of the generated
-  // catalogue returns as it releases (content/release.ts).
   return PRODUCTS.filter((p) => isReleased(p.slug)).map((p) => ({ slug: p.slug }));
 }
 
@@ -35,14 +35,15 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const p = BY_SLUG[slug];
   if (!p || !isReleased(slug)) notFound();
 
-  const kin = byKind(p.kind).filter((s) => isReleased(s.slug));
-  const siblings = kin.filter((s) => s.slug !== p.slug);
-  const idx = kin.findIndex((s) => s.slug === p.slug);
-  const more = [...siblings.slice(idx), ...siblings.slice(0, idx)].slice(0, 3);
+  const price = priceFor(p.slug);
+  const series = seriesInfo(p.series);
   const shots = shotsFor(p.slug);
   const listingCopy = listingCopyFor(p.slug);
-  const listing = listingFor(p.slug);
-  const price = priceFor(p.slug);
+
+  // "More like this" = the rest of the same series. A series of one (the data
+  // utility) points at the flagship shelf instead, so no page ends in a dead end.
+  const mates = seriesMates(p.slug);
+  const moreShelf = mates.length ? { name: series.name, products: mates } : { name: SHELVES[0].info.name, products: SHELVES[0].products };
 
   return (
     <>
@@ -55,10 +56,12 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               All products
             </Link>
           </Reveal>
-          <div className={`grid gap-10 pt-10 lg:grid-cols-12 lg:items-end ${shots.length ? "pb-28 lg:pb-36" : "pb-16 lg:pb-20"}`}>
+          <div className="grid gap-10 pb-28 pt-10 lg:grid-cols-12 lg:items-end lg:pb-36">
             <Reveal className="lg:col-span-7">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="chip-gold">{KIND_LABEL[p.kind].singular}</span>
+                <Link href={`/products#${p.series}`} className="chip-gold hover:bg-gold-soft/70">
+                  {series.name}
+                </Link>
                 <span className="label pl-1">{p.category}</span>
               </div>
               <h1 className="display-xl mt-5 text-ink">{p.name}</h1>
@@ -67,7 +70,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             <Reveal className="lg:col-span-5 lg:justify-self-end" delay={100}>
               <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1" aria-label="Highlights">
                 {p.hooks.map((h) => (
-                  <li key={h} className="flex items-center gap-3 rounded-lg border border-line bg-white/80 px-4 py-3 text-[15px] text-ink">
+                  <li key={h} className="flex items-center gap-3 rounded-lg border border-line bg-surface/80 px-4 py-3 text-[15px] text-ink">
                     <span className="block h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
                     {h}
                   </li>
@@ -79,8 +82,6 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       </section>
 
       {/* ------------------------------------------------------------ pictures */}
-      {/* Every real view of the tool, one stage and a rail. The page is the
-          same height whether a product has one picture or six. */}
       {shots.length > 0 && (
         <section className="wrap -mt-16 lg:-mt-24">
           <Reveal>
@@ -92,97 +93,45 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       {/* ---------------------------------------------------------------- body */}
       <section className="wrap grid gap-12 py-20 lg:grid-cols-12 lg:py-28">
         <Reveal className="lg:col-span-4">
-          <p className="label">How it helps</p>
-          <dl className="mt-8 space-y-6 border-t border-line pt-8">
-            <div>
-              <dt className="text-[13px] text-mute">Type</dt>
-              <dd className="mt-1 text-[16px] text-ink">{KIND_LABEL[p.kind].singular}</dd>
-            </div>
-            <div>
-              <dt className="text-[13px] text-mute">Category</dt>
-              <dd className="mt-1 text-[16px] text-ink">{p.category}</dd>
-            </div>
-            <div>
-              <dt className="text-[13px] text-mute">Platform</dt>
-              <dd className="mt-1 text-[16px] text-ink">{SITE.platform}</dd>
-            </div>
+          {/* The box, small, above the facts — the page's one picture of the
+              product as a product. */}
+          <div className="spotlight relative w-[176px]" style={{ aspectRatio: String(COVER_RATIO) }}>
+            <Image src={boxartFor(p.slug)} alt={`${p.name} box`} fill sizes="176px" className="object-contain" />
+          </div>
+          <dl className="mt-10 space-y-6 border-t border-line pt-8">
+            <Fact label="Type" value={KIND_LABEL[p.kind].singular} />
+            <Fact label="Series" value={series.name} />
+            <Fact label="Category" value={p.category} />
+            <Fact label="Platform" value={SITE.platform} />
           </dl>
         </Reveal>
+
         <Reveal className="lg:col-span-7 lg:col-start-6" delay={80}>
-          <p className="display-sm leading-[1.45] text-ink text-pretty">{p.helps}</p>
+          <p className="label">How it helps</p>
+          <p className="display-sm mt-5 leading-[1.45] text-ink text-pretty">{p.helps}</p>
 
-          {/* The price, once, right above the button that acts on it. One list
-              price struck through, one live price. Never a second anchor. */}
-          {price && (
-            <div className="mt-10 border-t border-line pt-6">
-              {price.free ? (
-                <>
-                  <p className="font-display text-[30px] leading-none text-ink">Free</p>
-                  <p className="mt-2 text-[14px] text-slate">
-                    Yours to keep. Not a trial, and it does not expire.
-                  </p>
-                </>
-              ) : price.bundleOnly ? (
-                <>
-                  <p className="font-display text-[30px] leading-none text-ink">In the bundle</p>
-                  <p className="mt-2 text-[14px] text-slate">
-                    DS Toolkit is not sold on its own — it comes with the indicators bundle.{" "}
-                    <Link href="/pricing" className="text-ink underline decoration-line underline-offset-4 hover:decoration-gold">
-                      See what that costs
-                    </Link>
-                    .
-                  </p>
-                </>
-              ) : (
-                <>
-                  <div className="flex flex-wrap items-baseline gap-3">
-                    <span className="font-display text-[30px] leading-none tabular-nums text-ink">
-                      {money(price.now)}
-                    </span>
-                    <span className="text-[16px] tabular-nums text-mute line-through">
-                      {money(price.list)}
-                    </span>
-                    <span className="chip-gold">Founders</span>
-                  </div>
-                  <p className="mt-2 text-[14px] text-slate">
-                    One payment, not a subscription. Later versions included.
-                  </p>
-                </>
-              )}
-              {/* Under the number, above the button that acts on it. */}
-              <WaitlistNote className="mt-4" />
-            </div>
-          )}
-
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            {listing ? (
-              <>
-                {/* Straight to the Whop payment window when we have the checkout
-                    link; the listing page otherwise (buyHref decides, one place). */}
-                <a href={buyHref(listing)} target="_blank" rel="noopener" className="btn-primary">
-                  {buyLabel(listing)}
-                </a>
-                {/* Only worth showing once the primary button skips the listing —
-                    for buyers who want the Whop page, its details and reviews. */}
-                {listing.checkout && (
-                  <a href={listing.product} target="_blank" rel="noopener" className="btn-ghost">
-                    See it on Whop
-                  </a>
-                )}
-              </>
-            ) : price?.bundleOnly ? (
-              <Link href="/pricing" className="btn-primary">
-                See the bundle
+          {/* ------------------------------------------------ price and buy */}
+          <div className="mt-10 rounded-2xl border border-line bg-surface p-7 shadow-card sm:p-8">
+            <PriceBlock price={price} size="lg" />
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <BuyButton slug={p.slug} />
+              <Link href="/contact" className="btn-ghost">
+                Ask a question
               </Link>
-            ) : (
-              <span className="inline-flex h-12 items-center rounded-md border border-dashed border-line-strong px-5 text-[15px] text-slate">
-                Coming soon
-              </span>
-            )}
-            <Link href="/contact" className="btn-ghost">
-              Ask a question
-            </Link>
+            </div>
+            <CtaNote className="mt-3.5" />
+            {/* The one bundle, said once, where the decision is being made. */}
+            <p className="mt-6 border-t border-line pt-5 text-[14.5px] leading-relaxed text-slate">
+              {price?.free ? "Also in " : "Or take everything — "}
+              <Link href="/pricing#complete" className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
+                {COMPLETE.name}
+              </Link>
+              {price?.free
+                ? ", every DS Universe product in one license."
+                : `, every DS Universe product in one license, for ${money(COMPLETE.now)}.`}
+            </p>
           </div>
+
           <p className="mt-8 max-w-xl text-[15px] leading-relaxed text-slate">{DISCLOSURE.short}</p>
         </Reveal>
       </section>
@@ -194,26 +143,34 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       <TestFirst productName={p.name} />
 
       {/* ---------------------------------------------------------------- more */}
-      {more.length > 0 && (
-        <section className="border-t border-line bg-mist">
-          <div className="wrap py-20 lg:py-24">
-            <Reveal className="flex items-end justify-between gap-6">
-              <h2 className="display-md text-ink">More {KIND_LABEL[p.kind].plural.toLowerCase()}</h2>
-              <Link href="/products" className="group hidden items-center gap-2 text-[15px] text-ink sm:inline-flex">
-                All products
-                <Arrow />
-              </Link>
-            </Reveal>
-            <ul className="mt-10 grid gap-5 md:grid-cols-3">
-              {more.map((s, i) => (
-                <Reveal as="li" key={s.slug} delay={i * 80}>
-                  <ProductCard product={s} />
-                </Reveal>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
+      <section className="border-t border-line">
+        <div className="wrap py-20 lg:py-24">
+          <Reveal className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="label">{mates.length ? "From the same series" : "From the lineup"}</p>
+              <h2 className="display-md mt-3 text-ink">{moreShelf.name}</h2>
+            </div>
+            <Link href="/products" className="group hidden items-center gap-2 text-[15px] text-ink sm:inline-flex">
+              Every product
+              <Arrow />
+            </Link>
+          </Reveal>
+          <Reveal className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+            {moreShelf.products.slice(0, 5).map((m) => (
+              <BoxCard key={m.slug} slug={m.slug} />
+            ))}
+          </Reveal>
+        </div>
+      </section>
     </>
+  );
+}
+
+function Fact({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="text-[13px] text-mute">{label}</dt>
+      <dd className="mt-1 text-[16px] text-ink">{value}</dd>
+    </div>
   );
 }

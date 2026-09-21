@@ -1,17 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Monitor } from "@/components/ui/Monitor";
+import { HeroScreen } from "@/components/ui/Monitor";
 import { WaitlistNote } from "@/components/ui/WaitlistNote";
-import { cta } from "@/content/launch";
 import { Reveal } from "@/components/ui/Reveal";
 import { Marketplace } from "@/components/Marketplace";
-import { Bundles } from "@/components/Bundles";
+import { HeroOffer } from "@/components/HeroOffer";
+import { CompleteBand } from "@/components/CompleteBand";
 import { NT_ASSETS, NT_LINKS } from "@/content/ninjatrader";
 import { ABOUT, CLOSING, DISCLOSURE, FACTS, HERO, PRINCIPLES, SITE } from "@/content/site";
 
 /**
- * Home order: hero → NinjaTrader featured → principles → storefront →
- * bundles → About ("Built for the trader") → closing.
+ * Home order: hero (the DS Complete sessions, rotating) → NinjaTrader featured
+ * → principles → storefront (four series, every tile priced) → DS Complete →
+ * About ("Built for the trader") → closing.
+ *
+ * WHERE THE PRICING SITS (2026-09-20, flat single prices). The offer is stated
+ * once in the hero as one computed line, priced on every tile and at the head
+ * of every shelf, and summed once at the end as DS Complete — the only bundle,
+ * the only dark band on the page, directly under the shelves it sums.
+ *
+ * The hero screen shows real charts with several DS products running on one
+ * chart at once — which is the case for DS Complete made without a word.
  */
 export default function HomePage() {
   return (
@@ -29,12 +38,15 @@ export default function HomePage() {
             <p className="lede rise mt-6 max-w-md text-pretty" style={{ animationDelay: "160ms" }}>
               {HERO.sub}
             </p>
-            <div className="rise mt-9 flex flex-wrap gap-3" style={{ animationDelay: "240ms" }}>
+            {/* The whole offer in one line, before anyone scrolls. Computed
+                from content/pricing.ts, so it cannot disagree with the shelves. */}
+            <HeroOffer className="rise mt-7 max-w-md" />
+            <div className="rise mt-7 flex flex-wrap gap-3" style={{ animationDelay: "240ms" }}>
               <Link href={HERO.primary.href} className="btn-primary">
                 {HERO.primary.label}
               </Link>
               <Link href={HERO.secondary.href} className="btn-ghost">
-                {cta(HERO.secondary.label, "See what's coming")}
+                {HERO.secondary.label}
               </Link>
             </div>
             {/* Said once, at the top of the site, before anyone reaches a price. */}
@@ -42,14 +54,16 @@ export default function HomePage() {
           </div>
 
           <div className="lg:col-span-7">
-            <Monitor priority className="rise-monitor lg:mt-4 lg:w-[128%]" />
+            <div className="rise-monitor lg:mt-4">
+              <HeroScreen priority monitorClassName="lg:w-[128%]" />
+            </div>
             {/* Chart images may not appear without the risk disclosure
                 alongside them (NinjaTrader vendor guidelines, p.2). The full
                 risk and hypothetical-performance disclosures are in the footer
                 of every page; this puts the plain-English one directly under
                 the charts it belongs to, in body-style text rather than fine
                 print. */}
-            <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-slate lg:mt-8">
+            <p className="mt-5 max-w-2xl text-[14.5px] leading-relaxed text-slate lg:mt-6">
               {DISCLOSURE.short}
             </p>
           </div>
@@ -98,7 +112,7 @@ export default function HomePage() {
 
                 items-end puts them on one floor line rather than centring two
                 objects of different heights against each other. */}
-            <div className="flex items-end justify-center gap-2 sm:gap-4">
+            <div className="spotlight flex items-end justify-center gap-2 py-4 sm:gap-4">
               <Image
                 src={NT_ASSETS.desktop}
                 alt="The NinjaTrader platform on a desktop"
@@ -135,13 +149,13 @@ export default function HomePage() {
       {/* ---------------------------------------------------------- storefront */}
       <Marketplace />
 
-      {/* ------------------------------------------------------------ bundles */}
-      {/* Straight after the shelves — the moment the visitor has just seen
-          everything priced one at a time (Tom, 2026-09-10). */}
-      <Bundles />
+      {/* ----------------------------------------------------------- complete */}
+      {/* Straight after the shelves — the one moment a visitor has seen every
+          product priced on its own and can weigh one number against the lot. */}
+      <CompleteBand />
 
       {/* --------------------------------------------------------------- about */}
-      <section className="border-t border-line">
+      <section>
         <div className="wrap grid gap-12 py-24 md:grid-cols-12 lg:py-32">
           <Reveal className="md:col-span-4 lg:col-span-3">
             <dl className="space-y-7">
@@ -170,13 +184,13 @@ export default function HomePage() {
       </section>
 
       {/* ------------------------------------------------------------- closing */}
-      <section className="border-t border-line">
+      <section className="glow-close border-t border-line">
         <Reveal className="wrap py-24 text-center lg:py-32">
           <h2 className="display-lg mx-auto max-w-2xl text-ink text-balance">{CLOSING.heading}</h2>
           <p className="lede mx-auto mt-6 max-w-xl text-pretty">{CLOSING.text}</p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <Link href={CLOSING.primary.href} className="btn-primary">
-              {cta(CLOSING.primary.label, "See what's coming")}
+              {CLOSING.primary.label}
             </Link>
             <Link href={CLOSING.secondary.href} className="btn-ghost">
               {CLOSING.secondary.label}

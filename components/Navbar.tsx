@@ -24,12 +24,12 @@ export function Navbar() {
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ease-silk ${
-        scrolled ? "border-b border-line bg-white/85 backdrop-blur-md" : "bg-transparent"
+        scrolled ? "border-b border-line bg-ground/80 backdrop-blur-md" : "bg-transparent"
       }`}
     >
       <div className="wrap flex h-[76px] items-center justify-between">
         <Link href="/" className="group flex items-center gap-3" aria-label={`${SITE.name} — home`}>
-          <Badge size={34} className="ring-1 ring-black/10 transition-transform duration-500 ease-silk group-hover:scale-105" />
+          <Badge size={34} className="ring-1 ring-white/15 transition-transform duration-500 ease-silk group-hover:scale-105" />
           <span className="font-display text-[19px] font-medium tracking-[-0.01em] text-ink">
             {SITE.name}
           </span>
@@ -50,8 +50,8 @@ export function Navbar() {
               </Link>
             );
           })}
-          <Link href="/products" className="btn-ghost h-11 px-5">
-            {cta("Get access", "See what's coming")}
+          <Link href="/pricing" className="btn-ghost h-11 px-5">
+            {cta("Get access", "See pricing")}
           </Link>
         </nav>
 
@@ -61,7 +61,7 @@ export function Navbar() {
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? "Close menu" : "Open menu"}
-          className="flex h-11 w-11 items-center justify-center rounded-md border border-line bg-white md:hidden"
+          className="flex h-11 w-11 items-center justify-center rounded-md border border-line-strong bg-surface md:hidden"
         >
           <span className="relative block h-3.5 w-5">
             <span
@@ -86,7 +86,7 @@ export function Navbar() {
       <div
         id="mobile-nav"
         hidden={!open}
-        className="border-b border-line bg-white md:hidden"
+        className="border-b border-line bg-ground md:hidden"
       >
         <nav className="wrap flex flex-col py-3" aria-label="Mobile">
           {NAV.map((n) => (
@@ -94,8 +94,8 @@ export function Navbar() {
               {n.label}
             </Link>
           ))}
-          <Link href="/products" className="btn-primary mb-3 mt-2">
-            {cta("Get access", "See what's coming")}
+          <Link href="/pricing" className="btn-primary mb-3 mt-2">
+            {cta("Get access", "See pricing")}
           </Link>
         </nav>
       </div>

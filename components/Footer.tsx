@@ -11,7 +11,7 @@ export function Footer() {
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
             <div className="flex items-center gap-3">
-              <Badge size={28} className="ring-1 ring-black/10" />
+              <Badge size={28} className="ring-1 ring-white/15" />
               <span className="font-display text-[17px] font-medium text-ink">{SITE.name}</span>
             </div>
             <p className="mt-4 text-[15px] leading-relaxed text-slate">{SITE.tagline}. {SITE.city}.</p>

@@ -1,90 +1,71 @@
 /**
- * Where "Get access" goes — the commerce layer.
+ * Where a buy button goes — the commerce layer.
  *
- * TOM: this is the only file to edit when a product goes live on Whop.
+ * TOM: this is the only file to edit when a Whop link changes.
  *
- *   product   the product's page on Whop — its price, offer, description and
- *             reviews. THE SHELF TILES POINT HERE (Tom, 2026-09-10): hovering a
- *             tile is browsing, so the buyer lands on the listing, not in a
- *             payment form.
- *   checkout  Whop's direct checkout link (dashboard → Checkout links; they look
- *             like https://whop.com/checkout/plan_xxxxxxxxx). Used by the main
- *             button on OUR product page, where the visitor has read the copy and
- *             decided — one click from there to the payment window. A product
- *             with no `checkout` yet falls back to `product`, so no dead ends.
- *   free      the product is free on Whop, so the button reads "Get it free"
- *             instead of "Get access" (Whop's own page says "Join for free").
+ * The sixteen listing URLs below were supplied by Tom on 2026-09-20 and EACH ONE
+ * WAS OPENED and its title and price read off the live page before it was wired
+ * (see the table at the top of content/pricing.ts). Whop gave some of them a
+ * random suffix ("-8f", "-fb") — use exactly what Whop gives you, do not tidy.
  *
- * A product with NO entry here shows a quiet "Coming soon" instead of a buy
- * button — nobody is sent to a dead link. That is the five add-ons today.
- *
- * THE CHECKOUT LINKS BELOW WERE VERIFIED ONE BY ONE (2026-09-10) by opening each
- * plan URL and reading the product name and price off the live Whop checkout.
- * Tom's list arrived free-first then paid, which is NOT the order the product
- * pages were given in — mapping them positionally would have pointed all ten at
- * the wrong product. If you ever add or rotate a plan id, open it and check.
+ * Every button goes to the product's LISTING on Whop, not a bare checkout: the
+ * listing carries the description and the reviews, and while the store is on a
+ * waitlist (content/launch.ts) its button IS the waitlist form, so our button
+ * and the page it opens say the same thing. If direct checkout links
+ * (https://whop.com/checkout/plan_xxxxxxxxx) are made later, add them as
+ * `checkout` and the product page's main button prefers them automatically.
  *
  * Later: Whop's embedded checkout (docs.whop.com/payments/checkout-embed) can
- * host the payment window inline using the plan id inside the checkout URL.
+ * host the payment window inline using the plan id inside a checkout URL.
  */
 
 import { onWaitlist } from "./launch";
+import { PRICES } from "./pricing";
 
 export type WhopListing = {
-  /** Whop product page — the listing. */
+  /** The product's page on Whop — its price, description and reviews. */
   product: string;
-  /** Direct checkout link. Preferred destination for every buy button. */
+  /** Direct checkout link, when one exists. */
   checkout?: string;
-  /** For embedded checkout later. */
-  planId?: string;
-  free?: boolean;
 };
 
-const STORE = "https://whop.com/dsuniverse";
-const CHECKOUT = "https://whop.com/checkout";
+export const STORE = "https://whop.com/dsuniverse";
+const L = (path: string): WhopListing => ({ product: `${STORE}/${path}/` });
 
 export const WHOP: Record<string, WhopListing> = {
-  // ---- paid indicators (verified $79.99 one-time on the checkout page) ----
-  oracle: { product: `${STORE}/ds-oracle`, checkout: `${CHECKOUT}/plan_Sock9tX7HJiGX` },
-  iceberg: { product: `${STORE}/ds-iceberg`, checkout: `${CHECKOUT}/plan_4h69hDBIWxT68` },
-  sonar: { product: `${STORE}/ds-sonar`, checkout: `${CHECKOUT}/plan_3RO7meGKd2KsA` },
-  zones: { product: `${STORE}/ds-zones`, checkout: `${CHECKOUT}/plan_GHLDALhabsiTc` },
-  gex: { product: `${STORE}/ds-gex`, checkout: `${CHECKOUT}/plan_kJclRaIMx90Jb` },
-
-  // ---- free indicators (verified "Free" on the checkout page) ----
-  flow: { product: `${STORE}/ds-flow`, checkout: `${CHECKOUT}/plan_jijvuTVnLPb5D`, free: true },
-  parallax: { product: `${STORE}/ds-parallax`, checkout: `${CHECKOUT}/plan_U12B5bHLJgAVd`, free: true },
-  "isotropic-lines": { product: `${STORE}/ds-isotropic-lines`, checkout: `${CHECKOUT}/plan_BvtVrY0sHiJvy`, free: true },
-  "adaptive-priceline": { product: `${STORE}/ds-adaptive-price-line`, checkout: `${CHECKOUT}/plan_jjKYJfJrZd7Qp`, free: true },
-  "chart-price": { product: `${STORE}/ds-chart-price`, checkout: `${CHECKOUT}/plan_MxzMbqTghXBk4`, free: true },
-
-  // ---- add-ons (Tom, 2026-09-10; every page opened and its price read) ----
-  // Note the URL shape differs from the indicators: add-ons sit under
-  // /products/. Use exactly what Whop gives you, do not "tidy" it.
-  screener: { product: `${STORE}/products/ds-screener/` },
-  "bulk-replay-downloader": { product: `${STORE}/products/ds-bulk-replay-downloader/` },
-  marketwatch: { product: `${STORE}/products/ds-marketwatch/`, free: true },
-  "time-intervals": { product: `${STORE}/products/ds-time-intervals/`, free: true },
-  // DS Toolkit is deliberately absent: it is bundle-only, so it has no buy
-  // button of its own. content/pricing.ts marks it bundleOnly and the product
-  // page says where to get it instead.
+  // ---- flagship indicators ($79.99, verified) ----
+  zones: L("ds-zones-living-supply-demand-structure-ninjatrader-8"),
+  iceberg: L("ds-iceberg-hidden-absorption-refill-detection-ninjatrader-8"),
+  oracle: L("ds-oracle-ai-confirmed-supertrend-neural-line-ninjatrader-8"),
+  gex: L("ds-gex-dealer-gamma-levels-fetched-live-ninjatrader-8-fb"),
+  flow: L("ds-flow-volume-by-price-footprint-ninjatrader-8"),
+  // ---- Pro Series ($79.99, verified) ----
+  prorsi: L("ds-prorsi-rsi-crossovers-as-price-levels-ninjatrader-8"),
+  prostochastics: L("ds-prostochastics-quad-rotation-stochastics-ninjatrader-8"),
+  prosqueeze: L("ds-prosqueeze-squeeze-waves-reversion-ninjatrader-8"),
+  promacd: L("ds-promacd-volatility-normalised-macd-cross-price-ninjatrader-8-8f"),
+  // ---- data utility ($29.99, verified) ----
+  "bulk-replay-downloader": L("ds-bulk-replay-downloader-bulk-replay-data-ninjatrader-8"),
+  // ---- free essentials (no price on Whop, verified) ----
+  "adaptive-priceline": L("ds-adaptive-price-line-self-anchoring-line-countdown-ninjatrader-8"),
+  "chart-price": L("ds-chart-price-large-readout-chop-detection-ninjatrader-8"),
+  "ds-258": L("ds-258-nasdaq-00-20-50-80-level-map-ninjatrader-8"),
+  parallax: L("ds-parallax-multi-timeframe-liquidity-matrix-ninjatrader-8"),
+  toolkit: L("ds-toolkit-one-rail-for-every-indicator-tool-ninjatrader-8"),
+  // ---- the bundle ($749.90 -> $374.95, verified) ----
+  complete: L("ds-complete-all-15-ds-universe-products-one-license-ninjatrader-8"),
 };
 
-export const listingFor = (slug: string): WhopListing | undefined => WHOP[slug];
+export const listingFor = (key: string): WhopListing | undefined => WHOP[key];
 
-/**
- * Where a buy button sends the buyer: straight to checkout when we have the
- * link, the Whop listing otherwise. One place, so every button agrees.
- */
+/** The main button's destination: a direct checkout if we have one, else the listing. */
 export const buyHref = (l: WhopListing) => l.checkout ?? l.product;
 
 /**
- * The button's words. Free products say so; Whop's own page says "Join for free".
- *
- * While the store is on a waitlist (content/launch.ts) every button says the
- * same thing instead, worded to match what Whop's own checkout says when the
- * buyer lands on it — "Join waitlist". A button that promises access and then
- * opens a waitlist form is the kind of small lie that costs trust.
+ * The button's words. While the store is on a waitlist every button says what
+ * Whop's own page says — "Join waitlist" — so a click never promises more than
+ * the next page does. Free products say "Get it free" when open (Whop's own page
+ * says "Join for free").
  */
-export const buyLabel = (l: WhopListing) =>
-  onWaitlist() ? "Join the waitlist" : l.free ? "Get it free" : "Get access";
+export const buyLabel = (key: string) =>
+  onWaitlist() ? "Join the waitlist" : PRICES[key]?.free ? "Get it free" : "Get access";

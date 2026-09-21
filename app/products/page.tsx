@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import { Marketplace } from "@/components/Marketplace";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaitlistNote } from "@/components/ui/WaitlistNote";
+import { CompleteBand } from "@/components/CompleteBand";
+import { SHELVES } from "@/content/release";
+import { seriesPrice, tilePrice } from "@/content/pricing";
 
 export const metadata: Metadata = {
   title: "Products",
-  description: "Indicators drawn on the chart and add-ons mounted on the platform — every DS Universe product for NinjaTrader 8.",
+  description:
+    "Every DS Universe product for NinjaTrader 8 — flagship indicators, the Pro Series panels, the free chart essentials and the Market Replay utility. Each one bought once; DS Complete is all of it.",
 };
 
 export default function ProductsPage() {
@@ -16,17 +20,31 @@ export default function ProductsPage() {
           <p className="label">Products</p>
           <h1 className="display-lg mt-5 text-ink text-balance">Every tool, one question each.</h1>
           <p className="lede mt-6 max-w-2xl text-pretty">
-            Indicators are drawn on the chart; add-ons live on the platform. Open any product for what it shows, how it helps, and what it looks like on a live chart.
+            Each one sold on its own, for a single payment — and the chart essentials free.
+            Open any box for what it shows, how it helps, and the guide to reading it on a
+            live chart.
           </p>
-          <nav className="mt-8 flex gap-2" aria-label="Sections">
-            <a href="#indicators" className="chip hover:border-ink hover:text-ink">Indicators</a>
-            <a href="#add-ons" className="chip hover:border-ink hover:text-ink">Add-ons</a>
+          {/* The series, in the order the shelves run. Built from the catalogue,
+              so a jump link can never point at a shelf that no longer exists. */}
+          <nav className="mt-8 flex flex-wrap gap-2" aria-label="Series">
+            {SHELVES.map((s) => {
+              const p = seriesPrice(s.info.key);
+              return (
+                <a key={s.info.key} href={`#${s.info.key}`} className="chip hover:border-ink hover:text-ink">
+                  {s.info.name}
+                  {p && <span className="ml-2 text-[12px] tabular-nums text-gold-deep">{tilePrice(p)}</span>}
+                </a>
+              );
+            })}
+            <a href="#complete" className="chip hover:border-ink hover:text-ink">
+              DS Complete
+            </a>
           </nav>
-          {/* Anyone landing straight on the shelf sees it before the tiles. */}
           <WaitlistNote tone="band" className="mt-8" />
         </Reveal>
       </section>
       <Marketplace withHeading={false} />
+      <CompleteBand />
     </>
   );
 }

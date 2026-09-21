@@ -46,8 +46,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#FFFFFF",
-  colorScheme: "light",
+  // The phone browser's own chrome (address bar, status bar) takes the
+  // page colour instead of flashing white above a dark site.
+  themeColor: "#050607",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -56,7 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-screen flex-col antialiased">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-ivory focus:px-4 focus:py-2 focus:text-ground"
         >
           Skip to content
         </a>
@@ -67,7 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             the most-seen thing on the site, so sending it via /ninjatrader was
             spending a click for nothing. The page itself is still in the nav
             for anyone who wants to read about the platform first. */}
-        <div className="bg-ink">
+        <div className="border-b border-white/[0.06] bg-[#050607]">
           <div className="wrap flex h-14 items-center justify-center gap-5 text-[13px] text-white/85">
             <a
               href={NT_LINKS.logo}

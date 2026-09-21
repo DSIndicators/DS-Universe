@@ -8,7 +8,7 @@ import type { ListingCopy } from "@/content/listing-copy";
  * things on the chart, and a closing note that is usually about what the tool
  * does NOT do. Rendering them here means a visitor gets the full case without
  * leaving for Whop, and the store and the site cannot drift apart, because both
- * come from the same tab of the Product Information Sheet.
+ * come from the same tab of the Master Product & Pricing Sheet.
  *
  * The disclaimer each listing carries on Whop is deliberately not repeated: the
  * footer already renders the risk, hypothetical performance and trademark
@@ -36,9 +36,13 @@ export function ListingDetail({ copy }: { copy: ListingCopy }) {
             ))}
           </ul>
 
-          <p className="mt-8 border-t border-line pt-6 text-[15.5px] leading-relaxed text-slate text-pretty">
-            {copy.close}
-          </p>
+          <div className="mt-8 space-y-3 border-t border-line pt-6">
+            {copy.close.map((c) => (
+              <p key={c} className="text-[15.5px] leading-relaxed text-slate text-pretty">
+                {c}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </section>

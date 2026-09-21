@@ -21,8 +21,11 @@ export default function NinjaTraderPage() {
     <>
       {/* ------------------------------------------------------- NinjaTrader */}
       <section className="hero-wash relative overflow-hidden">
-        <div className="wrap grid items-center gap-12 pb-20 pt-12 sm:pt-16 lg:grid-cols-12 lg:gap-10 lg:pb-24 lg:pt-20">
-          <div className="lg:col-span-7">
+        {/* Two columns at lg: the copy, then the devices BESIDE it. The columns
+            must add up to 12 — at 7 + 6 the devices wrapped under the copy
+            (Tom, 2026-09-21: "move that to the right side, fit perfectly"). */}
+        <div className="wrap grid items-center gap-12 pb-20 pt-12 sm:pt-16 lg:grid-cols-12 lg:gap-12 lg:pb-24 lg:pt-20">
+          <div className="lg:col-span-6">
             <Reveal>
               {/* Official wordmark, ≥18px clear space on all sides, partner link. */}
               <a
@@ -98,22 +101,22 @@ export default function NinjaTraderPage() {
 
                 items-end puts them on one floor line rather than centring two
                 objects of different heights against each other. */}
-            <div className="flex items-end justify-center gap-2 sm:gap-4">
+            <div className="spotlight flex items-end justify-center gap-2 py-4 sm:gap-4 lg:py-0">
               <Image
                 src={NT_ASSETS.desktop}
                 alt="The NinjaTrader platform on a desktop"
                 width={510}
                 height={531}
-                sizes="(min-width: 1024px) 340px, 55vw"
-                className="w-[62%] max-w-[340px]"
+                sizes="(min-width: 1280px) 370px, (min-width: 1024px) 30vw, 55vw"
+                className="w-[62%] max-w-[370px]"
               />
               <Image
                 src={NT_ASSETS.mobile}
                 alt="The NinjaTrader mobile app running on two phones"
                 width={1500}
                 height={1216}
-                sizes="(min-width: 1024px) 215px, 34vw"
-                className="mb-[6%] w-[38%] max-w-[215px]"
+                sizes="(min-width: 1280px) 230px, (min-width: 1024px) 19vw, 34vw"
+                className="mb-[6%] w-[38%] max-w-[230px]"
               />
             </div>
           </Reveal>
