@@ -32,8 +32,8 @@ export const NAV = [
   { label: "Contact", href: "/contact" },
 ];
 
-/** Hero copy. Short on purpose. The offer line under it is computed from
- *  content/pricing.ts (components/HeroOffer.tsx), so it cannot drift. */
+/** Hero copy. Short on purpose, and NO PRICES (Tom, 2026-09-21) — the numbers
+ *  live on the shelves, the DS Complete band, the product pages and /pricing. */
 export const HERO = {
   eyebrow: "For NinjaTrader 8",
   title: "See the market clearly.",

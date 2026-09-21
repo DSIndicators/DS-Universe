@@ -4,7 +4,6 @@ import { HeroScreen } from "@/components/ui/Monitor";
 import { WaitlistNote } from "@/components/ui/WaitlistNote";
 import { Reveal } from "@/components/ui/Reveal";
 import { Marketplace } from "@/components/Marketplace";
-import { HeroOffer } from "@/components/HeroOffer";
 import { CompleteBand } from "@/components/CompleteBand";
 import { NT_ASSETS, NT_LINKS } from "@/content/ninjatrader";
 import { ABOUT, CLOSING, DISCLOSURE, FACTS, HERO, PRINCIPLES, SITE } from "@/content/site";
@@ -38,10 +37,11 @@ export default function HomePage() {
             <p className="lede rise mt-6 max-w-md text-pretty" style={{ animationDelay: "160ms" }}>
               {HERO.sub}
             </p>
-            {/* The whole offer in one line, before anyone scrolls. Computed
-                from content/pricing.ts, so it cannot disagree with the shelves. */}
-            <HeroOffer className="rise mt-7 max-w-md" />
-            <div className="rise mt-7 flex flex-wrap gap-3" style={{ animationDelay: "240ms" }}>
+            {/* NO PRICES IN THE HERO (Tom, 2026-09-21: "It might scare users
+                away before they even get a chance to see the indicators").
+                The charts come first; the numbers live on the shelves, the
+                DS Complete band, the product pages and /pricing. */}
+            <div className="rise mt-8 flex flex-wrap gap-3" style={{ animationDelay: "240ms" }}>
               <Link href={HERO.primary.href} className="btn-primary">
                 {HERO.primary.label}
               </Link>
