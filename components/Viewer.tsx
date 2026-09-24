@@ -44,6 +44,15 @@ export type ViewerSlide = {
   alt: string;
   /** A second line under the title (e.g. the tools on the picture). */
   sub?: ReactNode;
+  /**
+   * Set when the slide is a RECORDING rather than a picture (the hero screen's
+   * clip, 2026-09-23). The viewer then plays it with real controls instead of
+   * rendering an <Image>, and `src`/`w`/`h` above are only used as the key and
+   * the "read" mode box. Pass the same file the tile is already using, so
+   * enlarging costs no second download. Only the CURRENT slide's video is
+   * mounted — neighbours show the poster — so nothing plays off screen.
+   */
+  video?: { src: string; poster: string };
 };
 
 /* "A phone on its side" = any screen under 500px tall. Written out in full in
@@ -229,18 +238,39 @@ export function Viewer({
                   className={`relative h-full w-full shrink-0 snap-center snap-always ${mode === "read" ? "overflow-y-auto overscroll-contain" : ""}`}
                 >
                   {mode === "fit" ? (
-                    <div className="absolute inset-0" style={s.blur && !seen.has(n) ? blurBg(s.blur) : undefined}>
-                      {seen.has(n) && (
-                        <Image
-                          src={s.src}
-                          alt={s.alt}
-                          fill
-                          quality={92}
-                          placeholder={s.blur ? "blur" : "empty"}
-                          blurDataURL={s.blur}
-                          sizes="100vw"
-                          className="object-contain"
-                        />
+                    <div
+                      className="absolute inset-0"
+                      style={s.video ? (n === index ? undefined : posterBg(s.video.poster)) : s.blur && !seen.has(n) ? blurBg(s.blur) : undefined}
+                    >
+                      {s.video ? (
+                        n === index && (
+                          <video
+                            src={s.video.src}
+                            poster={s.video.poster}
+                            aria-label={s.alt}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            controls
+                            controlsList="nodownload"
+                            disablePictureInPicture
+                            className="absolute inset-0 h-full w-full object-contain"
+                          />
+                        )
+                      ) : (
+                        seen.has(n) && (
+                          <Image
+                            src={s.src}
+                            alt={s.alt}
+                            fill
+                            quality={92}
+                            placeholder={s.blur ? "blur" : "empty"}
+                            blurDataURL={s.blur}
+                            sizes="100vw"
+                            className="object-contain"
+                          />
+                        )
                       )}
                     </div>
                   ) : (
@@ -303,6 +333,9 @@ export function Viewer({
 }
 
 const blurBg = (url: string) => ({ backgroundImage: `url("${url}")`, backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat" });
+
+/** A video slide that is not the current one shows its poster, not a 16px blur. */
+const posterBg = blurBg;
 
 function Step({ dir, onClick }: { dir: "prev" | "next"; onClick: () => void }) {
   const back = dir === "prev";

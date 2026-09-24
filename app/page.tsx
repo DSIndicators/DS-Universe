@@ -57,14 +57,18 @@ export default function HomePage() {
             <div className="rise-monitor lg:mt-4">
               <HeroScreen priority monitorClassName="lg:w-[128%]" />
             </div>
-            {/* Chart images may not appear without the risk disclosure
-                alongside them (NinjaTrader vendor guidelines, p.2). The full
-                risk and hypothetical-performance disclosures are in the footer
-                of every page; this puts the plain-English one directly under
-                the charts it belongs to, in body-style text rather than fine
-                print. */}
+            {/* Neither video content nor chart images may appear without the
+                risk AND hypothetical-performance disclosures alongside them
+                (NinjaTrader vendor guidelines rev 2.11.2025, p.2). Since
+                2026-09-23 this screen carries both — a screen recording of a
+                market replay and five chart pictures — so it takes
+                DISCLOSURE.screen, which names the recording and the simulated
+                results, not DISCLOSURE.short, which only covered the software.
+                The full verbatim texts stay in the footer of every page; this
+                is the plain-English one directly under what it belongs to, in
+                body-style text rather than fine print. */}
             <p className="mt-5 max-w-2xl text-[14.5px] leading-relaxed text-slate lg:mt-6">
-              {DISCLOSURE.short}
+              {DISCLOSURE.screen}
             </p>
           </div>
         </div>

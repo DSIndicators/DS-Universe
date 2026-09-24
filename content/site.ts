@@ -115,6 +115,18 @@ export const DISCLOSURE = {
   chart:
     "Chart pictures are illustrations of the software, not a performance record. Futures trading carries substantial risk of loss and is not suitable for every investor, and hypothetical or simulated results have inherent limitations that may differ materially from live trading.",
   /**
+   * The line under the HOME hero, which now holds a screen recording AND still
+   * chart pictures on one rotation (2026-09-23). `short` alone no longer covers
+   * it: the guidelines (rev 2.11.2025, p.2) require "video content or chart
+   * images" to be accompanied by Risk AND Hypothetical Performance Disclosures,
+   * and a market replay is simulated by definition. One paragraph, three
+   * sentences, in body text — recording and pictures first, then what the
+   * software is and is not, then the risk. The footer still carries both
+   * verbatim texts in full on every page.
+   */
+  screen:
+    "The charts above are a screen recording and pictures of the software, not a performance record; hypothetical and simulated results have inherent limitations that may differ materially from live trading. DS Universe tools are charting and research software — not investment advice, and no output is a forecast or a guarantee of any result. Trading futures and other leveraged instruments carries substantial risk of loss and is not suitable for every investor.",
+  /**
    * The line that sits ABOVE a demo player. The footer carries the full text on
    * every page and the video opens on the card, but a visitor scrolling past
    * should not have to hunt for either: the guidelines require video "be
@@ -138,15 +150,37 @@ export const CATALOGUE = {
 };
 
 /**
- * The hero screen: six real NQ charts on NinjaTrader's black ground, several DS
- * products on each one (Tom, 2026-09-21: "5 new images in. We will rotate the
- * 6 black screen. Remove the other images."). The seven grey-ground DS
- * Complete shots that rotated here before are retired.
+ * The hero screen: one screen recording and five real NQ charts on
+ * NinjaTrader's black ground, several DS products on each one (Tom, 2026-09-21:
+ * "5 new images in. We will rotate the 6 black screen. Remove the other
+ * images."; 2026-09-23: "remove the attached picture from the homepage and add
+ * a video instead... Video first, played in full ( users can swipe to skip to
+ * next) then our 5 pictures"). The picture he took out is the four-Pro-Series
+ * one; its file stays on disk at public/covers/screen/pro-series.webp, and the
+ * Pro Series panels are still shown on their own product pages.
  *
- * Sources — "02 Product Masters\0920 NEW Product Cover & Images\Product
- * Images\Raw", 3840x2160, served at 2560x1440 (q88):
+ * THE CLIP — source "New Raw Images\15 New Homepage 2.mp4": 7680x3880 HEVC,
+ * 60fps, 15.0s, with an audio track. It is PADDED to 16:9, never cropped. The
+ * source is 1.979:1 and the screen is a 16:9 stage with `object-cover`, so
+ * covering would have trimmed 5.1% off EACH side — and on this recording that
+ * is exactly where the "DS ProRSI" and "DS ProStochastics" panel titles (left)
+ * and the price axis (right) live. Padding costs nothing instead: the frame's
+ * own outer rows measure 0,0,0, so 220 rows of black top and bottom disappear
+ * into the chart. Verified on the encoded file — rows 0-54 and 1025-1079 are
+ * black, row 56 carries content, 1920x1080 = 1.7778 exactly.
+ *   ffmpeg -i "15 New Homepage 2.mp4" -an \
+ *     -vf "pad=iw:ceil(iw*9/16/2)*2:0:(oh-ih)/2:color=black,
+ *          scale=1920:1080:flags=lanczos,fps=30,format=yuv420p" \
+ *     -c:v libx264 -profile:v high -preset medium -crf 23 -g 60 \
+ *     -movflags +faststart  →  replay.mp4              2.79 MB
+ *   same, scale=1280:720 -crf 26 -level 3.1  →  replay-sm.mp4    1.15 MB
+ *   -frames:v 1 -c:v libwebp -quality 88     →  replay-poster.webp (frame 0)
+ * Silent (-an): browsers only autoplay muted video, and every other DS
+ * recording on the site is silent too.
+ *
+ * Sources for the PICTURES — "02 Product Masters\0920 NEW Product Cover &
+ * Images\Product Images\Raw", 3840x2160, served at 2560x1440 (q88):
  *   footprints        ← New Homepage Main.png  (Tom: "the first main picture")
- *   pro-series        ← DS_20260921_012913.png
  *   sessions          ← DS_20260921_013448.png
  *   timeframes        ← DS_20260921_013152.png
  *   session-profiles  ← DS_20260921_013601.png
@@ -165,32 +199,92 @@ export const CATALOGUE = {
  * small triangles, the "S" swing marks, the candle colouring and the countdown
  * chip.
  *
+ * On the CLIP the same rule is applied more strictly, because its data-series
+ * header lists everything LOADED on Tom's chart — "DS 258, DS Zones, DS
+ * Iceberg, DS Gex, DS Flow, DS Chart Price, DS Adaptive Price Line, DS Oracle",
+ * plus the DS ProRSI and DS ProStochastics panels — and loaded is not drawn.
+ * `tools` names only the three whose own marks are visible in the recording:
+ * the DS ProRSI panel and its "RSI 50.9 / RSI 50.5 x2 / RSI 52.7" tags on
+ * price, the DS ProStochastics panel ("STOCH 21 ▲ PRIME ROTATION", "DIV ▲"),
+ * and DS Flow's volume-by-price rows inside the candle groups. A visitor who
+ * reads a name under the screen goes looking for its mark on the screen.
+ *
  * `title` says what the picture SHOWS — no outcome, no forecast, no
  * superlative (NinjaTrader vendor guidelines).
  *
- * ORDER: footprints first (Tom), then the Flow pictures alternate with the
- * others, so the two session views (sessions, session-profiles) never sit
- * together, wrap-around included.
+ * ORDER: the clip first, then footprints, then the pictures in the order they
+ * already had (both firsts are Tom's). Taking pro-series out did put two Flow
+ * pictures side by side — footprints, then sessions — where they used to
+ * alternate. Left that way on purpose: the constraint the alternation rule
+ * exists to serve is that the two SESSION views never sit together, and they
+ * still do not (timeframes separates sessions from session-profiles, and the
+ * clip separates levels from footprints around the wrap). Footprints (volume
+ * inside each candle group) and sessions (the three session profiles) do not
+ * read as the same screenshot twice.
  *
  * `ground` is the charts' own black (#040404, sampled): the screen and the
  * enlarged view are painted with it, so a picture that is still loading, or a
  * letterbox in a window of another shape, is invisible.
  */
-export type ScreenFrame = { src: string; title: string; tools: string[]; blur: string };
+/**
+ * A frame on the hero screen. Two kinds share one rotation since 2026-09-23:
+ *
+ *  · a STILL — a 2560x1440 chart picture, which is what every frame was before;
+ *  · the CLIP — Tom's 15s screen recording, first in the rotation, played IN
+ *    FULL before the pictures start ("Video first, played in full — users can
+ *    swipe to skip to next"). Once it has finished ONCE the rotation wraps to
+ *    the first PICTURE and never back to the clip, so someone reading the page
+ *    is not interrupted by the recording every lap ("Video once, then pictures
+ *    loop", Tom, 2026-09-23). Paging, swiping or clicking back to it replays it
+ *    from the start.
+ *
+ * `kind` is optional on a still, so the pictures below need no marker: anything
+ * without one is a picture.
+ */
+export type ScreenStill = {
+  kind?: "still";
+  src: string;
+  title: string;
+  tools: string[];
+  blur: string;
+};
+
+export type ScreenClip = {
+  kind: "clip";
+  /** 1920x1080 h264, silent. */
+  src: string;
+  /** 1280x720, same cut — served to phones and to saveData. */
+  srcSmall: string;
+  /** Frame 0 of `src`, so the poster IS the first frame and nothing jumps. */
+  poster: string;
+  /** Seconds. Only a fallback: the rotation moves on the video's own `ended`. */
+  seconds: number;
+  title: string;
+  tools: string[];
+  blur: string;
+};
+
+export type ScreenFrame = ScreenStill | ScreenClip;
+
+export const isClip = (f: ScreenFrame): f is ScreenClip => f.kind === "clip";
 
 export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
   frames: [
+    {
+      kind: "clip",
+      src: "/covers/screen/replay.mp4",
+      srcSmall: "/covers/screen/replay-sm.mp4",
+      poster: "/covers/screen/replay-poster.webp",
+      seconds: 15,
+      title: "A session playing out, bar by bar",
+      tools: ["flow", "prorsi", "prostochastics"],
+      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gARTGF2YzU4LjEzNC4xMDAA/9sAQwAIPj5JPklVVVVVVVVkXWRoaGhkZGRkaGhocHBwg4ODcHBwaGhwcHx8g4OPk4+Hh4OHk5Obm5u6urKy2dng/////8QATQABAQEAAAAAAAAAAAAAAAAAAgEHAQEBAAAAAAAAAAAAAAAAAAAAAhABAAAAAAAAAAAAAAAAAAAAABEBAAAAAAAAAAAAAAAAAAAAAP/AABEIAAkAEAMBIgACEQADEQD/2gAMAwEAAhEDEQA/AMKFQUP/2Q==",
+    },
     {
       src: "/covers/screen/footprints.webp",
       title: "Volume by price inside each candle group",
       tools: ["flow", "zones", "prorsi", "prostochastics"],
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDktgHQEn3pDuxjAH0qWmv0H1p2A//Z",
-    },
-    {
-      src: "/covers/screen/pro-series.webp",
-      title: "The four Pro Series panels under one chart",
-      tools: ["prorsi", "prostochastics", "promacd", "prosqueeze"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkvL9waTYeOaU0h7UwP//Z",
     },
     {
       src: "/covers/screen/sessions.webp",

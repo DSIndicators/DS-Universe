@@ -3,50 +3,76 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import { MONITOR, type ScreenFrame } from "@/content/site";
+import { MONITOR, isClip, type ScreenFrame } from "@/content/site";
 import { Viewer } from "@/components/Viewer";
 import { BY_SLUG } from "@/content/products";
 
 /**
- * The hero screen: six real NQ charts on NinjaTrader's black ground, rotating
- * (Tom, 2026-09-21: "rotate the 6 black screen... make sure all rotations are
- * elegant and all information makes sense. Also give users the ability to
- * pause the screenshots to read, see it clearly").
+ * The hero screen: one 15s screen recording and five real NQ charts on
+ * NinjaTrader's black ground, rotating (Tom, 2026-09-21: "rotate the 6 black
+ * screen... make sure all rotations are elegant and all information makes
+ * sense. Also give users the ability to pause the screenshots to read, see it
+ * clearly"; 2026-09-23: "Video first, played in full ( users can swipe to skip
+ * to next) then our 5 pictures").
  *
  * THE ROTATION
- *  · 7s hold, 1.2s crossfade, and a very slow 3% push-in anchored on the RIGHT
- *    edge — the price axis and the latest bars never leave the screen; only the
- *    oldest bars on the left drift out;
+ *  · a PICTURE is held 7s, with a 1.2s crossfade and a very slow 3% push-in
+ *    anchored on the RIGHT edge — the price axis and the latest bars never
+ *    leave the screen; only the oldest bars on the left drift out;
+ *  · the CLIP is held for exactly as long as it plays. The rotation moves on
+ *    the video's own `ended` event, not a timer, so a slow connection delays
+ *    the next picture instead of cutting the recording short;
  *  · it never fades to a picture that has not loaded — it waits for it;
- *  · it stops while the pointer rests on the screen, while the tab is hidden,
- *    while the enlarged view is open, and when the visitor presses Pause.
+ *  · ONCE THE CLIP HAS FINISHED it is out of the automatic rotation: the wrap
+ *    goes back to the first PICTURE, not to the recording. A visitor reading
+ *    the page is not interrupted by 15s of video every lap. Paging, swiping or
+ *    clicking back to it replays it from the start.
+ *
+ * PAUSING, AND THE ONE DELIBERATE INCONSISTENCY
+ *  · Pause / Play stops everything, the clip included, and Pause also eases a
+ *    picture's push-in back to 100% so the WHOLE chart is on screen, uncropped,
+ *    while it is being read;
+ *  · a hidden tab stops everything too (an invisible video is wasted battery);
+ *  · resting the POINTER on the screen holds a PICTURE — someone is reading it
+ *    — but deliberately does NOT pause the clip. The hero is the biggest target
+ *    on the page and a cursor lands on it by accident constantly; freezing the
+ *    recording under an idle mouse would mean a lot of visitors never see the
+ *    thing play at all. There is nothing static to read on moving footage, so
+ *    the hold buys nothing there; Pause is the honest control and it is right
+ *    below the screen.
  *
  * READING IT
- *  · Pause / Play sits on the left of the control row, the segments on the
- *    right. Pausing also eases the push-in back to 100%, so the WHOLE chart is
- *    on screen, uncropped, while it is being read;
  *  · the screen itself is a button: it opens the shared full-screen Viewer
- *    (components/Viewer.tsx) on the 2560px file — swipe, arrows or keys to
- *    page, Escape to close. No disclosure bar inside it any more (Tom,
- *    2026-09-21: "we don't need the disclaimer EVERYWHERE"); the line under
- *    this screen and the footer carry it;
- *  · on a phone, a horizontal flick on the screen moves between charts;
- *  · every picture has a title (what it shows) and the tools on it, named from
+ *    (components/Viewer.tsx) — the 2560px file for a picture, the same video
+ *    file with controls for the clip, so it can be scrubbed and re-watched.
+ *    Swipe, arrows or keys to page, Escape to close. No disclosure bar inside
+ *    it (Tom, 2026-09-21: "we don't need the disclaimer EVERYWHERE"); the line
+ *    under this screen and the footer carry it;
+ *  · on a phone, a horizontal flick on the screen moves between frames;
+ *  · every frame has a title (what it shows) and the tools on it, named from
  *    their on-chart labels (see content/site.ts).
  *
- * FIXED FURNITURE (2026-09-21): the control row never changes shape, and every
- * picture's caption is laid into ONE grid cell with only the current one
- * visible, so the cell is as tall as the longest caption at the current width
- * and nothing under it moves as the pictures change.
+ * WHAT THE VISITOR IS ACTUALLY SENT
+ *  · phones (and anyone with saveData on) get the 1280x720 cut, not the
+ *    1920x1080 one — same 15 seconds, 1.15MB instead of 2.79MB. The choice is
+ *    made after mount, because it needs the real viewport, so the <video> has
+ *    no `src` on the server render and paints its poster until then;
+ *  · saveData also starts the screen PAUSED, so nobody on a metered connection
+ *    is charged for a video they did not ask for. Play is right there.
  *
- * MOTION PREFERENCES: for prefers-reduced-motion the screen starts paused and
- * never pushes in; Play still lets that visitor rotate it by choice. Captions
- * are announced to screen readers only when the visitor moves the pictures,
- * never while they rotate by themselves.
+ * MOTION PREFERENCES: for prefers-reduced-motion the screen starts paused, the
+ * clip does not autoplay and pictures never push in; Play still lets that
+ * visitor rotate it by choice. Captions are announced to screen readers only
+ * when the visitor moves the frames, never while they rotate by themselves.
+ *
+ * FIXED FURNITURE (2026-09-21): the control row never changes shape, and every
+ * frame's caption is laid into ONE grid cell with only the current one visible,
+ * so the cell is as tall as the longest caption at the current width and
+ * nothing under it moves as the frames change.
  */
-const HOLD = 7000; // ms a picture is held
+const HOLD = 7000; // ms a PICTURE is held (the clip is held for its own length)
 const FADE = 1200; // ms crossfade
-const PUSH = 1.03; // push-in over the hold
+const PUSH = 1.03; // push-in over the hold — pictures only
 const EASE = "cubic-bezier(0.2,0.7,0.2,1)";
 
 export function HeroScreen({ priority = false, monitorClassName = "" }: { priority?: boolean; monitorClassName?: string }) {
@@ -55,29 +81,49 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
   const [i, setI] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [reduce, setReduce] = useState(false);
-  const [paused, setPaused] = useState(false); // the visitor pressed Pause (or prefers reduced motion)
-  const [held, setHeld] = useState(false); // pointer resting on the screen, or the tab hidden
+  const [small, setSmall] = useState(false); // serve the 720p cut of the clip
+  const [paused, setPaused] = useState(false); // the visitor pressed Pause (or prefers reduced motion / saves data)
+  const [hover, setHover] = useState(false); // pointer resting on the screen — holds a PICTURE only
+  const [hidden, setHidden] = useState(false); // the tab is in the background
   const [open, setOpen] = useState(false); // the enlarged view
   const [tick, setTick] = useState(0); // restarts the hold (and the segment fill)
-  const [moved, setMoved] = useState(false); // the visitor has moved the pictures: captions may be announced
+  const [moved, setMoved] = useState(false); // the visitor has moved the frames: captions may be announced
+  const [clipDone, setClipDone] = useState(false); // the clip has played through once
+  const [clipAt, setClipAt] = useState(0); // 0..1 through the clip, from the video itself
   const loaded = useRef<Set<number>>(new Set());
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const swipe = useRef<{ x: number; y: number; id: number } | null>(null);
   const swiped = useRef(false); // a swipe just happened: the click that follows it is not "enlarge"
+  /* ONE clip in the rotation, so one ref is enough. A second one would need a
+     ref per clip — everything else below already works off `isClip`. */
+  const vid = useRef<HTMLVideoElement>(null);
+  const wasClip = useRef(false);
 
-  const running = mounted && !paused && !held && !open && count > 1;
+  const frame = frames[i];
+  const clip = isClip(frame);
+
+  /* A picture rotates on a timer; the clip rotates on `ended`. Both stop for
+     Pause, a hidden tab and the enlarged view — only a picture also stops for
+     the pointer (see the header). */
+  const holding = mounted && !paused && !hidden && !open && count > 1;
+  const stillRunning = holding && !hover && !clip;
+  const clipPlaying = holding && clip;
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const conn = (navigator as unknown as { connection?: { saveData?: boolean } }).connection;
+    const thrifty = !!conn?.saveData;
     setMounted(true);
     setReduce(mq.matches);
-    if (mq.matches) setPaused(true);
+    setHidden(document.hidden); // the page can be opened straight into a background tab
+    setSmall(thrifty || window.innerWidth < 768);
+    if (mq.matches || thrifty) setPaused(true);
     const onMq = () => {
       setReduce(mq.matches);
       if (mq.matches) setPaused(true);
     };
     mq.addEventListener("change", onMq);
-    const onVis = () => setHeld(document.hidden);
+    const onVis = () => setHidden(document.hidden);
     document.addEventListener("visibilitychange", onVis);
     return () => {
       mq.removeEventListener("change", onMq);
@@ -85,14 +131,26 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
     };
   }, []);
 
-  // The clock. When the hold is up it moves on only once the next picture has
-  // loaded (checked every 400ms, for up to 6s, then it moves on regardless).
+  /* Where the rotation goes after `from`. Once the clip has played through, the
+     wrap skips it and lands on the first picture instead. */
+  const nextIndex = useCallback(
+    (from: number) => {
+      const n = from + 1;
+      if (n < count) return n;
+      return clipDone && isClip(frames[0]) ? Math.min(1, count - 1) : 0;
+    },
+    [count, clipDone, frames],
+  );
+
+  // The clock for the PICTURES. When the hold is up it moves on only once the
+  // next picture has loaded (checked every 400ms, for up to 6s, then it moves
+  // on regardless). The clip is always "ready" — it has its poster.
   useEffect(() => {
-    if (!running) return;
+    if (!stillRunning) return;
     let waited = 0;
     const advance = () => {
-      const next = (i + 1) % count;
-      if (loaded.current.has(next) || waited >= 6000) {
+      const next = nextIndex(i);
+      if (loaded.current.has(next) || isClip(frames[next]) || waited >= 6000) {
         setI(next);
       } else {
         waited += 400;
@@ -103,15 +161,48 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
-  }, [running, i, tick, count]);
+  }, [stillRunning, i, tick, nextIndex, frames]);
+
+  // The clip plays or pauses with the rotation. If the browser refuses to
+  // autoplay, say so instead of showing "Pause" over a frozen frame.
+  useEffect(() => {
+    const v = vid.current;
+    if (!v) return;
+    if (!clipPlaying) {
+      if (!v.paused) v.pause();
+      return;
+    }
+    const p = v.play();
+    if (p) p.catch(() => setPaused(true));
+  }, [clipPlaying]);
+
+  const rewind = useCallback(() => {
+    const v = vid.current;
+    if (v) {
+      try {
+        v.currentTime = 0;
+      } catch {
+        /* not seekable yet — it starts at 0 anyway */
+      }
+    }
+    setClipAt(0);
+  }, []);
+
+  // Arriving on the clip — by wrap, by swipe or by segment — starts it over.
+  useEffect(() => {
+    if (clip && !wasClip.current) rewind();
+    wasClip.current = clip;
+  }, [clip, rewind]);
 
   const go = useCallback(
     (n: number) => {
-      setI(((n % count) + count) % count);
+      const to = ((n % count) + count) % count;
+      setI(to);
       setTick((t) => t + 1);
       setMoved(true);
+      if (isClip(frames[to])) rewind(); // includes re-picking the clip it is already on
     },
-    [count],
+    [count, frames, rewind],
   );
 
   const togglePause = useCallback(() => {
@@ -120,20 +211,18 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
     setMoved(true);
   }, []);
 
-  const frame = frames[i];
-
   return (
     <div>
       {/* ------------------------------------------------------------ monitor */}
       <div
         className={`relative ${monitorClassName}`}
-        onPointerEnter={(e) => e.pointerType === "mouse" && setHeld(true)}
-        onPointerLeave={() => setHeld(document.hidden)}
+        onPointerEnter={(e) => e.pointerType === "mouse" && setHover(true)}
+        onPointerLeave={() => setHover(false)}
       >
         <div className="relative rounded-[14px] bg-gradient-to-b from-[#2B2F35] via-[#1C1F24] to-[#15171B] p-[10px] shadow-monitor ring-1 ring-white/[0.08]">
           {/* SWIPE (Tom, 2026-09-21: "trouble scrolling through the monitor…
               on mobile"). A horizontal flick on the screen moves to the next or
-              previous chart with the same crossfade; a vertical one still
+              previous frame with the same crossfade; a vertical one still
               scrolls the page (`touch-action: pan-y`), and a tap still enlarges. */}
           <button
             type="button"
@@ -166,9 +255,18 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
             className="group/screen relative block aspect-[16/9] w-full cursor-zoom-in select-none overflow-hidden rounded-[7px] outline-none ring-1 ring-black/60 focus-visible:ring-2 focus-visible:ring-gold"
             style={{ background: MONITOR.ground, touchAction: "pan-y pinch-zoom" }}
           >
+            {/* With the clip first, no PICTURE is the largest paint any more —
+                the video's poster is, and a `poster` attribute is in the server
+                HTML, so it starts downloading without a preload hint of its
+                own. `priority` therefore only marks an image when the rotation
+                genuinely starts on one. */}
             {frames.map((f, n) => {
               const on = n === i;
-              const push = on && mounted && !paused && !open && !reduce;
+              const eager = isClip(frames[0]) ? -1 : 0;
+              /* The push-in gives a STILL picture a little life. The clip is
+                 already moving — pushing in on moving footage only makes it
+                 swim — so it never gets one. */
+              const push = on && mounted && !paused && !open && !reduce && !isClip(f);
               return (
                 <span
                   key={f.src}
@@ -185,18 +283,45 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
                   }}
                   aria-hidden="true"
                 >
-                  <Image
-                    src={f.src}
-                    alt=""
-                    fill
-                    priority={priority && n === 0}
-                    loading={n === 0 ? undefined : "lazy"}
-                    placeholder="blur"
-                    blurDataURL={f.blur}
-                    sizes="(min-width: 1024px) 60vw, 100vw"
-                    className="object-cover"
-                    onLoad={() => loaded.current.add(n)}
-                  />
+                  {isClip(f) ? (
+                    <video
+                      ref={vid}
+                      /* No `src` until mounted: the 720p / 1080p choice needs
+                         the real viewport, and a server-rendered src would
+                         fetch the wrong file first. The poster paints meanwhile
+                         — and it IS frame 0, so nothing jumps when it starts. */
+                      src={mounted ? (small ? f.srcSmall : f.src) : undefined}
+                      poster={f.poster}
+                      muted
+                      playsInline
+                      preload="auto"
+                      disablePictureInPicture
+                      tabIndex={-1}
+                      className="h-full w-full object-cover"
+                      onTimeUpdate={(e) => {
+                        const v = e.currentTarget;
+                        if (v.duration > 0) setClipAt(Math.min(1, v.currentTime / v.duration));
+                      }}
+                      onEnded={() => {
+                        setClipDone(true);
+                        setClipAt(1);
+                        setI((at) => nextIndex(at));
+                      }}
+                    />
+                  ) : (
+                    <Image
+                      src={f.src}
+                      alt=""
+                      fill
+                      priority={priority && n === eager}
+                      loading={n === eager ? undefined : "lazy"}
+                      placeholder="blur"
+                      blurDataURL={f.blur}
+                      sizes="(min-width: 1024px) 60vw, 100vw"
+                      className="object-cover"
+                      onLoad={() => loaded.current.add(n)}
+                    />
+                  )}
                 </span>
               );
             })}
@@ -242,24 +367,41 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
               key={f.src}
               type="button"
               onClick={() => go(n)}
-              aria-label={`Picture ${n + 1} of ${count}: ${f.title}`}
+              aria-label={`${isClip(f) ? "Recording" : "Picture"} ${n + 1} of ${count}: ${f.title}`}
               aria-current={n === i}
               className="group relative h-6 w-[18px] outline-none focus-visible:ring-2 focus-visible:ring-gold sm:w-6"
             >
               <span className="absolute inset-x-0 top-1/2 block h-[3px] -translate-y-1/2 overflow-hidden rounded-full bg-line-strong/70 transition-colors group-hover:bg-line-strong">
-                <span
-                  key={n === i ? `on-${i}-${tick}-${running ? "r" : "s"}` : "off"}
-                  className="block h-full rounded-full bg-gold"
-                  style={
-                    n < i
-                      ? { width: "100%", opacity: 0.45 }
-                      : n === i
-                        ? running
-                          ? { width: "0%", animation: `fill ${HOLD}ms linear forwards` }
-                          : { width: "100%" }
-                        : { width: "0%" }
-                  }
-                />
+                {isClip(f) ? (
+                  /* The clip's segment is filled from the video's own
+                     currentTime, not a CSS animation: it then tells the truth
+                     if the file stalls, and it freezes exactly where the
+                     recording froze when Pause is pressed. */
+                  <span
+                    className="block h-full rounded-full bg-gold"
+                    style={
+                      n < i
+                        ? { width: "100%", opacity: 0.45 }
+                        : n === i
+                          ? { width: `${Math.round(clipAt * 100)}%`, transition: "width 280ms linear" }
+                          : { width: "0%" }
+                    }
+                  />
+                ) : (
+                  <span
+                    key={n === i ? `on-${i}-${tick}-${stillRunning ? "r" : "s"}` : "off"}
+                    className="block h-full rounded-full bg-gold"
+                    style={
+                      n < i
+                        ? { width: "100%", opacity: 0.45 }
+                        : n === i
+                          ? stillRunning
+                            ? { width: "0%", animation: `fill ${HOLD}ms linear forwards` }
+                            : { width: "100%" }
+                          : { width: "0%" }
+                    }
+                  />
+                )}
               </span>
             </button>
           ))}
@@ -267,7 +409,7 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
       </div>
 
       {/* ------------------------------------------------------------ caption
-          Every picture's caption stacked in one grid cell — the cell is always
+          Every frame's caption stacked in one grid cell — the cell is always
           as tall as the longest one, so nothing below it moves. */}
       <div className="mt-2.5 grid" aria-live={moved ? "polite" : "off"}>
         {frames.map((f, n) => (
@@ -281,18 +423,21 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
         ))}
       </div>
 
-      {/* ------------------------------------------------------ enlarged view */}
+      {/* ------------------------------------------------------ enlarged view
+          The clip goes in as a video slide; the visitor gets real controls in
+          there, on the same file the tile already downloaded. */}
       <Viewer
         open={open}
         onClose={() => setOpen(false)}
         slides={frames.map((f) => ({
           src: f.src,
-          w: 2560,
-          h: 1440,
+          w: isClip(f) ? 1920 : 2560,
+          h: isClip(f) ? 1080 : 1440,
           blur: f.blur,
           title: f.title,
           alt: `${f.title}. On screen: ${f.tools.map((s) => BY_SLUG[s]?.name).filter(Boolean).join(", ")}.`,
           sub: <Tools frame={f} />,
+          video: isClip(f) ? { src: small ? f.srcSmall : f.src, poster: f.poster } : undefined,
         }))}
         index={i}
         onIndex={(n) => go(n)}
@@ -304,7 +449,7 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
   );
 }
 
-/** "On screen" + the tools on a picture, each linked to its page. */
+/** "On screen" + the tools on a frame, each linked to its page. */
 function Tools({ frame, className = "" }: { frame: ScreenFrame; className?: string }) {
   const tools = frame.tools.map((s) => BY_SLUG[s]).filter(Boolean);
   return (
