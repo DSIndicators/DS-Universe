@@ -180,7 +180,18 @@ export const CATALOGUE = {
  *
  * Sources for the PICTURES — "02 Product Masters\0920 NEW Product Cover &
  * Images\Product Images\Raw", 3840x2160, served at 2560x1440 (q88):
- *   footprints        ← New Homepage Main.png  (Tom: "the first main picture")
+ *   footprints-v2     ← Homepage main img 2.png  (Tom, 2026-09-23: "Replace this
+ *                       picture ( first img after video ) with attached
+ *                       picture"). It replaces New Homepage Main.png, which had
+ *                       been the first picture since 09-21 and is still on disk
+ *                       as footprints.webp. NEW FILENAME on purpose: the old one
+ *                       has been served with a one-year immutable cache since
+ *                       09-21, so reusing the name would have shown the old
+ *                       picture to everyone who has already seen the hero.
+ *                       `tools` lost DS Zones with it — the orange and teal
+ *                       BANDS that were Zones with its labels off are on the
+ *                       old picture, not this one. The dashed boxes on both are
+ *                       still unattributed.
  *   sessions          ← DS_20260921_013448.png
  *   timeframes        ← DS_20260921_013152.png
  *   session-profiles  ← DS_20260921_013601.png
@@ -192,10 +203,12 @@ export const CATALOGUE = {
  * "NQ · 30m / 1h / 2h / 4h" matrix = DS Parallax; "ICE SUP 5x 47%" = DS
  * Iceberg; "CW 0DTE" / "G-" = DS GEX; volume-by-price rows on candle groups,
  * and the ASIA / LONDON / NEW YORK session profiles = DS Flow (its own product
- * guide 02, "Follow the sessions"). The bands running right on `footprints` and
- * `levels` are DS Zones with its labels switched off — Tom, who made the
- * charts, 2026-09-21: "DS Zones are in the first and last pictures, the labels
- * are OFF". Still NOT attributed, because nothing says whose they are: the
+ * guide 02, "Follow the sessions"). The bands running right on the RETIRED
+ * `footprints` and on `levels` are DS Zones with its labels switched off — Tom,
+ * who made the charts, 2026-09-21: "DS Zones are in the first and last
+ * pictures, the labels are OFF". `footprints-v2`, which replaced the first of
+ * those on 09-23, has no such bands, so it does not claim DS Zones. Still NOT
+ * attributed, because nothing says whose they are: the
  * small triangles, the "S" swing marks, the candle colouring and the countdown
  * chip.
  *
@@ -281,10 +294,10 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gARTGF2YzU4LjEzNC4xMDAA/9sAQwAIPj5JPklVVVVVVVVkXWRoaGhkZGRkaGhocHBwg4ODcHBwaGhwcHx8g4OPk4+Hh4OHk5Obm5u6urKy2dng/////8QATQABAQEAAAAAAAAAAAAAAAAAAgEHAQEBAAAAAAAAAAAAAAAAAAAAAhABAAAAAAAAAAAAAAAAAAAAABEBAAAAAAAAAAAAAAAAAAAAAP/AABEIAAkAEAMBIgACEQADEQD/2gAMAwEAAhEDEQA/AMKFQUP/2Q==",
     },
     {
-      src: "/covers/screen/footprints.webp",
+      src: "/covers/screen/footprints-v2.webp",
       title: "Volume by price inside each candle group",
-      tools: ["flow", "zones", "prorsi", "prostochastics"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDktgHQEn3pDuxjAH0qWmv0H1p2A//Z",
+      tools: ["flow", "prorsi", "prostochastics"],
+      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDk2RYycESZ6cfzphJOMrj6DFT9zTJO1MD/2Q==",
     },
     {
       src: "/covers/screen/sessions.webp",
