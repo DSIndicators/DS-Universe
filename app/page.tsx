@@ -9,9 +9,16 @@ import { NT_ASSETS, NT_LINKS } from "@/content/ninjatrader";
 import { ABOUT, CLOSING, DISCLOSURE, FACTS, HERO, PRINCIPLES, SITE } from "@/content/site";
 
 /**
- * Home order: hero (the DS Complete sessions, rotating) → NinjaTrader featured
- * → principles → storefront (four series, every tile priced) → DS Complete →
- * About ("Built for the trader") → closing.
+ * Home order: hero (the DS Complete sessions, rotating) → principles →
+ * storefront (four series, every tile priced) → DS Complete → About ("Built
+ * for the trader") → closing → NinjaTrader featured.
+ *
+ * WHY NINJATRADER IS LAST (Tom, 2026-09-26): the NinjaTrader bar already opens
+ * every page, so a second NinjaTrader panel straight under the hero sent the
+ * visitor's first scroll to someone else's product. The products now come
+ * first. Nothing in NinjaTrader's kit asks for a position: the vendor email
+ * suggests a menu entry and a landing page (both exist: the nav item and
+ * /ninjatrader), and requires the disclosures in every page footer (they are).
  *
  * WHERE THE PRICING SITS (2026-09-20, flat single prices). The offer is stated
  * once in the hero as one computed line, priced on every tile and at the head
@@ -71,70 +78,6 @@ export default function HomePage() {
               {DISCLOSURE.screen}
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* ------------------------------------------- the platform, featured */}
-      <section className="border-b border-line bg-wash">
-        <div className="wrap grid items-center gap-12 py-16 lg:grid-cols-12 lg:gap-8 lg:py-20">
-          <Reveal className="lg:col-span-5">
-            {/* Official wordmark, ≥18px clear space, NinjaTrader partner link. */}
-            <a
-              href={NT_LINKS.logo}
-              target="_blank"
-              rel="sponsored noopener"
-              className="inline-block py-[18px] pr-[18px]"
-              aria-label="NinjaTrader — visit ninjatrader.com"
-            >
-              <Image src={NT_ASSETS.wordmark} alt="NinjaTrader" width={2376} height={300} className="h-8 w-auto" />
-            </a>
-            <h2 className="display-md mt-3 text-ink text-balance">Our recommended trading platform.</h2>
-            <p className="body mt-4 max-w-xl text-pretty">
-              NinjaTrader® is our #1 recommended trading platform — free to download, with a
-              free trading simulator and real-time futures data. Every DS Universe tool is
-              built to live on it.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href={NT_LINKS.partner} target="_blank" rel="sponsored noopener" className="btn-primary">
-                Get Started for FREE!
-              </a>
-              <Link href="/ninjatrader" className="btn-ghost">
-                About the platform
-              </Link>
-            </div>
-          </Reveal>
-          {/* The devices sit in the LEFT column at desktop so the desktop
-              render's angle points into the copy rather than off the page. Kept
-              last in the DOM, so the reading order and the mobile stack still
-              lead with the words. */}
-          <Reveal delay={120} className="lg:col-span-7 lg:order-first">
-            {/* No panel and no backdrop: the desktop render ships transparent
-                and the phone photograph's flat grey ground was keyed out, so
-                both devices sit directly on the section. Neither device itself
-                is cropped, recoloured, distorted or mirrored — only the empty
-                backdrop behind the phones was removed.
-
-                items-end puts them on one floor line rather than centring two
-                objects of different heights against each other. */}
-            <div className="spotlight flex items-end justify-center gap-2 py-4 sm:gap-4">
-              <Image
-                src={NT_ASSETS.desktop}
-                alt="The NinjaTrader platform on a desktop"
-                width={510}
-                height={531}
-                sizes="(min-width: 1024px) 340px, 55vw"
-                className="w-[62%] max-w-[340px]"
-              />
-              <Image
-                src={NT_ASSETS.mobile}
-                alt="The NinjaTrader mobile app running on two phones"
-                width={1500}
-                height={1216}
-                sizes="(min-width: 1024px) 215px, 34vw"
-                className="mb-[6%] w-[38%] max-w-[215px]"
-              />
-            </div>
-          </Reveal>
         </div>
       </section>
 
@@ -208,6 +151,70 @@ export default function HomePage() {
           </p>
         </Reveal>
       </section>
+      {/* ------------------------------------------- the platform, featured */}
+      <section className="border-t border-line bg-wash">
+        <div className="wrap grid items-center gap-12 py-16 lg:grid-cols-12 lg:gap-8 lg:py-20">
+          <Reveal className="lg:col-span-5">
+            {/* Official wordmark, ≥18px clear space, NinjaTrader partner link. */}
+            <a
+              href={NT_LINKS.logo}
+              target="_blank"
+              rel="sponsored noopener"
+              className="inline-block py-[18px] pr-[18px]"
+              aria-label="NinjaTrader — visit ninjatrader.com"
+            >
+              <Image src={NT_ASSETS.wordmark} alt="NinjaTrader" width={2376} height={300} className="h-8 w-auto" />
+            </a>
+            <h2 className="display-md mt-3 text-ink text-balance">Our recommended trading platform.</h2>
+            <p className="body mt-4 max-w-xl text-pretty">
+              NinjaTrader® is our #1 recommended trading platform — free to download, with a
+              free trading simulator and real-time futures data. Every DS Universe tool is
+              built to live on it.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <a href={NT_LINKS.partner} target="_blank" rel="sponsored noopener" className="btn-primary">
+                Get Started for FREE!
+              </a>
+              <Link href="/ninjatrader" className="btn-ghost">
+                About the platform
+              </Link>
+            </div>
+          </Reveal>
+          {/* The devices sit in the LEFT column at desktop so the desktop
+              render's angle points into the copy rather than off the page. Kept
+              last in the DOM, so the reading order and the mobile stack still
+              lead with the words. */}
+          <Reveal delay={120} className="lg:col-span-7 lg:order-first">
+            {/* No panel and no backdrop: the desktop render ships transparent
+                and the phone photograph's flat grey ground was keyed out, so
+                both devices sit directly on the section. Neither device itself
+                is cropped, recoloured, distorted or mirrored — only the empty
+                backdrop behind the phones was removed.
+
+                items-end puts them on one floor line rather than centring two
+                objects of different heights against each other. */}
+            <div className="spotlight flex items-end justify-center gap-2 py-4 sm:gap-4">
+              <Image
+                src={NT_ASSETS.desktop}
+                alt="The NinjaTrader platform on a desktop"
+                width={510}
+                height={531}
+                sizes="(min-width: 1024px) 340px, 55vw"
+                className="w-[62%] max-w-[340px]"
+              />
+              <Image
+                src={NT_ASSETS.mobile}
+                alt="The NinjaTrader mobile app running on two phones"
+                width={1500}
+                height={1216}
+                sizes="(min-width: 1024px) 215px, 34vw"
+                className="mb-[6%] w-[38%] max-w-[215px]"
+              />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
     </>
   );
 }

@@ -1,11 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { cta } from "@/content/launch";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/Badge";
-import { NAV, SITE } from "@/content/site";
+import { NAV, POWERED_BY, SITE } from "@/content/site";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -28,12 +29,29 @@ export function Navbar() {
       }`}
     >
       <div className="wrap flex h-[76px] items-center justify-between">
-        <Link href="/" className="group flex items-center gap-3" aria-label={`${SITE.name} — home`}>
-          <Badge size={34} className="ring-1 ring-white/15 transition-transform duration-500 ease-silk group-hover:scale-105" />
-          <span className="font-display text-[19px] font-medium tracking-[-0.01em] text-ink">
-            {SITE.name}
-          </span>
-        </Link>
+        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+          <Link href="/" className="group flex shrink-0 items-center gap-3" aria-label={`${SITE.name} — home`}>
+            <Badge size={34} className="ring-1 ring-white/15 transition-transform duration-500 ease-silk group-hover:scale-105" />
+            <span className="font-display text-[19px] font-medium tracking-[-0.01em] text-ink">
+              {SITE.name}
+            </span>
+          </Link>
+          {/* "Powered by traders" (Tom, 2026-09-26), beside our mark and set
+              to its height, after a hairline so the two read as one lock-up.
+              The artwork is 8.1:1 with small "POWERED BY" lettering, so it is
+              given the height it needs to stay legible, and simply left out on
+              the narrowest phones rather than shrunk into a yellow smear. */}
+          <span className="hidden h-6 w-px shrink-0 bg-line-strong min-[370px]:block" aria-hidden="true" />
+          <Image
+            src={POWERED_BY.src}
+            alt={POWERED_BY.alt}
+            width={POWERED_BY.w}
+            height={POWERED_BY.h}
+            priority
+            sizes="220px"
+            className="hidden h-[16px] w-auto shrink-0 min-[370px]:block sm:h-[20px] lg:h-[24px]"
+          />
+        </div>
 
         <nav className="hidden items-center gap-9 md:flex" aria-label="Primary">
           {NAV.map((n) => {

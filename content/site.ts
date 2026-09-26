@@ -330,3 +330,34 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
   ground: "#040404",
   alt: "DS Universe indicators running together on a NinjaTrader 8 chart",
 };
+
+/**
+ * The picture in the monitor at the top of /products (Tom, 2026-09-26, "DS 1 by
+ * 1 wide.png" from 02 Product Masters). Every mark on it was traced to its source
+ * before it was named: the "buy | sell" rows and the two ▲▼ reversal arrows are
+ * DS Flow, "ICE SUP 3x 24%" is DS Iceberg, "Call Wall / CW 0DTE" is DS GEX. The
+ * two big arrows are drawn on the picture, pointing at DS Flow's signals.
+ * A re-export of this picture gets a NEW filename (the site caches assets for a
+ * year — see the -v2 hero stills).
+ */
+export const PRODUCTS_SCREEN = {
+  src: "/covers/products-hero-v1.webp",
+  w: 1920,
+  h: 1080,
+  blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkv3WeC3PtjbSFQFzuB54xTKU/dH1oA//Z",
+  title: "Three DS tools on one Nasdaq chart",
+  sub: "DS Flow · DS Iceberg · DS GEX",
+  alt: "A Nasdaq futures chart with DS Flow's buy and sell volume per price and its two reversal arrows, a DS Iceberg support level and the DS GEX Call Wall",
+  caption:
+    "DS Flow's buy and sell volume at each price with its two reversal arrows, a DS Iceberg support level and the DS GEX Call Wall, together on one chart.",
+} as const;
+
+/** "Powered by traders" lock-up beside the DS mark in the header (Tom,
+ *  2026-09-26; source "Master Product Folder\DS Powered by Traders.png",
+ *  trimmed to its artwork and kept lossless with its transparency). */
+export const POWERED_BY = {
+  src: "/brand/powered-by-traders-v1.webp",
+  w: 1303,
+  h: 160,
+  alt: "Powered by traders",
+} as const;
