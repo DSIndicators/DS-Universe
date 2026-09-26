@@ -146,7 +146,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             <Fact label="Type" value={KIND_LABEL[p.kind].singular} />
             <Fact label="Series" value={series.name} />
             <Fact label="Category" value={p.category} />
-            <Fact label="Platform" value={SITE.platform} />
+            <Fact label="Platform" value={`${SITE.platform} · ${SITE.minBuild} or newer`} />
           </dl>
         </Reveal>
 
@@ -163,7 +163,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
                 Ask a question
               </Link>
             </div>
-            <CtaNote className="mt-3.5" />
+            <CtaNote className="mt-3.5" slug={p.slug} />
             {/* The one bundle, said once, where the decision is being made. */}
             <p className="mt-6 border-t border-line pt-5 text-[14.5px] leading-relaxed text-slate">
               {price?.free ? "Also in " : "Or take everything — "}

@@ -102,7 +102,7 @@ export function CompleteBand() {
               Every price
             </Link>
           </div>
-          <CtaNote tone="dark" className="mt-3.5" />
+          <CtaNote tone="dark" className="mt-3.5" slug={COMPLETE.key} />
         </Reveal>
       </div>
 

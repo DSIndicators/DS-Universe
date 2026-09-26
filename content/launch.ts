@@ -15,7 +15,9 @@
  * set it to something like "September 2026" and every notice names it instead.
  */
 export const LAUNCH: { waitlist: boolean; when: string | null } = {
-  waitlist: true,
+  // OPENED 2026-09-25: every product live on Whop with files attached, direct
+  // checkout links wired in content/whop.ts.
+  waitlist: false,
   when: null,
 };
 
@@ -49,3 +51,30 @@ export const WAITLIST_NOTE = {
  */
 export const cta = (whenOpen: string, whenWaiting = "Join the waitlist") =>
   onWaitlist() ? whenWaiting : whenOpen;
+
+/**
+ * What happens after checkout — said the same way everywhere on the site, and
+ * the same way the READMEs and the Whop FAQ say it (Tom, 2026-09-24: licenses
+ * are granted by a person, from the NinjaTrader email asked at checkout).
+ * Deliberately no promised turnaround time: none has been set.
+ */
+export const AFTER_CHECKOUT = {
+  /** One line under a buy button. */
+  short:
+    "At checkout, enter the email on your NinjaTrader account. The files are yours at once; the license is switched on by hand, so allow a short wait.",
+  /** The three steps, for the pricing and products pages. */
+  steps: [
+    {
+      title: "Check out on Whop",
+      text: "Checkout asks for the email on your NinjaTrader account — not your Whop email. Free products go through the same checkout, at no charge.",
+    },
+    {
+      title: "Download and import",
+      text: "The archive and its guides are in your Whop account straight away. In NinjaTrader 8.1.8.1 or newer: Tools → Import → NinjaScript Add-On, then restart.",
+    },
+    {
+      title: "Switched on by hand",
+      text: "A person activates the license on that NinjaTrader account. It is not instant — once it is on, restart NinjaTrader and the product draws.",
+    },
+  ],
+} as const;

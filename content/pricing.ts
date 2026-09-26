@@ -19,11 +19,11 @@
  * sixteen pages opened one by one (the listings were in waitlist mode):
  *   nine paid indicators   $99.99 struck -> $79.99  (20% off)
  *   DS Complete            $749.90 struck -> $374.95 (50% off)
- *   DS Bulk Replay         $29.99 — BUT Whop also shows a $37.49 struck anchor
- *                          ("20% off"). Tom's rule is 0% off, so this site shows
- *                          $29.99 and nothing crossed out. The anchor should come
- *                          off the Whop listing.
- *   five free products     no price on Whop (free, waitlist)
+ *   DS Bulk Replay         $29.99, nothing crossed out (the old $37.49 anchor is
+ *                          gone from Whop — re-checked 2026-09-25)
+ *   five free products     "Free" on Whop
+ * RE-READ 2026-09-25 (store opened): every listing AND every direct checkout
+ * shows exactly these numbers.
  *
  * DS COMPLETE IS HALF OF WHAT THE PAID PRODUCTS COST APART — and that is
  * asserted at build time below. Its struck-through $749.90 on Whop is exactly the
@@ -109,7 +109,7 @@ export const SERIES: SeriesInfo[] = [
     name: "Free essentials",
     tagline: "The chart, easier to read and easier to drive.",
     blurb:
-      "The price line, the price readout, the Nasdaq level map, the higher-timeframe matrix and the rail that switches every DS indicator on and off. Free permanently — no trial clock, no email wall, nothing removed to make room for a paid version.",
+      "The price line, the price readout, the Nasdaq level map, the higher-timeframe matrix and the rail that switches every DS indicator on and off. Free permanently — no trial clock, and nothing removed to make room for a paid version.",
   },
   {
     key: "utility",

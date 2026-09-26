@@ -16,7 +16,8 @@ import { PriceLine } from "@/components/Price";
  *
  * TWO DESTINATIONS, ONE TILE (Tom, 2026-09-10, restored now that products are
  * sold one by one again): the tile opens OUR product page; the hover button
- * opens the product's page ON WHOP. Pointer screens only — on touch the tile
+ * opens the product's direct checkout ON WHOP (content/whop.ts, since the
+ * 2026-09-25 opening). Pointer screens only — on touch the tile
  * is the one target, and the product page carries the button.
  *
  * STACKING — do not collapse the frame and the lifted art into one element.
@@ -55,7 +56,7 @@ export function BoxCard({ slug, priority = false, bare = false }: { slug: string
 
         {listing && (
           <a
-            href={buyHref({ product: listing.product })}
+            href={buyHref(listing)}
             target="_blank"
             rel="noopener"
             className="absolute inset-x-[16%] bottom-[9%] z-20 hidden h-9 items-center justify-center rounded-full bg-ivory/95 px-3 text-[13px] font-medium text-ground opacity-0 shadow-lift backdrop-blur-sm transition-all duration-300 ease-silk hover:bg-white focus-visible:opacity-100 md:flex md:translate-y-1 md:group-hover:-translate-y-1.5 md:group-hover:opacity-100"

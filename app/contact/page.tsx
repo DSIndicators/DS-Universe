@@ -4,13 +4,13 @@ import { SITE } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Questions about a product, an install, or a licence — email DS Universe.",
+  description: "Questions about a product, an install, or a license — email DS Universe.",
 };
 
 const ROUTES = [
   { label: "Before you buy", text: "Which tool fits what you trade, what it needs to run, what it does not do." },
   { label: "Installing", text: "Import, first-run settings, themes, and getting a product onto the right chart." },
-  { label: "Licences", text: "Access, transfers to a new machine, and anything to do with your order." },
+  { label: "Licenses", text: "Activation, a wrong or changed NinjaTrader email, and anything to do with your order. A license belongs to your NinjaTrader account, so a new computer needs nothing from us." },
 ];
 
 export default function ContactPage() {

@@ -1,15 +1,13 @@
-import { onWaitlist, opensWhen } from "@/content/launch";
+import { AFTER_CHECKOUT, onWaitlist, opensWhen } from "@/content/launch";
 import { buyHref, buyLabel, listingFor } from "@/content/whop";
 
 /**
  * The buy button. One component, so every one on the site agrees about where
  * it goes and what it promises.
  *
- * It always leaves for the product's own Whop listing (content/whop.ts). While
- * the store is on a waitlist (content/launch.ts) it says "Join the waitlist",
- * which is what the Whop page's own button says — a click never promises more
- * than the next page does. Flip the waitlist off and every button on the site
- * becomes "Get access" / "Get it free" with no edit here.
+ * It leaves for the product's DIRECT Whop checkout (content/whop.ts) and says
+ * "Buy now" / "Get it free". While the store is on a waitlist
+ * (content/launch.ts) it says "Join the waitlist" instead, with no edit here.
  *
  * A key with no listing renders nothing rather than a dead link.
  */
@@ -40,12 +38,47 @@ export function BuyButton({
   );
 }
 
-/** One line of reassurance under a buy button, while the shop is shut. */
-export function CtaNote({ className = "", tone = "light" }: { className?: string; tone?: "light" | "dark" }) {
-  if (!onWaitlist()) return null;
+/**
+ * One line under a buy button. Open: what happens after checkout (the
+ * NinjaTrader email, the files at once, the license by hand) and, given a
+ * slug, a quiet link to the product's Whop listing. Waitlist: the old promise.
+ */
+export function CtaNote({
+  className = "",
+  tone = "light",
+  slug,
+}: {
+  className?: string;
+  tone?: "light" | "dark";
+  slug?: string;
+}) {
+  const muted = tone === "dark" ? "text-white/55" : "text-mute";
+  if (onWaitlist()) {
+    return (
+      <p className={`text-[13px] leading-relaxed ${muted} ${className}`}>
+        Nothing is charged and no card is asked for — you are told {opensWhen()}.
+      </p>
+    );
+  }
+  const l = slug ? listingFor(slug) : undefined;
   return (
-    <p className={`text-[13px] leading-relaxed ${tone === "dark" ? "text-white/55" : "text-mute"} ${className}`}>
-      Nothing is charged and no card is asked for — you are told {opensWhen()}.
+    <p className={`max-w-md text-[13px] leading-relaxed ${muted} ${className}`}>
+      {AFTER_CHECKOUT.short}
+      {l && (
+        <>
+          {" "}
+          <a
+            href={l.product}
+            target="_blank"
+            rel="noopener"
+            className={`underline underline-offset-4 transition-colors ${
+              tone === "dark" ? "decoration-white/30 hover:text-white" : "decoration-line-strong hover:text-ink"
+            }`}
+          >
+            See it on Whop
+          </a>
+        </>
+      )}
     </p>
   );
 }

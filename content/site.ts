@@ -15,6 +15,9 @@ export const SITE = {
   email: "support@dsuniverse.net",
   city: "New York City",
   platform: "NinjaTrader 8",
+  /** The oldest build the shipped archives import into — they are exported
+      from 8.1.8.1 (Info.xml of all sixteen, checked 2026-09-25). */
+  minBuild: "8.1.8.1",
   /**
    * The Whop store root. Per-product buy links live in content/whop.ts — that is
    * what the buy buttons actually use. NOTE (checked 2026-09-09): this root page

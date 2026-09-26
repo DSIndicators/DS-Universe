@@ -37,7 +37,7 @@ export function Shelf({ shelf, priority = false }: { shelf: ShelfT; priority?: b
           {solo && (
             <div className="mt-6">
               <BuyButton slug={solo.slug} />
-              <CtaNote className="mt-3" />
+              <CtaNote className="mt-3" slug={solo.slug} />
             </div>
           )}
         </div>

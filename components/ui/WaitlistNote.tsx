@@ -1,4 +1,4 @@
-import { WAITLIST_NOTE, onWaitlist, opensWhen } from "@/content/launch";
+import { AFTER_CHECKOUT, WAITLIST_NOTE, onWaitlist, opensWhen } from "@/content/launch";
 
 /**
  * The only place the waitlist is explained in words.
@@ -17,7 +17,7 @@ export function WaitlistNote({
   tone?: "line" | "band";
   className?: string;
 }) {
-  if (!onWaitlist()) return null;
+  if (!onWaitlist()) return tone === "band" ? <AfterCheckout className={className} /> : null;
 
   const body = `Joining costs nothing and charges nothing — you are told ${opensWhen()}.`;
 
@@ -41,5 +41,29 @@ export function WaitlistNote({
         <strong className="font-medium text-ink">Opening soon.</strong> {body}
       </span>
     </p>
+  );
+}
+
+/**
+ * Open for business: how buying works, in three steps — the band's slot on
+ * /pricing and /products. The same facts the READMEs and the Whop FAQ give, so
+ * a buyer is never told two different things. No turnaround time is promised.
+ */
+function AfterCheckout({ className = "" }: { className?: string }) {
+  return (
+    <div className={`rounded-lg border border-gold/25 bg-gold-tint px-5 py-5 ${className}`}>
+      <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-gold-deep">How buying works</p>
+      <ol className="mt-3 grid gap-4 sm:grid-cols-3 sm:gap-6">
+        {AFTER_CHECKOUT.steps.map((s, i) => (
+          <li key={s.title}>
+            <p className="text-[14.5px] font-medium text-ink">
+              <span className="mr-1.5 tabular-nums text-gold-deep">{i + 1}.</span>
+              {s.title}
+            </p>
+            <p className="mt-1 text-[13.5px] leading-relaxed text-slate text-pretty">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 }
