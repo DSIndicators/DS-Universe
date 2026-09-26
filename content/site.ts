@@ -75,7 +75,7 @@ export const PRINCIPLES = [
   },
   {
     title: "Quiet by design",
-    text: "Dark and light themes, one switch per tool on the DS Toolkit rail, and colour only where it carries meaning. The tool should disappear into the chart.",
+    text: "Dark and light themes, one switch per tool on the DS Toolkit rail, and color only where it carries meaning. The tool should disappear into the chart.",
   },
 ];
 
@@ -100,7 +100,7 @@ export const CLOSING = {
 export const DISCLOSURE = {
   short:
     "DS Universe tools are charting and research software for educational and informational purposes. They are not investment advice and no output is a forecast or a guarantee of any result. Trading futures and other leveraged instruments carries substantial risk of loss and is not suitable for every investor.",
-  long: "Nothing on this site presents a performance record; no win rate, return or account figure is published anywhere on it. Past behaviour of any analytical method does not guarantee future outcomes. DS Universe is not a broker-dealer, an introducing broker, or a registered investment adviser, and does not manage accounts or place trades on anyone's behalf.",
+  long: "Nothing on this site presents a performance record; no win rate, return or account figure is published anywhere on it. Past behavior of any analytical method does not guarantee future outcomes. DS Universe is not a broker-dealer, an introducing broker, or a registered investment adviser, and does not manage accounts or place trades on anyone's behalf.",
   risk: "Futures and forex trading contains substantial risk and is not for every investor. An investor could potentially lose all or more than the initial investment. Risk capital is money that can be lost without jeopardizing ones' financial security or life style. Only risk capital should be used for trading and only those with sufficient risk capital should consider trading. Past performance is not necessarily indicative of future results.",
   hypothetical:
     "Hypothetical performance results have many inherent limitations, some of which are described below. No representation is being made that any account will or is likely to achieve profits or losses similar to those shown; in fact, there are frequently sharp differences between hypothetical performance results and the actual results subsequently achieved by any particular trading program. One of the limitations of hypothetical performance results is that they are generally prepared with the benefit of hindsight. In addition, hypothetical trading does not involve financial risk, and no hypothetical trading record can completely account for the impact of financial risk of actual trading. For example, the ability to withstand losses or to adhere to a particular trading program in spite of trading losses are material points which can also adversely affect actual trading results. There are numerous other factors related to the markets in general or to the implementation of any specific trading program which cannot be fully accounted for in the preparation of hypothetical performance results and all which can adversely affect trading results.",
@@ -212,7 +212,7 @@ export const CATALOGUE = {
  * pictures, the labels are OFF". `footprints-v2`, which replaced the first of
  * those on 09-23, has no such bands, so it does not claim DS Zones. Still NOT
  * attributed, because nothing says whose they are: the
- * small triangles, the "S" swing marks, the candle colouring and the countdown
+ * small triangles, the "S" swing marks, the candle coloring and the countdown
  * chip.
  *
  * On the CLIP the same rule is applied more strictly, because its data-series

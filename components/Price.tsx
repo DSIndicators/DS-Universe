@@ -4,12 +4,11 @@ import { discountPct, money, type Price } from "@/content/pricing";
  * Every price on the site is laid out by one of these three, so a price can
  * never be spelled two ways. Numbers come from content/pricing.ts only.
  *
- * THE STRUCK NUMBER. Where Whop shows a list price above the price you pay
- * ($99.99 -> $79.99), the site shows the same two numbers, the list quiet and
- * crossed, so the page and the checkout agree. Where there is no discount
- * (DS Bulk Replay Downloader, by Tom's rule) nothing is crossed out — a
- * struck number that was never a real price would be decoration pretending to
- * be a saving.
+ * THE STRUCK NUMBER. Only where Whop shows a real list price above the price
+ * you pay does the site cross one out, so the page and the checkout agree.
+ * Since 2026-09-26 that is DS Complete alone ($749.90 = the paid products
+ * bought separately). A struck number that was never a real price would be
+ * decoration pretending to be a saving.
  */
 
 /** One line: "$79.99  $99.99", "$79.99" (strike off) or "Free". */

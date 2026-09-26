@@ -115,16 +115,16 @@ export const LISTING: Record<string, ListingCopy> = {
     },
     "prorsi": {
         "hook": "An RSI cross is a moment on an oscillator. This turns it into a level on your actual chart.",
-        "lede": "Every RSI/signal crossover is anchored to the swing that produced it, spaced from its neighbours by ATR, and left on the price panel as a level you can actually trade against.",
+        "lede": "Every RSI/signal crossover is anchored to the swing that produced it, spaced from its neighbors by ATR, and left on the price panel as a level you can actually trade against.",
         "heading": "How a level behaves",
         "points": [
             "Tinted by how extreme the RSI was the moment it was born",
-            "Labelled with the exact RSI reading and a live touch count",
-            "Frozen to a thin grey trace the instant price closes through it",
+            "Labeled with the exact RSI reading and a live touch count",
+            "Frozen to a thin gray trace the instant price closes through it",
             "The panel's Y-axis locks, so dragging the chart can never distort the read"
         ],
         "close": [
-            "Underneath, a full RSI panel: heat ribbon, shaded 30/70 zones, a segment-coloured line, and the nearest support and resistance distance in points and percent.",
+            "Underneath, a full RSI panel: heat ribbon, shaded 30/70 zones, a segment-colored line, and the nearest support and resistance distance in points and percent.",
             "Closed-bar decisions throughout — it does not repaint."
         ]
     },
@@ -150,7 +150,7 @@ export const LISTING: Record<string, ListingCopy> = {
         "points": [
             "ADX and two wave horizons produce PRIME down to BARE, or AGAINST FLOW",
             "EARLY marks the fastest wave hooking toward the others before the fire prints",
-            "TTM momentum drawn as a line, normalised by ATR, over a tier-coloured centreline",
+            "TTM momentum drawn as a line, normalized by ATR, over a tier-colored centerline",
             "A reversion setup arms — with a defined target and 1:1 risk — only when there is no squeeze and no running fire"
         ],
         "close": [
@@ -189,12 +189,12 @@ export const LISTING: Record<string, ListingCopy> = {
     },
     "chart-price": {
         "hook": "Price lives in small type on the far-right axis. Put it where you can see it.",
-        "lede": "Upticks flash green, downticks flash red — and the resting colour eases to amber as the tape loses efficiency, so you feel chop before you name it.",
+        "lede": "Upticks flash green, downticks flash red — and the resting color eases to amber as the tape loses efficiency, so you feel chop before you name it.",
         "heading": "Built in",
         "points": [
-            "Nine placements on the price panel — top, middle or bottom; left, centre or right",
+            "Nine placements on the price panel — top, middle or bottom; left, center or right",
             "Three price levels, each sounding once per approach with a real volume control",
-            "Four tones synthesised in memory — no sound files to install",
+            "Four tones synthesized in memory — no sound files to install",
             "Realtime only — never fires on history, chart load or while you scroll back"
         ],
         "close": [
@@ -206,7 +206,7 @@ export const LISTING: Record<string, ListingCopy> = {
         "lede": "29,000 · 29,020 · 29,050 · 29,080 · 29,100 — the 00, 20, 50 and 80 keep doing the work. This lays a line on every one in view, at an opacity you forget until price stops on it.",
         "heading": "Built to disappear",
         "points": [
-            "Every 00/20/50/80 level in view, each in its own colour",
+            "Every 00/20/50/80 level in view, each in its own color",
             "Opacity 7 by default — a whisper, not a wall",
             "De-clutters automatically as you zoom out",
             "Nothing to calculate, nothing to configure"

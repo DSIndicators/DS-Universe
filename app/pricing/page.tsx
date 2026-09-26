@@ -7,6 +7,7 @@ import { CompleteBand } from "@/components/CompleteBand";
 import { BuyButton } from "@/components/BuyButton";
 import { COMPLETE, PRICES, TERMS, discountPct, money, seriesPrice } from "@/content/pricing";
 import { COVER_RATIO, SHELVES, boxartFor } from "@/content/release";
+import { PRODUCTS } from "@/content/products";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -31,7 +32,14 @@ export const metadata: Metadata = {
 export default function PricingPage() {
   // The indicator price, if every discounted product shares one — computed, so
   // the headline cannot quote a number the list below does not show.
-  const nows = [...new Set(Object.values(PRICES).flatMap((p) => (p.free || discountPct(p) === 0 ? [] : [p.now])))];
+  const nows = [
+    ...new Set(
+      PRODUCTS.filter((p) => p.series === "flagship" || p.series === "pro").flatMap((p) => {
+        const pr = PRICES[p.slug];
+        return pr && !pr.free ? [pr.now] : [];
+      }),
+    ),
+  ];
   const lead = nows.length === 1 ? nows[0] : null;
 
   return (

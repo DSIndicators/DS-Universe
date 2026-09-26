@@ -9,11 +9,18 @@
  * THE MODEL (Tom, 2026-09-20 — "DS LAUNCH 09-20"; supersedes the five packs)
  *
  *   · Every product is sold on its own, at one flat, permanent price.
- *   · Every paid indicator: $99.99 list, 20% off -> $79.99. One payment.
+ *   · Every paid indicator: $79.99, one payment (was shown as $99.99 -> $79.99
+ *     until 2026-09-26; see below).
  *   · DS Bulk Replay Downloader: $29.99, 0% off, and it stays that way.
  *   · The chart essentials and the DS Toolkit rail: free.
  *   · ONE bundle, DS Complete: every product, 50% off what the paid ones cost
  *     bought one at a time.
+ *
+ * 2026-09-26: Tom took the $99.99 compare-at price off all nine indicator
+ * listings on Whop (it had never been a price anyone paid — FTC 16 CFR 233.1),
+ * so every indicator is now ONE number, $79.99, with nothing crossed out. The
+ * only struck figure left anywhere is DS Complete's $749.90, which is the real
+ * sum of the paid products. Re-read on Whop 2026-09-26.
  *
  * EVERY NUMBER BELOW WAS READ OFF THE LIVE WHOP LISTING on 2026-09-20, all
  * sixteen pages opened one by one (the listings were in waitlist mode):
@@ -43,25 +50,24 @@ export type Price =
   | { free?: undefined; list: number; now: number };
 
 const paid = (list: number, now: number): Price => ({ list, now });
+/** One price, nothing crossed out. */
+const flat = (now: number): Price => paid(now, now);
 const FREE: Price = { free: true };
 
 export const PRICES: Record<string, Price> = {
   // ---- flagship indicators ---------------------------------------------
-  zones: paid(99.99, 79.99),
-  iceberg: paid(99.99, 79.99),
-  oracle: paid(99.99, 79.99),
-  gex: paid(99.99, 79.99),
-  flow: paid(99.99, 79.99),
+  zones: flat(79.99),
+  iceberg: flat(79.99),
+  oracle: flat(79.99),
+  gex: flat(79.99),
+  flow: flat(79.99),
   // ---- Pro Series panels -----------------------------------------------
-  // The sheet's Pricing tab had these at 0% ($99.99). Tom's rule ("each
-  // indicator ... 20% off each"), the sheet's own section header and Whop all
-  // say $79.99.
-  prorsi: paid(99.99, 79.99),
-  prostochastics: paid(99.99, 79.99),
-  prosqueeze: paid(99.99, 79.99),
-  promacd: paid(99.99, 79.99),
+  prorsi: flat(79.99),
+  prostochastics: flat(79.99),
+  prosqueeze: flat(79.99),
+  promacd: flat(79.99),
   // ---- data utility — no discount, by rule --------------------------------
-  "bulk-replay-downloader": paid(29.99, 29.99),
+  "bulk-replay-downloader": flat(29.99),
   // ---- free essentials -------------------------------------------------
   "adaptive-priceline": FREE,
   "chart-price": FREE,

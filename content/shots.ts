@@ -9,7 +9,7 @@
  *
  * Boards are NOT 16:9 (1.16:1 to 1.52:1), so the stage takes its shape from the
  * picture (`w` / `h`) instead of cropping it, and every board shares one ground
- * colour, #111516, which the stage and the lightbox use too — so the frame is
+ * color, #111516, which the stage and the lightbox use too — so the frame is
  * invisible whatever the window shape. Boards for one product share one shape.
  *
  * `caption` is the board's own headline (its "PRODUCT GUIDE / 0n" order is the
