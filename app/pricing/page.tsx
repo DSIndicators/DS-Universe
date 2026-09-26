@@ -8,6 +8,8 @@ import { BuyButton } from "@/components/BuyButton";
 import { COMPLETE, PRICES, TERMS, discountPct, money, seriesPrice } from "@/content/pricing";
 import { COVER_RATIO, SHELVES, boxartFor } from "@/content/release";
 import { PRODUCTS } from "@/content/products";
+import { StillMonitor } from "@/components/ui/StillMonitor";
+import { DISCLOSURE, PRODUCTS_SCREEN } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -47,17 +49,38 @@ export default function PricingPage() {
       {/* --------------------------------------------------------- position */}
       <section className="hero-wash hem">
         <div className="wrap pb-28 pt-20 lg:pb-36 lg:pt-28">
-          <Reveal className="max-w-3xl">
-            <p className="label">Pricing</p>
-            <h1 className="display-xl mt-5 text-ink text-balance">Bought once. Never rented.</h1>
-            <p className="lede mt-6 max-w-2xl text-pretty">
-              {lead
-                ? `Every paid indicator is ${money(lead)} — a single payment, with every later version included. `
-                : "Every product is a single payment, with every later version included. "}
-              The chart essentials are free. And {COMPLETE.name} is all of it, for half of what the
-              paid products cost bought one at a time.
-            </p>
-            <WaitlistNote tone="band" className="mt-8" />
+          {/* Words left, the chart in the monitor right — the same header as
+              /products (Tom, 2026-09-26: the right half sat empty). "How buying
+              works" runs full width under both. */}
+          <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+            <Reveal className="lg:col-span-6">
+              <p className="label">Pricing</p>
+              <h1 className="display-xl mt-5 text-ink text-balance">Bought once. Never rented.</h1>
+              <p className="lede mt-6 max-w-xl text-pretty">
+                {lead
+                  ? `Every paid indicator is ${money(lead)} — a single payment, with every later version included. `
+                  : "Every product is a single payment, with every later version included. "}
+                The chart essentials are free. And {COMPLETE.name} is all of it, for half of what the
+                paid products cost bought one at a time.
+              </p>
+            </Reveal>
+            <Reveal className="lg:col-span-6" delay={120}>
+              <StillMonitor
+                src={PRODUCTS_SCREEN.src}
+                w={PRODUCTS_SCREEN.w}
+                h={PRODUCTS_SCREEN.h}
+                blur={PRODUCTS_SCREEN.blur}
+                alt={PRODUCTS_SCREEN.alt}
+                title={PRODUCTS_SCREEN.title}
+                sub={PRODUCTS_SCREEN.sub}
+                priority
+              />
+              <p className="mt-5 text-[14.5px] leading-relaxed text-slate text-pretty">{PRODUCTS_SCREEN.caption}</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-mute text-pretty">{DISCLOSURE.chart}</p>
+            </Reveal>
+          </div>
+          <Reveal>
+            <WaitlistNote tone="band" className="mt-12" />
           </Reveal>
 
           <div className="mt-14 grid gap-10 border-t border-line pt-10 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">

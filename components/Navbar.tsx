@@ -29,7 +29,7 @@ export function Navbar() {
       }`}
     >
       <div className="wrap flex h-[76px] items-center justify-between">
-        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-4">
           <Link href="/" className="group flex shrink-0 items-center gap-3" aria-label={`${SITE.name} — home`}>
             <Badge size={34} className="ring-1 ring-white/15 transition-transform duration-500 ease-silk group-hover:scale-105" />
             <span className="font-display text-[19px] font-medium tracking-[-0.01em] text-ink">
@@ -40,8 +40,10 @@ export function Navbar() {
               to its height, after a hairline so the two read as one lock-up.
               The artwork is 8.1:1 with small "POWERED BY" lettering, so it is
               given the height it needs to stay legible, and simply left out on
-              the narrowest phones rather than shrunk into a yellow smear. */}
-          <span className="hidden h-6 w-px shrink-0 bg-line-strong min-[370px]:block" aria-hidden="true" />
+              phones under 385px rather than shrunk into a yellow smear. It also steps aside
+              from 768 to 1023px: that is where the full desktop menu first
+              appears and the row has no room for both (measured). */}
+          <span className="hidden h-6 w-px shrink-0 bg-line-strong min-[385px]:block md:hidden lg:block" aria-hidden="true" />
           <Image
             src={POWERED_BY.src}
             alt={POWERED_BY.alt}
@@ -49,11 +51,11 @@ export function Navbar() {
             height={POWERED_BY.h}
             priority
             sizes="220px"
-            className="hidden h-[16px] w-auto shrink-0 min-[370px]:block sm:h-[20px] lg:h-[24px]"
+            className="hidden h-[14px] w-auto shrink-0 min-[385px]:block sm:h-[19px] md:hidden lg:block lg:h-[22px] xl:h-[24px]"
           />
         </div>
 
-        <nav className="hidden items-center gap-9 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-4 md:flex lg:gap-6 xl:gap-9" aria-label="Primary">
           {NAV.map((n) => {
             const active = pathname === n.href || pathname.startsWith(n.href + "/");
             return (
