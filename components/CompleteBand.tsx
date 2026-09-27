@@ -24,9 +24,15 @@ import { SHELVES } from "@/content/release";
  * NO COUNTS in the copy (the lineup changes). The contents list below is built
  * from the catalogue, so it grows and shrinks by itself.
  */
-export function CompleteBand() {
+export function CompleteBand({
+  secondary = { label: "Every price", href: "/products?view=list" },
+}: {
+  /** The quiet second button. On /products — already the price list — it
+      points at the questions instead, never at the page you are on. */
+  secondary?: { label: string; href: string };
+} = {}) {
   return (
-    <section id="complete" className="relative scroll-mt-20 overflow-hidden border-y border-white/[0.06] bg-[#08090B] text-white">
+    <section id="complete" className="relative scroll-mt-[132px] overflow-hidden border-y border-white/[0.06] bg-[#08090B] text-white">
       {/* a breath of the box's own gold, behind everything */}
       <div
         className="pointer-events-none absolute inset-0"
@@ -98,8 +104,8 @@ export function CompleteBand() {
 
           <div className="mt-8 flex flex-wrap gap-3">
             <BuyButton slug={COMPLETE.key} />
-            <Link href="/pricing" className="btn border border-white/25 bg-transparent text-white hover:border-white">
-              Every price
+            <Link href={secondary.href} className="btn border border-white/25 bg-transparent text-white hover:border-white">
+              {secondary.label}
             </Link>
           </div>
           <CtaNote tone="dark" className="mt-3.5" slug={COMPLETE.key} />

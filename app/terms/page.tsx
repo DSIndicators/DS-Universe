@@ -19,7 +19,8 @@ export default function TermsPage() {
 
         <div className="mt-12 space-y-10">
           {SECTIONS.map((s) => (
-            <section key={s.heading}>
+            // "13. Refunds — …" → id="section-13", so a page can link one section.
+            <section key={s.heading} id={sectionId(s.heading)} className="scroll-mt-28">
               <h2 className="display-sm text-ink">{s.heading}</h2>
               <div className="mt-4 space-y-4">
                 {s.blocks.map((b, i) =>
@@ -45,4 +46,10 @@ export default function TermsPage() {
       </Reveal>
     </section>
   );
+}
+
+/** "13. Refunds — All Sales Final" → "section-13". */
+function sectionId(heading: string) {
+  const n = /^(\d+)\./.exec(heading)?.[1];
+  return n ? `section-${n}` : undefined;
 }

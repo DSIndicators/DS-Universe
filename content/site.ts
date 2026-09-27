@@ -28,21 +28,21 @@ export const SITE = {
 };
 
 export const NAV = [
+  // One store page since 2026-09-27: /pricing redirects to /products?view=list.
   { label: "Products", href: "/products" },
-  { label: "Pricing", href: "/pricing" },
   { label: "NinjaTrader", href: "/ninjatrader" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
 
 /** Hero copy. Short on purpose, and NO PRICES (Tom, 2026-09-21) — the numbers
- *  live on the shelves, the DS Complete band, the product pages and /pricing. */
+ *  live on the shelves, the DS Complete band and the product pages. */
 export const HERO = {
   eyebrow: "For NinjaTrader 8",
   title: "See the market clearly.",
   sub: "Indicators that put what matters on the chart and leave the rest off — each one bought once, and the essentials free.",
   primary: { label: "Explore the lineup", href: "/products" },
-  secondary: { label: "See pricing", href: "/pricing" },
+  secondary: { label: "See prices", href: "/products?view=list" },
 };
 
 /** The facts column beside "About". Reference-style metadata. */

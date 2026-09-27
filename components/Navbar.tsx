@@ -70,8 +70,8 @@ export function Navbar() {
               </Link>
             );
           })}
-          <Link href="/pricing" className="btn-ghost h-11 px-5">
-            {cta("Get access", "See pricing")}
+          <Link href="/products" className="btn-ghost h-11 px-5">
+            {cta("Get access", "See prices")}
           </Link>
         </nav>
 
@@ -114,8 +114,8 @@ export function Navbar() {
               {n.label}
             </Link>
           ))}
-          <Link href="/pricing" className="btn-primary mb-3 mt-2">
-            {cta("Get access", "See pricing")}
+          <Link href="/products" className="btn-primary mb-3 mt-2">
+            {cta("Get access", "See prices")}
           </Link>
         </nav>
       </div>

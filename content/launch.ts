@@ -28,7 +28,7 @@ export const onWaitlist = () => LAUNCH.waitlist;
 export const opensWhen = () => (LAUNCH.when ? `in ${LAUNCH.when}` : "the day it opens");
 
 /**
- * The one-line promise, used under the hero, on /pricing and on product pages.
+ * The one-line promise, used under the home hero and the /products header.
  * Deliberately plain: it says what joining does and what it does not do.
  */
 export const WAITLIST_NOTE = {
@@ -62,7 +62,7 @@ export const AFTER_CHECKOUT = {
   /** One line under a buy button. */
   short:
     "At checkout, enter the email on your NinjaTrader account. The files are yours at once; the license is switched on by hand, so allow a short wait.",
-  /** The three steps, for the pricing and products pages. */
+  /** The three steps — "Before you buy" at the foot of /products. */
   steps: [
     {
       title: "Check out on Whop",

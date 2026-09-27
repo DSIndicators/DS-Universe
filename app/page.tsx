@@ -47,7 +47,7 @@ export default function HomePage() {
             {/* NO PRICES IN THE HERO (Tom, 2026-09-21: "It might scare users
                 away before they even get a chance to see the indicators").
                 The charts come first; the numbers live on the shelves, the
-                DS Complete band, the product pages and /pricing. */}
+                DS Complete band and the product pages. */}
             <div className="rise mt-8 flex flex-wrap gap-3" style={{ animationDelay: "240ms" }}>
               <Link href={HERO.primary.href} className="btn-primary">
                 {HERO.primary.label}

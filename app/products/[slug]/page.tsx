@@ -167,7 +167,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             {/* The one bundle, said once, where the decision is being made. */}
             <p className="mt-6 border-t border-line pt-5 text-[14.5px] leading-relaxed text-slate">
               {price?.free ? "Also in " : "Or take everything — "}
-              <Link href="/pricing#complete" className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
+              <Link href="/products#complete" className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
                 {COMPLETE.name}
               </Link>
               {price?.free

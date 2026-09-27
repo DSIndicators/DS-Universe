@@ -225,3 +225,32 @@
   from { width: 0%; }
   to { width: 100%; }
 }
+
+/* ------------------------------------------------------------------
+   The store's two views (/products, 2026-09-27).
+   Each shelf renders its body twice — .v-covers and .v-list — and the
+   store bar (components/StoreBar.tsx) sets html[data-store-view]. Covers is
+   the default, so with no script at all the page is the covers store.
+   Both wrappers are plain blocks: never put layout classes on them.
+   ------------------------------------------------------------------ */
+.v-list {
+  display: none;
+}
+html[data-store-view="list"] .v-list {
+  display: block;
+}
+html[data-store-view="list"] .v-covers {
+  display: none;
+}
+/* Shelf spacing: generous between shelves of boxes, tighter between lists. */
+.store-shelves > * + * {
+  margin-top: 6rem;
+}
+@media (min-width: 1024px) {
+  .store-shelves > * + * {
+    margin-top: 7rem;
+  }
+}
+html[data-store-view="list"] .store-shelves > * + * {
+  margin-top: 4rem;
+}

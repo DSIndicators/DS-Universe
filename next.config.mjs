@@ -28,7 +28,6 @@ const PAGES = [
   "/",
   "/products",
   "/products/:slug",
-  "/pricing",
   "/ninjatrader",
   "/about",
   "/contact",
@@ -48,6 +47,14 @@ const nextConfig = {
   // Pin the workspace root to this folder so a stray lockfile elsewhere on the
   // machine (e.g. C:\Users\<you>\package-lock.json) is never picked up.
   outputFileTracingRoot: path.dirname(fileURLToPath(import.meta.url)),
+  // /pricing was merged into /products on 2026-09-27 (the two pages had
+  // become one page twice). Permanent, so search engines move the URL's
+  // standing over (Google: every permanent redirect type counts the same);
+  // it lands on the Price list view, which is what /pricing was. A #fragment
+  // (e.g. /pricing#complete) survives the redirect in every browser.
+  async redirects() {
+    return [{ source: "/pricing", destination: "/products?view=list", permanent: true }];
+  },
   async headers() {
     return PAGES.map((source) => ({ source, headers: REVALIDATE }));
   },

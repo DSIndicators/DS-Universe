@@ -89,6 +89,8 @@ export const discountPct = (p: Price | undefined) =>
 export type SeriesInfo = {
   key: Series;
   name: string;
+  /** The store bar's chip — one word or two, beside the series price. */
+  short: string;
   /** Sits under the name. One line. */
   tagline: string;
   /** A short paragraph for the shelf header. */
@@ -98,6 +100,7 @@ export type SeriesInfo = {
 export const SERIES: SeriesInfo[] = [
   {
     key: "flagship",
+    short: "Flagship",
     name: "Flagship indicators",
     tagline: "The engines. Structure, liquidity, dealer levels, order flow and trend.",
     blurb:
@@ -105,6 +108,7 @@ export const SERIES: SeriesInfo[] = [
   },
   {
     key: "pro",
+    short: "Pro Series",
     name: "Pro Series panels",
     tagline: "The classic oscillators, rebuilt to say something about price.",
     blurb:
@@ -112,6 +116,7 @@ export const SERIES: SeriesInfo[] = [
   },
   {
     key: "essentials",
+    short: "Essentials",
     name: "Free essentials",
     tagline: "The chart, easier to read and easier to drive.",
     blurb:
@@ -119,6 +124,7 @@ export const SERIES: SeriesInfo[] = [
   },
   {
     key: "utility",
+    short: "Utility",
     name: "Data utility",
     tagline: "A Market Replay library, queued once and left to run.",
     blurb:

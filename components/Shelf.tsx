@@ -2,6 +2,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { BoxCard } from "@/components/BoxCard";
 import { BuyButton, CtaNote } from "@/components/BuyButton";
 import { PriceBlock } from "@/components/Price";
+import { PriceList } from "@/components/PriceList";
 import { seriesPrice } from "@/content/pricing";
 import type { Shelf as ShelfT } from "@/content/release";
 
@@ -16,56 +17,92 @@ import type { Shelf as ShelfT } from "@/content/release";
  * A SERIES OF ONE (the data utility) is the exception: its box beside its own
  * four highlights and its buy button. In the grid it would be a single box
  * marooned in four empty cells.
+ *
+ * TWO VIEWS (the store, 2026-09-27). With `views`, the shelf renders its body
+ * twice — `.v-covers` (the boxes) and `.v-list` (PriceList) — under ONE shared
+ * header, and the store bar's switch shows one of them (globals.css,
+ * html[data-store-view]). The header's blurb and the solo shelf's own buy
+ * button belong to the covers view only: in the list every row carries its own
+ * button, and a scan view wants the price, not the paragraph. The home page
+ * renders covers only (no `views`), exactly as before.
  */
-export function Shelf({ shelf, priority = false }: { shelf: ShelfT; priority?: boolean }) {
+export function Shelf({
+  shelf,
+  priority = false,
+  views = false,
+}: {
+  shelf: ShelfT;
+  priority?: boolean;
+  views?: boolean;
+}) {
   const { info, products } = shelf;
   const price = seriesPrice(info.key);
   const solo = products.length === 1 ? products[0] : undefined;
+  /** Wraps what only the covers view shows. A plain block — never put layout classes on it. */
+  const CoversOnly = ({ children }: { children: React.ReactNode }) =>
+    views ? <div className="v-covers">{children}</div> : <>{children}</>;
+
+  const covers = solo ? (
+    <Reveal className="mt-10 flex flex-col gap-8 sm:flex-row sm:items-center sm:gap-12">
+      <div className="w-full max-w-[240px] shrink-0">
+        <BoxCard slug={solo.slug} priority={priority} bare />
+      </div>
+      <div className="flex-1">
+        <p className="max-w-xl text-[17px] leading-relaxed text-ink text-pretty">{solo.purpose}</p>
+        <ul className="mt-6 grid max-w-xl gap-2.5 sm:grid-cols-2" aria-label={`${solo.name} highlights`}>
+          {solo.hooks.map((h) => (
+            <li key={h} className="flex items-center gap-3 rounded-lg border border-line bg-surface px-4 py-3 text-[14.5px] text-ink">
+              <span className="block h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
+              {h}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Reveal>
+  ) : (
+    <Reveal className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+      {products.map((p, i) => (
+        <BoxCard key={p.slug} slug={p.slug} priority={priority && i < 5} />
+      ))}
+    </Reveal>
+  );
 
   return (
-    <section id={info.key} className="scroll-mt-28">
+    <section id={info.key} className="scroll-mt-[148px]">
       <Reveal className="grid gap-x-10 gap-y-6 border-b border-line-strong pb-7 md:grid-cols-12">
         <div className="md:col-span-7 lg:col-span-8">
           <h3 className="display-md text-ink">{info.name}</h3>
           <p className="mt-2.5 text-[17px] leading-snug text-ink text-pretty">{info.tagline}</p>
-          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-slate text-pretty">{info.blurb}</p>
+          <CoversOnly>
+            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-slate text-pretty">{info.blurb}</p>
+          </CoversOnly>
         </div>
         <div className="md:col-span-5 md:justify-self-end lg:col-span-4">
           {/* A series with mixed prices gets no header price — its tiles
               carry their own. Every series is uniform today. */}
           {price && <PriceBlock price={price} each={!solo && !price.free} />}
           {solo && (
-            <div className="mt-6">
-              <BuyButton slug={solo.slug} />
-              <CtaNote className="mt-3" slug={solo.slug} />
-            </div>
+            <CoversOnly>
+              <div className="mt-6">
+                <BuyButton slug={solo.slug} />
+                <CtaNote className="mt-3" slug={solo.slug} />
+              </div>
+            </CoversOnly>
           )}
         </div>
       </Reveal>
 
-      {solo ? (
-        <Reveal className="mt-10 flex flex-col gap-8 sm:flex-row sm:items-center sm:gap-12">
-          <div className="w-full max-w-[240px] shrink-0">
-            <BoxCard slug={solo.slug} priority={priority} bare />
+      {views ? (
+        <>
+          <div className="v-covers">{covers}</div>
+          <div className="v-list">
+            <Reveal>
+              <PriceList products={products} />
+            </Reveal>
           </div>
-          <div className="flex-1">
-            <p className="max-w-xl text-[17px] leading-relaxed text-ink text-pretty">{solo.purpose}</p>
-            <ul className="mt-6 grid max-w-xl gap-2.5 sm:grid-cols-2" aria-label={`${solo.name} highlights`}>
-              {solo.hooks.map((h) => (
-                <li key={h} className="flex items-center gap-3 rounded-lg border border-line bg-surface px-4 py-3 text-[14.5px] text-ink">
-                  <span className="block h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
-                  {h}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Reveal>
+        </>
       ) : (
-        <Reveal className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
-          {products.map((p, i) => (
-            <BoxCard key={p.slug} slug={p.slug} priority={priority && i < 5} />
-          ))}
-        </Reveal>
+        covers
       )}
     </section>
   );

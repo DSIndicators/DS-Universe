@@ -54,7 +54,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+    // suppressHydrationWarning: /products sets data-store-view on <html>
+    // before hydration (components/StoreBar.tsx). It silences THIS element's
+    // attributes only — nothing below it.
+    <html lang="en" suppressHydrationWarning className={`${display.variable} ${sans.variable}`}>
       <body className="flex min-h-screen flex-col antialiased">
         <a
           href="#main"
