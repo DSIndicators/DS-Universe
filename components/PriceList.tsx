@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BuyButton } from "@/components/BuyButton";
+import { PriceFigure } from "@/components/Price";
 import { PRICES, discountPct, money } from "@/content/pricing";
 import { COVER_RATIO, boxartFor } from "@/content/release";
 import type { Product } from "@/content/products";
@@ -16,6 +17,15 @@ import type { Product } from "@/content/products";
  */
 export function PriceList({ products }: { products: Product[] }) {
   return (
+    <>
+    {/* Column heads, like a printed price list — from 640px, where the row
+        is a true table row. */}
+    <div className="hidden grid-cols-[52px_minmax(0,1fr)_auto_auto] gap-x-6 pb-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-mute sm:grid" aria-hidden="true">
+      <span />
+      <span>Product</span>
+      <span className="min-w-[84px] text-right">Price</span>
+      <span className="w-[124px]" />
+    </div>
     <ul aria-label="Price list">
       {products.map((p) => {
         const pr = PRICES[p.slug];
@@ -23,7 +33,7 @@ export function PriceList({ products }: { products: Product[] }) {
         return (
           <li
             key={p.slug}
-            className="grid grid-cols-[52px_minmax(0,1fr)] items-center gap-x-4 gap-y-3 border-b border-line py-4 sm:grid-cols-[52px_minmax(0,1fr)_auto_auto] sm:gap-x-6"
+            className="grid grid-cols-[52px_minmax(0,1fr)] items-center gap-x-4 gap-y-3 border-t border-line py-4 sm:grid-cols-[52px_minmax(0,1fr)_auto_auto] sm:gap-x-6"
           >
             <Link
               href={`/products/${p.slug}`}
@@ -43,25 +53,20 @@ export function PriceList({ products }: { products: Product[] }) {
             {/* Price and button share one line under the name on a phone, and
                 become the row's last two columns from 640px (sm:contents). */}
             <div className="col-start-2 flex items-center justify-between gap-4 sm:contents">
-              <div className="flex items-baseline gap-2.5 tabular-nums sm:justify-self-end">
-                {pr.free ? (
-                  <span className="text-[16px] text-gold-deep">Free</span>
-                ) : (
-                  <>
-                    {off > 0 && (
-                      <s className="text-[14px] text-mute decoration-mute/70" aria-label={`list price ${money(pr.list)}`}>
-                        {money(pr.list)}
-                      </s>
-                    )}
-                    <span className="text-[17px] text-ink">{money(pr.now)}</span>
-                  </>
+              <div className="flex items-center gap-2.5 sm:justify-self-end">
+                {off > 0 && !pr.free && (
+                  <s className="text-[14px] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(pr.list)}`}>
+                    {money(pr.list)}
+                  </s>
                 )}
+                <PriceFigure price={pr} size="md" className="sm:min-w-[84px] sm:text-right" />
               </div>
-              <BuyButton slug={p.slug} variant="ghost" className="!h-10 !px-4 !text-[14px]" />
+              <BuyButton slug={p.slug} variant="ghost" className="!h-10 !px-4 !text-[14px] sm:w-[124px]" />
             </div>
           </li>
         );
       })}
     </ul>
+    </>
   );
 }

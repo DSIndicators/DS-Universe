@@ -104,9 +104,12 @@ export function StoreBar({ items }: { items: StoreBarItem[] }) {
 
   return (
     <div ref={bar} className="sticky top-[76px] z-40 border-y border-line bg-ground/90 backdrop-blur-md">
-      <div className="wrap flex h-14 items-center gap-3">
+      <div className="wrap flex h-14 items-center gap-4">
         <nav aria-label="Store sections" className="relative min-w-0 flex-1">
-          <div ref={rail} className="no-scrollbar relative -my-2 flex gap-1.5 overflow-x-auto py-2 pr-6 [mask-image:linear-gradient(90deg,#000_calc(100%-28px),transparent)]">
+          {/* Tabs, not pills (2026-09-27, second pass): plain type, the price
+              beside each name in a quieter tone, and a 2px gold rule under the
+              section on screen — the way a printed index marks its place. */}
+          <div ref={rail} className="no-scrollbar relative flex h-14 items-stretch gap-6 overflow-x-auto pr-6 [mask-image:linear-gradient(90deg,#000_calc(100%-28px),transparent)] sm:gap-8">
             {items.map((it) => {
               const on = active === it.id;
               return (
@@ -115,21 +118,23 @@ export function StoreBar({ items }: { items: StoreBarItem[] }) {
                   data-id={it.id}
                   href={`#${it.id}`}
                   aria-current={on ? "location" : undefined}
-                  className={`inline-flex h-9 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border px-3.5 text-[13.5px] transition-colors duration-200 ${
-                    on
-                      ? "border-gold/40 bg-gold-soft text-ink"
-                      : "border-line bg-surface text-slate hover:border-line-strong hover:text-ink"
+                  className={`relative inline-flex shrink-0 items-center gap-2 whitespace-nowrap text-[14px] outline-offset-[-3px] transition-colors duration-200 ${
+                    on ? "text-ink" : "text-slate hover:text-ink"
                   }`}
                 >
                   {it.label}
-                  {it.price && <span className="text-[12.5px] tabular-nums text-gold-deep">{it.price}</span>}
+                  {it.price && <span className={`text-[13px] tabular-nums ${on ? "text-gold-deep" : "text-mute"}`}>{it.price}</span>}
+                  <span
+                    className={`absolute inset-x-0 bottom-0 h-[2px] bg-gold transition-opacity duration-200 ${on ? "opacity-100" : "opacity-0"}`}
+                    aria-hidden="true"
+                  />
                 </a>
               );
             })}
           </div>
         </nav>
 
-        <div role="group" aria-label="View" className="flex h-9 shrink-0 items-center rounded-full border border-line bg-surface p-0.5">
+        <div role="group" aria-label="View" className="flex h-9 shrink-0 items-center rounded-md border border-line-strong p-0.5">
           <ViewButton on={view === "covers"} onClick={() => switchTo("covers")} label="Covers">
             <path d="M2.5 2.5h4v5h-4zM9.5 2.5h4v5h-4zM2.5 9.5h4v4h-4zM9.5 9.5h4v4h-4z" />
           </ViewButton>
@@ -158,8 +163,8 @@ function ViewButton({
       type="button"
       onClick={onClick}
       aria-pressed={on}
-      className={`inline-flex h-8 items-center gap-1.5 rounded-full px-2.5 text-[13px] transition-colors duration-200 sm:px-3 ${
-        on ? "bg-ivory text-ground" : "text-slate hover:text-ink"
+      className={`inline-flex h-full items-center gap-1.5 rounded-[4px] px-2.5 text-[13px] transition-colors duration-200 sm:px-3 ${
+        on ? "bg-raised text-ink shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]" : "text-mute hover:text-ink"
       }`}
     >
       <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

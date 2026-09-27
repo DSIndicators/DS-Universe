@@ -243,14 +243,25 @@ html[data-store-view="list"] .v-covers {
   display: none;
 }
 /* Shelf spacing: generous between shelves of boxes, tighter between lists. */
+/* Series panels sit a breath apart — the panel edge does the separating. */
 .store-shelves > * + * {
-  margin-top: 6rem;
+  margin-top: 1.5rem;
 }
 @media (min-width: 1024px) {
   .store-shelves > * + * {
-    margin-top: 7rem;
+    margin-top: 2rem;
   }
 }
-html[data-store-view="list"] .store-shelves > * + * {
-  margin-top: 4rem;
+
+/* ------------------------------------------------------------------
+   Series panels (2026-09-27, second pass: "sturdy and elegant").
+   One container per series, so its heading, its price and its products
+   read as one group (common region) instead of being told apart by rules.
+   Flat surface, a 1px top light and a 12px corner — no glow, no gradient
+   wash, nothing a template would add. Prices are set in type, not
+   decorated (components/Price.tsx), so there are no price styles here.
+   ------------------------------------------------------------------ */
+.series-panel {
+  background: #101316;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }

@@ -69,13 +69,13 @@ export function CompleteBand({
           </p>
 
           <div className="mt-9 flex flex-wrap items-baseline gap-x-3.5 gap-y-2">
-            <span className="font-display text-[56px] font-light leading-none tabular-nums text-white">
+            <span className="font-display text-[clamp(3.25rem,6vw,4.5rem)] font-light leading-none tracking-[-0.02em] tabular-nums text-white">
               {money(COMPLETE.now)}
             </span>
             <s className="text-[18px] tabular-nums text-white/55 decoration-white/45" aria-label={`${money(APART)} bought separately`}>
               {money(APART)}
             </s>
-            <span className="inline-flex items-center rounded-full bg-gold/20 px-2.5 py-1 text-[12px] font-medium text-gold">
+            <span className="text-[11.5px] font-medium uppercase tracking-[0.18em] text-gold">
               {COMPLETE_PCT}% off
             </span>
           </div>

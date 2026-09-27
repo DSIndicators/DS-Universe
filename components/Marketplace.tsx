@@ -28,9 +28,9 @@ export function Marketplace({
         </Reveal>
       )}
 
-      {/* The store's gaps live in globals.css (.store-shelves) because the
-          price list wants them tighter than the covers do. */}
-      <div className={views ? "store-shelves" : `${withHeading ? "mt-20" : ""} space-y-24 lg:space-y-28`}>
+      {/* One panel per series; the gap between panels lives in globals.css
+          (.store-shelves) — the panel edges do the separating. */}
+      <div className={`store-shelves ${withHeading ? "mt-14 lg:mt-16" : ""}`}>
         {SHELVES.map((shelf, i) => (
           <Shelf key={shelf.info.key} shelf={shelf} priority={i === 0} views={views} />
         ))}

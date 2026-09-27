@@ -1,89 +1,100 @@
 import { discountPct, money, type Price } from "@/content/pricing";
 
 /**
- * Every price on the site is laid out by one of these three, so a price can
- * never be spelled two ways. Numbers come from content/pricing.ts only.
+ * Every price on the site is laid out by one of these, so a price can never be
+ * spelled two ways. Numbers come from content/pricing.ts only.
+ *
+ * THE LOOK — restraint (rebuilt 2026-09-27, second pass).
+ * The first pass made prices "hype" with gold pills and a glowing gold
+ * gradient. Tom: "cheap looking circled prices, too generic, too AI ... we need
+ * sturdy and elegance." He was right: pills, gradients and glows are the
+ * default vocabulary of template storefronts. What reads as expensive is the
+ * opposite — typography doing the work, one accent used precisely, everything
+ * on a grid ("every premium design decision is a decision about restraint").
+ *
+ * So a price is now SET, not decorated:
+ *   · the figure in the display face (Outfit), ivory, tabular, no fill behind it;
+ *   · gold appears once per price, as a short rule and a small-caps label —
+ *     the accent marks where to look, the number carries the weight;
+ *   · the terms are a line of text, not a row of chips;
+ *   · on a tile, a hairline and the figure — the way a catalogue or a watch
+ *     maker's site prints a price.
+ * The emphasis is scale and position, never effects. No countdown, no
+ * "limited", no superlative, and no struck number that was never a real price.
  *
  * THE STRUCK NUMBER. Only where Whop shows a real list price above the price
- * you pay does the site cross one out, so the page and the checkout agree.
- * Since 2026-09-26 that is DS Complete alone ($749.90 = the paid products
- * bought separately). A struck number that was never a real price would be
- * decoration pretending to be a saving.
+ * you pay does the site cross one out. Since 2026-09-26 that is DS Complete
+ * alone ($749.90 = the paid products bought separately).
  */
 
-/** One line: "$79.99  $99.99", "$79.99" (strike off) or "Free". */
-export function PriceLine({
+const TERMS_PAID = "One payment · Yours to keep · Updates included";
+const TERMS_FREE = "Permanently · Not a trial · Nothing stripped out";
+
+/** The figure a tile or a list row carries: plain type, no container. */
+export function PriceFigure({
   price,
-  strike = true,
+  size = "sm",
   className = "",
 }: {
   price: Price | undefined;
-  /** Show the crossed-out list price beside it. */
-  strike?: boolean;
+  size?: "sm" | "md";
   className?: string;
 }) {
   if (!price) return null;
-  if (price.free) return <span className={`text-gold-deep ${className}`}>Free</span>;
-  const off = discountPct(price);
+  const type = size === "md" ? "text-[19px]" : "text-[17px]";
   return (
-    <span className={`inline-flex items-baseline gap-2 tabular-nums ${className}`}>
-      <span className="text-ink">{money(price.now)}</span>
-      {strike && off > 0 && (
-        <s className="text-[0.88em] text-mute decoration-mute/70" aria-label={`was ${money(price.list)}`}>
-          {money(price.list)}
-        </s>
-      )}
+    <span className={`inline-block font-display ${type} font-normal leading-none tracking-[-0.01em] text-ink tabular-nums ${className}`}>
+      {price.free ? "Free" : money(price.now)}
     </span>
   );
 }
 
-/** The block under a product's name on its page, or at the head of a shelf. */
-export function PriceBlock({
+/**
+ * The price at the head of a series panel, or on a product page: a short gold
+ * rule and a small-caps label, the figure large in the display face, and the
+ * terms as one quiet line underneath.
+ */
+export function PriceTag({
   price,
   size = "md",
   each = false,
+  align = "start",
   className = "",
 }: {
   price: Price | undefined;
   size?: "md" | "lg";
-  /** "each" — the shelf header prices a whole series at once. */
+  /** "each" — a series panel prices several products at once. */
   each?: boolean;
+  /** Right-aligned at the head of a panel on wide screens. */
+  align?: "start" | "end";
   className?: string;
 }) {
   if (!price) return null;
-  const big = size === "lg" ? "text-[48px]" : "text-[36px]";
-
-  if (price.free) {
-    return (
-      <div className={className}>
-        <p className={`font-display ${big} font-light leading-none text-ink`}>Free</p>
-        <p className="mt-2.5 text-[13.5px] text-slate">
-          Permanently. Not a trial, not a stripped build.
-        </p>
-      </div>
-    );
-  }
-
+  const big = size === "lg" ? "text-[clamp(3rem,5.4vw,4.25rem)]" : "text-[clamp(2.6rem,4.6vw,3.6rem)]";
+  const end = align === "end" ? "md:items-end md:text-right" : "";
   const off = discountPct(price);
+
   return (
-    <div className={className}>
-      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
-        <span className={`font-display ${big} font-light leading-none tabular-nums text-ink`}>
-          {money(price.now)}
+    <div className={`flex flex-col ${end} ${className}`}>
+      <span className="block h-px w-8 bg-gold" aria-hidden="true" />
+      <span className="mt-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-gold-deep">Price</span>
+      <span className="mt-2 flex items-baseline gap-3">
+        <span className={`font-display ${big} font-light leading-none tracking-[-0.02em] text-ink tabular-nums`}>
+          {price.free ? "Free" : money(price.now)}
         </span>
-        {each && <span className="text-[15px] text-slate">each</span>}
-        {off > 0 && (
-          <>
-            <s className="text-[16px] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(price.list)}`}>
-              {money(price.list)}
-            </s>
-            <span className="chip-gold !px-2.5 !py-1 !text-[12px]">{off}% off</span>
-          </>
+        {each && !price.free && <span className="text-[16px] text-slate">each</span>}
+        {off > 0 && !price.free && (
+          <s className="text-[17px] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(price.list)}`}>
+            {money(price.list)}
+          </s>
         )}
-      </div>
-      <p className="mt-2.5 text-[13.5px] text-slate">
-        One payment · yours to keep <span className="text-mute">· updates included</span>
-      </p>
+      </span>
+      <span className="mt-3 text-[13.5px] text-slate">{price.free ? TERMS_FREE : TERMS_PAID}</span>
     </div>
   );
+}
+
+/** Product page — the tag at its large size. */
+export function PriceBlock({ price, className = "" }: { price: Price | undefined; size?: "md" | "lg"; className?: string }) {
+  return <PriceTag price={price} size="lg" className={className} />;
 }

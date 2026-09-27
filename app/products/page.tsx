@@ -6,7 +6,7 @@ import { CompleteBand } from "@/components/CompleteBand";
 import { StoreBar, type StoreBarItem } from "@/components/StoreBar";
 import { BeforeYouBuy } from "@/components/BeforeYouBuy";
 import { SHELVES } from "@/content/release";
-import { COMPLETE, PRICES, TERMS, money, seriesPrice, tilePrice } from "@/content/pricing";
+import { COMPLETE, COMPLETE_PCT, PRICES, money, seriesPrice, tilePrice } from "@/content/pricing";
 import { PRODUCTS } from "@/content/products";
 import { StillMonitor } from "@/components/ui/StillMonitor";
 import { DISCLOSURE, PRODUCTS_SCREEN } from "@/content/site";
@@ -31,13 +31,15 @@ export const metadata: Metadata = {
  * redirects here permanently, onto the Price list view (next.config.mjs).
  *
  * THE ORDER, and why:
- *   1. What this is, with the price in the first sentence, and the chart.
- *   2. The terms — "Bought once. Never rented." — said once, before any box.
- *   3. The store bar: every series with its price, DS Complete, the FAQ, and
+ *   1. What this is, the offer in three gold numbers, and the chart.
+ *   2. The store bar: every series with its price, DS Complete, the FAQ, and
  *      the Covers | Price list switch. Sticky, so the sheet stays in reach.
- *   4. The shelves, in either view.
- *   5. DS Complete — summed directly under the list it sums.
- *   6. Before you buy — the three steps and the questions, where buyers pause.
+ *   3. One PANEL per series (components/Shelf.tsx), in either view — the
+ *      products follow the header straight away (Tom, 2026-09-27: the flow
+ *      was wrong with the terms and the rules in between).
+ *   4. DS Complete — summed directly under the list it sums.
+ *   5. Before you buy — "Bought once. Never rented.", the three steps and the
+ *      questions, where buyers pause.
  *
  * Nothing on this page types a number: every figure comes from
  * content/pricing.ts, and every count is left out (the lineup changes).
@@ -54,6 +56,14 @@ export default function ProductsPage() {
     ),
   ];
   const lead = nows.length === 1 ? nows[0] : null;
+
+  const offer = [
+    lead !== null
+      ? { price: money(lead), label: "Indicators", note: "Each, one payment", href: "#flagship" }
+      : { price: "Once", label: "Indicators", note: "One payment", href: "#flagship" },
+    { price: "Free", label: "Essentials", note: "Permanently", href: "#essentials" },
+    { price: money(COMPLETE.now), label: COMPLETE.name, note: `Everything, ${COMPLETE_PCT}% off`, href: "#complete" },
+  ];
 
   const bar: StoreBarItem[] = [
     ...SHELVES.map((s) => ({
@@ -78,18 +88,35 @@ export default function ProductsPage() {
 
       {/* -------------------------------------------------------------- head */}
       <section className="hero-wash">
-        <div className="wrap pb-16 pt-12 sm:pt-16 lg:pb-20 lg:pt-20">
+        <div className="wrap pb-14 pt-12 sm:pt-16 lg:pb-20 lg:pt-20">
           <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
             <Reveal className="lg:col-span-6">
               <p className="label">Products &amp; pricing</p>
               <h1 className="display-xl mt-5 text-ink text-balance">Every tool, one question each.</h1>
               <p className="lede mt-6 max-w-xl text-pretty">
-                {lead
-                  ? `Every paid indicator is ${money(lead)}, bought once — and the chart essentials are free. `
-                  : "Every product is bought once — and the chart essentials are free. "}
-                Open any box for what it shows, how it helps, and the guide to reading it on a
-                live chart.
+                Every product is bought once and kept — no subscription. Open any box for what it
+                shows, how it helps, and the guide to reading it on a live chart.
               </p>
+
+              {/* THE OFFER IN THREE NUMBERS (2026-09-27). The first thing under
+                  the headline is what things cost, each one a jump to the panel
+                  it prices. Computed — never typed. Set like a spec sheet: one
+                  ruled row, three columns split by hairlines, a small-caps label
+                  over each figure. No boxes, no fills (second pass: "sturdy"). */}
+              <ul className="mt-9 grid max-w-xl grid-cols-3 divide-x divide-line border-y border-line" aria-label="Prices at a glance">
+                {offer.map((o, i) => (
+                  <li key={o.href}>
+                    <a href={o.href} className={`group flex h-full flex-col py-4 ${i === 0 ? "pr-3 sm:pr-5" : "px-3 sm:px-5"}`}>
+                      <span className="text-[10.5px] font-medium uppercase tracking-[0.1em] min-[360px]:whitespace-nowrap text-gold-deep sm:text-[11.5px] sm:tracking-[0.16em]">{o.label}</span>
+                      <span className="mt-2.5 font-display text-[clamp(1.25rem,5vw,2rem)] font-light leading-none tracking-[-0.02em] text-ink tabular-nums transition-colors group-hover:text-gold-deep">
+                        {o.price}
+                      </span>
+                      <span className="mt-2 text-[12px] leading-snug text-mute sm:text-[13px]">{o.note}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+
               <p className="mt-6 text-[15px] text-slate">
                 <a href="#faq" className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
                   Questions before you buy
@@ -115,20 +142,6 @@ export default function ProductsPage() {
             </Reveal>
           </div>
 
-          {/* ------------------------------------------------------- terms */}
-          <div className="mt-16 border-t border-line pt-10 lg:mt-20">
-            <Reveal>
-              <h2 className="display-md text-ink">Bought once. Never rented.</h2>
-            </Reveal>
-            <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {TERMS.map((t, i) => (
-                <Reveal key={t.title} delay={i * 80}>
-                  <h3 className="display-sm text-ink">{t.title}</h3>
-                  <p className="mt-2.5 text-[15px] leading-relaxed text-slate text-pretty">{t.text}</p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 

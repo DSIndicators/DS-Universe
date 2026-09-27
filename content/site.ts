@@ -28,7 +28,9 @@ export const SITE = {
 };
 
 export const NAV = [
-  // One store page since 2026-09-27: /pricing redirects to /products?view=list.
+  // Home first (Tom, 2026-09-27). One store page since 2026-09-27: /pricing
+  // redirects to /products?view=list.
+  { label: "Home", href: "/" },
   { label: "Products", href: "/products" },
   { label: "NinjaTrader", href: "/ninjatrader" },
   { label: "About", href: "/about" },
