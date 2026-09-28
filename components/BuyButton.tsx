@@ -55,14 +55,14 @@ export function CtaNote({
   const muted = tone === "dark" ? "text-white/55" : "text-mute";
   if (onWaitlist()) {
     return (
-      <p className={`text-[13px] leading-relaxed ${muted} ${className}`}>
+      <p className={`text-[12.5px] leading-relaxed ${muted} ${className}`}>
         Nothing is charged and no card is asked for — you are told {opensWhen()}.
       </p>
     );
   }
   const l = slug ? listingFor(slug) : undefined;
   return (
-    <p className={`max-w-md text-[13px] leading-relaxed ${muted} ${className}`}>
+    <p className={`max-w-md text-[12.5px] leading-relaxed ${muted} ${className}`}>
       {AFTER_CHECKOUT.short}
       {l && (
         <>

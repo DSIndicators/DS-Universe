@@ -29,7 +29,7 @@ export function ListingDetail({ copy }: { copy: ListingCopy }) {
           <h2 className="display-sm mt-10 text-ink">{copy.heading}</h2>
           <ul className="mt-5 space-y-3.5">
             {copy.points.map((p) => (
-              <li key={p} className="flex items-start gap-3 text-[16px] leading-relaxed text-ink text-pretty">
+              <li key={p} className="flex items-start gap-3 text-[14.5px] leading-relaxed text-ink text-pretty">
                 <span className="mt-[9px] block h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
                 <span>{p}</span>
               </li>
@@ -38,7 +38,7 @@ export function ListingDetail({ copy }: { copy: ListingCopy }) {
 
           <div className="mt-8 space-y-3 border-t border-line pt-6">
             {copy.close.map((c) => (
-              <p key={c} className="text-[15.5px] leading-relaxed text-slate text-pretty">
+              <p key={c} className="text-[14px] leading-relaxed text-slate text-pretty">
                 {c}
               </p>
             ))}

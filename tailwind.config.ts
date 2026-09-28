@@ -28,22 +28,36 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ground: "#0B0D10", // the page
-        mist: "#111417", //   alternate sections, one step up
-        wash: "#0F1114", //   the warm sections (a gold glow is added in CSS)
-        surface: "#15181C", // cards, chips, list rows
-        raised: "#1B1F24", // hover on a surface
-        line: "#23272D", //   hairlines
-        "line-strong": "#343941",
-        ink: "#ECEEF1", //    primary text
-        slate: "#A6ADB8", //  secondary text
-        mute: "#7F8793", //   tertiary text
+        // 2026-09-27 "sharp" pass (Tom: reference quanttechnology.com —
+        // crisp, small, precise). Ground one step deeper so the background
+        // grid reads; mist/wash are now TRANSLUCENT lifts rather than solid
+        // colours, so the grid runs unbroken behind every section.
+        ground: "#080A0D", // the page
+        mist: "rgba(255,255,255,0.018)", // alternate sections, one step up
+        wash: "rgba(255,255,255,0.012)", // the warm sections
+        surface: "#12151A", // cards, list rows
+        raised: "#191D23", // hover on a surface
+        line: "#1D2127", //   hairlines (≈ white at 6% on the ground)
+        "line-strong": "#2C3139",
+        ink: "#E7ECEF", //    primary text
+        slate: "#A3ABB3", //  secondary text
+        mute: "#7C848D", //   tertiary text
         ivory: "#F1EEE7", //  the primary button — light on dark, never pure white
         gold: { DEFAULT: "#CDA656", deep: "#DDBA6E", soft: "#2B2416", tint: "#16130D" },
+        // The DS Universe house palette (DS Oracle DsSignature theme): bull
+        // teal and bear violet. On the site they are HINTS only — ambient
+        // light, a candle-coloured tick, one word — never fills or buttons.
+        bull: { DEFAULT: "#009999", strong: "#00FFFF" },
+        bear: { DEFAULT: "#A33DFF", strong: "#FF00FF" },
       },
       fontFamily: {
-        display: ["var(--font-display)", "system-ui", "sans-serif"],
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        // Inter Tight for everything we say, JetBrains Mono for everything we
+        // measure (labels, prices, figures) — the pairing the reference uses.
+        // Inter stays in the stack only as a per-glyph fallback (arrows etc.
+        // that the Latin subset of Inter Tight does not carry).
+        display: ["var(--font-sans)", "var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["var(--font-sans)", "var(--font-inter)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
       },
       maxWidth: { wrap: "1200px" },
       letterSpacing: { tightest: "-0.035em" },

@@ -60,10 +60,10 @@ export function Shelf({
         <BoxCard slug={solo.slug} priority={priority} bare />
       </div>
       <div className="flex-1">
-        <p className="max-w-xl text-[17px] leading-relaxed text-ink text-pretty">{solo.purpose}</p>
+        <p className="max-w-xl text-[15px] leading-relaxed text-ink text-pretty">{solo.purpose}</p>
         <ul className="mt-6 grid max-w-xl gap-2.5 sm:grid-cols-2" aria-label={`${solo.name} highlights`}>
           {solo.hooks.map((h) => (
-            <li key={h} className="flex items-center gap-3 rounded-lg border border-line bg-white/[0.02] px-4 py-3 text-[14.5px] text-ink">
+            <li key={h} className="flex items-center gap-3 rounded-lg border border-line bg-white/[0.02] px-4 py-3 text-[13.5px] text-ink">
               <span className="block h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
               {h}
             </li>
@@ -88,9 +88,9 @@ export function Shelf({
             <h3 id={`${info.key}-title`} className="display-md text-ink">
               {info.name}
             </h3>
-            <p className="mt-2.5 text-[17px] leading-snug text-ink text-pretty">{info.tagline}</p>
+            <p className="mt-2.5 text-[15px] leading-snug text-ink text-pretty">{info.tagline}</p>
             <CoversOnly>
-              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-slate text-pretty">{info.blurb}</p>
+              <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-slate text-pretty">{info.blurb}</p>
             </CoversOnly>
           </div>
           <div className="md:col-span-5">

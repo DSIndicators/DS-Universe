@@ -62,29 +62,29 @@ export function CompleteBand({
         </Reveal>
 
         <Reveal className="lg:col-span-6" delay={100}>
-          <p className="text-[12.5px] font-medium uppercase tracking-[0.14em] text-gold">The bundle</p>
+          <p className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-gold">The bundle</p>
           <h2 className="display-lg mt-4 text-white">{COMPLETE.name}</h2>
-          <p className="mt-5 max-w-xl text-[clamp(1.075rem,1.4vw,1.25rem)] leading-[1.55] text-white/70 text-pretty">
+          <p className="mt-5 max-w-xl text-[clamp(0.975rem,1.1vw,1.0625rem)] leading-[1.6] text-white/70 text-pretty">
             {COMPLETE.blurb}
           </p>
 
           <div className="mt-9 flex flex-wrap items-baseline gap-x-3.5 gap-y-2">
-            <span className="font-display text-[clamp(3.25rem,6vw,4.5rem)] font-light leading-none tracking-[-0.02em] tabular-nums text-white">
+            <span className="font-display text-[clamp(2.25rem,4vw,3rem)] font-[350] leading-none tracking-[-0.03em] tabular-nums text-white">
               {money(COMPLETE.now)}
             </span>
-            <s className="text-[18px] tabular-nums text-white/55 decoration-white/45" aria-label={`${money(APART)} bought separately`}>
+            <s className="text-[16px] tabular-nums text-white/55 decoration-white/45" aria-label={`${money(APART)} bought separately`}>
               {money(APART)}
             </s>
-            <span className="text-[11.5px] font-medium uppercase tracking-[0.18em] text-gold">
+            <span className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-gold">
               {COMPLETE_PCT}% off
             </span>
           </div>
-          <p className="mt-3 text-[14px] text-white/60">
+          <p className="mt-3 text-[13px] text-white/60">
             One payment · yours to keep · updates included
           </p>
 
           {/* The only comparison, and it is subtraction. */}
-          <table className="mt-8 w-full max-w-md text-[14.5px]">
+          <table className="mt-8 w-full max-w-md text-[13.5px]">
             <caption className="sr-only">Every paid product bought separately, against {COMPLETE.name}</caption>
             <tbody className="tabular-nums">
               <tr className="border-t border-white/10">
@@ -117,13 +117,13 @@ export function CompleteBand({
         <Reveal className="grid gap-8 border-t border-white/10 pt-10 sm:grid-cols-2 lg:grid-cols-4">
           {SHELVES.map((s) => (
             <div key={s.info.key}>
-              <p className="text-[12px] font-medium uppercase tracking-[0.14em] text-white/55">{s.info.name}</p>
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-white/55">{s.info.name}</p>
               <ul className="mt-3.5 space-y-2">
                 {s.products.map((p) => (
                   <li key={p.slug}>
                     <Link
                       href={`/products/${p.slug}`}
-                      className="text-[15px] text-white/80 underline decoration-white/0 underline-offset-4 transition-colors hover:text-white hover:decoration-gold"
+                      className="text-[14px] text-white/80 underline decoration-white/0 underline-offset-4 transition-colors hover:text-white hover:decoration-gold"
                     >
                       {p.name}
                     </Link>

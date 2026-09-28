@@ -8,15 +8,25 @@ import { SITE } from "@/content/site";
 import "./globals.css";
 
 // Self-hosted (app/fonts, SIL OFL) — no call to Google, identical on every machine.
-const display = localFont({
-  src: [{ path: "./fonts/Outfit-Variable.woff2", weight: "100 900", style: "normal" }],
-  variable: "--font-display",
-  display: "swap",
-});
+// Type (2026-09-27, the "sharp" pass): Inter Tight for words, JetBrains Mono
+// for figures and labels — both SIL OFL, self-hosted (Latin subset, variable
+// weight). Inter is kept only as a fallback for the few glyphs Inter Tight's
+// Latin subset lacks (→ and friends), so it is not preloaded.
 const sans = localFont({
-  src: [{ path: "./fonts/Inter-Variable.woff2", weight: "100 900", style: "normal" }],
+  src: [{ path: "./fonts/InterTight-Latin-Variable.woff2", weight: "100 900", style: "normal" }],
   variable: "--font-sans",
   display: "swap",
+});
+const mono = localFont({
+  src: [{ path: "./fonts/JetBrainsMono-Latin-Variable.woff2", weight: "100 800", style: "normal" }],
+  variable: "--font-mono",
+  display: "swap",
+});
+const inter = localFont({
+  src: [{ path: "./fonts/Inter-Variable.woff2", weight: "100 900", style: "normal" }],
+  variable: "--font-inter",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -48,7 +58,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   // The phone browser's own chrome (address bar, status bar) takes the
   // page colour instead of flashing white above a dark site.
-  themeColor: "#050607",
+  themeColor: "#080A0D",
   colorScheme: "dark",
 };
 
@@ -57,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // suppressHydrationWarning: /products sets data-store-view on <html>
     // before hydration (components/StoreBar.tsx). It silences THIS element's
     // attributes only — nothing below it.
-    <html lang="en" suppressHydrationWarning className={`${display.variable} ${sans.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${sans.variable} ${mono.variable} ${inter.variable}`}>
       <body className="flex min-h-screen flex-col antialiased">
         <a
           href="#main"
@@ -73,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             spending a click for nothing. The page itself is still in the nav
             for anyone who wants to read about the platform first. */}
         <div className="border-b border-white/[0.06] bg-[#050607]">
-          <div className="wrap flex h-14 items-center justify-center gap-5 text-[13px] text-white/85">
+          <div className="wrap flex h-14 items-center justify-center gap-5 text-[12.5px] text-white/85">
             <a
               href={NT_LINKS.logo}
               target="_blank"

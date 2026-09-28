@@ -60,7 +60,7 @@ export function BoxCard({ slug, priority = false, bare = false }: { slug: string
             href={buyHref(listing)}
             target="_blank"
             rel="noopener"
-            className="absolute inset-x-[16%] bottom-[9%] z-20 hidden h-9 items-center justify-center rounded-md bg-ivory/95 px-3 text-[13px] font-medium text-ground opacity-0 shadow-lift backdrop-blur-sm transition-all duration-300 ease-silk hover:bg-white focus-visible:opacity-100 md:flex md:translate-y-1 md:group-hover:-translate-y-1.5 md:group-hover:opacity-100"
+            className="absolute inset-x-[16%] bottom-[9%] z-20 hidden h-9 items-center justify-center rounded-md bg-ivory/95 px-3 text-[12.5px] font-medium text-ground opacity-0 shadow-lift backdrop-blur-sm transition-all duration-300 ease-silk hover:bg-white focus-visible:opacity-100 md:flex md:translate-y-1 md:group-hover:-translate-y-1.5 md:group-hover:opacity-100"
           >
             {buyLabel(slug)}
           </a>
@@ -71,10 +71,10 @@ export function BoxCard({ slug, priority = false, bare = false }: { slug: string
           all of it (the single-product shelf). */}
       {!bare && (
         <div className="mt-2 px-0.5">
-          <span className="block truncate font-display text-[16.5px] leading-tight text-ink transition-colors duration-300 group-hover:text-gold-deep">
+          <span className="block truncate font-display text-[15px] leading-tight text-ink transition-colors duration-300 group-hover:text-gold-deep">
             {p.name}
           </span>
-          <span className="mt-1 block truncate text-[12.5px] text-mute">{p.category}</span>
+          <span className="mt-1 block truncate text-[12px] text-mute">{p.category}</span>
           {/* The price, set rather than decorated (2026-09-27): a hairline, the
               figure in the display face, and an arrow that says the box opens.
               No pill — Tom: "cheap looking circled prices". */}

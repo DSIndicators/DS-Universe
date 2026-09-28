@@ -18,7 +18,7 @@ export function WaitlistNote({ className = "" }: { className?: string }) {
   const body = `Joining costs nothing and charges nothing — you are told ${opensWhen()}.`;
 
   return (
-    <p className={`flex items-start gap-2.5 text-[13.5px] leading-relaxed text-slate ${className}`}>
+    <p className={`flex items-start gap-2.5 text-[12.5px] leading-relaxed text-slate ${className}`}>
       <span className="mt-[7px] block h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
       <span>
         <strong className="font-medium text-ink">Opening soon.</strong> {body}

@@ -170,7 +170,7 @@ export function Gallery({
 
         {/* Enlarge — an icon on a phone (no hover there), the word from sm up,
             on a pointer screen only while the pointer is over the stage. */}
-        <span className="pointer-events-none absolute left-2.5 top-2.5 inline-flex h-7 min-w-7 items-center justify-center gap-1.5 rounded-full bg-ground/75 px-2 text-[12.5px] font-medium text-ink shadow-card ring-1 ring-white/15 backdrop-blur-sm transition-opacity duration-300 ease-silk sm:left-3 sm:top-3 sm:h-8 sm:px-3 lg:opacity-0 lg:group-hover/stage:opacity-100">
+        <span className="pointer-events-none absolute left-2.5 top-2.5 inline-flex h-7 min-w-7 items-center justify-center gap-1.5 rounded-full bg-ground/75 px-2 text-[12px] font-medium text-ink shadow-card ring-1 ring-white/15 backdrop-blur-sm transition-opacity duration-300 ease-silk sm:left-3 sm:top-3 sm:h-8 sm:px-3 lg:opacity-0 lg:group-hover/stage:opacity-100">
           <Expand />
           <span className="hidden sm:inline">Enlarge</span>
         </span>
@@ -192,7 +192,7 @@ export function Gallery({
           {slides.map((s, n) => (
             <p
               key={s.src}
-              className={`[grid-area:1/1] text-[14.5px] leading-relaxed text-slate ${n === i ? "" : "invisible"}`}
+              className={`[grid-area:1/1] text-[13.5px] leading-relaxed text-slate ${n === i ? "" : "invisible"}`}
               aria-hidden={n !== i}
             >
               {s.title}
@@ -237,7 +237,7 @@ export function Gallery({
         </div>
       )}
 
-      {footnote && <p className="relative mt-5 max-w-4xl text-[13px] leading-relaxed text-mute">{footnote}</p>}
+      {footnote && <p className="relative mt-5 max-w-4xl text-[12.5px] leading-relaxed text-mute">{footnote}</p>}
 
       <Viewer
         open={open}

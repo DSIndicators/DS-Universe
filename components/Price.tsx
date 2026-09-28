@@ -41,9 +41,9 @@ export function PriceFigure({
   className?: string;
 }) {
   if (!price) return null;
-  const type = size === "md" ? "text-[19px]" : "text-[17px]";
+  const type = size === "md" ? "text-[14.5px]" : "text-[13.5px]";
   return (
-    <span className={`inline-block font-display ${type} font-normal leading-none tracking-[-0.01em] text-ink tabular-nums ${className}`}>
+    <span className={`inline-block font-mono ${type} font-normal leading-none text-ink tabular-nums ${className}`}>
       {price.free ? "Free" : money(price.now)}
     </span>
   );
@@ -70,26 +70,26 @@ export function PriceTag({
   className?: string;
 }) {
   if (!price) return null;
-  const big = size === "lg" ? "text-[clamp(3rem,5.4vw,4.25rem)]" : "text-[clamp(2.6rem,4.6vw,3.6rem)]";
+  const big = size === "lg" ? "text-[clamp(2.25rem,3.8vw,3rem)]" : "text-[clamp(2rem,3.2vw,2.6rem)]";
   const end = align === "end" ? "md:items-end md:text-right" : "";
   const off = discountPct(price);
 
   return (
     <div className={`flex flex-col ${end} ${className}`}>
       <span className="block h-px w-8 bg-gold" aria-hidden="true" />
-      <span className="mt-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-gold-deep">Price</span>
+      <span className="mt-3 font-mono text-[10.5px] uppercase tracking-[0.16em] text-gold-deep">Price</span>
       <span className="mt-2 flex items-baseline gap-3">
-        <span className={`font-display ${big} font-light leading-none tracking-[-0.02em] text-ink tabular-nums`}>
+        <span className={`font-display ${big} font-[350] leading-none tracking-[-0.03em] text-ink tabular-nums`}>
           {price.free ? "Free" : money(price.now)}
         </span>
-        {each && !price.free && <span className="text-[16px] text-slate">each</span>}
+        {each && !price.free && <span className="text-[14.5px] text-slate">each</span>}
         {off > 0 && !price.free && (
-          <s className="text-[17px] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(price.list)}`}>
+          <s className="text-[15px] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(price.list)}`}>
             {money(price.list)}
           </s>
         )}
       </span>
-      <span className="mt-3 text-[13.5px] text-slate">{price.free ? TERMS_FREE : TERMS_PAID}</span>
+      <span className="mt-3 text-[12.5px] text-slate">{price.free ? TERMS_FREE : TERMS_PAID}</span>
     </div>
   );
 }

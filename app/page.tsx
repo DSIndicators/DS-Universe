@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HeroScreen } from "@/components/ui/Monitor";
+import { QuestionRouter } from "@/components/QuestionRouter";
 import { WaitlistNote } from "@/components/ui/WaitlistNote";
 import { Reveal } from "@/components/ui/Reveal";
 import { Marketplace } from "@/components/Marketplace";
@@ -29,17 +30,29 @@ import { ABOUT, CLOSING, DISCLOSURE, FACTS, HERO, PRINCIPLES, SITE } from "@/con
  * chart at once — which is the case for DS Complete made without a word.
  */
 export default function HomePage() {
+  const cut = HERO.title.lastIndexOf(" ");
+  const titleHead = HERO.title.slice(0, cut);
+  const titleTail = HERO.title.slice(cut + 1);
   return (
     <>
       {/* ---------------------------------------------------------------- hero */}
       <section className="hero-wash hem relative overflow-hidden">
         {/* pb below md+ is deliberately larger than the hem's 88px depth so the
             diagonal can never cut into the buttons. See .hem in globals.css. */}
-        <div className="wrap grid items-center gap-12 pb-20 pt-10 sm:pt-16 md:pb-32 lg:grid-cols-12 lg:gap-8 lg:pt-16">
+        <div className="wrap grid items-center gap-12 pb-20 pt-10 sm:pt-14 md:pb-32 lg:grid-cols-12 lg:gap-8 lg:pt-12">
           <div className="lg:col-span-5">
-            <p className="label rise">{HERO.eyebrow}</p>
+            {/* Two hints of the house palette, and only two (2026-09-27): a
+                bull-teal status light on the eyebrow, and the last word of
+                the headline in fluorescent teal-to-violet (.fluoro). */}
+            <p className="label rise flex items-center gap-2.5">
+              <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+                <span className="absolute inset-0 rounded-full bg-[#19F2E6] opacity-60 motion-safe:animate-ping" />
+                <span className="relative h-1.5 w-1.5 rounded-full bg-[#19F2E6]" />
+              </span>
+              {HERO.eyebrow}
+            </p>
             <h1 className="display-xl rise mt-5 text-ink text-balance" style={{ animationDelay: "80ms" }}>
-              {HERO.title}
+              {titleHead} <span className="fluoro">{titleTail}</span>
             </h1>
             <p className="lede rise mt-6 max-w-md text-pretty" style={{ animationDelay: "160ms" }}>
               {HERO.sub}
@@ -58,6 +71,12 @@ export default function HomePage() {
             </div>
             {/* Said once, at the top of the site, before anyone reaches a price. */}
             <WaitlistNote className="rise mt-7 max-w-md" />
+            {/* The chart reader (components/QuestionRouter.tsx): a question,
+                the bare NT8 chart, the DS tool, and its read. From 1024px it
+                fills the well under the buttons beside the tall monitor; on a
+                phone and a tablet it follows the monitor instead (below), so
+                the chart still comes first. Only the visible one runs. */}
+            <QuestionRouter className="rise mt-9 hidden max-w-md lg:block" />
           </div>
 
           <div className="lg:col-span-7">
@@ -74,9 +93,10 @@ export default function HomePage() {
                 The full verbatim texts stay in the footer of every page; this
                 is the plain-English one directly under what it belongs to, in
                 body-style text rather than fine print. */}
-            <p className="mt-5 max-w-2xl text-[14.5px] leading-relaxed text-slate lg:mt-6">
+            <p className="mt-5 max-w-2xl text-[13.5px] leading-relaxed text-slate lg:mt-6">
               {DISCLOSURE.screen}
             </p>
+            <QuestionRouter className="mt-10 max-w-md lg:hidden" />
           </div>
         </div>
       </section>
@@ -85,9 +105,15 @@ export default function HomePage() {
       <section className="border-b border-line bg-mist">
         <div className="wrap grid gap-10 py-20 md:grid-cols-3 md:gap-8 lg:py-24">
           {PRINCIPLES.map((p, i) => (
-            <Reveal key={p.title} delay={i * 90} className="border-t border-line-strong pt-6">
+            <Reveal key={p.title} delay={i * 90} className="border-t border-line pt-6">
+              {/* A candle tick over each principle — bull, bear, bull — the
+                  house colours as punctuation, not decoration. */}
+              <div className="-mt-[25px] mb-5 flex items-center gap-3">
+                <span className={i % 2 ? "tick-bear" : "tick-bull"} aria-hidden="true" />
+                <span className="font-mono text-[10.5px] tracking-[0.14em] text-mute">{String(i + 1).padStart(2, "0")}</span>
+              </div>
               <h3 className="display-sm text-ink">{p.title}</h3>
-              <p className="mt-3 text-[15.5px] leading-relaxed text-slate text-pretty">{p.text}</p>
+              <p className="mt-3 text-[14px] leading-relaxed text-slate text-pretty">{p.text}</p>
             </Reveal>
           ))}
         </div>
@@ -108,11 +134,11 @@ export default function HomePage() {
             <dl className="space-y-7">
               {FACTS.map((f) => (
                 <div key={f.label}>
-                  <dt className="flex items-center gap-2.5 text-[15px] text-ink">
+                  <dt className="flex items-center gap-2.5 text-[14px] text-ink">
                     <span className="block h-2 w-2 rounded-[2px] bg-gold" aria-hidden="true" />
                     {f.label}
                   </dt>
-                  <dd className="mt-1.5 pl-[18px] text-[16px] text-slate">{f.value}</dd>
+                  <dd className="mt-1.5 pl-[18px] text-[14.5px] text-slate">{f.value}</dd>
                 </div>
               ))}
             </dl>
@@ -143,7 +169,7 @@ export default function HomePage() {
               {CLOSING.secondary.label}
             </Link>
           </div>
-          <p className="mt-8 text-[14px] text-mute">
+          <p className="mt-8 text-[13px] text-mute">
             Questions first?{" "}
             <a href={`mailto:${SITE.email}`} className="text-slate underline decoration-line underline-offset-4 hover:text-ink">
               {SITE.email}

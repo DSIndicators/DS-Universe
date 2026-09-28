@@ -331,7 +331,7 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
                 page, so a right-hand pill would be off screen. A quiet icon on
                 phones (always shown — there is no hover), the word from sm up,
                 and on desktop only while the pointer is on the screen. */}
-            <span className="pointer-events-none absolute left-2 top-2 inline-flex h-7 min-w-7 items-center justify-center gap-1.5 rounded-full bg-ground/75 px-2 text-[12.5px] font-medium text-ink shadow-card ring-1 ring-white/15 backdrop-blur-sm transition-opacity duration-300 ease-silk sm:left-3 sm:top-3 sm:h-8 sm:px-3 lg:opacity-0 lg:group-hover/screen:opacity-100 lg:group-focus-visible/screen:opacity-100">
+            <span className="pointer-events-none absolute left-2 top-2 inline-flex h-7 min-w-7 items-center justify-center gap-1.5 rounded-full bg-ground/75 px-2 text-[12px] font-medium text-ink shadow-card ring-1 ring-white/15 backdrop-blur-sm transition-opacity duration-300 ease-silk sm:left-3 sm:top-3 sm:h-8 sm:px-3 lg:opacity-0 lg:group-hover/screen:opacity-100 lg:group-focus-visible/screen:opacity-100">
               <Expand />
               <span className="hidden sm:inline">Enlarge</span>
             </span>
@@ -354,7 +354,7 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
           type="button"
           onClick={togglePause}
           aria-label={paused ? "Play the chart pictures" : "Pause the chart pictures"}
-          className="-ml-2.5 inline-flex h-8 items-center gap-2 rounded-full px-2.5 text-[11px] font-medium uppercase tracking-[0.14em] text-mute outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-gold"
+          className="-ml-2.5 inline-flex h-8 items-center gap-2 rounded-full px-2.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-mute outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-gold"
         >
           {paused ? <PlayIcon /> : <PauseIcon />}
           <span className="w-[3.2em] text-left" aria-hidden="true">{paused ? "Play" : "Pause"}</span>
@@ -417,7 +417,7 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
             key={f.src}
             className={`[grid-area:1/1] ${n === i ? "animate-[rise_0.6s_cubic-bezier(0.2,0.7,0.2,1)_both]" : "invisible"}`}
           >
-            <p className="text-[15px] leading-snug text-ink">{f.title}</p>
+            <p className="text-[14px] leading-snug text-ink">{f.title}</p>
             <Tools frame={f} className="mt-1.5" />
           </div>
         ))}
@@ -453,8 +453,8 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
 function Tools({ frame, className = "" }: { frame: ScreenFrame; className?: string }) {
   const tools = frame.tools.map((s) => BY_SLUG[s]).filter(Boolean);
   return (
-    <p className={`text-[13.5px] leading-relaxed text-slate ${className}`}>
-      <span className="mr-2.5 text-[11px] font-medium uppercase tracking-[0.14em] text-mute">On screen</span>
+    <p className={`text-[12.5px] leading-relaxed text-slate ${className}`}>
+      <span className="mr-2.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-mute">On screen</span>
       {tools.map((p, k) => (
         <Fragment key={p.slug}>
           {/* A break opportunity between names, never inside one ("DS / Oracle").

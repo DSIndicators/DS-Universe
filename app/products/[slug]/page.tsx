@@ -85,7 +85,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       <section className="hero-wash">
         <div className="wrap pt-10 sm:pt-14 lg:pt-16">
           <Reveal>
-            <Link href="/products" className="group inline-flex items-center gap-2 text-[14px] text-slate hover:text-ink">
+            <Link href="/products" className="group inline-flex items-center gap-2 text-[13px] text-slate hover:text-ink">
               <Arrow className="rotate-180 group-hover:-translate-x-0.5" />
               All products
             </Link>
@@ -104,7 +104,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             <Reveal className="lg:col-span-5 lg:justify-self-end" delay={100}>
               <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1" aria-label="Highlights">
                 {p.hooks.map((h) => (
-                  <li key={h} className="flex items-center gap-3 rounded-lg border border-line bg-surface/80 px-4 py-3 text-[15px] text-ink">
+                  <li key={h} className="flex items-center gap-3 rounded-lg border border-line bg-surface/80 px-4 py-3 text-[14px] text-ink">
                     <span className="block h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
                     {h}
                   </li>
@@ -165,7 +165,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             </div>
             <CtaNote className="mt-3.5" slug={p.slug} />
             {/* The one bundle, said once, where the decision is being made. */}
-            <p className="mt-6 border-t border-line pt-5 text-[14.5px] leading-relaxed text-slate">
+            <p className="mt-6 border-t border-line pt-5 text-[13.5px] leading-relaxed text-slate">
               {price?.free ? "Also in " : "Or take everything — "}
               <Link href="/products#complete" className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
                 {COMPLETE.name}
@@ -176,7 +176,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             </p>
           </div>
 
-          <p className="mt-8 max-w-xl text-[15px] leading-relaxed text-slate">{DISCLOSURE.short}</p>
+          <p className="mt-8 max-w-xl text-[14px] leading-relaxed text-slate">{DISCLOSURE.short}</p>
         </Reveal>
       </section>
 
@@ -212,7 +212,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               <p className="label">{mates.length ? "From the same series" : "From the lineup"}</p>
               <h2 className="display-md mt-3 text-ink">{moreShelf.name}</h2>
             </div>
-            <Link href="/products" className="group hidden items-center gap-2 text-[15px] text-ink sm:inline-flex">
+            <Link href="/products" className="group hidden items-center gap-2 text-[14px] text-ink sm:inline-flex">
               Every product
               <Arrow />
             </Link>
@@ -231,8 +231,8 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
 function Fact({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-[13px] text-mute">{label}</dt>
-      <dd className="mt-1 text-[16px] text-ink">{value}</dd>
+      <dt className="text-[12.5px] text-mute">{label}</dt>
+      <dd className="mt-1 text-[14.5px] text-ink">{value}</dd>
     </div>
   );
 }

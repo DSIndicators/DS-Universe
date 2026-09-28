@@ -39,7 +39,7 @@ export default function TermsPage() {
           ))}
         </div>
 
-        <p className="hairline mt-12 pt-8 text-[14px] italic text-mute">
+        <p className="hairline mt-12 pt-8 text-[13px] italic text-mute">
           By installing or using DS Universe software, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. Questions:{" "}
           <a href={`mailto:${SITE.email}`} className="text-ink hover:text-gold-deep">{SITE.email}</a>.
         </p>

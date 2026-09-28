@@ -54,7 +54,7 @@ export default function DisclosuresPage() {
           ))}
         </div>
 
-        <p className="hairline mt-12 pt-8 text-[15px] leading-relaxed text-slate">
+        <p className="hairline mt-12 pt-8 text-[14px] leading-relaxed text-slate">
           Questions about any of the above:{" "}
           <a href={`mailto:${SITE.email}`} className="text-ink underline decoration-line underline-offset-4 hover:decoration-gold">
             {SITE.email}

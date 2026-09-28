@@ -32,7 +32,7 @@ export function Navbar() {
         <div className="flex min-w-0 items-center gap-1.5 min-[360px]:gap-2.5 sm:gap-4">
           <Link href="/" className="group flex shrink-0 items-center gap-1.5 min-[360px]:gap-2.5 sm:gap-3" aria-label={`${SITE.name} — home`}>
             <Badge size={34} className="ring-1 ring-white/15 transition-transform duration-500 ease-silk group-hover:scale-105 max-[359px]:!h-7 max-[359px]:!w-7" />
-            <span className="whitespace-nowrap font-display text-[16px] font-medium tracking-[-0.01em] text-ink min-[360px]:text-[17px] sm:text-[19px]">
+            <span className="whitespace-nowrap font-display text-[14.5px] font-medium tracking-[-0.01em] text-ink min-[360px]:text-[15px] sm:text-[17px]">
               {SITE.name}
             </span>
           </Link>
@@ -64,7 +64,7 @@ export function Navbar() {
               <Link
                 key={n.href}
                 href={n.href}
-                className={`text-[15px] transition-colors duration-200 ${
+                className={`text-[14px] transition-colors duration-200 ${
                   active ? "text-ink" : "text-slate hover:text-ink"
                 }`}
               >
@@ -112,7 +112,7 @@ export function Navbar() {
       >
         <nav className="wrap flex flex-col py-3" aria-label="Mobile">
           {NAV.map((n) => (
-            <Link key={n.href} href={n.href} className="py-3.5 text-[17px] text-ink">
+            <Link key={n.href} href={n.href} className="py-3.5 text-[15px] text-ink">
               {n.label}
             </Link>
           ))}

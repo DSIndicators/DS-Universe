@@ -19,9 +19,15 @@
     -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply bg-ground font-sans text-[17px] leading-[1.6] text-ink;
+    @apply bg-ground font-sans text-[15px] leading-[1.6] text-ink;
+    letter-spacing: -0.005em;
     font-feature-settings: "cv11", "ss01", "kern";
     text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  /* Figures line up in every column, everywhere. */
+  .font-mono {
+    font-feature-settings: "zero" 0, "calt" 0;
   }
   ::selection {
     background: rgba(205, 166, 86, 0.38);
@@ -50,26 +56,31 @@
   }
 
   /* Type scale — display is light and tight, the way the reference sets it. */
+  /* THE SHARP SCALE (2026-09-27). Smaller and lighter than before, set
+     tight: Inter Tight at a mid weight (never the 300 hairline, which bleeds
+     on a dark ground) with negative tracking that grows with the size. The
+     reference (quanttechnology.com) sets 30px heads at 450 and 14.5px body. */
   .display-xl {
-    @apply font-display font-light tracking-tightest text-[clamp(2.75rem,6.2vw,5rem)] leading-[1.02];
+    @apply font-display font-[380] tracking-[-0.038em] text-[clamp(2.4rem,4.4vw,3.6rem)] leading-[1.02];
   }
   .display-lg {
-    @apply font-display font-light tracking-tightest text-[clamp(2.25rem,4.6vw,3.5rem)] leading-[1.06];
+    @apply font-display font-[400] tracking-[-0.032em] text-[clamp(1.85rem,3vw,2.5rem)] leading-[1.06];
   }
   .display-md {
-    @apply font-display font-light tracking-[-0.025em] text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.1];
+    @apply font-display font-[420] tracking-[-0.024em] text-[clamp(1.4rem,2.1vw,1.85rem)] leading-[1.12];
   }
   .display-sm {
-    @apply font-display font-normal tracking-[-0.015em] text-[1.375rem] leading-[1.25];
+    @apply font-display font-[500] tracking-[-0.012em] text-[1.0625rem] leading-[1.3];
   }
   .lede {
-    @apply text-[clamp(1.125rem,1.5vw,1.375rem)] leading-[1.5] text-slate;
+    @apply text-[clamp(1rem,1.1vw,1.125rem)] leading-[1.6] text-slate;
   }
   .body {
-    @apply text-[17px] leading-[1.65] text-slate;
+    @apply text-[15px] leading-[1.7] text-slate;
   }
+  /* Labels speak in the instrument voice: mono, small, spaced. */
   .label {
-    @apply text-[12.5px] font-medium uppercase tracking-[0.14em] text-mute;
+    @apply font-mono text-[10.5px] font-normal uppercase tracking-[0.16em] text-mute;
   }
   .hairline {
     @apply border-t border-line;
@@ -81,7 +92,7 @@
      brightens it and adds the faintest gold bloom rather than a grey shadow,
      which cannot be seen on a dark ground. */
   .btn {
-    @apply inline-flex h-12 items-center justify-center gap-2 rounded-md px-6 text-[15px] font-medium transition-all duration-300 ease-silk;
+    @apply inline-flex h-10 items-center justify-center gap-2 rounded-md px-5 text-[13.5px] font-medium tracking-[-0.005em] transition-all duration-200 ease-silk;
   }
   .btn-primary {
     @apply btn bg-ivory text-ground hover:bg-white hover:shadow-[0_0_0_1px_rgba(205,166,86,0.35),0_10px_30px_-12px_rgba(205,166,86,0.45)];
@@ -92,29 +103,30 @@
 
   /* Chip — categories, hooks. */
   .chip {
-    @apply inline-flex items-center rounded-full border border-line bg-surface px-3.5 py-1.5 text-[13.5px] text-slate;
+    @apply inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-[12.5px] text-slate;
   }
   .chip-gold {
-    @apply inline-flex items-center gap-2 rounded-full bg-gold-soft px-3.5 py-1.5 text-[13px] font-medium text-gold-deep;
+    @apply inline-flex items-center gap-2 rounded-full bg-gold-soft px-3 py-1 text-[12px] font-medium text-gold-deep;
   }
 
   /* The hero wash — graphite lifting into a barely-there gold, as if the
      monitor in the top right were the light in the room. The gradient ends a
      step lighter than the ground so the diagonal hem below it still reads. */
   .hero-wash {
+    /* Transparent now: the page's grid and its ambient light run through the
+       hero. What remains is a faint lift of the ground under the headline so
+       the top of the page reads as the brightest place on it. */
     background:
-      /* first layer = on top: fades every glow back to the page colour at the
-         top edge, so the hero meets the navbar with no seam */
-      linear-gradient(180deg, #0b0d10 0%, rgba(11, 13, 16, 0) 16%),
-      radial-gradient(90% 70% at 82% 14%, rgba(205, 166, 86, 0.11) 0%, rgba(205, 166, 86, 0) 60%),
-      radial-gradient(60% 50% at 10% 0%, rgba(120, 140, 170, 0.06) 0%, rgba(120, 140, 170, 0) 70%),
-      linear-gradient(180deg, #0b0d10 0%, #121418 100%);
+      linear-gradient(180deg, #080a0d 0%, rgba(8, 10, 13, 0) 14%),
+      radial-gradient(70% 60% at 30% 20%, rgba(255, 255, 255, 0.022) 0%, rgba(255, 255, 255, 0) 70%);
   }
 
-  /* The closing ask — the same light as the hero, dimmer, so the page ends
-     where it began. */
+  /* The closing ask: bull teal and bear violet meeting under the words —
+     the same two hints the page opens with, dimmer, so it ends where it began. */
   .glow-close {
-    background: radial-gradient(55% 60% at 50% 42%, rgba(205, 166, 86, 0.07) 0%, rgba(205, 166, 86, 0) 70%);
+    background:
+      radial-gradient(40% 55% at 30% 50%, rgba(0, 153, 153, 0.06) 0%, rgba(0, 153, 153, 0) 70%),
+      radial-gradient(40% 55% at 70% 50%, rgba(163, 61, 255, 0.05) 0%, rgba(163, 61, 255, 0) 70%);
   }
 
   /* A box on the shelf. The covers are near-black boxes, and on a near-black
@@ -173,7 +185,7 @@
 
   /* Card with a real, quiet lift on hover. */
   .card {
-    @apply rounded-2xl border border-line bg-surface transition-all duration-500 ease-silk;
+    @apply rounded-[10px] border border-line bg-surface transition-all duration-500 ease-silk;
   }
   .card:hover {
     @apply -translate-y-0.5 border-line-strong shadow-lift;
@@ -262,6 +274,96 @@ html[data-store-view="list"] .v-covers {
    decorated (components/Price.tsx), so there are no price styles here.
    ------------------------------------------------------------------ */
 .series-panel {
-  background: #101316;
+  /* Translucent, so the page grid runs faintly through the panel. */
+  background: rgba(14, 17, 21, 0.72);
+  backdrop-filter: blur(2px);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* ------------------------------------------------------------------
+   THE FIELD — the page's background (2026-09-27, Tom: "the background is
+   too dull... sophisticated intelligent grid lines, blending in").
+
+   Built like chart paper, because that is what our customers look at all
+   day: a MINOR grid every 24px, a MAJOR grid every 96px (every fourth line,
+   the way a price scale steps), and a tiny registration mark where major
+   lines cross. It is FIXED to the viewport, so the content scrolls over a
+   still field — that parallax is where the depth comes from. A radial mask
+   lets it bloom at the top of the view and dissolve toward the edges, so it
+   is noticed, not read.
+
+   The ambient light is the house palette at a whisper: bull teal from the
+   upper right, bear violet from the lower left (DS Oracle's DsSignature
+   theme, #009999 / #A33DFF). Alphas are 4-6% — below that it disappears on
+   a calibrated monitor, above it the page turns blue.
+
+   Both layers sit at z-index -1 behind all content and never take pointer
+   events. Reduced-motion is irrelevant: nothing here moves.
+   ------------------------------------------------------------------ */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+body::before {
+  background-image:
+    /* registration marks at the major intersections */
+    radial-gradient(circle at 0.5px 0.5px, rgba(255, 255, 255, 0.16) 0.75px, transparent 1.5px),
+    /* major grid */
+    linear-gradient(90deg, rgba(255, 255, 255, 0.042) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.042) 1px, transparent 1px),
+    /* minor grid */
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 96px 96px, 96px 96px, 96px 96px, 24px 24px, 24px 24px;
+  background-position: center top;
+  -webkit-mask-image: radial-gradient(120% 85% at 50% 18%, #000 30%, rgba(0, 0, 0, 0.35) 70%, transparent 100%);
+  mask-image: radial-gradient(120% 85% at 50% 18%, #000 30%, rgba(0, 0, 0, 0.35) 70%, transparent 100%);
+}
+body::after {
+  background:
+    radial-gradient(50% 45% at 88% 4%, rgba(0, 153, 153, 0.075) 0%, rgba(0, 153, 153, 0) 70%),
+    radial-gradient(45% 45% at 6% 100%, rgba(163, 61, 255, 0.055) 0%, rgba(163, 61, 255, 0) 70%);
+}
+
+/* A candle tick: the small bull / bear mark that heads a principle. */
+.tick-bull,
+.tick-bear {
+  display: block;
+  height: 2px;
+  width: 22px;
+}
+.tick-bull { background: #009999; }
+.tick-bear { background: #a33dff; }
+
+/* The chart reader (components/QuestionRouter.tsx). The lit spine's dashes
+   run downward, question to chart to read; a projected drawing breathes.
+   Both stand still when motion is reduced. */
+.qr-spine {
+  background-image: repeating-linear-gradient(to bottom, var(--qr) 0 3px, transparent 3px 7px);
+  background-size: 1px 7px;
+  animation: qr-spine 0.7s linear infinite;
+}
+@keyframes qr-spine { to { background-position: 0 7px; } }
+.qr-breathe { animation: qr-breathe 3.2s ease-in-out infinite; }
+@keyframes qr-breathe { 50% { opacity: 0.72; } }
+@media (prefers-reduced-motion: reduce) {
+  .qr-spine, .qr-breathe { animation: none; }
+}
+
+/* "clearly." — fluorescent teal into fluorescent violet (Tom, 2026-09-27:
+   the flat teal read too close to the reference). The house bull and bear
+   at full luminance: #19F2E6 is the DS strong-bull cyan pulled a touch
+   toward teal, #B45CFF the bear violet lifted to glow on graphite. Crisp —
+   no blur, no text-shadow; the brightness does the work. */
+.fluoro {
+  background-image: linear-gradient(100deg, #19f2e6 8%, #5fb8f5 48%, #b45cff 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* keeps descenders (the y) inside the painted box */
+  padding-bottom: 0.08em;
 }

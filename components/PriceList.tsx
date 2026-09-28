@@ -20,7 +20,7 @@ export function PriceList({ products }: { products: Product[] }) {
     <>
     {/* Column heads, like a printed price list — from 640px, where the row
         is a true table row. */}
-    <div className="hidden grid-cols-[52px_minmax(0,1fr)_auto_auto] gap-x-6 pb-3 text-[11.5px] font-medium uppercase tracking-[0.18em] text-mute sm:grid" aria-hidden="true">
+    <div className="hidden grid-cols-[52px_minmax(0,1fr)_auto_auto] gap-x-6 pb-3 font-mono text-[10.5px] uppercase tracking-[0.14em] text-mute sm:grid" aria-hidden="true">
       <span />
       <span>Product</span>
       <span className="min-w-[84px] text-right">Price</span>
@@ -45,23 +45,23 @@ export function PriceList({ products }: { products: Product[] }) {
               <Image src={boxartFor(p.slug)} alt="" fill sizes="52px" className="object-contain" />
             </Link>
             <div className="min-w-0">
-              <Link href={`/products/${p.slug}`} className="font-display text-[17px] text-ink transition-colors hover:text-gold-deep">
+              <Link href={`/products/${p.slug}`} className="font-display text-[15px] text-ink transition-colors hover:text-gold-deep">
                 {p.name}
               </Link>
-              <p className="mt-0.5 truncate text-[13.5px] text-slate">{p.category}</p>
+              <p className="mt-0.5 truncate text-[12.5px] text-slate">{p.category}</p>
             </div>
             {/* Price and button share one line under the name on a phone, and
                 become the row's last two columns from 640px (sm:contents). */}
             <div className="col-start-2 flex items-center justify-between gap-4 sm:contents">
               <div className="flex items-center gap-2.5 sm:justify-self-end">
                 {off > 0 && !pr.free && (
-                  <s className="text-[14px] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(pr.list)}`}>
+                  <s className="text-[13px] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(pr.list)}`}>
                     {money(pr.list)}
                   </s>
                 )}
                 <PriceFigure price={pr} size="md" className="sm:min-w-[84px] sm:text-right" />
               </div>
-              <BuyButton slug={p.slug} variant="ghost" className="!h-10 !px-4 !text-[14px] sm:w-[124px]" />
+              <BuyButton slug={p.slug} variant="ghost" className="!h-10 !px-4 !text-[13px] sm:w-[124px]" />
             </div>
           </li>
         );

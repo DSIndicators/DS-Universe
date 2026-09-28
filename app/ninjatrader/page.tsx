@@ -65,7 +65,7 @@ export default function NinjaTraderPage() {
               </p>
               <ul className="space-y-3 pt-1">
                 {NT_FREE_ACCESS.map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-[16.5px] text-slate">
+                  <li key={item} className="flex items-center gap-3 text-[15px] text-slate">
                     <span className="block h-2 w-2 shrink-0 rounded-[2px] bg-gold" aria-hidden="true" />
                     {item}
                   </li>
@@ -177,7 +177,7 @@ export default function NinjaTraderPage() {
       {/* -------------------------------------------------------- attribution */}
       <section className="wrap py-14 lg:py-16">
         <Reveal>
-          <p className="max-w-4xl text-[13.5px] leading-relaxed text-slate">{DISCLOSURE.trademark}</p>
+          <p className="max-w-4xl text-[12.5px] leading-relaxed text-slate">{DISCLOSURE.trademark}</p>
         </Reveal>
       </section>
     </>

@@ -86,14 +86,14 @@ export function TestFirst({ productName }: { productName: string }) {
               {steps.map((s) => (
                 <li key={s.n} className="border-t border-line-strong pt-6">
                   <div className="flex items-baseline gap-4">
-                    <span className="font-display text-[15px] tabular-nums text-gold-deep">{s.n}</span>
+                    <span className="font-display text-[14px] tabular-nums text-gold-deep">{s.n}</span>
                     <h3 className="display-sm text-ink">{s.title}</h3>
                   </div>
-                  <p className="mt-3 text-[15.5px] leading-relaxed text-slate text-pretty">{s.text}</p>
+                  <p className="mt-3 text-[14px] leading-relaxed text-slate text-pretty">{s.text}</p>
                 </li>
               ))}
             </ol>
-            <p className="mt-8 border-t border-line pt-6 text-[15px] leading-relaxed text-slate text-pretty">
+            <p className="mt-8 border-t border-line pt-6 text-[14px] leading-relaxed text-slate text-pretty">
               A simulated fill is not a live fill. Replay and the simulator cannot reproduce real
               queue position, slippage, or what it feels like to hold a position with money on it,
               and results from either may differ materially from live trading. Test to learn how a
