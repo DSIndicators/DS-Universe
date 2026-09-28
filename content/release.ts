@@ -22,7 +22,31 @@ import { SERIES, type SeriesInfo } from "./pricing";
 /** Cover frame, width / height. Every tile and the grid read this one number. */
 export const COVER_RATIO = 4 / 5;
 
-export const boxartFor = (slug: string) => `/boxart/0920/${slug}.webp`;
+/**
+ * One box per product, by slug. A LIST, not a formula, so a single cover can
+ * be re-exported under a new filename without touching the others (one-year
+ * immutable asset cache: a new picture needs a new path). Picture Studio
+ * (LOCAL3001 Picture Updates) edits this list; so can a person.
+ */
+export const BOXART: Record<string, string> = {
+  "zones": "/boxart/0920/zones.webp",
+  "iceberg": "/boxart/0920/iceberg.webp",
+  "oracle": "/boxart/0920/oracle.webp",
+  "gex": "/boxart/0920/gex.webp",
+  "flow": "/boxart/0920/flow.webp",
+  "prorsi": "/boxart/0920/prorsi.webp",
+  "prostochastics": "/boxart/0920/prostochastics.webp",
+  "prosqueeze": "/boxart/0920/prosqueeze.webp",
+  "promacd": "/boxart/0920/promacd.webp",
+  "adaptive-priceline": "/boxart/0920/adaptive-priceline.webp",
+  "chart-price": "/boxart/0920/chart-price.webp",
+  "ds-258": "/boxart/0920/ds-258.webp",
+  "parallax": "/boxart/0920/parallax.webp",
+  "toolkit": "/boxart/0920/toolkit.webp",
+  "bulk-replay-downloader": "/boxart/0920/bulk-replay-downloader.webp",
+};
+
+export const boxartFor = (slug: string) => BOXART[slug] ?? `/boxart/0920/${slug}.webp`;
 
 export type Shelf = { info: SeriesInfo; products: Product[] };
 
