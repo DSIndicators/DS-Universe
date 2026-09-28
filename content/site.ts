@@ -150,8 +150,8 @@ export const DISCLOSURE = {
  */
 export const CATALOGUE = {
   eyebrow: "The lineup",
-  heading: "Every tool on its own. Bought once.",
-  sub: "Each indicator is sold by itself for a single payment, and the chart essentials are free. Open any cover for what it shows, how it helps, and the guide to reading it.",
+  heading: "All of it at once, or one tool at a time.",
+  sub: "DS Complete is every product in one purchase. Or pick them one by one: each indicator is a single payment, and the chart essentials are free. Open any cover for what it shows, how it helps, and the guide to reading it.",
 };
 
 /**

@@ -5,7 +5,6 @@ import { QuestionRouter } from "@/components/QuestionRouter";
 import { WaitlistNote } from "@/components/ui/WaitlistNote";
 import { Reveal } from "@/components/ui/Reveal";
 import { Marketplace } from "@/components/Marketplace";
-import { CompleteBand } from "@/components/CompleteBand";
 import { NT_ASSETS, NT_LINKS } from "@/content/ninjatrader";
 import { ABOUT, CLOSING, DISCLOSURE, FACTS, HERO, PRINCIPLES, SITE } from "@/content/site";
 
@@ -120,12 +119,9 @@ export default function HomePage() {
       </section>
 
       {/* ---------------------------------------------------------- storefront */}
+      {/* Opens with DS Complete and threads down through every series
+          (2026-09-28: it used to be a band after the last shelf). */}
       <Marketplace />
-
-      {/* ----------------------------------------------------------- complete */}
-      {/* Straight after the shelves — the one moment a visitor has seen every
-          product priced on its own and can weigh one number against the lot. */}
-      <CompleteBand />
 
       {/* --------------------------------------------------------------- about */}
       <section>

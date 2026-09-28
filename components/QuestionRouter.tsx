@@ -128,6 +128,7 @@ const ROUTES: Route[] = [
 
 // House palette (tailwind.config.ts / the DsSignature theme).
 const TEAL = "#19F2E6";
+const NT_ORANGE = "#FF4200"; // NinjaTrader's signature orange (official wordmark)
 const VIOLET = "#B45CFF";
 const BULL = "#009999";
 const BEAR = "#A33DFF";
@@ -261,8 +262,17 @@ export function QuestionRouter({ className = "" }: { className?: string }) {
         <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-mute">
           Ask <span className="text-slate">→</span> Chart <span className="text-slate">→</span> Read
         </span>
-        <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-slate">
-          <span className="h-1 w-1 rounded-full" style={{ background: TEAL }} aria-hidden="true" />
+        {/* The NT8 light in NinjaTrader's own orange (#FF4200, sampled from
+            their official wordmark), glowing — Tom, 2026-09-28. The one place
+            their colour appears in the panel: it marks the platform. */}
+        <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-slate">
+          <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+            <span className="absolute inset-0 rounded-full opacity-60 motion-safe:animate-ping" style={{ background: NT_ORANGE }} />
+            <span
+              className="relative h-1.5 w-1.5 rounded-full"
+              style={{ background: NT_ORANGE, boxShadow: "0 0 6px 1px rgba(255,66,0,0.75), 0 0 14px 2px rgba(255,66,0,0.35)" }}
+            />
+          </span>
           NT8
         </span>
       </div>
