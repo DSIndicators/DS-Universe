@@ -128,7 +128,7 @@ const ROUTES: Route[] = [
 
 // House palette (tailwind.config.ts / the DsSignature theme).
 const TEAL = "#19F2E6";
-const NT_ORANGE = "#FF4200"; // NinjaTrader's signature orange (official wordmark)
+const ONLINE = "#2EE884"; // status green: the NT8 light reads "online"
 const VIOLET = "#B45CFF";
 const BULL = "#009999";
 const BEAR = "#A33DFF";
@@ -262,15 +262,15 @@ export function QuestionRouter({ className = "" }: { className?: string }) {
         <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-mute">
           Ask <span className="text-slate">→</span> Chart <span className="text-slate">→</span> Read
         </span>
-        {/* The NT8 light in NinjaTrader's own orange (#FF4200, sampled from
-            their official wordmark), glowing — Tom, 2026-09-28. The one place
-            their colour appears in the panel: it marks the platform. */}
+        {/* The NT8 light: a status-green "online" light, glowing and pulsing.
+            (Tom, 2026-09-28: NinjaTrader's orange read as red, i.e. offline —
+            "change it to green for online instead".) */}
         <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-slate">
           <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
-            <span className="absolute inset-0 rounded-full opacity-60 motion-safe:animate-ping" style={{ background: NT_ORANGE }} />
+            <span className="absolute inset-0 rounded-full opacity-60 motion-safe:animate-ping" style={{ background: ONLINE }} />
             <span
               className="relative h-1.5 w-1.5 rounded-full"
-              style={{ background: NT_ORANGE, boxShadow: "0 0 6px 1px rgba(255,66,0,0.75), 0 0 14px 2px rgba(255,66,0,0.35)" }}
+              style={{ background: ONLINE, boxShadow: "0 0 6px 1px rgba(46,232,132,0.7), 0 0 14px 2px rgba(46,232,132,0.3)" }}
             />
           </span>
           NT8
