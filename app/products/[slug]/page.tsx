@@ -15,7 +15,7 @@ import { COVER_RATIO, boxartFor, isReleased, seriesMates, SHELVES } from "@/cont
 import { BOARD_GROUND, shotsFor } from "@/content/shots";
 import { CHART_GROUND, CHART_H, CHART_W, chartsFor } from "@/content/charts";
 import { listingCopyFor } from "@/content/listing-copy";
-import { COMPLETE, money, priceFor, seriesInfo } from "@/content/pricing";
+import { APART, COMPLETE, FOUNDERS, money, priceFor, seriesInfo } from "@/content/pricing";
 import { DISCLOSURE, SITE } from "@/content/site";
 
 type Params = { slug: string };
@@ -172,7 +172,9 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               </Link>
               {price?.free
                 ? ", every DS Universe product in one license."
-                : `, every DS Universe product in one license, for ${money(COMPLETE.now)}.`}
+                : FOUNDERS.active
+                  ? `, every DS Universe product in one license — a ${money(APART)} value, ${money(COMPLETE.now)} in the ${FOUNDERS.name}.`
+                  : `, every DS Universe product in one license, for ${money(COMPLETE.now)}.`}
             </p>
           </div>
 

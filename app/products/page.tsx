@@ -5,7 +5,7 @@ import { WaitlistNote } from "@/components/ui/WaitlistNote";
 import { StoreBar, type StoreBarItem } from "@/components/StoreBar";
 import { BeforeYouBuy } from "@/components/BeforeYouBuy";
 import { SHELVES } from "@/content/release";
-import { COMPLETE, COMPLETE_PCT, PRICES, money, seriesPrice, tilePrice } from "@/content/pricing";
+import { COMPLETE, COMPLETE_PCT, FOUNDERS, PRICES, money, seriesPrice, tilePrice } from "@/content/pricing";
 import { PRODUCTS } from "@/content/products";
 import { StillMonitor } from "@/components/ui/StillMonitor";
 import { DISCLOSURE, PRODUCTS_SCREEN } from "@/content/site";
@@ -58,7 +58,12 @@ export default function ProductsPage() {
 
   // DS Complete leads the row, as it leads the shelves (2026-09-28).
   const offer = [
-    { price: money(COMPLETE.now), label: COMPLETE.name, note: `Everything, ${COMPLETE_PCT}% off`, href: "#complete" },
+    {
+      price: money(COMPLETE.now),
+      label: COMPLETE.name,
+      note: FOUNDERS.active ? `Founders Sale · ${COMPLETE_PCT}% off` : `Everything, ${COMPLETE_PCT}% off`,
+      href: "#complete",
+    },
     lead !== null
       ? { price: money(lead), label: "Indicators", note: "Each, one payment", href: "#flagship" }
       : { price: "Once", label: "Indicators", note: "One payment", href: "#flagship" },

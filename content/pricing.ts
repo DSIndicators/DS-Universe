@@ -166,6 +166,34 @@ export const COMPLETE = {
   art: "/boxart/0920/complete-v2.webp",
 } as const;
 
+/**
+ * THE FOUNDERS SALE on DS Complete (Tom, 2026-09-28: "This is a Founders Sale
+ * for the Complete, The 50% off won't last. Make it known ... Not sure when
+ * the sale will complete. make it more know that its a $749.90 value").
+ *
+ * ONE SWITCH. Every mention of the sale on the site reads this object: the
+ * strip across the DS Complete panel, the "founders price" label, the note
+ * under its button, the /products price row and the line on every product
+ * page. When the sale ends, set `active: false` (and update COMPLETE.now /
+ * whopAnchor to the new Whop price) — nothing else needs touching.
+ *
+ * HONEST URGENCY. There is no end date, so there is no countdown and no date
+ * on the page: it says the founders price is temporary and that DS Complete
+ * costs more after it, which is true. The "$749.90 value" is not a made-up
+ * "was" price — it is APART, the real sum of the paid products' own prices,
+ * computed below and checked against Whop at build time.
+ */
+export const FOUNDERS = {
+  active: true,
+  name: "Founders Sale",
+  /** Across the top of the DS Complete panel. */
+  strip: "50% off DS Complete — the founders price won't last",
+  /** Under the buy button. */
+  note: "Founders pricing is temporary and ends without a set date. After it, DS Complete costs more. Buy during the sale and it is yours at this price for good, updates included.",
+  /** The buy button's words while the store is open. */
+  cta: "Buy at the founders price",
+} as const;
+
 /** What the paid products cost bought one at a time. COMPUTED. */
 export const APART = round2(
   Object.values(PRICES).reduce((n, p) => n + (p.free ? 0 : p.now), 0),

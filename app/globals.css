@@ -347,6 +347,12 @@ body::after {
   border-color: rgba(205, 166, 86, 0.26);
   box-shadow: inset 0 1px 0 rgba(221, 186, 110, 0.18);
 }
+/* The Founders Sale strip across the top of the DS Complete panel: a gold
+   hairline under it and a wash of gold that fades out to the right. */
+.founders-strip {
+  border-color: rgba(205, 166, 86, 0.22);
+  background: linear-gradient(90deg, rgba(205, 166, 86, 0.11) 0%, rgba(205, 166, 86, 0.035) 55%, rgba(205, 166, 86, 0) 100%);
+}
 /* The gold thread that joins it to every series panel below
    (Marketplace.tsx). Its dashes run downward, slowly. */
 .thread {

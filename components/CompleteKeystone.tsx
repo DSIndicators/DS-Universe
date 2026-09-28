@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 import { BuyButton, CtaNote } from "@/components/BuyButton";
-import { APART, COMPLETE, COMPLETE_PCT, COMPLETE_SAVING, PRICES, money } from "@/content/pricing";
+import { APART, COMPLETE, COMPLETE_PCT, COMPLETE_SAVING, FOUNDERS, PRICES, money } from "@/content/pricing";
+import { onWaitlist } from "@/content/launch";
 import { SHELVES } from "@/content/release";
 
 /**
@@ -63,6 +64,24 @@ export function CompleteKeystone() {
           style={{ background: "radial-gradient(50% 60% at 22% 50%, rgba(195,155,69,0.10) 0%, rgba(195,155,69,0) 70%)" }}
           aria-hidden="true"
         />
+        {/* ------------------------------------------------ founders strip */}
+        {/* The sale, said across the top of the panel before anything else:
+            a live gold light, the name, what it is, and that it will end.
+            No countdown and no date — there is no end date to show. */}
+        {FOUNDERS.active && (
+          <div className="founders-strip relative flex flex-wrap items-center gap-x-3 gap-y-1.5 border-b px-6 py-3.5 sm:px-8 lg:px-10">
+            <span className="relative flex h-1.5 w-1.5 shrink-0" aria-hidden="true">
+              <span className="absolute inset-0 rounded-full bg-gold opacity-60 motion-safe:animate-ping" />
+              <span className="relative h-1.5 w-1.5 rounded-full bg-gold" />
+            </span>
+            <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-gold">{FOUNDERS.name}</span>
+            <span className="hidden h-3 w-px bg-[rgba(205,166,86,0.35)] sm:block" aria-hidden="true" />
+            <span className="w-full text-[13.5px] text-ink text-balance sm:w-auto">{FOUNDERS.strip}</span>
+            <span className="ml-auto hidden font-mono text-[10px] uppercase tracking-[0.14em] text-gold-deep/80 md:block">
+              Can end at any time
+            </span>
+          </div>
+        )}
         <div className="relative grid items-center lg:grid-cols-12">
           {/* ------------------------------------------------------- the box */}
           <div className="lg:col-span-5">
@@ -91,7 +110,10 @@ export function CompleteKeystone() {
             </h3>
             <p className="mt-4 max-w-xl text-[14.5px] leading-relaxed text-slate text-pretty">{COMPLETE.blurb}</p>
 
-            <div className="mt-7 flex flex-wrap items-baseline gap-x-3.5 gap-y-2">
+            {FOUNDERS.active && (
+              <p className="mt-7 font-mono text-[10.5px] uppercase tracking-[0.16em] text-gold">Founders price</p>
+            )}
+            <div className={`${FOUNDERS.active ? "mt-2.5" : "mt-7"} flex flex-wrap items-baseline gap-x-3.5 gap-y-2`}>
               <span className="font-display text-[clamp(2.25rem,4vw,3rem)] font-[350] leading-none tracking-[-0.03em] text-ink tabular-nums">
                 {money(COMPLETE.now)}
               </span>
@@ -100,10 +122,15 @@ export function CompleteKeystone() {
               </s>
               <span className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-gold">{COMPLETE_PCT}% off</span>
             </div>
-            <p className="mt-2.5 text-[12.5px] text-slate">One payment · Yours to keep · Updates included</p>
+            {/* The value, said in words as well as struck through: the real sum
+                of the paid products' own prices (APART, computed). */}
+            <p className="mt-3.5 text-[14.5px] leading-snug text-slate">
+              A <span className="font-medium text-ink tabular-nums">{money(APART)}</span> value — every paid product, bought one at a time.
+            </p>
+            <p className="mt-1.5 text-[12.5px] text-mute">One payment · Yours to keep · Updates included</p>
 
             {/* ------------------------------------------------ the value bar */}
-            <figure className="mt-8 max-w-xl" aria-label={`Every paid product bought separately costs ${money(APART)}; ${COMPLETE.name} costs ${money(COMPLETE.now)}; you keep ${money(COMPLETE_SAVING)}.`}>
+            <figure className="mt-8 max-w-xl" aria-label={`Every paid product bought separately costs ${money(APART)}; ${COMPLETE.name} costs ${money(COMPLETE.now)}; you save ${money(COMPLETE_SAVING)}.`}>
               <div className="flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-mute">
                 <span>Bought one at a time</span>
                 <span className="tabular-nums">{money(APART)}</span>
@@ -130,7 +157,7 @@ export function CompleteKeystone() {
               </div>
               <div className="relative mt-2 h-4 font-mono text-[10px] uppercase tracking-[0.12em] tabular-nums" aria-hidden="true">
                 <span className="absolute left-0 text-gold">You pay {money(COMPLETE.now)}</span>
-                <span className="absolute right-0 text-slate">You keep {money(COMPLETE_SAVING)}</span>
+                <span className="absolute right-0 text-slate">You save {money(COMPLETE_SAVING)}</span>
               </div>
             </figure>
 
@@ -158,9 +185,18 @@ export function CompleteKeystone() {
             </ul>
 
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <BuyButton slug={COMPLETE.key} />
+              <BuyButton slug={COMPLETE.key} label={FOUNDERS.active && !onWaitlist() ? FOUNDERS.cta : undefined} />
             </div>
-            <CtaNote className="mt-3.5" slug={COMPLETE.key} />
+            {/* The terms of the sale, right under the button that acts on
+                them; the checkout note after. */}
+            {FOUNDERS.active && (
+              <p className="mt-5 max-w-xl border-l border-gold pl-4 text-[13px] leading-relaxed text-slate text-pretty">
+                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-gold">{FOUNDERS.name}</span>
+                <br />
+                {FOUNDERS.note}
+              </p>
+            )}
+            <CtaNote className="mt-4" slug={COMPLETE.key} />
           </div>
         </div>
       </Reveal>
