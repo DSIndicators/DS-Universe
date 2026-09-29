@@ -59,7 +59,12 @@ export const viewport: Viewport = {
   // The phone browser's own chrome (address bar, status bar) takes the
   // page colour instead of flashing white above a dark site.
   themeColor: "#080A0D",
-  colorScheme: "dark",
+  // "only dark" (2026-09-29): the site IS dark, so no browser should repaint
+  // it. Plain "dark" is enough for Chrome's auto-dark, but Samsung Internet's
+  // dark mode ignored it and lightened the DS Complete chart to grey on Tom's
+  // phone. "only" is the CSS standard's word for "do not override". Next's
+  // type list lacks this spelling; it prints the value as given.
+  colorScheme: "only dark" as Viewport["colorScheme"],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

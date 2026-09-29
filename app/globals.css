@@ -11,8 +11,12 @@
 
 @layer base {
   :root {
-    /* Dark form controls, scrollbars and autofill from the browser itself. */
+    /* Dark form controls, scrollbars and autofill from the browser itself.
+       "only": never let a browser's own dark mode repaint the site (see
+       app/layout.tsx, viewport.colorScheme). The plain line first, for any
+       browser that does not know "only". */
     color-scheme: dark;
+    color-scheme: only dark;
   }
   html {
     scroll-behavior: smooth;
@@ -386,8 +390,12 @@ body::after {
 @keyframes qr-spine { to { background-position: 0 7px; } }
 .qr-breathe { animation: qr-breathe 3.2s ease-in-out infinite; }
 @keyframes qr-breathe { 50% { opacity: 0.72; } }
+/* The DS Complete chart's tour clock on touch screens (CompleteChart.tsx):
+   a hairline that fills while the tour rests on one product. */
+.cc-dwell { animation: cc-dwell linear forwards; transform: scaleX(0); }
+@keyframes cc-dwell { to { transform: scaleX(1); } }
 @media (prefers-reduced-motion: reduce) {
-  .qr-spine, .qr-breathe { animation: none; }
+  .qr-spine, .qr-breathe, .cc-dwell { animation: none; }
 }
 
 /* "clearly." — fluorescent teal into fluorescent violet (Tom, 2026-09-27:

@@ -21,9 +21,14 @@ export type LedgerRow = {
  *
  * While the chart builds, the row being drawn lights gold, so the chart and
  * the list read as one sequence.
+ *
+ * On phones (2026-09-29) the list is only a price list: its names are links
+ * to the product pages and nothing else. The chart carries its own controls
+ * there, and this list ignores a focus set by the chart's tabs or its tour.
  */
 export function CompleteLedger({ rows, label }: { rows: LedgerRow[]; label: string }) {
-  const { focus, setFocus, step } = useCompleteStage();
+  const { focus: raw, setFocus, step } = useCompleteStage();
+  const focus = raw?.source === "hover" ? raw : null;
   // Isolating a drawing follows a mouse or the keyboard only. A tap on a
   // phone navigates, and there is no "leave" after it to undo a highlight.
   const mouse = (e: PointerEvent<Element>) => e.pointerType === "mouse";
@@ -34,8 +39,11 @@ export function CompleteLedger({ rows, label }: { rows: LedgerRow[]; label: stri
       return true; // an older browser without :has — keyboard focus still works
     }
   };
+  const leave = () => {
+    if (raw?.source === "hover") setFocus(null);
+  };
   return (
-    <ul className="mt-7 max-w-xl border-t border-line" aria-label={label} onPointerLeave={() => setFocus(null)}>
+    <ul className="mt-7 max-w-xl border-t border-line" aria-label={label} onPointerLeave={(e) => mouse(e) && leave()}>
       {rows.map((r) => {
         const { building } = built(r.key, step);
         const on = focus?.series === r.key;
@@ -45,9 +53,9 @@ export function CompleteLedger({ rows, label }: { rows: LedgerRow[]; label: stri
             key={r.key}
             className="border-b border-line py-2.5 transition-opacity duration-300"
             style={{ opacity: dim ? 0.45 : 1 }}
-            onPointerEnter={(e) => mouse(e) && setFocus({ series: r.key })}
-            onFocus={(e) => keys(e) && setFocus({ series: r.key })}
-            onBlur={() => setFocus(null)}
+            onPointerEnter={(e) => mouse(e) && setFocus({ series: r.key, source: "hover" })}
+            onFocus={(e) => keys(e) && setFocus({ series: r.key, source: "hover" })}
+            onBlur={leave}
           >
             <a href={`#${r.key}`} className="group flex items-baseline gap-3 text-[13.5px]">
               <span className={`transition-colors duration-300 ${building || on ? "text-gold-deep" : "text-ink"} group-hover:text-gold-deep`}>{r.name}</span>
@@ -62,9 +70,9 @@ export function CompleteLedger({ rows, label }: { rows: LedgerRow[]; label: stri
                   <Link
                     href={`/products/${p.slug}`}
                     className={`inline-block py-1 transition-colors hover:text-ink focus-visible:text-ink ${focus?.slug === p.slug ? "text-ink" : ""}`}
-                    onPointerEnter={(e) => mouse(e) && setFocus({ series: r.key, slug: p.slug })}
-                    onPointerLeave={(e) => mouse(e) && setFocus({ series: r.key })}
-                    onFocus={(e) => keys(e) && setFocus({ series: r.key, slug: p.slug })}
+                    onPointerEnter={(e) => mouse(e) && setFocus({ series: r.key, slug: p.slug, source: "hover" })}
+                    onPointerLeave={(e) => mouse(e) && setFocus({ series: r.key, source: "hover" })}
+                    onFocus={(e) => keys(e) && setFocus({ series: r.key, slug: p.slug, source: "hover" })}
                   >
                     {p.name.replace(/^DS (?=\D)/, "")}
                   </Link>
