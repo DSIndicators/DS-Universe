@@ -21,11 +21,22 @@ import { PRODUCTS } from "@/content/products";
  *              its test marks · GEX's Call Wall / Gamma Flip / Put Wall ·
  *              Flow's buy/sell profile on one candle group, heavy row boxed ·
  *              Oracle's Neural Line, violet to teal where price crosses it.
- *   Pro Series the four panels under price, titled the way NT8 titles panels,
- *              plus ProRSI's swing-anchored level on the price pane.
- *   Essentials the DS Toolkit rail · Parallax's four higher-timeframe minis ·
- *              DS 258's 00/20/50/80 lines · the Adaptive Price Line with its
- *              countdown tag · the Chart Price readout.
+ *   Pro Series the four panels under price, titled the way NT8 titles panels:
+ *              ProRSI one line in a shaded 70/30 scale (and, on price, the
+ *              level its crossover made, frozen where price closed through);
+ *              ProStochastics four stacked lanes of four speeds with the quad
+ *              latch under them; ProSqueeze; ProMACD.
+ *   Essentials the DS Toolkit rail · Parallax's four higher-timeframe charts
+ *              spread along the bottom of the price pane (its default) ·
+ *              DS 258's 00/20/50/80 lines · the Adaptive Price Line riding the
+ *              last candle with its bar-close countdown · Chart Price's large
+ *              last price, top centre, changing colour with every tick.
+ *
+ * Tom, 2026-09-29: "DS Chart Price ... is a price flickering every tick per
+ * change", the Adaptive Price Line "do[es] not represent the indicators
+ * well", "default position for DS Parallax is on the bottom, 4 spread
+ * evenly", and "DS ProRSI and DS ProStochastics looks nearly identical". The
+ * layers above are redrawn from the products' own showcase recordings.
  *   Utility    the Market Replay days on hand, which DS Bulk Replay
  *              Downloader fetched.
  *
@@ -59,13 +70,14 @@ import { PRODUCTS } from "@/content/products";
  * app/layout.tsx also declares "only dark", the standard's opt-out.
  *
  * The same rules as the chart reader: a drawn illustration, labelled so; no
- * digits, results or outcomes; crisp edges, no glow. content/complete-chart.ts
+ * results or outcomes; crisp edges, no glow. The only figures are the ones
+ * these tools display — an illustrative last price, the bar-close countdown,
+ * the stochastic lanes' settings, a pool's touch count. content/complete-chart.ts
  * fails the build if a product joins the lineup without a layer here.
  */
 
 const TEAL = "#19F2E6";
 const VIOLET = "#B45CFF";
-const STRONG_BULL = "#00FFFF";
 const INK = "#ECEEF1";
 const SLATE = "#A3ABB3";
 const ONLINE = "#2EE884";
@@ -73,10 +85,23 @@ const ONLINE = "#2EE884";
 const A = { grid: 0.045, frame: 0.12, mark: 0.2, faint: 0.32, mute: 0.52 } as const;
 
 const W = 480;
-const PX0 = 34, PX1 = 428, PY0 = 22, PY1 = 292; // the price pane
-const PANEL_H = 46, GAP = 6, P0 = PY1 + 10; // the four Pro panels
-const panelY = (k: number) => P0 + k * (PANEL_H + GAP);
-const RY = panelY(4) + 4; // the replay strip
+const PX0 = 34, PX1 = 428, PY0 = 22;
+const PSB = 292; // the bottom of the price scale: candles and levels live above it
+// DS Parallax sits where it sits by default: four higher-timeframe charts spread
+// evenly along the bottom of the price pane, under the candles.
+const PAR_Y = PSB + 6, PAR_H = 38, PAR_GAP = 8;
+const PY1 = PAR_Y + PAR_H + 4; // the price pane's bottom edge
+// The Pro panels, each titled the way NT8 titles a panel. ProStochastics is
+// taller: its four speeds are four stacked lanes, as in the product.
+const PANELS = [
+  { slug: "prorsi", h: 46 },
+  { slug: "prostochastics", h: 74 },
+  { slug: "prosqueeze", h: 46 },
+  { slug: "promacd", h: 46 },
+] as const;
+const GAP = 6, P0 = PY1 + 10;
+const panelY = (k: number) => P0 + PANELS.slice(0, k).reduce((n, p) => n + p.h + GAP, 0);
+const RY = panelY(PANELS.length) + 4; // the replay strip
 
 // A drawn tape: down into demand, rejected three times under a runway, then up
 // through the Neural Line. Illustration only.
@@ -85,7 +110,7 @@ const LO = 30, HI = 78;
 const N = closes.length;
 const DX = (PX1 - PX0 - 16) / N;
 const xAt = (i: number) => PX0 + 10 + i * DX;
-const yP = (v: number) => PY0 + 8 + (1 - (v - LO) / (HI - LO)) * (PY1 - PY0 - 16);
+const yP = (v: number) => PY0 + 8 + (1 - (v - LO) / (HI - LO)) * (PSB - PY0 - 16);
 const cand = closes.map((c, i) => {
   const o = i ? closes[i - 1] : c + 1.5;
   return { o, c, h: Math.max(o, c) + 1.2 + ((i * 37) % 7) / 3, l: Math.min(o, c) - 1.1 - ((i * 53) % 5) / 3 };
@@ -100,7 +125,60 @@ const smooth = (a: number[], k: number) =>
   });
 const neural = smooth(closes, 5);
 const cross = neural.findIndex((v, i) => i > 4 && closes[i] > v && closes[i - 1] <= neural[i - 1]);
-const last = closes[N - 1];
+
+/* The live last bar. DS Chart Price and DS Adaptive Price Line are about the
+   price moving right now, so the illustration ticks: the last candle's close
+   moves a quarter point at a time, the Chart Price digits change with it —
+   green on an uptick, red on a downtick, amber when the tape chops (the
+   product's own colours) — and the Adaptive Price Line rides it with its
+   bar-close countdown. The price is illustrative, scaled so the drawn tape
+   reads as MNQ; it is not market data. */
+const PRICE_AT_50 = 29400;
+const PT = 2.5; // price per drawing unit
+const toPrice = (v: number) => PRICE_AT_50 + (v - 50) * PT;
+const toV = (price: number) => 50 + (price - PRICE_AT_50) / PT;
+const P_LAST = toPrice(closes[N - 1]);
+const UP = "#46E36B", DOWN = "#FF5A4E", CHOP = "#F2B544";
+type Tape = { price: number; dir: 1 | -1; chop: boolean; secs: number; flips: number[] };
+const TAPE0: Tape = { price: P_LAST, dir: 1, chop: false, secs: 42, flips: [] };
+
+/* ProRSI: a short RSI over the tape (six warm-up bars so it starts settled).
+   ProStochastics: four lanes of four speeds, fast to slow. */
+const rsi = (() => {
+  const x = [60, 61, 59, 62, 60, 61, ...closes];
+  let ag = 0, al = 0;
+  const out: number[] = [];
+  x.forEach((c, i) => {
+    const d = i ? c - x[i - 1] : 0;
+    const g = Math.max(d, 0), l = Math.max(-d, 0);
+    if (i <= 5) { ag += g / 5; al += l / 5; } else { ag = (ag * 4 + g) / 5; al = (al * 4 + l) / 5; }
+    out.push(al === 0 ? 100 : 100 - 100 / (1 + ag / al));
+  });
+  return out.slice(6);
+})();
+const stoch = (len: number, k: number) =>
+  smooth(
+    closes.map((c, i) => {
+      const w = cand.slice(Math.max(0, i - len + 1), i + 1);
+      const lo = Math.min(...w.map((b) => b.l)), hi = Math.max(...w.map((b) => b.h));
+      return ((c - lo) / (hi - lo)) * 100;
+    }),
+    k,
+  );
+// Fast to slow: the fast lane turns with every swing, the slow one only with
+// the whole move. (Labelled with the product's lane settings; the drawing
+// scales them to its 32 bars.)
+const LANES = [
+  { label: "5·3", v: stoch(3, 1) },
+  { label: "14·3", v: stoch(5, 2) },
+  { label: "40·4", v: stoch(10, 3) },
+  { label: "60·10", v: stoch(20, 3) },
+];
+/* ProRSI's level on price: the swing high whose RSI crossover made it, drawn
+   right until price closes through it — and frozen there, as the product does. */
+const RSI_HI = 2;
+const RSI_LVL = Math.max(cand[RSI_HI].h, 64.6);
+const RSI_FREEZE = closes.findIndex((c, i) => i > RSI_HI + 3 && c > RSI_LVL);
 /** Two decimals: server and browser must print the same numbers (hydration). */
 const r2 = (n: number) => Math.round(n * 100) / 100;
 const pts = (a: number[], y: (v: number) => number, from = 0) => a.map((v, i) => `${r2(xAt(i + from))},${r2(y(v))}`).join(" ");
@@ -165,6 +243,40 @@ function useTouch() {
     return () => mq.removeEventListener("change", set);
   }, []);
   return touch;
+}
+
+/** The live last bar: a tick every 0.4–1 s, a quarter or half point at a
+ *  time, pulled back toward where the drawing ends so the candle never
+ *  wanders off; "chop" (amber) = four direction changes in the last five
+ *  ticks; the bar-close countdown runs every second. Seeded, so every visit
+ *  ticks the same way; it only runs while the chart is on screen. */
+function useTape(active: boolean) {
+  const [tape, setTape] = useState<Tape>(TAPE0);
+  useEffect(() => {
+    if (!active) return;
+    let seed = 90217;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    let t = 0;
+    const tick = () => {
+      setTape((s) => {
+        // a tape has some momentum (62% to keep going), and a pull home
+        const drift = s.price - P_LAST;
+        const up = rnd() < (s.dir > 0 ? 0.62 : 0.38) - drift * 0.08;
+        const dir: 1 | -1 = up ? 1 : -1;
+        const size = rnd() < 0.72 ? 0.25 : 0.5;
+        const flips = [...s.flips, dir !== s.dir ? 1 : 0].slice(-5);
+        return { ...s, price: s.price + dir * size, dir, flips, chop: flips.reduce((a, b) => a + b, 0) >= 4 };
+      });
+      t = window.setTimeout(tick, 400 + rnd() * 600);
+    };
+    t = window.setTimeout(tick, 500);
+    const clock = window.setInterval(() => setTape((s) => ({ ...s, secs: s.secs > 0 ? s.secs - 1 : 59 })), 1000);
+    return () => {
+      window.clearTimeout(t);
+      window.clearInterval(clock);
+    };
+  }, [active]);
+  return tape;
 }
 
 /* ------------------------------------------------------------------ card */
@@ -236,6 +348,7 @@ export function CompleteChart({ className = "" }: { className?: string }) {
   }, []);
 
   const touring = touch && !reduced && !stopped && step > BUILD_ORDER.length && onScreen && pageVisible;
+  const tape = useTape(!reduced && step > BUILD_ORDER.length && onScreen && pageVisible);
 
   useEffect(() => {
     if (!touring) return;
@@ -255,9 +368,10 @@ export function CompleteChart({ className = "" }: { className?: string }) {
   // The replay strip sits under its label, whatever size the label is drawn at.
   const stripY = RY + 7 + t(6);
   const H = stripY + 14;
-  // Phones: the 258 tags would crowd the GEX labels at the right edge; the
-  // dotted levels stay, the tags go.
-  const tags258 = fs < 1.3;
+  // Phones: the 258 tags would crowd the GEX labels at the right edge, and the
+  // stochastic lanes' names their lines; the levels and lanes stay, the small
+  // tags go.
+  const roomy = fs < 1.3;
 
   return (
     <div ref={card} className={`border border-line bg-[rgba(14,17,21,0.72)] ${className}`}>
@@ -296,7 +410,7 @@ export function CompleteChart({ className = "" }: { className?: string }) {
         </noscript>
         {/* the chart window's ground is HTML, not SVG (see "never grey") */}
         <div className="rounded-[5px] border border-line bg-[#0B0E12]">
-          <Drawing t={t} H={H} stripY={stripY} tags258={tags258} />
+          <Drawing t={t} H={H} stripY={stripY} roomy={roomy} tape={tape} />
         </div>
       </div>
 
@@ -400,7 +514,50 @@ function StepButton({ label, onClick, flip = false }: { label: string; onClick: 
 
 /* --------------------------------------------------------------- drawing */
 
-function Drawing({ t, H, stripY, tags258 }: { t: (n: number) => number; H: number; stripY: number; tags258: boolean }) {
+/** An oscillator line that takes the colour of the zone it is in: violet above
+ *  `hi`, teal below `lo`, ink between (segment by segment, no clip paths). */
+function Segments({ values, y, hi, lo, width }: { values: number[]; y: (v: number) => number; hi: number; lo: number; width: number }) {
+  return (
+    <g strokeWidth={width} strokeLinecap="round">
+      {values.slice(1).map((v, i) => {
+        const a = values[i];
+        const c = a > hi && v > hi ? VIOLET : a < lo && v < lo ? TEAL : INK;
+        return <line key={i} x1={r2(xAt(i))} x2={r2(xAt(i + 1))} y1={r2(y(a))} y2={r2(y(v))} stroke={c} strokeOpacity={c === INK ? 0.8 : 1} />;
+      })}
+    </g>
+  );
+}
+
+/** DS Parallax's four minis: each timeframe's closes (its own scale) and its
+ *  liquidity pools, anchored to a swing — buy-side at a high, sell-side at a
+ *  low — with a touch count; a pool price has since run through is swept and
+ *  ghosts out. Drawn, not market data. */
+type Pool = { side: "buy" | "sell"; from: number; touches: number; swept?: boolean };
+const MINI_RAW: { tf: string; c: number[]; pools: Pool[] }[] = [
+  { tf: "15m", c: [0.32, 0.36, 0.29, 0.41, 0.46, 0.42, 0.56, 0.62, 0.7], pools: [{ side: "sell", from: 2, touches: 2 }] },
+  { tf: "1h", c: [0.72, 0.52, 0.36, 0.3, 0.38, 0.46, 0.5, 0.63, 0.74], pools: [{ side: "sell", from: 3, touches: 2 }, { side: "buy", from: 0, touches: 1, swept: true }] },
+  { tf: "4h", c: [0.76, 0.6, 0.68, 0.5, 0.56, 0.42, 0.5, 0.45, 0.53], pools: [{ side: "buy", from: 0, touches: 2 }, { side: "sell", from: 5, touches: 1 }] },
+  { tf: "1D", c: [0.8, 0.7, 0.62, 0.67, 0.5, 0.56, 0.46, 0.41, 0.38], pools: [{ side: "buy", from: 3, touches: 2 }, { side: "sell", from: 7, touches: 1, swept: true }] },
+];
+const MINIS = MINI_RAW.map((m) => {
+  const raw = m.c.map((c, i) => {
+    const o = i ? m.c[i - 1] : c + 0.03;
+    return { o, c, h: Math.max(o, c) + 0.045, l: Math.min(o, c) - 0.045 };
+  });
+  const lo = Math.min(...raw.map((b) => b.l)) - 0.03, hi = Math.max(...raw.map((b) => b.h)) + 0.03;
+  const n = (v: number) => (v - lo) / (hi - lo);
+  const bars = raw.map((b) => ({ o: n(b.o), c: n(b.c), h: n(b.h), l: n(b.l) }));
+  const pools = m.pools.map((pl) => ({ ...pl, at: pl.side === "buy" ? bars[pl.from].h : bars[pl.from].l }));
+  return { tf: m.tf, bars, pools };
+});
+
+function Drawing({ t, H, stripY, roomy, tape }: { t: (n: number) => number; H: number; stripY: number; roomy: boolean; tape: Tape }) {
+  // The last candle follows the tape; every other candle is fixed.
+  const vNow = toV(tape.price);
+  const bars = cand.map((c, i) => (i < N - 1 ? c : { o: c.o, c: vNow, h: Math.max(c.h, c.o, vNow), l: Math.min(c.l, c.o, vNow) }));
+  const priceColour = tape.chop ? CHOP : tape.dir > 0 ? UP : DOWN;
+  const xLast = xAt(N - 1);
+  const clock = `00:${String(tape.secs).padStart(2, "0")}`;
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" role="img" aria-label="Every DS Universe product drawn together on one NinjaTrader chart (illustration)">
       <defs>
@@ -428,7 +585,7 @@ function Drawing({ t, H, stripY, tags258 }: { t: (n: number) => number; H: numbe
         {([[70, "80"], [58, "50"], [46, "20"], [34, "00"]] as const).map(([v, tag]) => (
           <g key={tag}>
             <line x1={PX0} x2={PX1} y1={yP(v)} y2={yP(v)} stroke={INK} strokeOpacity="0.16" strokeDasharray="1 3" />
-            {tags258 && (
+            {roomy && (
               <text x={PX1 - 2} y={yP(v) - 2} textAnchor="end" className="font-mono" fontSize={t(6)} fill={INK} fillOpacity={A.faint}>
                 {tag}
               </text>
@@ -436,29 +593,59 @@ function Drawing({ t, H, stripY, tags258 }: { t: (n: number) => number; H: numbe
           </g>
         ))}
       </L>
+      {/* DS Parallax, in its default place: four higher-timeframe charts spread
+          evenly along the bottom of the price pane, each marking its resting
+          stops — buy-side above the highs, sell-side below the lows; the
+          touch count sets the line weight; a swept level ghosts out. */}
       <L p="parallax">
-        <g transform={`translate(${PX0 + 6} ${PY0 + 4})`}>
-          {[0, 1, 2, 3].map((k) => (
-            <g key={k} transform={`translate(${(k % 2) * 46} ${Math.floor(k / 2) * 30})`}>
-              <path d={box(0.5, 0.5, 41, 25)} fill={INK} fillOpacity="0.02" stroke={INK} strokeOpacity={A.frame} />
-              {[0, 1, 2, 3, 4, 5].map((j) => {
-                const hh = 4 + ((j * 7 + k * 5) % 9);
-                return <path key={j} d={box(5 + j * 6, 20 - hh - ((j + k) % 3) * 2, 3, hh)} fill={INK} fillOpacity={A.mark} />;
+        {MINIS.map((m, k) => {
+          const w = (PX1 - PX0 - 12 - 3 * PAR_GAP) / 4;
+          const x0 = PX0 + 6 + k * (w + PAR_GAP);
+          const top = PAR_Y + 5 + t(4.6);
+          const bot = PAR_Y + PAR_H - 4;
+          const my = (f: number) => r2(bot - f * (bot - top));
+          const cw = (w - 10) / m.bars.length;
+          const cx = (i: number) => x0 + 5 + (i + 0.5) * cw;
+          return (
+            <g key={m.tf}>
+              <path d={box(x0 + 0.5, PAR_Y + 0.5, w - 1, PAR_H - 1)} fill={INK} fillOpacity="0.02" stroke={INK} strokeOpacity={A.frame} />
+              <text x={x0 + 3} y={PAR_Y + 2 + t(4.6)} className="font-mono" fontSize={t(4.6)} letterSpacing="0.6" fill={INK} fillOpacity={A.mute}>
+                {`NQ · ${m.tf}`}
+              </text>
+              {m.pools.map((pl, q) => {
+                const c = pl.side === "buy" ? TEAL : VIOLET;
+                const y = my(pl.at);
+                return (
+                  <g key={q}>
+                    <line x1={cx(pl.from) - cw * 0.3} x2={x0 + w - 3} y1={y} y2={y} stroke={c} strokeOpacity={pl.swept ? 0.35 : 0.85} strokeWidth={pl.touches > 1 ? 1.2 : 0.7} strokeDasharray={pl.swept ? "2 2" : undefined} />
+                    {!pl.swept && pl.touches > 1 && (
+                      <text x={x0 + w - 3} y={pl.side === "buy" ? y - 1.5 : y + 1.5 + t(4)} textAnchor="end" className="font-mono" fontSize={t(4)} fill={c}>
+                        {`×${pl.touches}`}
+                      </text>
+                    )}
+                  </g>
+                );
               })}
-              <line x1="3" x2="39" y1={k % 2 ? 5 : 21} y2={k % 2 ? 5 : 21} stroke={k % 2 ? VIOLET : TEAL} strokeOpacity={k % 2 ? 0.8 : 0.6} strokeDasharray="2 2" />
+              {m.bars.map((b, i) => {
+                const up = b.c >= b.o;
+                const c = up ? TEAL : VIOLET;
+                return (
+                  <g key={i}>
+                    <line x1={r2(cx(i))} x2={r2(cx(i))} y1={my(b.h)} y2={my(b.l)} stroke={c} strokeOpacity="0.75" />
+                    <path d={box(cx(i) - cw * 0.26, my(Math.max(b.o, b.c)), cw * 0.52, Math.max(0.8, my(Math.min(b.o, b.c)) - my(Math.max(b.o, b.c))))} fill={c} fillOpacity="0.85" />
+                  </g>
+                );
+              })}
             </g>
-          ))}
-        </g>
+          );
+        })}
       </L>
+      {/* DS Chart Price: the last price, large, top centre, changing on every
+          tick — green up, red down, amber when the tape chops. */}
       <L p="chart-price">
-        <g transform={`translate(${(PX0 + PX1) / 2 - 20} ${PY0 + 4})`}>
-          <path d={box(0.5, 0.5, 87, 21)} fill="none" stroke={INK} strokeOpacity={A.frame} />
-          <text x="6" y="9" className="font-mono" fontSize="5.5" letterSpacing="1" fill={INK} fillOpacity={A.faint}>
-            LAST
-          </text>
-          <path d="M 8 18 L 12 12.5 L 16 18 Z" fill={TEAL} />
-          <path d={box(21, 12, 60, 6)} fill={TEAL} fillOpacity="0.85" />
-        </g>
+        <text x={(PX0 + PX1) / 2} y={PY0 + 2 + t(13)} textAnchor="middle" className="font-mono" fontSize={t(13)} fontWeight="600" letterSpacing="0.4" fill={priceColour}>
+          {tape.price.toFixed(2)}
+        </text>
       </L>
       <L p="toolkit">
         <g transform="translate(6 22)">
@@ -523,7 +710,7 @@ function Drawing({ t, H, stripY, tags258 }: { t: (n: number) => number; H: numbe
 
       {/* the price itself — not a layer; it is always there */}
       <g>
-        {cand.map((c, i) => {
+        {bars.map((c, i) => {
           const x = xAt(i);
           const a = c.c >= c.o ? 0.62 : 0.3;
           return (
@@ -535,44 +722,91 @@ function Drawing({ t, H, stripY, tags258 }: { t: (n: number) => number; H: numbe
         })}
       </g>
 
-      {/* drawn over the candles: the price line rides the last bar, its tag
-          carrying the bar-close countdown as a filling bar */}
+      {/* DS Adaptive Price Line: anchored to the last candle — a ring at the
+          price, the bar-close countdown riding the line, then the line on to
+          the edge of the chart. It moves with every tick. */}
       <L p="adaptive-priceline">
-        <line x1={xAt(N - 1) + 4} x2={PX1 + 2} y1={yP(last)} y2={yP(last)} stroke={TEAL} />
-        <path d={box(PX1 + 2.5, yP(last) - 4, 33, 8)} fill={TEAL} fillOpacity="0.16" stroke={TEAL} />
-        <path d={box(PX1 + 5, yP(last) - 1.5, 20, 3)} fill={TEAL} />
+        {(() => {
+          const y = r2(yP(vNow));
+          const fsz = t(5.2);
+          const bx = xLast + 12;
+          const bw = r2(fsz * 0.62 * clock.length + 6);
+          const bh = r2(fsz + 4);
+          return (
+            <>
+              <path d={dot(xLast + 7, y, 1.9)} fill="none" stroke={TEAL} strokeOpacity="0.9" />
+              <line x1={xLast + 9} x2={bx} y1={y} y2={y} stroke={TEAL} strokeOpacity="0.7" />
+              <path d={box(bx + 0.5, y - bh / 2, bw, bh)} fill="none" stroke={TEAL} strokeOpacity="0.8" />
+              <text x={bx + 0.5 + bw / 2} y={y + fsz * 0.36} textAnchor="middle" className="font-mono" fontSize={fsz} fill={INK} fillOpacity="0.9">
+                {clock}
+              </text>
+              <line x1={bx + bw + 0.5} x2={W - 3} y1={y} y2={y} stroke={TEAL} strokeOpacity="0.7" />
+            </>
+          );
+        })()}
       </L>
 
       {/* ------------------------------------------------------ Pro Series */}
+      {/* DS ProRSI on the price pane: the level its crossover made, anchored
+          to the swing high, drawn right until price closed through it — and
+          frozen there. */}
       <L p="prorsi">
-        <line x1={xAt(13)} x2={PX1} y1={yP(cand[13].l)} y2={yP(cand[13].l)} stroke={TEAL} strokeOpacity="0.6" strokeDasharray="4 2" />
-        <path d={dot(xAt(13), yP(cand[13].l), 1.8)} fill={TEAL} fillOpacity="0.8" />
+        <line x1={xAt(RSI_HI)} x2={xAt(RSI_FREEZE)} y1={yP(RSI_LVL)} y2={yP(RSI_LVL)} stroke={VIOLET} strokeOpacity="0.85" />
+        <path d={dot(xAt(RSI_HI), yP(RSI_LVL), 1.8)} fill={VIOLET} />
+        <line x1={xAt(RSI_FREEZE)} x2={xAt(RSI_FREEZE)} y1={yP(RSI_LVL) - 3} y2={yP(RSI_LVL) + 3} stroke={VIOLET} />
+        <text x={xAt(RSI_HI) + 5} y={yP(RSI_LVL) - 3} className="font-mono" fontSize={t(5)} letterSpacing="0.8" fill={VIOLET}>
+          RSI LEVEL
+        </text>
       </L>
-      {(["prorsi", "prostochastics", "prosqueeze", "promacd"] as const).map((slug, k) => {
+      {PANELS.map(({ slug, h: ph }, k) => {
         const y0 = panelY(k);
-        const yy = (f: number) => y0 + 10 + (1 - f) * (PANEL_H - 15);
+        const yy = (f: number) => y0 + 10 + (1 - f) * (ph - 15);
         let body: ReactNode = null;
         if (slug === "prorsi") {
-          const rsi = closes.map((c) => (c - LO) / (HI - LO));
+          // DS ProRSI: ONE line in a scale with its extremes shaded — violet
+          // above 70, teal below 30 — the line taking the colour of the zone
+          // it is in, and its signal line alongside.
+          const yr = (v: number) => yy(v / 100);
           body = (
             <>
-              <line x1={PX0} x2={PX1} y1={yy(0.5)} y2={yy(0.5)} stroke={INK} strokeOpacity={A.frame} strokeDasharray="2 3" />
-              <polyline points={pts(rsi, yy)} fill="none" stroke={TEAL} strokeWidth="1.25" />
-              <polyline points={pts(smooth(rsi, 4), yy)} fill="none" stroke={VIOLET} strokeOpacity="0.8" />
+              <path d={box(PX0 + 1, yr(100), PX1 - PX0 - 2, yr(70) - yr(100))} fill={VIOLET} fillOpacity="0.07" />
+              <path d={box(PX0 + 1, yr(30), PX1 - PX0 - 2, yr(0) - yr(30))} fill={TEAL} fillOpacity="0.07" />
+              {[70, 30].map((v) => (
+                <line key={v} x1={PX0} x2={PX1} y1={yr(v)} y2={yr(v)} stroke={v > 50 ? VIOLET : TEAL} strokeOpacity="0.3" strokeDasharray="2 3" />
+              ))}
+              <polyline points={pts(smooth(rsi, 4), yr)} fill="none" stroke={CHOP} strokeOpacity="0.55" />
+              <Segments values={rsi} y={yr} hi={70} lo={30} width={1.25} />
             </>
           );
         } else if (slug === "prostochastics") {
+          // DS ProStochastics: FOUR speeds as four stacked lanes, fast on top,
+          // each named by its settings; the quad latch along the bottom lights
+          // where three or more lanes agree.
+          const laneTop = y0 + 4 + t(6);
+          const laneH = (y0 + ph - 7 - laneTop) / LANES.length;
           body = (
             <>
-              {[2, 4, 7, 11].map((s, j) => (
-                <polyline
-                  key={s}
-                  points={pts(smooth(closes, s).map((v) => Math.min(1, Math.max(0, ((v - LO) / (HI - LO)) * 1.1 - 0.05))), yy)}
-                  fill="none"
-                  stroke={j === 0 ? STRONG_BULL : TEAL}
-                  strokeOpacity={[1, 0.8, 0.55, 0.35][j]}
-                />
-              ))}
+              {LANES.map((ln, j) => {
+                const ly0 = laneTop + j * laneH;
+                const ly = (v: number) => ly0 + 1.5 + (1 - v / 100) * (laneH - 3);
+                return (
+                  <g key={ln.label}>
+                    {j > 0 && <line x1={PX0 + 1} x2={PX1 - 1} y1={ly0} y2={ly0} stroke={INK} strokeOpacity={A.grid * 1.6} />}
+                    <Segments values={ln.v} y={ly} hi={80} lo={20} width={0.9} />
+                    {roomy && (
+                      <text x={PX1 - 3} y={ly0 + laneH / 2 + t(4.2) * 0.36} textAnchor="end" className="font-mono" fontSize={t(4.2)} fill={INK} fillOpacity={A.mute}>
+                        {ln.label}
+                      </text>
+                    )}
+                  </g>
+                );
+              })}
+              {closes.map((_, i) => {
+                const hi = LANES.filter((ln) => ln.v[i] > 70).length;
+                const lo = LANES.filter((ln) => ln.v[i] < 30).length;
+                const c = hi >= 3 ? VIOLET : lo >= 3 ? TEAL : null;
+                return <path key={`q${i}`} d={box(xAt(i) - DX / 2 + 0.3, y0 + ph - 4.5, DX - 0.6, 2.5)} fill={c ?? INK} fillOpacity={c ? 0.85 : A.grid * 2} />;
+              })}
             </>
           );
         } else if (slug === "prosqueeze") {
@@ -585,7 +819,7 @@ function Drawing({ t, H, stripY, tags258 }: { t: (n: number) => number; H: numbe
               })}
               {closes.map((_, i) => {
                 const on = i >= 8 && i <= 18;
-                return <path key={`d${i}`} d={box(xAt(i) - 1.5, y0 + PANEL_H - 5, 3, 3)} fill={INK} fillOpacity={on ? 0.85 : A.mark} />;
+                return <path key={`d${i}`} d={box(xAt(i) - 1.5, y0 + ph - 5, 3, 3)} fill={INK} fillOpacity={on ? 0.85 : A.mark} />;
               })}
             </>
           );
@@ -601,14 +835,14 @@ function Drawing({ t, H, stripY, tags258 }: { t: (n: number) => number; H: numbe
               })}
               {f.map((v, i) => {
                 const d = v - s[i];
-                return <path key={`r${i}`} d={box(xAt(i) - DX / 2, y0 + PANEL_H - 4, DX - 0.5, 2.5)} fill={d > 0 ? TEAL : VIOLET} fillOpacity={Math.abs(d) > 2 ? 1 : 0.5} />;
+                return <path key={`r${i}`} d={box(xAt(i) - DX / 2, y0 + ph - 4, DX - 0.5, 2.5)} fill={d > 0 ? TEAL : VIOLET} fillOpacity={Math.abs(d) > 2 ? 1 : 0.5} />;
               })}
             </>
           );
         }
         return (
           <g key={slug}>
-            <path d={box(PX0 + 0.5, y0 + 0.5, PX1 - PX0 - 1, PANEL_H - 1)} fill="none" stroke={INK} strokeOpacity={A.frame} />
+            <path d={box(PX0 + 0.5, y0 + 0.5, PX1 - PX0 - 1, ph - 1)} fill="none" stroke={INK} strokeOpacity={A.frame} />
             <L p={slug}>
               <text x={PX0 + 5} y={y0 + 3 + t(6)} className="font-mono" fontSize={t(6)} letterSpacing="0.9" fill={INK} fillOpacity={A.mute}>
                 {NAME_OF[slug].toUpperCase()}
