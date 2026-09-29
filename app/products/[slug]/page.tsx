@@ -14,6 +14,7 @@ import { BY_SLUG, KIND_LABEL, PRODUCTS } from "@/content/products";
 import { COVER_RATIO, boxartFor, isReleased, seriesMates, SHELVES } from "@/content/release";
 import { BOARD_GROUND, shotsFor } from "@/content/shots";
 import { CHART_GROUND, CHART_H, CHART_W, chartsFor } from "@/content/charts";
+import { showcaseFor } from "@/content/showcase";
 import { listingCopyFor } from "@/content/listing-copy";
 import { APART, COMPLETE, FOUNDERS, money, priceFor, seriesInfo } from "@/content/pricing";
 import { DISCLOSURE, SITE } from "@/content/site";
@@ -41,12 +42,26 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const shots = shotsFor(p.slug);
   const charts = chartsFor(p.slug);
   const listingCopy = listingCopyFor(p.slug);
+  const showcase = showcaseFor(p.slug);
 
   // ON THE CHART leads the page — the product as it looks on a real chart
   // (Tom, 2026-09-21). The annotated product-guide boards follow the body, as
   // the reading. A product with no chart of its own (the data utility) leads
   // with its boards instead.
-  const chartSlides = charts.map((c) => ({
+  // THE SHOWCASE RECORDING leads that first gallery (2026-09-28): the product
+  // moving on a chart, then the stills.
+  const showcaseSlide = showcase
+    ? {
+        src: showcase.src,
+        w: showcase.w,
+        h: showcase.h,
+        blur: showcase.blur,
+        title: showcase.caption,
+        alt: `${p.name} — a screen recording of the software running`,
+        video: { src: showcase.src, srcSmall: showcase.srcSmall, poster: showcase.poster, seconds: showcase.seconds },
+      }
+    : null;
+  const stillSlides = charts.map((c) => ({
     src: c.src,
     w: CHART_W,
     h: CHART_H,
@@ -54,7 +69,8 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
     title: c.caption,
     alt: `${p.name} on a NinjaTrader 8 chart — ${c.caption}`,
   }));
-  const boardSlides = shots.map((b) => ({
+  const chartSlides = showcaseSlide && stillSlides.length ? [showcaseSlide, ...stillSlides] : stillSlides;
+  const guideSlides = shots.map((b) => ({
     src: b.src,
     w: b.w,
     h: b.h,
@@ -63,10 +79,14 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
     alt: `${p.name} product guide — ${b.caption}`,
   }));
   const boardRatio = shots[0] ? shots[0].w / shots[0].h : 1;
+  // A product with no chart of its own leads with its boards — and with its
+  // recording in front of them, when it has one (it is made in the boards' shape).
+  const leadsWithGuide = chartSlides.length === 0;
+  const boardSlides = leadsWithGuide && showcaseSlide ? [showcaseSlide, ...guideSlides] : guideSlides;
   // The risk line travels with the FIRST pictures on the page — once, not per gallery.
   const riskLine = (
     <>
-      {DISCLOSURE.chart}{" "}
+      {showcase ? DISCLOSURE.showcase : DISCLOSURE.chart}{" "}
       <Link href="/disclosures" className="whitespace-nowrap text-slate underline decoration-line underline-offset-4 hover:decoration-gold">
         Risk disclosures
       </Link>
@@ -127,8 +147,8 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         boardSlides.length > 0 && (
           <section className="wrap -mt-16 lg:-mt-24" aria-label={`${p.name} product guide`}>
             <Reveal>
-              <p className="label mb-4">Product guide</p>
-              <Gallery slides={boardSlides} ratio={boardRatio} ground={BOARD_GROUND} label={`${p.name} product guide`} mode="read" priority footnote={riskLine} />
+              <p className="label mb-4">{showcase ? "In action" : "Product guide"}</p>
+              <Gallery slides={boardSlides} ratio={boardRatio} ground={BOARD_GROUND} label={`${p.name} ${showcase ? "in action" : "product guide"}`} mode="read" priority footnote={riskLine} />
             </Reveal>
           </section>
         )

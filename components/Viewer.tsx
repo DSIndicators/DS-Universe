@@ -52,7 +52,14 @@ export type ViewerSlide = {
    * enlarging costs no second download. Only the CURRENT slide's video is
    * mounted — neighbours show the poster — so nothing plays off screen.
    */
-  video?: { src: string; poster: string };
+  video?: {
+    src: string;
+    poster: string;
+    /** a lighter cut for phones and saveData (the gallery tile uses it) */
+    srcSmall?: string;
+    /** length, for the "Recording · 15 s" label */
+    seconds?: number;
+  };
 };
 
 /* "A phone on its side" = any screen under 500px tall. Written out in full in
@@ -276,9 +283,25 @@ export function Viewer({
                   ) : (
                     <div
                       className="relative mx-auto w-full"
-                      style={{ aspectRatio: String(s.w / s.h), maxWidth: s.w, ...(s.blur && !seen.has(n) ? blurBg(s.blur) : {}) }}
+                      style={{ aspectRatio: String(s.w / s.h), maxWidth: s.w, ...(s.video ? posterBg(s.video.poster) : s.blur && !seen.has(n) ? blurBg(s.blur) : {}) }}
                     >
-                      {seen.has(n) && (
+                      {s.video ? (
+                        n === index && (
+                          <video
+                            src={s.video.src}
+                            poster={s.video.poster}
+                            aria-label={s.alt}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            controls
+                            controlsList="nodownload"
+                            disablePictureInPicture
+                            className="absolute inset-0 h-full w-full object-contain"
+                          />
+                        )
+                      ) : seen.has(n) && (
                         <Image
                           src={s.src}
                           alt={s.alt}

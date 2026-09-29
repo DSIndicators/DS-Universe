@@ -27,6 +27,14 @@ import { Chevron, Expand, Viewer, type ViewerSlide } from "@/components/Viewer";
  * ARIA: the WAI-ARIA APG carousel pattern — a labelled region with
  * aria-roledescription "carousel", slides as labelled groups, and the position
  * announced politely only after the visitor moves it.
+ *
+ * A SLIDE CAN BE A RECORDING (`slide.video`, the product showcases, 2026-09-28).
+ * It plays muted and inline only while it is the current slide AND the stage is
+ * on screen AND the tab is visible; it loops; the visitor can pause it (WCAG
+ * 2.2.2 — anything that moves for more than five seconds gets a pause). With
+ * prefers-reduced-motion it starts paused on its first frame. The file is
+ * picked after mount (the lighter cut on phones and saveData), so the server
+ * HTML carries only the poster — which is frame 0, so nothing jumps.
  */
 export function Gallery({
   slides,
@@ -54,8 +62,36 @@ export function Gallery({
   const [moved, setMoved] = useState(false);
   const [seen, setSeen] = useState<Set<number>>(() => new Set([0, 1]));
   const track = useRef<HTMLDivElement>(null);
+  const stage = useRef<HTMLDivElement>(null);
   const count = slides.length;
   const many = count > 1;
+  const hasVideo = slides.some((s) => s.video);
+
+  // Recording state: on screen, tab visible, visitor's own pause, and what the
+  // video element itself reports (the label follows the element, not the click).
+  const [onScreen, setOnScreen] = useState(false);
+  const [tabVisible, setTabVisible] = useState(true);
+  const [held, setHeld] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [kick, setKick] = useState(0);
+  const [small, setSmall] = useState<boolean | null>(null);
+  useEffect(() => {
+    if (!hasVideo) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    setSmall(window.matchMedia("(max-width: 767px)").matches || !!conn?.saveData);
+    if (reduce) setHeld(true);
+    const el = stage.current;
+    const io = el ? new IntersectionObserver(([e]) => setOnScreen(e.isIntersecting && e.intersectionRatio >= 0.35), { threshold: [0, 0.35, 0.6] }) : null;
+    if (el && io) io.observe(el);
+    const vis = () => setTabVisible(document.visibilityState === "visible");
+    document.addEventListener("visibilitychange", vis);
+    return () => {
+      io?.disconnect();
+      document.removeEventListener("visibilitychange", vis);
+    };
+  }, [hasVideo]);
+  const current = slides[i];
 
   useEffect(() => {
     setSeen((s) => {
@@ -112,7 +148,7 @@ export function Gallery({
   return (
     <div role="region" aria-roledescription="carousel" aria-label={label}>
       {/* ------------------------------------------------------------ stage */}
-      <div className="group/stage relative overflow-hidden rounded-2xl border border-line shadow-monitor" style={{ background: ground }}>
+      <div ref={stage} className="group/stage relative overflow-hidden rounded-2xl border border-line shadow-monitor" style={{ background: ground }}>
         <div
           ref={track}
           onScroll={onScroll}
@@ -148,9 +184,23 @@ export function Gallery({
                 aria-haspopup="dialog"
                 aria-label={`Enlarge: ${s.alt}`}
                 className="absolute inset-0 block cursor-zoom-in outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold"
-                style={s.blur && !seen.has(n) ? { backgroundImage: `url("${s.blur}")`, backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat" } : undefined}
+                style={
+                  s.video
+                    ? { backgroundImage: `url("${s.video.poster}")`, backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat" }
+                    : s.blur && !seen.has(n)
+                      ? { backgroundImage: `url("${s.blur}")`, backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat" }
+                      : undefined
+                }
               >
-                {seen.has(n) && (
+                {s.video ? (
+                  <Recording
+                    video={s.video}
+                    small={small}
+                    run={n === i && onScreen && tabVisible && !held && !open}
+                    kick={kick}
+                    onPlaying={(p) => n === i && setPlaying(p)}
+                  />
+                ) : seen.has(n) && (
                   <Image
                     src={s.src}
                     alt={s.alt}
@@ -175,6 +225,23 @@ export function Gallery({
           <span className="hidden sm:inline">Enlarge</span>
         </span>
 
+        {/* Pause / Play — only while the current slide is a recording */}
+        {current?.video && (
+          <button
+            type="button"
+            onClick={() => {
+              // a real click can start playback even where autoplay was refused
+              setHeld(playing);
+              if (!playing) setKick((k) => k + 1);
+            }}
+            aria-label={playing ? "Pause the recording" : "Play the recording"}
+            className="absolute bottom-2.5 left-2.5 inline-flex h-7 items-center gap-1.5 rounded-full bg-ground/75 px-2.5 text-[12px] font-medium text-ink shadow-card ring-1 ring-white/15 backdrop-blur-sm transition-colors hover:ring-white/30 sm:bottom-3 sm:left-3 sm:h-8 sm:px-3"
+          >
+            {playing ? <PauseIcon /> : <PlayIcon />}
+            <span>{playing ? "Pause" : "Play"}</span>
+          </button>
+        )}
+
         {/* arrows — for a mouse; a finger or trackpad just swipes */}
         {many && (
           <>
@@ -195,6 +262,11 @@ export function Gallery({
               className={`[grid-area:1/1] text-[13.5px] leading-relaxed text-slate ${n === i ? "" : "invisible"}`}
               aria-hidden={n !== i}
             >
+              {s.video && (
+                <span className="mr-2.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-gold">
+                  Recording{s.video.seconds ? ` · ${s.video.seconds} s` : ""}
+                </span>
+              )}
               {s.title}
             </p>
           ))}
@@ -231,7 +303,12 @@ export function Gallery({
               }`}
               style={{ background: ground, aspectRatio: String(ratio) }}
             >
-              <Image src={s.src} alt="" fill sizes="136px" className="object-contain" loading="lazy" />
+              <Image src={s.video ? s.video.poster : s.src} alt="" fill sizes="136px" className="object-contain" loading="lazy" />
+              {s.video && (
+                <span className="absolute bottom-1 left-1 grid h-5 w-5 place-items-center rounded-full bg-ground/80 text-ink ring-1 ring-white/15">
+                  <PlayIcon className="h-2.5 w-2.5" />
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -250,6 +327,68 @@ export function Gallery({
         label={label}
       />
     </div>
+  );
+}
+
+/**
+ * The recording on a slide. `run` is the whole decision (current slide, stage on
+ * screen, tab visible, not paused, viewer closed); the element reports back
+ * through onPlaying so the Pause/Play label can never disagree with it.
+ */
+function Recording({
+  video,
+  small,
+  run,
+  kick,
+  onPlaying,
+}: {
+  video: NonNullable<ViewerSlide["video"]>;
+  small: boolean | null;
+  run: boolean;
+  kick: number;
+  onPlaying: (p: boolean) => void;
+}) {
+  const ref = useRef<HTMLVideoElement>(null);
+  // the file is chosen once the viewport is known; until then only the poster shows
+  const src = small === null ? undefined : small && video.srcSmall ? video.srcSmall : video.src;
+  useEffect(() => {
+    const v = ref.current;
+    if (!v || !src) return;
+    if (run) v.play().catch(() => onPlaying(false));
+    else v.pause();
+  }, [run, src, kick]);
+  return (
+    <video
+      ref={ref}
+      src={src}
+      poster={video.poster}
+      muted
+      loop
+      playsInline
+      preload={run ? "auto" : "metadata"}
+      disablePictureInPicture
+      aria-hidden="true"
+      tabIndex={-1}
+      onPlay={() => onPlaying(true)}
+      onPause={() => onPlaying(false)}
+      className="absolute inset-0 h-full w-full object-contain"
+    />
+  );
+}
+
+function PlayIcon({ className = "h-3 w-3" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 12 12" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M3 1.8v8.4L10 6z" />
+    </svg>
+  );
+}
+
+function PauseIcon({ className = "h-3 w-3" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 12 12" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M2.5 1.8h2.4v8.4H2.5zM7.1 1.8h2.4v8.4H7.1z" />
+    </svg>
   );
 }
 
