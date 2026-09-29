@@ -156,6 +156,8 @@ export const COMPLETE = {
   whopAnchor: 749.9,
   blurb:
     "Every DS Universe product — the flagship indicators, the Pro Series panels, the data utility, and the free essentials with the rail that runs them — in one permanent license.",
+  /** The one line beside the DS Complete chart (CompleteKeystone.tsx). */
+  lede: "Every DS Universe product, built to run together on one chart — in one permanent license.",
   /** The four hooks from the sheet, minus the count. */
   points: [
     "Every product, one purchase",
@@ -163,6 +165,7 @@ export const COMPLETE = {
     "Each product keeps its own permanent license",
     "Built to run together on one chart",
   ],
+  /** The box render — the Whop listing's art. The site shows the drawn chart instead (2026-09-29). */
   art: "/boxart/0920/complete-v2.webp",
 } as const;
 
@@ -172,9 +175,10 @@ export const COMPLETE = {
  * the sale will complete. make it more know that its a $749.90 value").
  *
  * ONE SWITCH. Every mention of the sale on the site reads this object: the
- * strip across the DS Complete panel, the "founders price" label, the note
- * under its button, the /products price row and the line on every product
- * page. When the sale ends, set `active: false` (and update COMPLETE.now /
+ * strip across the DS Complete panel, the "founders price" label, the
+ * button's words, the /products price row and the line on every product page
+ * (the note under the button was dropped on 2026-09-29 when the panel was
+ * dialed down — the strip already says it). When the sale ends, set `active: false` (and update COMPLETE.now /
  * whopAnchor to the new Whop price) — nothing else needs touching.
  *
  * HONEST URGENCY. There is no end date, so there is no countdown and no date
@@ -188,8 +192,6 @@ export const FOUNDERS = {
   name: "Founders Sale",
   /** Across the top of the DS Complete panel. */
   strip: "50% off DS Complete — the founders price won't last",
-  /** Under the buy button. */
-  note: "Founders pricing is temporary and ends without a set date. After it, DS Complete costs more. Buy during the sale and it is yours at this price for good, updates included.",
   /** The buy button's words while the store is open. */
   cta: "Buy at the founders price",
 } as const;
