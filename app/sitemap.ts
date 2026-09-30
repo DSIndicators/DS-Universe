@@ -2,11 +2,13 @@ import type { MetadataRoute } from "next";
 import { PRODUCTS } from "@/content/products";
 import { isReleased } from "@/content/release";
 import { SITE } from "@/content/site";
+import { trialProducts } from "@/content/trial";
 
 /** Only pages that actually exist: unreleased products 404, so they stay out. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const fixed = ["", "/products", "/ninjatrader", "/about", "/contact", "/terms", "/disclosures"];
+  // /trial exists only while the 3-day free trial is on (content/trial.ts).
+  const fixed = ["", "/products", ...(trialProducts().length ? ["/trial"] : []), "/ninjatrader", "/about", "/contact", "/terms", "/disclosures"];
   return [
     ...fixed.map((path) => ({
       url: `${SITE.url}${path}`,

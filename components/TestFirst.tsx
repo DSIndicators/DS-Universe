@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { NT_ASSETS, NT_LINKS } from "@/content/ninjatrader";
+import { TrialTestNote } from "@/components/Trial";
 
 /**
  * "Test it on your own charts first" — on every product page, under the price.
@@ -20,7 +21,7 @@ import { NT_ASSETS, NT_LINKS } from "@/content/ninjatrader";
  * throwaway: it is the plain-English half of the hypothetical performance
  * disclosure the footer carries in full.
  */
-export function TestFirst({ productName }: { productName: string }) {
+export function TestFirst({ productName, slug }: { productName: string; slug?: string }) {
   const steps = [
     {
       n: "01",
@@ -79,6 +80,9 @@ export function TestFirst({ productName }: { productName: string }) {
                 About the simulator
               </a>
             </div>
+            {/* A product with a 3-day free trial (2026-09-29): the trial is
+                exactly the time to do what this section recommends. */}
+            {slug && <TrialTestNote slug={slug} name={productName} />}
           </div>
 
           <div className="lg:col-span-6 lg:col-start-7">

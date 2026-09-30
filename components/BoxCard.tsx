@@ -4,7 +4,9 @@ import { COVER_RATIO, boxartFor, resolveProduct } from "@/content/release";
 import { priceFor } from "@/content/pricing";
 import { buyHref, buyLabel, listingFor } from "@/content/whop";
 import { PriceFigure } from "@/components/Price";
+import { TrialMark } from "@/components/Trial";
 import { Arrow } from "@/components/ui/Arrow";
+import { TRIAL, trialHref } from "@/content/trial";
 
 /**
  * One storefront tile: the box, then the name, what it is and what it costs —
@@ -37,6 +39,12 @@ export function BoxCard({ slug, priority = false, bare = false }: { slug: string
   if (!p) return null;
   const price = priceFor(slug);
   const listing = listingFor(slug);
+  // THE 3-DAY FREE TRIAL (2026-09-29, content/trial.ts). A trial product's
+  // hover action is the trial — the lower step for someone still browsing; the
+  // product page carries "Buy now" as before. The tile also carries one legend
+  // line UNDER its price row, so the name, category and price stay on the same
+  // baselines as every other tile in the row.
+  const trial = trialHref(slug);
   const sizes = "(min-width: 1024px) 220px, (min-width: 768px) 30vw, (min-width: 640px) 45vw, 90vw";
 
   return (
@@ -57,12 +65,12 @@ export function BoxCard({ slug, priority = false, bare = false }: { slug: string
 
         {listing && (
           <a
-            href={buyHref(listing)}
+            href={trial ?? buyHref(listing)}
             target="_blank"
             rel="noopener"
             className="absolute inset-x-[16%] bottom-[9%] z-20 hidden h-9 items-center justify-center rounded-md bg-ivory/95 px-3 text-[12.5px] font-medium text-ground opacity-0 shadow-lift backdrop-blur-sm transition-all duration-300 ease-silk hover:bg-white focus-visible:opacity-100 md:flex md:translate-y-1 md:group-hover:-translate-y-1.5 md:group-hover:opacity-100"
           >
-            {buyLabel(slug)}
+            {trial ? TRIAL.ctaTile : buyLabel(slug)}
           </a>
         )}
       </div>
@@ -82,12 +90,21 @@ export function BoxCard({ slug, priority = false, bare = false }: { slug: string
             <PriceFigure price={price} />
             <Arrow className="text-mute transition-all duration-300 ease-silk group-hover:translate-x-0.5 group-hover:text-gold-deep" />
           </span>
+          {/* The trial legend. The short form below 400px, where a tile is
+              ~125px wide and the full phrase would not fit on one line. */}
+          {trial && (
+            <span className="mt-2.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-bull-text" aria-hidden="true">
+              <TrialMark />
+              <span className="min-[400px]:hidden">{TRIAL.short}</span>
+              <span className="hidden min-[400px]:inline">{TRIAL.label}</span>
+            </span>
+          )}
         </div>
       )}
 
       {/* The whole tile is the link to our page; the buy button sits above it. */}
       <Link href={`/products/${p.slug}`} className="absolute inset-0 z-10 rounded-xl">
-        <span className="sr-only">{`${p.name} — ${p.category}`}</span>
+        <span className="sr-only">{`${p.name} — ${p.category}${trial ? ` — ${TRIAL.label} available` : ""}`}</span>
       </Link>
     </div>
   );

@@ -4,6 +4,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { WaitlistNote } from "@/components/ui/WaitlistNote";
 import { StoreBar, type StoreBarItem } from "@/components/StoreBar";
 import { BeforeYouBuy } from "@/components/BeforeYouBuy";
+import { TrialStoreNote } from "@/components/Trial";
 import { SHELVES } from "@/content/release";
 import { COMPLETE, COMPLETE_PCT, FOUNDERS, PRICES, money, seriesPrice, tilePrice } from "@/content/pricing";
 import { PRODUCTS } from "@/content/products";
@@ -121,6 +122,10 @@ export default function ProductsPage() {
                   </li>
                 ))}
               </ul>
+
+              {/* The 3-day free trial, named once on the store's first screen
+                  (2026-09-29) — the tiles below carry its legend. */}
+              <TrialStoreNote className="mt-6 max-w-xl" />
 
               <p className="mt-6 text-[14px] text-slate">
                 <a href="#faq" className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">

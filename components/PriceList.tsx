@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { BuyButton } from "@/components/BuyButton";
 import { PriceFigure } from "@/components/Price";
+import { External, TrialMark } from "@/components/Trial";
+import { TRIAL, trialHref } from "@/content/trial";
 import { PRICES, discountPct, money } from "@/content/pricing";
 import { COVER_RATIO, boxartFor } from "@/content/release";
 import type { Product } from "@/content/products";
@@ -49,6 +51,21 @@ export function PriceList({ products }: { products: Product[] }) {
                 {p.name}
               </Link>
               <p className="mt-0.5 truncate text-[12.5px] text-slate">{p.category}</p>
+              {/* The 3-day free trial (content/trial.ts): a direct link, on
+                  the rows that have one. The row's own price and buy button
+                  are untouched. */}
+              {trialHref(p.slug) && (
+                <a
+                  href={trialHref(p.slug)}
+                  target="_blank"
+                  rel="noopener"
+                  className="mt-1.5 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-bull-text transition-colors hover:text-ink"
+                >
+                  <TrialMark />
+                  {TRIAL.ctaTile}
+                  <External className="!h-3 !w-3" />
+                </a>
+              )}
             </div>
             {/* Price and button share one line under the name on a phone, and
                 become the row's last two columns from 640px (sm:contents). */}

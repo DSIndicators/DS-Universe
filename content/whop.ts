@@ -17,6 +17,20 @@
  * reachable as a quiet "See it on Whop" link beside the main button.
  * Whop gave some listing paths a random suffix ("-8f", "-fb") — use exactly
  * what Whop gives you, do not tidy.
+ *
+ * A THIRD LINK FOR THREE PRODUCTS — the 3-day free trial (Tom, 2026-09-29).
+ *   trial    — a second plan on the SAME Whop product: "3-Day Free Trial",
+ *              Free, one-time, Whop access for 3 days, the same required
+ *              "NinjaTrader account email" question. Found by reading each
+ *              listing's own default plan off whop.com (the trial is now the
+ *              listing's main button) and then rendering every checkout:
+ *                DS Oracle  plan_zZ1CGRY29Dz7n
+ *                DS Flow    plan_5wUpmsoJ0Rj3I
+ *                DS ProRSI  plan_OgE67QZlTofd9
+ *              Each reads "<product> · Free · 3 day access — no payment
+ *              required", and each product's $79.99 checkout still works.
+ * The trial's own words and switch live in content/trial.ts. A product with
+ * no `trial` here shows no trial anywhere on the site.
  */
 
 import { onWaitlist } from "./launch";
@@ -27,24 +41,28 @@ export type WhopListing = {
   product: string;
   /** Direct checkout link for the product's plan. */
   checkout?: string;
+  /** Direct checkout for the product's free-trial plan, where it has one. */
+  trial?: string;
 };
 
 export const STORE = "https://whop.com/dsuniverse";
 const CHECKOUT = "https://whop.com/checkout";
-const L = (path: string, plan: string): WhopListing => ({
+const L = (path: string, plan: string, trialPlan?: string): WhopListing => ({
   product: `${STORE}/${path}/`,
   checkout: `${CHECKOUT}/${plan}`,
+  ...(trialPlan ? { trial: `${CHECKOUT}/${trialPlan}` } : {}),
 });
 
 export const WHOP: Record<string, WhopListing> = {
   // ---- flagship indicators ($79.99, checkout verified 2026-09-25) ----
   zones: L("ds-zones-living-supply-demand-structure-ninjatrader-8", "plan_ocxhFcbIMnpbi"),
   iceberg: L("ds-iceberg-hidden-absorption-refill-detection-ninjatrader-8", "plan_FMGkrNvXKFMzC"),
-  oracle: L("ds-oracle-ai-confirmed-supertrend-neural-line-ninjatrader-8", "plan_ujtfTI9XElO8g"),
+  // third argument = the 3-day free-trial plan (verified 2026-09-29)
+  oracle: L("ds-oracle-ai-confirmed-supertrend-neural-line-ninjatrader-8", "plan_ujtfTI9XElO8g", "plan_zZ1CGRY29Dz7n"),
   gex: L("ds-gex-dealer-gamma-levels-fetched-live-ninjatrader-8-fb", "plan_Wos2cSDhY5RZp"),
-  flow: L("ds-flow-volume-by-price-footprint-ninjatrader-8", "plan_G6CrISw6dNHR6"),
+  flow: L("ds-flow-volume-by-price-footprint-ninjatrader-8", "plan_G6CrISw6dNHR6", "plan_5wUpmsoJ0Rj3I"),
   // ---- Pro Series ($79.99, checkout verified 2026-09-25) ----
-  prorsi: L("ds-prorsi-rsi-crossovers-as-price-levels-ninjatrader-8", "plan_BBivBWLYNMJhb"),
+  prorsi: L("ds-prorsi-rsi-crossovers-as-price-levels-ninjatrader-8", "plan_BBivBWLYNMJhb", "plan_OgE67QZlTofd9"),
   prostochastics: L("ds-prostochastics-quad-rotation-stochastics-ninjatrader-8", "plan_ACebJTJOzyeH9"),
   prosqueeze: L("ds-prosqueeze-squeeze-waves-reversion-ninjatrader-8", "plan_sQ0Jx6UJRsggw"),
   promacd: L("ds-promacd-volatility-normalised-macd-cross-price-ninjatrader-8-8f", "plan_DLiExDW7gxE3R"),
@@ -66,6 +84,12 @@ export const WHOP: Record<string, WhopListing> = {
   const plans = Object.values(WHOP).map((w) => w.checkout);
   if (new Set(plans).size !== plans.length) {
     throw new Error("content/whop.ts: two products share one checkout plan.");
+  }
+  // A trial plan is a plan of its own: never another product's, never the
+  // product's own paid plan (that would send a "free trial" click to a card form).
+  const trials = Object.values(WHOP).flatMap((w) => (w.trial ? [w.trial] : []));
+  if (new Set([...plans, ...trials]).size !== plans.length + trials.length) {
+    throw new Error("content/whop.ts: a trial link repeats another checkout plan.");
   }
   for (const slug of [...Object.keys(PRICES), "complete"]) {
     if (!WHOP[slug]?.checkout) throw new Error(`content/whop.ts: "${slug}" has no checkout link.`);

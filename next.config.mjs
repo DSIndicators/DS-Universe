@@ -28,6 +28,7 @@ const PAGES = [
   "/",
   "/products",
   "/products/:slug",
+  "/trial",
   "/ninjatrader",
   "/about",
   "/contact",

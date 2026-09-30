@@ -47,7 +47,12 @@ const config: Config = {
         // The DS Universe house palette (DS Oracle DsSignature theme): bull
         // teal and bear violet. On the site they are HINTS only — ambient
         // light, a candle-coloured tick, one word — never fills or buttons.
-        bull: { DEFAULT: "#009999", strong: "#00FFFF" },
+        // `text` (2026-09-29) is bull teal lifted to be READ as small type on
+        // the ground — the 3-day free trial's colour (content/trial.ts). Gold
+        // means money on this site; teal means "on your chart, free, now".
+        // #43CDC8 measures 10.2:1 on the ground, 9.4:1 on a surface and 8.7:1 on
+        // the trial strip (WCAG AA needs 4.5).
+        bull: { DEFAULT: "#009999", strong: "#00FFFF", text: "#43CDC8" },
         bear: { DEFAULT: "#A33DFF", strong: "#FF00FF" },
       },
       fontFamily: {

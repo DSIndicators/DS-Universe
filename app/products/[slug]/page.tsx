@@ -10,6 +10,7 @@ import { TestFirst } from "@/components/TestFirst";
 import { BoxCard } from "@/components/BoxCard";
 import { BuyButton, CtaNote } from "@/components/BuyButton";
 import { PriceBlock } from "@/components/Price";
+import { TrialHead, TrialStrip } from "@/components/Trial";
 import { BY_SLUG, KIND_LABEL, PRODUCTS } from "@/content/products";
 import { COVER_RATIO, boxartFor, isReleased, seriesMates, SHELVES } from "@/content/release";
 import { BOARD_GROUND, shotsFor } from "@/content/shots";
@@ -120,6 +121,9 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               </div>
               <h1 className="display-xl mt-5 text-ink">{p.name}</h1>
               <p className="lede mt-6 max-w-2xl text-pretty">{p.purpose}</p>
+              {/* The 3-day free trial, where the product has one (2026-09-29):
+                  the page's first action. Nothing renders for the others. */}
+              <TrialHead slug={p.slug} className="mt-9" />
             </Reveal>
             <Reveal className="lg:col-span-5 lg:justify-self-end" delay={100}>
               <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1" aria-label="Highlights">
@@ -175,7 +179,9 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <p className="display-sm mt-5 leading-[1.45] text-ink text-pretty">{p.helps}</p>
 
           {/* ------------------------------------------------ price and buy */}
-          <div className="mt-10 rounded-2xl border border-line bg-surface p-7 shadow-card sm:p-8">
+          <div className="mt-10 overflow-hidden rounded-2xl border border-line bg-surface p-7 shadow-card sm:p-8">
+            {/* The trial, across the top of the card — at the moment of deciding to pay. */}
+            <TrialStrip slug={p.slug} />
             <PriceBlock price={price} size="lg" />
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <BuyButton slug={p.slug} />
@@ -224,7 +230,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       {listingCopy && <ListingDetail copy={listingCopy} />}
 
       {/* ----------------------------------------------------- test it yourself */}
-      <TestFirst productName={p.name} />
+      <TestFirst productName={p.name} slug={p.slug} />
 
       {/* ---------------------------------------------------------------- more */}
       <section className="border-t border-line">

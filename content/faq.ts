@@ -22,6 +22,7 @@
  */
 
 import { SITE } from "./site";
+import { TRIAL, keepPrice, startsWhen, trialNames, trialProducts } from "./trial";
 
 export type Faq = {
   q: string;
@@ -39,6 +40,18 @@ export const FAQ: Faq[] = [
     q: "Is this a subscription?",
     a: "No. Each product is one payment and yours to keep — no monthly fee, nothing to renew — and every later version is included. The chart essentials are free.",
   },
+  // The 3-day free trial (2026-09-29, content/trial.ts) — present only while
+  // the trial is on. Every condition in one answer: length, start, cost, end,
+  // limit, keeping it, and the one extra step if the buyer moves to DS Complete.
+  ...(trialProducts().length
+    ? [
+        {
+          q: "Can I try one before I buy?",
+          a: `Yes. ${trialNames()} each have a ${TRIAL.label}. Check out free on Whop with your NinjaTrader account email, import it, and the ${TRIAL.days} days start ${startsWhen()}. No card is asked for and nothing is charged when it ends — it simply stops running. One trial per product, per NinjaTrader account. To keep it, buy it${keepPrice() ? ` for ${keepPrice()}` : ""}: the license goes on the same account, with nothing to reinstall. Moving to DS Complete instead? Remove the trial product and restart NinjaTrader first, as with any single DS product.`,
+          link: { href: "/trial", label: "How the trial works" },
+        },
+      ]
+    : []),
   {
     q: "Are the free ones really free?",
     a: "Yes, permanently. Not a trial and not a stripped build: the same product, through the same checkout, at no charge. They are the simplest way to see how DS Universe draws on your own chart before you pay for anything.",

@@ -21,6 +21,9 @@ Manual: `npm install` → `npm run dev`. Production check: `npm run build && npm
 | The storefront link behind every "Get access" | `content/site.ts` → `SITE.storeUrl` |
 | Chart stills, 16:9 webp, one per indicator | `public/covers/<slug>.webp` |
 | Terms & Conditions | `content/terms.ts` |
+| The 3-day free trial — its words and its on/off switch (`TRIAL.active`) | `content/trial.ts` |
+| The trial checkout links (a product is in the trial only if it has one) | `content/whop.ts` → `trial` |
+| Every place the trial shows (hero note, home band, tiles, product pages, `/trial`) | `components/Trial.tsx` |
 | The logo badge (astronaut disc) — navbar, footer, favicon ONLY; add-on tiles keep the ring placeholder | `public/brand/badge-*.png`, `components/ui/Badge.tsx` (ring placeholder: `Mark.tsx`) |
 | Design tokens (colours, type, shadows) | `tailwind.config.ts`, `app/globals.css` |
 
