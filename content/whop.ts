@@ -31,6 +31,17 @@
  *              required", and each product's $79.99 checkout still works.
  * The trial's own words and switch live in content/trial.ts. A product with
  * no `trial` here shows no trial anywhere on the site.
+ *
+ * THE SESSION LEVELS PAIR (2026-09-30).
+ *   DS Session Levels      plan_LhYBx2nIIXwck — supplied by Tom; opened on Tom's
+ *                          PC (headless Edge): "DS Session Levels ✦ Asia, London &
+ *                          New York Session Levels · NinjaTrader 8 · Free", the
+ *                          required "NinjaTrader account email" question, button
+ *                          "Join". Listing route read off the store's own product
+ *                          list (prod_VdnviWEF5KU86, one visible plan).
+ *   DS Pro Session Levels  NO entry, on purpose: it is not sold on its own. Every
+ *                          button for it goes to DS Complete's checkout
+ *                          (purchaseKey below).
  */
 
 import { onWaitlist } from "./launch";
@@ -72,13 +83,14 @@ export const WHOP: Record<string, WhopListing> = {
   "adaptive-priceline": L("ds-adaptive-price-line-self-anchoring-line-countdown-ninjatrader-8", "plan_XN3D0IC97yWP2"),
   "chart-price": L("ds-chart-price-large-readout-chop-detection-ninjatrader-8", "plan_E34eRRHcmYHD4"),
   "ds-258": L("ds-258-nasdaq-00-20-50-80-level-map-ninjatrader-8", "plan_LvWsdZ70h3x5m"),
+  "session-levels": L("ds-session-levels-asia-london-new-york-session-levels-ninjatrader-8", "plan_LhYBx2nIIXwck"),
   parallax: L("ds-parallax-multi-timeframe-liquidity-matrix-ninjatrader-8", "plan_RBOOqpI868f9W"),
   toolkit: L("ds-toolkit-one-rail-for-every-indicator-tool-ninjatrader-8", "plan_Ywx5wxsyuCStx"),
   // ---- the bundle ($374.95, checkout verified 2026-09-25) ----
   complete: L("ds-complete-all-15-ds-universe-products-one-license-ninjatrader-8", "plan_eVl3N0rb9CZQ2"),
 };
 
-/* Sixteen products, sixteen different plans — a pasted duplicate would send two
+/* Every listed product has its own plan — a pasted duplicate would send two
    products to one checkout, so the build refuses it. */
 {
   const plans = Object.values(WHOP).map((w) => w.checkout);
@@ -92,9 +104,21 @@ export const WHOP: Record<string, WhopListing> = {
     throw new Error("content/whop.ts: a trial link repeats another checkout plan.");
   }
   for (const slug of [...Object.keys(PRICES), "complete"]) {
+    // A product that only comes with DS Complete has no checkout of its own —
+    // and must not have one, or a button would sell what is not for sale.
+    if (PRICES[slug]?.withComplete) {
+      if (WHOP[slug]) throw new Error(`content/whop.ts: "${slug}" comes only with DS Complete and must not have a listing.`);
+      continue;
+    }
     if (!WHOP[slug]?.checkout) throw new Error(`content/whop.ts: "${slug}" has no checkout link.`);
   }
 }
+
+/**
+ * Whose checkout a product is bought through: its own — or, for a product that
+ * comes only with DS Complete, DS Complete's.
+ */
+export const purchaseKey = (slug: string) => (PRICES[slug]?.withComplete ? "complete" : slug);
 
 export const listingFor = (key: string): WhopListing | undefined => WHOP[key];
 
@@ -107,4 +131,10 @@ export const buyHref = (l: WhopListing) => l.checkout ?? l.product;
  * (Whop's listing button says the same), free ones "Get it free".
  */
 export const buyLabel = (key: string) =>
-  onWaitlist() ? "Join the waitlist" : PRICES[key]?.free ? "Get it free" : "Buy now";
+  onWaitlist()
+    ? "Join the waitlist"
+    : PRICES[key]?.free
+      ? "Get it free"
+      : PRICES[key]?.withComplete
+        ? "Get DS Complete"
+        : "Buy now";

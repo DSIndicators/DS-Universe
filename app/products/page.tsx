@@ -6,7 +6,7 @@ import { StoreBar, type StoreBarItem } from "@/components/StoreBar";
 import { BeforeYouBuy } from "@/components/BeforeYouBuy";
 import { TrialStoreNote } from "@/components/Trial";
 import { SHELVES } from "@/content/release";
-import { COMPLETE, COMPLETE_PCT, FOUNDERS, PRICES, money, seriesPrice, tilePrice } from "@/content/pricing";
+import { COMPLETE, COMPLETE_PCT, FOUNDERS, PRICES, isPaid, money, seriesPrice, tilePrice } from "@/content/pricing";
 import { PRODUCTS } from "@/content/products";
 import { StillMonitor } from "@/components/ui/StillMonitor";
 import { DISCLOSURE, PRODUCTS_SCREEN } from "@/content/site";
@@ -14,7 +14,7 @@ import { DISCLOSURE, PRODUCTS_SCREEN } from "@/content/site";
 export const metadata: Metadata = {
   title: "Products & pricing",
   description:
-    "Every DS Universe product for NinjaTrader 8 and what it costs — flagship indicators, the Pro Series panels, the free chart essentials and the Market Replay utility, each bought once. DS Complete is all of it for half of what the paid ones cost apart.",
+    "Every DS Universe product for NinjaTrader 8 and what it costs — flagship indicators, the Pro Series panels, the session levels, the free chart essentials and the Market Replay utility, each bought once. DS Complete is all of it for half of what the paid ones cost apart.",
   // ?view=list is the same page in another layout — one URL for search.
   alternates: { canonical: "/products" },
 };
@@ -51,7 +51,7 @@ export default function ProductsPage() {
     ...new Set(
       PRODUCTS.filter((p) => p.series === "flagship" || p.series === "pro").flatMap((p) => {
         const pr = PRICES[p.slug];
-        return pr && !pr.free ? [pr.now] : [];
+        return isPaid(pr) ? [pr.now] : [];
       }),
     ),
   ];

@@ -60,7 +60,7 @@ export const ABOUT = {
   paragraphs: [
     "DS Universe is a family of indicators and tools for NinjaTrader 8, written natively in NinjaScript and drawn directly on your chart. Each indicator answers one question about the market — where a level is holding, where size was hidden, what traded inside the candle, which side the trend is on — and prints the answer in plain trading language.",
     "The Pro Series takes the oscillators every trader already knows and makes them say something about price: levels on the chart, named states, graded signals, decided on closed bars.",
-    "Every product is sold on its own, for a single payment, and the chart essentials — the price line, the readout, the level map, the higher-timeframe matrix and the DS Toolkit rail — are free. DS Complete is everything at once, for half of what the paid products cost apart.",
+    "Every product is sold on its own, for a single payment, and the chart essentials — the price line, the readout, the level map, the higher-timeframe matrix, the session levels and the DS Toolkit rail — are free. DS Complete is everything at once, for half of what the paid products cost apart, and the only way to get DS Pro Session Levels.",
     "Everything runs on your machine, on your data, on the platform's supported public API. Nothing is hidden behind a second window.",
   ],
 };
@@ -208,7 +208,8 @@ export const CATALOGUE = {
  *   sessions          ← DS_20260921_013448.png
  *   timeframes        ← DS_20260921_013152.png
  *   session-profiles  ← DS_20260921_013601.png
- *   levels            ← DS_20260921_013258.png
+ *   levels            ← DS_20260921_013258.png  (RETIRED 2026-09-30: the last
+ *                       slot is now sessions-volume-v1 ← "Main cover page 5.png")
  *
  * `tools` is what is ON each picture, attributed from its LABELS, never from a
  * shape: panel titles ("DS ProRSI", "DS ProStochastics", "DS ProMACD",
@@ -331,10 +332,17 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDk8ycfKMjvgZpGHQgFT3Hap6jl/hpiP//Z",
     },
     {
-      src: "/covers/screen/levels.webp",
-      title: "Zones, hidden size, dealer levels and RSI levels on one chart",
-      tools: ["zones", "iceberg", "gex", "prorsi", "prostochastics"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkcfWkI5HWpaY33hTA/9k=",
+      // ← "Main cover page 5.png" (New Raw Images, 2026-09-30) replaces
+      // levels.webp in the last slot (Tom: "it showcases more indicators, and
+      // overall cleaner"). 1920x1080 native — the same 16:9, never enlarged.
+      // Attributed by its labels: the ASIA / LONDON / NEW YORK brackets with
+      // HIGH, LOW, POC, HVN and LVN = DS Pro Session Levels; the "buy | sell"
+      // rows and the Σ / B / S boxes = DS Flow; "NQ · 15m / 1h / 4h / 1D" =
+      // DS Parallax. The countdown box beside price is not claimed.
+      src: "/covers/screen/sessions-volume-v1.webp",
+      title: "Session levels, session volume and four higher timeframes on one chart",
+      tools: ["pro-session-levels", "flow", "parallax"],
+      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkTtBcAZ9MfWiTbn5RgE+lLH0ok6D60wP/2Q==",
     },
   ],
   ground: "#040404",

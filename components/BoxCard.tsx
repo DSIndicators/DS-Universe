@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { COVER_RATIO, boxartFor, resolveProduct } from "@/content/release";
-import { priceFor } from "@/content/pricing";
-import { buyHref, buyLabel, listingFor } from "@/content/whop";
+import { GIFT, priceFor } from "@/content/pricing";
+import { buyHref, buyLabel, listingFor, purchaseKey } from "@/content/whop";
 import { PriceFigure } from "@/components/Price";
 import { TrialMark } from "@/components/Trial";
 import { Arrow } from "@/components/ui/Arrow";
@@ -38,7 +38,10 @@ export function BoxCard({ slug, priority = false, bare = false }: { slug: string
   const p = resolveProduct(slug);
   if (!p) return null;
   const price = priceFor(slug);
-  const listing = listingFor(slug);
+  // A product that comes only with DS Complete is bought as DS Complete
+  // (content/whop.ts purchaseKey): its hover button says "Get DS Complete".
+  const listing = listingFor(purchaseKey(slug));
+  const gift = !!price?.withComplete;
   // THE 3-DAY FREE TRIAL (2026-09-29, content/trial.ts). A trial product's
   // hover action is the trial — the lower step for someone still browsing; the
   // product page carries "Buy now" as before. The tile also carries one legend
@@ -79,7 +82,12 @@ export function BoxCard({ slug, priority = false, bare = false }: { slug: string
           all of it (the single-product shelf). */}
       {!bare && (
         <div className="mt-2 px-0.5">
-          <span className="block truncate font-display text-[15px] leading-tight text-ink transition-colors duration-300 group-hover:text-gold-deep">
+          {/* The name never cuts off on a phone (2026-09-30 mobile scan:
+              "DS Pro Session Le…", "DS Adaptive Price Li…"). Below 640px it
+              may take two lines and every tile reserves both, so the
+              category and the price row stay on one baseline across the
+              row; from 640px it is one line, as before. */}
+          <span className="block min-h-[2.5em] font-display text-[15px] leading-tight text-ink transition-colors duration-300 line-clamp-2 group-hover:text-gold-deep sm:min-h-0 sm:line-clamp-1">
             {p.name}
           </span>
           <span className="mt-1 block truncate text-[12px] text-mute">{p.category}</span>
@@ -99,12 +107,20 @@ export function BoxCard({ slug, priority = false, bare = false }: { slug: string
               <span className="hidden min-[400px]:inline">{TRIAL.label}</span>
             </span>
           )}
+          {/* The Founders gift (2026-09-30): the same legend line, in gold —
+              the thread's node, then its name. */}
+          {gift && (
+            <span className="mt-2.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-gold" aria-hidden="true">
+              <span className="h-[6px] w-[6px] shrink-0 rotate-45 border border-gold" />
+              {GIFT.label}
+            </span>
+          )}
         </div>
       )}
 
       {/* The whole tile is the link to our page; the buy button sits above it. */}
       <Link href={`/products/${p.slug}`} className="absolute inset-0 z-10 rounded-xl">
-        <span className="sr-only">{`${p.name} — ${p.category}${trial ? ` — ${TRIAL.label} available` : ""}`}</span>
+        <span className="sr-only">{`${p.name} — ${p.category}${trial ? ` — ${TRIAL.label} available` : ""}${gift ? ` — ${GIFT.line}` : ""}`}</span>
       </Link>
     </div>
   );

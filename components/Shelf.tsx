@@ -3,7 +3,7 @@ import { BoxCard } from "@/components/BoxCard";
 import { BuyButton, CtaNote } from "@/components/BuyButton";
 import { PriceTag } from "@/components/Price";
 import { PriceList } from "@/components/PriceList";
-import { seriesPrice } from "@/content/pricing";
+import { isPaid, seriesPrice } from "@/content/pricing";
 import type { Shelf as ShelfT } from "@/content/release";
 
 /**
@@ -96,7 +96,7 @@ export function Shelf({
           <div className="md:col-span-5">
             {/* A series with mixed prices gets no head price — its products
                 carry their own chips. Every series is uniform today. */}
-            {price && <PriceTag price={price} each={!solo && !price.free} align="end" />}
+            {price && <PriceTag price={price} each={!solo && isPaid(price)} align="end" />}
             {solo && (
               <CoversOnly>
                 <div className="mt-6 md:flex md:flex-col md:items-end md:text-right">

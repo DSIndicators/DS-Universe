@@ -1,4 +1,4 @@
-import { discountPct, money, type Price } from "@/content/pricing";
+import { discountPct, isPaid, money, type Price } from "@/content/pricing";
 
 /**
  * Every price on the site is laid out by one of these, so a price can never be
@@ -29,6 +29,8 @@ import { discountPct, money, type Price } from "@/content/pricing";
 
 const TERMS_PAID = "One payment · Yours to keep · Updates included";
 const TERMS_FREE = "Permanently · Not a trial · Nothing stripped out";
+/** DS Pro Session Levels (2026-09-30): no price of its own — it comes with DS Complete. */
+const TERMS_WITH = "Not sold on its own · Inside the DS Complete archive · Updates included";
 
 /** The figure a tile or a list row carries: plain type, no container. */
 export function PriceFigure({
@@ -42,9 +44,21 @@ export function PriceFigure({
 }) {
   if (!price) return null;
   const type = size === "md" ? "text-[14.5px]" : "text-[13.5px]";
+  // "With DS Complete" is the one figure that is words. On a phone tile
+  // (~130px under 400px) it shortens to "In DS Complete" so the arrow keeps
+  // its line.
   return (
     <span className={`inline-block font-mono ${type} font-normal leading-none text-ink tabular-nums ${className}`}>
-      {price.free ? "Free" : money(price.now)}
+      {price.free ? (
+        "Free"
+      ) : price.withComplete ? (
+        <>
+          <span className="min-[400px]:hidden">In DS Complete</span>
+          <span className="hidden min-[400px]:inline">With DS Complete</span>
+        </>
+      ) : (
+        money(price.now)
+      )}
     </span>
   );
 }
@@ -78,18 +92,21 @@ export function PriceTag({
     <div className={`flex flex-col ${end} ${className}`}>
       <span className="block h-px w-8 bg-gold" aria-hidden="true" />
       <span className="mt-3 font-mono text-[10.5px] uppercase tracking-[0.16em] text-gold-deep">Price</span>
-      <span className="mt-2 flex items-baseline gap-3">
+      <span className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <span className={`font-display ${big} font-[350] leading-none tracking-[-0.03em] text-ink tabular-nums`}>
-          {price.free ? "Free" : money(price.now)}
+          {isPaid(price) ? money(price.now) : "Free"}
         </span>
-        {each && !price.free && <span className="text-[14.5px] text-slate">each</span>}
-        {off > 0 && !price.free && (
+        {/* Free, but only inside DS Complete: the condition is set beside the
+            figure, as "each" is — never a different figure. */}
+        {price.withComplete && <span className="text-[14.5px] text-slate">with DS Complete</span>}
+        {each && isPaid(price) && <span className="text-[14.5px] text-slate">each</span>}
+        {off > 0 && isPaid(price) && (
           <s className="text-[15px] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(price.list)}`}>
             {money(price.list)}
           </s>
         )}
       </span>
-      <span className="mt-3 text-[12.5px] text-slate">{price.free ? TERMS_FREE : TERMS_PAID}</span>
+      <span className="mt-3 text-[12.5px] text-slate">{price.free ? TERMS_FREE : price.withComplete ? TERMS_WITH : TERMS_PAID}</span>
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { BuyButton, CtaNote } from "@/components/BuyButton";
 import { CompleteChart } from "@/components/CompleteChart";
-import { CompleteLedger, type LedgerRow } from "@/components/CompleteLedger";
+import { CompleteGift, CompleteLedger, type LedgerRow } from "@/components/CompleteLedger";
 import { CompleteStage, type Series } from "@/components/CompleteStage";
-import { APART, COMPLETE, COMPLETE_PCT, FOUNDERS, PRICES, money } from "@/content/pricing";
+import { APART, COMPLETE, COMPLETE_PCT, FOUNDERS, GIFT, PRICES, isPaid, money } from "@/content/pricing";
 import { onWaitlist } from "@/content/launch";
-import { SHELVES } from "@/content/release";
+import { CATALOGUE_ORDER } from "@/content/release";
 
 /**
  * DS COMPLETE AT THE HEAD OF THE LINEUP (2026-09-28).
@@ -45,20 +45,29 @@ import { SHELVES } from "@/content/release";
 
 type Row = { key: Series; name: string; sum: number; free: boolean };
 
+/** The ledger runs in CATALOGUE order (flagship first), whatever series leads
+ *  the store below it — it is the sum, not the shelf. */
 function ledger(): Row[] {
-  return SHELVES.map((s) => {
-    const paid = s.products.map((p) => PRICES[p.slug]).filter((p) => p && !p.free);
-    const sum = Math.round(paid.reduce((n, p) => n + p!.now, 0) * 100) / 100;
+  return CATALOGUE_ORDER.map((s) => {
+    const paid = s.products.map((p) => PRICES[p.slug]).filter(isPaid);
+    const sum = Math.round(paid.reduce((n, p) => n + p.now, 0) * 100) / 100;
     return { key: s.info.key as Series, name: s.info.name, sum, free: paid.length === 0 };
   });
 }
+
+/** Where the gift line points: the panel its product is shelved in. */
+const PRODUCT_SERIES: Series = CATALOGUE_ORDER.find((s) => s.products.some((p) => p.slug === GIFT.slug))!.info.key;
 
 export function CompleteKeystone() {
   const rows: LedgerRow[] = ledger().map((r) => ({
     key: r.key,
     name: r.name,
     price: r.free ? "Free · included" : money(r.sum),
-    products: SHELVES.find((s) => s.info.key === r.key)!.products.map((p) => ({ slug: p.slug, name: p.name })),
+    products: CATALOGUE_ORDER.find((s) => s.info.key === r.key)!.products.map((p) => ({
+      slug: p.slug,
+      name: p.name,
+      gift: !!PRICES[p.slug]?.withComplete,
+    })),
   }));
 
   return (
@@ -119,6 +128,22 @@ export function CompleteKeystone() {
                 A <span className="font-medium text-ink tabular-nums">{money(APART)}</span> value — every paid product, bought one at a time.
               </p>
               <p className="mt-1.5 text-[12.5px] text-mute">One payment · Yours to keep · Updates included</p>
+
+              {/* THE FOUNDERS GIFT (2026-09-30, content/pricing.ts GIFT): said
+                  once, in the panel, between the value and the ledger — the
+                  one product a buyer gets here and nowhere else. A gold node
+                  (the thread's own), the label, the product, and a way down
+                  to it. Set in type; no box, no badge. It is a key to the
+                  chart like the ledger: pointing at it isolates the product's
+                  drawing (CompleteGift, in CompleteLedger.tsx). */}
+              <CompleteGift
+                slug={GIFT.slug}
+                series={PRODUCT_SERIES}
+                href={`#${PRODUCT_SERIES}`}
+                label={GIFT.label}
+                name={GIFT.name}
+                line={GIFT.line}
+              />
 
               {/* The ledger: each series' subtotal, and the chart's key. */}
               <CompleteLedger rows={rows} label={`What is inside ${COMPLETE.name}`} />

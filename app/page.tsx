@@ -6,6 +6,7 @@ import { WaitlistNote } from "@/components/ui/WaitlistNote";
 import { Reveal } from "@/components/ui/Reveal";
 import { Marketplace } from "@/components/Marketplace";
 import { TrialBand, TrialHeroNote } from "@/components/Trial";
+import { SessionsHeroNote } from "@/components/Sessions";
 import { trialProducts } from "@/content/trial";
 import { NT_ASSETS, NT_LINKS } from "@/content/ninjatrader";
 import { ABOUT, CLOSING, DISCLOSURE, FACTS, HERO, PRINCIPLES, SITE } from "@/content/site";
@@ -76,6 +77,10 @@ export default function HomePage() {
                 and its condition — one link down to the band. No price: the
                 hero still carries none. Renders nothing when the trial is off. */}
             <TrialHeroNote className="rise mt-8" style={{ animationDelay: "320ms" }} />
+            {/* The Session levels pair (2026-09-30, Tom: "one quiet 'New' line
+                in the hero"): built like the trial note, one link down to its
+                panel under DS Complete. No price. Off with NEW_NOTE.active. */}
+            <SessionsHeroNote className="rise mt-6" style={{ animationDelay: "360ms" }} />
             {/* The chart reader (components/QuestionRouter.tsx): a question,
                 the bare NT8 chart, the DS tool, and its read. From 1024px it
                 fills the well under the buttons beside the tall monitor; on a

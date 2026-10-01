@@ -1,5 +1,5 @@
 import { AFTER_CHECKOUT, onWaitlist, opensWhen } from "@/content/launch";
-import { buyHref, buyLabel, listingFor } from "@/content/whop";
+import { buyHref, buyLabel, listingFor, purchaseKey } from "@/content/whop";
 
 /**
  * The buy button. One component, so every one on the site agrees about where
@@ -9,7 +9,9 @@ import { buyHref, buyLabel, listingFor } from "@/content/whop";
  * "Buy now" / "Get it free". While the store is on a waitlist
  * (content/launch.ts) it says "Join the waitlist" instead, with no edit here.
  *
- * A key with no listing renders nothing rather than a dead link.
+ * A key with no listing renders nothing rather than a dead link. A product
+ * that comes only with DS Complete (DS Pro Session Levels) is bought through
+ * DS Complete's checkout and says "Get DS Complete" (purchaseKey, buyLabel).
  */
 export function BuyButton({
   slug,
@@ -23,7 +25,7 @@ export function BuyButton({
   /** Override the words (e.g. "DS Complete — $374.95"). */
   label?: string;
 }) {
-  const l = listingFor(slug);
+  const l = listingFor(purchaseKey(slug));
   if (!l) return null;
   return (
     <a
@@ -60,7 +62,8 @@ export function CtaNote({
       </p>
     );
   }
-  const l = slug ? listingFor(slug) : undefined;
+  const key = slug ? purchaseKey(slug) : undefined;
+  const l = key ? listingFor(key) : undefined;
   return (
     <p className={`max-w-md text-[12.5px] leading-relaxed ${muted} ${className}`}>
       {AFTER_CHECKOUT.short}
@@ -75,7 +78,7 @@ export function CtaNote({
               tone === "dark" ? "decoration-white/30 hover:text-white" : "decoration-line-strong hover:text-ink"
             }`}
           >
-            See it on Whop
+            {key !== slug ? "See DS Complete on Whop" : "See it on Whop"}
           </a>
         </>
       )}

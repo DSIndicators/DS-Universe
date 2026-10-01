@@ -38,7 +38,7 @@
  */
 
 import { onWaitlist } from "./launch";
-import { PRICES, money } from "./pricing";
+import { isPaid, PRICES, money } from "./pricing";
 import { BY_SLUG, type Product } from "./products";
 import { WHOP } from "./whop";
 
@@ -79,7 +79,7 @@ export function trialNames(): string {
 export function keepPrice(slug?: string): string | null {
   const ps = (slug ? [slug] : trialProducts().map((p) => p.slug)).map((s) => PRICES[s]);
   const first = ps[0];
-  if (!first || first.free || !ps.every((p) => p && !p.free && p.now === first.now)) return null;
+  if (!isPaid(first) || !ps.every((p) => isPaid(p) && p.now === first.now)) return null;
   return money(first.now);
 }
 

@@ -1,8 +1,9 @@
 import { Fragment } from "react";
 import { CompleteKeystone } from "@/components/CompleteKeystone";
 import { Shelf } from "@/components/Shelf";
+import { SessionPair } from "@/components/SessionPair";
 import { Reveal } from "@/components/ui/Reveal";
-import { SHELVES } from "@/content/release";
+import { NEW_SERIES, SHELVES } from "@/content/release";
 import { CATALOGUE } from "@/content/site";
 
 /**
@@ -38,8 +39,17 @@ export function Marketplace({
         <CompleteKeystone />
         {SHELVES.map((shelf, i) => (
           <Fragment key={shelf.info.key}>
-            <Thread label={i === 0 ? "Inside DS Complete" : "Included"} />
-            <Shelf shelf={shelf} priority={i === 0} views={views} />
+            <Thread
+              label={i === 0 ? "Inside DS Complete" : "Included"}
+              isNew={shelf.info.key === NEW_SERIES}
+            />
+            {/* The Session levels pair has its own panel: two boxes and the
+                Free | Pro sheet (2026-09-30). Every other series is a Shelf. */}
+            {shelf.info.key === "sessions" ? (
+              <SessionPair shelf={shelf} priority={i === 0} views={views} />
+            ) : (
+              <Shelf shelf={shelf} priority={i === 0} views={views} />
+            )}
           </Fragment>
         ))}
       </div>
@@ -52,12 +62,20 @@ export function Marketplace({
  * content edge, flowing downward, a node where it meets the next panel's
  * border, and a small mono label beside it.
  */
-function Thread({ label }: { label: string }) {
+function Thread({ label, isNew = false }: { label: string; isNew?: boolean }) {
   return (
     <div className="relative z-10 h-12 lg:h-14" aria-hidden="true">
       <span className="thread absolute inset-y-0 left-6 w-px sm:left-8 lg:left-10" />
       <span className="absolute -bottom-[4px] left-6 -ml-[3.5px] h-[8px] w-[8px] rotate-45 border border-gold bg-ground sm:left-8 lg:left-10" />
       <span className="absolute left-10 top-1/2 -translate-y-1/2 font-mono text-[9.5px] uppercase tracking-[0.16em] text-gold-deep/80 sm:left-12 lg:left-14">
+        {/* A new series (content/release.ts NEW_SERIES) says so on its thread
+            — the word in full gold, then the usual label. */}
+        {isNew && (
+          <>
+            <span className="text-gold">New</span>
+            <span className="px-2 text-gold-deep/50">·</span>
+          </>
+        )}
         {label}
       </span>
     </div>

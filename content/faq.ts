@@ -22,6 +22,7 @@
  */
 
 import { SITE } from "./site";
+import { GIFT } from "./pricing";
 import { TRIAL, keepPrice, startsWhen, trialNames, trialProducts } from "./trial";
 
 export type Faq = {
@@ -55,6 +56,13 @@ export const FAQ: Faq[] = [
   {
     q: "Are the free ones really free?",
     a: "Yes, permanently. Not a trial and not a stripped build: the same product, through the same checkout, at no charge. They are the simplest way to see how DS Universe draws on your own chart before you pay for anything.",
+  },
+  // The Session levels pair (2026-09-30): the one product that is not sold on
+  // its own, and how a buyer — or a Founder who already owns DS Complete — gets it.
+  {
+    q: `How do I get ${GIFT.name}?`,
+    a: `With DS Complete — it comes free with it and is not sold on its own; it is inside the DS Complete archive with its own README and guides. ${GIFT.owners} It draws everything DS Session Levels does, with each session's volume added, so use one or the other on a chart. DS Session Levels itself is free for everyone.`,
+    link: { href: `/products/${GIFT.slug}`, label: GIFT.name },
   },
   {
     q: "Can I use it on more than one computer?",

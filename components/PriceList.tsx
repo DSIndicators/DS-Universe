@@ -4,7 +4,7 @@ import { BuyButton } from "@/components/BuyButton";
 import { PriceFigure } from "@/components/Price";
 import { External, TrialMark } from "@/components/Trial";
 import { TRIAL, trialHref } from "@/content/trial";
-import { PRICES, discountPct, money } from "@/content/pricing";
+import { GIFT, PRICES, discountPct, isPaid, money } from "@/content/pricing";
 import { COVER_RATIO, boxartFor } from "@/content/release";
 import type { Product } from "@/content/products";
 
@@ -17,7 +17,11 @@ import type { Product } from "@/content/products";
  * This is the old /pricing page's list, moved into the store it duplicated
  * (2026-09-27). Numbers come from content/pricing.ts only.
  */
-export function PriceList({ products }: { products: Product[] }) {
+export function PriceList({ products, buttonWidth = 124 }: { products: Product[]; buttonWidth?: number }) {
+  // Every row of one list shares one button width, so the price column stays
+  // on one line. 124px fits "Buy now" and "Get it free"; the Session levels
+  // list passes 168px for "Get DS Complete" (2026-09-30).
+  const bw = { width: buttonWidth };
   return (
     <>
     {/* Column heads, like a printed price list — from 640px, where the row
@@ -26,7 +30,7 @@ export function PriceList({ products }: { products: Product[] }) {
       <span />
       <span>Product</span>
       <span className="min-w-[84px] text-right">Price</span>
-      <span className="w-[124px]" />
+      <span style={bw} />
     </div>
     <ul aria-label="Price list">
       {products.map((p) => {
@@ -66,19 +70,28 @@ export function PriceList({ products }: { products: Product[] }) {
                   <External className="!h-3 !w-3" />
                 </a>
               )}
+              {/* The Founders gift (2026-09-30): the row that is bought as DS Complete. */}
+              {pr?.withComplete && (
+                <span className="mt-1.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-gold">
+                  <span className="h-[6px] w-[6px] shrink-0 rotate-45 border border-gold" aria-hidden="true" />
+                  {GIFT.label}
+                </span>
+              )}
             </div>
             {/* Price and button share one line under the name on a phone, and
                 become the row's last two columns from 640px (sm:contents). */}
             <div className="col-start-2 flex items-center justify-between gap-4 sm:contents">
               <div className="flex items-center gap-2.5 sm:justify-self-end">
-                {off > 0 && !pr.free && (
+                {off > 0 && isPaid(pr) && (
                   <s className="text-[13px] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(pr.list)}`}>
                     {money(pr.list)}
                   </s>
                 )}
                 <PriceFigure price={pr} size="md" className="sm:min-w-[84px] sm:text-right" />
               </div>
-              <BuyButton slug={p.slug} variant="ghost" className="!h-10 !px-4 !text-[13px] sm:w-[124px]" />
+              <span className="contents sm:block sm:shrink-0" style={bw}>
+                <BuyButton slug={p.slug} variant="ghost" className="!h-10 !px-4 !text-[13px] sm:w-full" />
+              </span>
             </div>
           </li>
         );

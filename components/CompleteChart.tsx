@@ -39,6 +39,19 @@ import { PRODUCTS } from "@/content/products";
  * layers above are redrawn from the products' own showcase recordings.
  *   Utility    the Market Replay days on hand, which DS Bulk Replay
  *              Downloader fetched.
+ *   Sessions   (2026-09-30) one session — London, teal, its house colour —
+ *              bracketed over exactly its own bars, a tick at each end, its
+ *              high and low carried forward as dotted lines that fade from the
+ *              bar that closes through them, named at the bracket's end and
+ *              tagged at the right edge (DS Session Levels); inside the
+ *              bracket, thin volume bars against its first bar, the value area
+ *              stronger, an HVN thick and an LVN a hairline with a serif, and
+ *              the POC carried forward as a level until price trades back at
+ *              it (DS Pro Session Levels). Placed in the one stretch of the
+ *              chart where its lines meet no other tool's labels. The profile
+ *              reaches about a third of its session here, not the product's
+ *              15%: this session is six bars wide, and at 15% the bars would
+ *              be too short to read.
  *
  * It BUILDS in the list's order when it scrolls into view. On a desktop,
  * pointing at a series or a product in the list beside it isolates its
@@ -139,6 +152,44 @@ const toPrice = (v: number) => PRICE_AT_50 + (v - 50) * PT;
 const toV = (price: number) => 50 + (price - PRICE_AT_50) / PT;
 const P_LAST = toPrice(closes[N - 1]);
 const UP = "#46E36B", DOWN = "#FF5A4E", CHOP = "#F2B544";
+/** A level as MNQ prints it: to the quarter point, two decimals. */
+const tickPrice = (v: number) => (Math.round(toPrice(v) * 4) / 4).toFixed(2);
+
+/* DS Session Levels / DS Pro Session Levels: one finished session, London,
+   bars 4–9. Its high and low are the real extremes of its own bars (the
+   product's "exact" levels); each is taken where a later bar CLOSES through
+   it (a wick does not count). The profile is drawn, not computed from the
+   tape — a two-node session with its POC at 56, an HVN at 48.5 and the thin
+   LVN between them at 52. */
+const SES = { a: 4, b: 9 } as const;
+const SES_BARS = cand.slice(SES.a, SES.b + 1);
+const SES_HI = Math.max(...SES_BARS.map((c) => c.h));
+const SES_LO = Math.min(...SES_BARS.map((c) => c.l));
+const after = (test: (i: number) => boolean) => {
+  const i = closes.findIndex((_, k) => k > SES.b && test(k));
+  return i < 0 ? N : i;
+};
+const HI_TAKEN = after((k) => closes[k] > SES_HI);
+const LO_TAKEN = after((k) => closes[k] < SES_LO);
+const POC_V = 56, HVN_V = 48.5, LVN_V = 52;
+const POC_BACK = after((k) => cand[k].l <= POC_V && cand[k].h >= POC_V);
+const PROFILE = (() => {
+  const rows: { v: number; f: number }[] = [];
+  for (let v = Math.ceil(SES_LO * 2) / 2; v <= SES_HI; v += 0.5) {
+    const k = rows.length;
+    const f = 0.12 + 0.06 * ((k * 37) % 5) / 4 + 0.84 * Math.exp(-(((v - POC_V) / 1.7) ** 2)) + 0.6 * Math.exp(-(((v - HVN_V) / 1.4) ** 2));
+    rows.push({ v, f: v === LVN_V ? 0.08 : v === POC_V ? 1 : Math.min(0.94, f) });
+  }
+  // the value area: the busiest rows around the POC until they hold 70% of the volume
+  const total = rows.reduce((n, r) => n + r.f, 0);
+  let lo = rows.findIndex((r) => r.v === POC_V), hi = lo, sum = rows[lo].f;
+  while (sum < total * 0.7) {
+    const up = rows[hi + 1]?.f ?? -1, dn = rows[lo - 1]?.f ?? -1;
+    if (up >= dn) sum += rows[++hi].f;
+    else sum += rows[--lo].f;
+  }
+  return rows.map((r, i) => ({ ...r, va: i >= lo && i <= hi }));
+})();
 type Tape = { price: number; dir: 1 | -1; chop: boolean; secs: number; flips: number[] };
 const TAPE0: Tape = { price: P_LAST, dir: 1, chop: false, secs: 42, flips: [] };
 
@@ -191,7 +242,10 @@ const SERIES_OF = Object.fromEntries(PRODUCTS.map((p) => [p.slug, p.series])) as
 const NAME_OF = Object.fromEntries(PRODUCTS.map((p) => [p.slug, p.name])) as Record<string, string>;
 const SERIES_NAME = Object.fromEntries(SERIES.map((s) => [s.key, s.name])) as Record<Series, string>;
 /** The tabs' short words (the ledger's series names, cut to fit four across a phone). */
-const TAB: Record<Series, string> = { flagship: "Flagship", pro: "Pro Series", essentials: "Essentials", utility: "Utility" };
+const TAB: Record<Series, string> = { flagship: "Flagship", pro: "Pro Series", sessions: "Sessions", essentials: "Essentials", utility: "Utility" };
+/** Under 380px five full words do not fit one row (2026-09-30): the two
+ *  longest shorten to the word that names them on their own panels. */
+const TAB_SHORT: Record<Series, string> = { flagship: "Flagship", pro: "Pro", sessions: "Sessions", essentials: "Free", utility: "Utility" };
 
 /** How long the tour rests on each product, and on the whole chart between rounds. */
 const DWELL = 3200;
@@ -199,11 +253,13 @@ const DWELL_ALL = 2200;
 
 /** One product's drawing: shown once its series is built, dimmed while
  *  something else is being pointed at. */
-function L({ p, children }: { p: string; children: ReactNode }) {
+function L({ p, also = [], children }: { p: string; also?: string[]; children: ReactNode }) {
   const { focus, step } = useCompleteStage();
   const s = SERIES_OF[p];
   const { shown } = built(s, step);
-  const lit = !focus || (focus.slug ? focus.slug === p : focus.series === s);
+  // `also`: products that draw this layer too (DS Pro Session Levels draws
+  // every bracket DS Session Levels does).
+  const lit = !focus || (focus.slug ? focus.slug === p || also.includes(focus.slug) : focus.series === s || also.some((a) => SERIES_OF[a] === focus.series));
   return (
     <g className="cc-l" style={{ opacity: !shown ? 0 : lit ? 1 : 0.13, transition: "opacity 450ms ease" }}>
       {children}
@@ -386,7 +442,10 @@ export function CompleteChart({ className = "" }: { className?: string }) {
       </div>
 
       {/* touch screens: the series tabs, right above the drawing */}
-      <div className="grid grid-cols-4 gap-1 border-b border-line px-2 py-2.5 min-[400px]:gap-1.5 min-[400px]:px-3 [@media(hover:hover)_and_(pointer:fine)]:hidden" role="group" aria-label="Show one series on the chart">
+      {/* Five series since 2026-09-30: the tabs take the width their words
+          need (not five equal columns, which cut "Flagship" and "Essentials"
+          short at 320px) and share what is left. */}
+      <div className="flex gap-1 border-b border-line px-2 py-2.5 min-[400px]:gap-1.5 min-[400px]:px-3 [@media(hover:hover)_and_(pointer:fine)]:hidden" role="group" aria-label="Show one series on the chart">
         {BUILD_ORDER.map((s) => {
           const on = focus?.series === s || built(s, step).building;
           return (
@@ -395,10 +454,11 @@ export function CompleteChart({ className = "" }: { className?: string }) {
               type="button"
               aria-pressed={focus?.series === s}
               onClick={() => choose(focus?.series === s && !focus.slug ? null : { series: s, source: "tap" })}
-              className="h-8 truncate rounded-[3px] border px-0.5 font-mono text-[8px] uppercase tracking-[0.04em] transition-colors duration-300 min-[360px]:text-[8.5px] min-[360px]:tracking-[0.06em] min-[400px]:text-[9px] min-[400px]:tracking-[0.12em]"
+              className="h-8 min-w-0 flex-[1_1_auto] whitespace-nowrap rounded-[3px] border px-1 font-mono text-[8px] uppercase tracking-[0.02em] transition-colors duration-300 min-[360px]:text-[8.5px] min-[360px]:tracking-[0.05em] min-[400px]:text-[9px] min-[400px]:tracking-[0.1em]"
               style={{ borderColor: on ? "rgba(25,242,230,0.5)" : "#23272D", color: on ? TEAL : "#7C848D" }}
             >
-              {TAB[s]}
+              <span className="min-[380px]:hidden">{TAB_SHORT[s]}</span>
+              <span className="hidden min-[380px]:inline">{TAB[s]}</span>
             </button>
           );
         })}
@@ -662,6 +722,77 @@ function Drawing({ t, H, stripY, roomy, tape }: { t: (n: number) => number; H: n
             <path key={k} d={box(6.5, 136.5 + k * 12, 7, 7)} fill="none" stroke={INK} strokeOpacity={A.mute} />
           ))}
         </g>
+      </L>
+
+      {/* ------------------------------------------------------ sessions */}
+      {/* DS Session Levels: the London bracket over exactly its own bars,
+          a tick at each end; its high and low carried forward, dotted, fading
+          from the bar that closed through them; named at the bracket's end
+          and tagged at the right edge. DS Pro Session Levels draws the same
+          bracket, so pointing at either lights it. */}
+      <L p="session-levels" also={["pro-session-levels"]}>
+        {(() => {
+          const xs = r2(xAt(SES.a) - 3.5), xe = r2(xAt(SES.b) + 3.5);
+          const yh = r2(yP(SES_HI)), yl = r2(yP(SES_LO));
+          const level = (y: number, taken: number) => (
+            <>
+              <line x1={xe} x2={r2(xAt(taken))} y1={y} y2={y} stroke={TEAL} strokeOpacity="0.55" strokeDasharray="1 2" />
+              <line x1={r2(xAt(taken))} x2={W - 4} y1={y} y2={y} stroke={TEAL} strokeOpacity="0.2" strokeDasharray="1 2" />
+            </>
+          );
+          return (
+            <>
+              {level(yh, HI_TAKEN)}
+              {level(yl, LO_TAKEN)}
+              <path d={`M${xs} ${r2(yh + 3)}V${yh}H${xe}V${r2(yh + 3)}M${xs} ${r2(yl - 3)}V${yl}H${xe}V${r2(yl - 3)}`} fill="none" stroke={TEAL} strokeOpacity="0.9" />
+              {roomy && (
+                <g className="font-mono" fontSize={t(4.6)} letterSpacing="0.5" fill={TEAL}>
+                  <text x={xe} y={yh - 2} textAnchor="end">{`LONDON HIGH ${tickPrice(SES_HI)}`}</text>
+                  <text x={xe} y={yl + 1.5 + t(4.6)} textAnchor="end">{`LONDON LOW ${tickPrice(SES_LO)}`}</text>
+                  {/* both were taken later, so both edge tags are faint */}
+                  <text x={W - 4} y={yh - 1.5} textAnchor="end" fillOpacity="0.45">LONDON H</text>
+                  <text x={W - 4} y={yl - 1.5} textAnchor="end" fillOpacity="0.45">LONDON L</text>
+                </g>
+              )}
+            </>
+          );
+        })()}
+      </L>
+      {/* DS Pro Session Levels: the volume inside the bracket — thin bars
+          against its first bar, the value area stronger, the POC the longest
+          and carried forward as a level until price trades back at it. */}
+      <L p="pro-session-levels">
+        {(() => {
+          const x0 = r2(xAt(SES.a) - 3.5);
+          const reach = (xAt(SES.b) - xAt(SES.a) + 7) * 0.34;
+          const yc = r2(yP(POC_V));
+          return (
+            <>
+              <line x1={x0} x2={x0} y1={r2(yP(SES_HI))} y2={r2(yP(SES_LO))} stroke={TEAL} strokeOpacity="0.5" />
+              {PROFILE.map((r) => {
+                const y = yP(r.v);
+                if (r.v === LVN_V)
+                  return (
+                    <path key={r.v} d={`M${x0} ${r2(y)}h${r2(reach * 0.55)}m0 -1.6v3.2`} fill="none" stroke={TEAL} strokeOpacity="0.75" strokeWidth="0.6" />
+                  );
+                const h = r.v === HVN_V ? 2 : 1.1;
+                return <path key={r.v} d={box(x0, y - h / 2, Math.max(1.2, r.f * reach), h)} fill={TEAL} fillOpacity={r.v === POC_V ? 0.95 : r.va ? 0.5 : 0.22} />;
+              })}
+              {/* solid to the session's end, dotted forward from there, faint
+                  once price has traded back at it */}
+              <line x1={r2(x0 + reach)} x2={r2(xAt(SES.b) + 3.5)} y1={yc} y2={yc} stroke={TEAL} strokeOpacity="0.85" />
+              <line x1={r2(xAt(SES.b) + 3.5)} x2={r2(xAt(POC_BACK))} y1={yc} y2={yc} stroke={TEAL} strokeOpacity="0.7" strokeDasharray="1 2" />
+              <line x1={r2(xAt(POC_BACK))} x2={W - 4} y1={yc} y2={yc} stroke={TEAL} strokeOpacity="0.22" strokeDasharray="1 2" />
+              {roomy && (
+                <g className="font-mono" fontSize={t(4.6)} letterSpacing="0.5" fill={TEAL}>
+                  {/* labelled where no candle covers it */}
+                  <text x={r2(xAt(12))} y={yc - 2}>{`LONDON POC ${tickPrice(POC_V)}`}</text>
+                  <text x={W - 4} y={yc - 1.5} textAnchor="end" fillOpacity="0.45">LONDON POC</text>
+                </g>
+              )}
+            </>
+          );
+        })()}
       </L>
 
       {/* ------------------------------------------------------ flagship */}

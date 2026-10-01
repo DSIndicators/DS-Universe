@@ -1,7 +1,8 @@
 "use client";
 
 import { createContext, useContext, useState, type ReactNode } from "react";
-import { PRODUCTS } from "@/content/products";
+import { PRODUCTS, type Series } from "@/content/products";
+import { SERIES } from "@/content/pricing";
 
 /**
  * The shared state of the DS Complete panel: which part of the lineup is being
@@ -15,9 +16,10 @@ import { PRODUCTS } from "@/content/products";
  * focus it set itself (`source: "hover"`) — a phone's price list never
  * flickers along with the tour.
  */
-export type Series = "flagship" | "pro" | "essentials" | "utility";
-/** The build runs in the list's own order, so each step lights its row. */
-export const BUILD_ORDER: Series[] = ["flagship", "pro", "essentials", "utility"];
+export type { Series } from "@/content/products";
+/** The build runs in the list's own order (the catalogue's — content/pricing.ts
+ *  SERIES), so each step lights its row. */
+export const BUILD_ORDER: Series[] = SERIES.map((s) => s.key).filter((k) => PRODUCTS.some((p) => p.series === k));
 
 export type Focus = { series: Series; slug?: string; source: "hover" | "tap" | "tour" } | null;
 
@@ -25,7 +27,7 @@ type Stage = {
   focus: Focus;
   setFocus: (f: Focus) => void;
   /** 0 = nothing built yet (server render; a <noscript> rule shows it all
-   *  without JavaScript), 1..4 = that many series drawn, 5 = done. */
+   *  without JavaScript), 1..n = that many series drawn, n + 1 = done. */
   step: number;
   setStep: (n: number) => void;
 };

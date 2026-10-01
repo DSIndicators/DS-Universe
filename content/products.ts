@@ -14,6 +14,11 @@
  *    product page. `description` is retained for future use and NOT rendered.
  *  - Spaced hyphens in the sheet become em dashes, matching the sheet's own.
  *
+ * 2026-09-30 — THE SESSION LEVELS PAIR. DS Session Levels (Product ID 2446, free
+ * for everyone) and DS Pro Session Levels (2453, free with DS Complete, not sold
+ * on its own) added from the sheet's Product Catalog + Product Details tabs
+ * (updated 2026-09-30), word for word. They share their own series, "sessions".
+ *
  * One wording correction is applied on the way in: DS ProMACD's cross price is
  * "the exact price that WOULD cross", not "will" — it is a threshold for the
  * forming bar, not a forecast (the product's own board says so), and NinjaTrader's
@@ -22,9 +27,10 @@
 
 export type Kind = "indicator" | "addon";
 
-/** The four shelves, in the order the storefront runs them. Pricing per series
- *  lives in content/pricing.ts. */
-export type Series = "flagship" | "pro" | "essentials" | "utility";
+/** The shelves, in catalogue order. Pricing per series lives in
+ *  content/pricing.ts; the order the STORE runs them in is content/release.ts
+ *  (a new series can lead for a while — NEW_SERIES). */
+export type Series = "flagship" | "pro" | "sessions" | "essentials" | "utility";
 
 export type Product = {
   slug: string;
@@ -185,6 +191,38 @@ export const PRODUCTS: Product[] = [
         ],
         "helps": "A standard MACD tells you a cross happened only after the bar that made it closes — a beat too late to act on cleanly, and read on a scale that means something different on every instrument. DS ProMACD solves the exact price that would cross the signal line before the bar closes, reads on the same volatility-normalized MACD-V scale on every chart, and grades every divergence through a full lifecycle instead of leaving you to eyeball whether it is still valid.",
         "description": "DS ProMACD keeps the classic fast/slow EMA and signal-line structure but changes what you read and when. The exact close that will cross the signal line on the forming bar is solved in closed form from the prior bar alone — fixed for the whole bar, so it cannot repaint — and shown three ways: a price-panel rail with an axis flag, a header chip, and a panel target dash, alongside the zero-line cross price for the same bar. The default scale is MACD-V (Spiroglou, Charles H. Dow Award), which gives the panel genuine fixed zones and a state ribbon across six regimes — RISK, RALLYING, RETRACING, RANGING, REBOUNDING, REVERSING — instead of an axis that rescales itself on every instrument. All four early-signal layers ship in v1.0: a histogram slope-flip, a pre-cross alarm, a zero-line cross read together with its regime context, and ranging suppression so a flat market does not fire on noise. Divergence runs on Elder's relative-depth and separate-legs gates against the histogram (the form that actually matches his rule; applied to the MACD line directly it rejects most sound patterns), carries a PENDING to CONFIRMED, BROKEN or EXPIRED lifecycle instead of a single static mark, and also catches exaggerated equal-extreme patterns. The panel's Y-axis locks by default so a chart drag cannot push the reading off its own scale. Closed-bar decisions throughout: it does not repaint."
+    },
+    {
+        "slug": "session-levels",
+        "name": "DS Session Levels",
+        "kind": "indicator",
+        "series": "sessions",
+        "category": "Session Levels",
+        "purpose": "The Asia, London and New York highs and lows, drawn exactly where each session started and finished, and carried forward until that session opens again — free for everyone.",
+        "hooks": [
+            "Every session's high and low, exact",
+            "Carried forward until it reopens",
+            "Taken levels fade where closed",
+            "Futures, ICT and forex presets"
+        ],
+        "helps": "Every trading session leaves two prices behind — its high and its low — and many traders read each session against the one before it: does London hold inside the Asia range, and which of London's levels does New York test first? Marking them by hand every day is slow, and easy to get wrong across time zones. DS Session Levels draws them for you, exactly, on every intraday chart.",
+        "description": "DS Session Levels draws the high and low of every trading session as a short bracket over exactly the bars of that session — Asia, London and New York on the futures clock by default, each in its own DS Universe color (violet, teal, gold). After a session closes, its levels carry forward as dotted lines until that session opens again and fade from the bar that closes through them, so the levels still in play are named by small tags at the right edge. Sessions are clock times in New York time, converted with the Windows time-zone rules, so they land correctly on any PC and through every daylight-saving change. The highs and lows are always real traded prices from inside the session: on range, Renko, tick, Heiken Ashi and 60-minute charts a 1-minute series supplies them. Presets for the futures ETH split, the ICT killzones and the classic forex sessions; every name, time and color editable; eight Data Box values for the Market Analyzer and strategies; alerts on a close through a level or price nearing one. It draws behind the candles and never touches the price scale. Free for everyone, and included in DS Complete."
+    },
+    {
+        "slug": "pro-session-levels",
+        "name": "DS Pro Session Levels",
+        "kind": "indicator",
+        "series": "sessions",
+        "category": "Session Levels & Volume Profile",
+        "purpose": "DS Session Levels with the volume added: each session's volume profile inside its bracket, its POC carried forward as a level, HVNs and LVNs marked — built from real trades, completed from 1-minute bars.",
+        "hooks": [
+            "A volume profile in every session",
+            "Each POC carried forward as a level",
+            "HVN and LVN found, no knobs",
+            "Real trades, gaps filled from bars"
+        ],
+        "helps": "A session's high and low show where it traded; they don't show where it did its business. DS Pro Session Levels adds that: inside every session's bracket, the volume it traded at each price, with the busiest price — the POC — carried forward as a level beside the high and low, so the last session's accepted prices are on the chart when price comes back to them.",
+        "description": "DS Pro Session Levels is DS Session Levels with each session's volume profile built in. Everything DS Session Levels draws is here unchanged — exact session highs and lows, carry-forward, fades, edge tags, presets and alerts — and inside every bracket the session's volume at each price is drawn as thin bars against its first bar, the value area stronger and the POC's bar the longest. The POC becomes a level of its own, labeled where no candle covers it and carried forward until the session opens again; high- and low-volume nodes are found from each session's own trading, with no sensitivity setting, and can be marked in the profile or carried forward as levels. Profiles are built from real trades wherever NinjaTrader's trade history has them, read in the background a day at a time, and completed from the chart's 1-minute bars wherever the history has gaps — so every profile is whole the moment the chart loads and sharpens as the trades arrive, with memory that stays flat however many days are loaded. Free with DS Complete; not sold separately."
     },
     {
         "slug": "adaptive-priceline",

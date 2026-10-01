@@ -11,13 +11,15 @@ import { BoxCard } from "@/components/BoxCard";
 import { BuyButton, CtaNote } from "@/components/BuyButton";
 import { PriceBlock } from "@/components/Price";
 import { TrialHead, TrialStrip } from "@/components/Trial";
+import { GiftHead, GiftStrip, giftBuyLabel } from "@/components/Sessions";
 import { BY_SLUG, KIND_LABEL, PRODUCTS } from "@/content/products";
-import { COVER_RATIO, boxartFor, isReleased, seriesMates, SHELVES } from "@/content/release";
+import { CATALOGUE_ORDER, COVER_RATIO, boxartFor, isReleased, seriesMates } from "@/content/release";
 import { BOARD_GROUND, shotsFor } from "@/content/shots";
 import { CHART_GROUND, CHART_H, CHART_W, chartsFor } from "@/content/charts";
 import { showcaseFor } from "@/content/showcase";
 import { listingCopyFor } from "@/content/listing-copy";
-import { APART, COMPLETE, FOUNDERS, money, priceFor, seriesInfo } from "@/content/pricing";
+import { APART, COMPLETE, FOUNDERS, GIFT, money, priceFor, seriesInfo } from "@/content/pricing";
+import { PAIR } from "@/content/sessions";
 import { DISCLOSURE, SITE } from "@/content/site";
 
 type Params = { slug: string };
@@ -98,7 +100,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   // "More like this" = the rest of the same series. A series of one (the data
   // utility) points at the flagship shelf instead, so no page ends in a dead end.
   const mates = seriesMates(p.slug);
-  const moreShelf = mates.length ? { name: series.name, products: mates } : { name: SHELVES[0].info.name, products: SHELVES[0].products };
+  const moreShelf = mates.length ? { name: series.name, products: mates } : { name: CATALOGUE_ORDER[0].info.name, products: CATALOGUE_ORDER[0].products };
 
   return (
     <>
@@ -124,6 +126,8 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               {/* The 3-day free trial, where the product has one (2026-09-29):
                   the page's first action. Nothing renders for the others. */}
               <TrialHead slug={p.slug} className="mt-9" />
+              {/* The Founders gift (2026-09-30): how the Pro tier is had. */}
+              <GiftHead slug={p.slug} className="mt-9" />
             </Reveal>
             <Reveal className="lg:col-span-5 lg:justify-self-end" delay={100}>
               <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1" aria-label="Highlights">
@@ -179,12 +183,16 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <p className="display-sm mt-5 leading-[1.45] text-ink text-pretty">{p.helps}</p>
 
           {/* ------------------------------------------------ price and buy */}
-          <div className="mt-10 overflow-hidden rounded-2xl border border-line bg-surface p-7 shadow-card sm:p-8">
+          <div id="buy" className="mt-10 scroll-mt-[120px] overflow-hidden rounded-2xl border border-line bg-surface p-7 shadow-card sm:p-8">
             {/* The trial, across the top of the card — at the moment of deciding to pay. */}
             <TrialStrip slug={p.slug} />
+            {/* The Founders gift, in the same place (2026-09-30). */}
+            <GiftStrip slug={p.slug} />
             <PriceBlock price={price} size="lg" />
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <BuyButton slug={p.slug} />
+              {/* The Pro tier is bought as DS Complete: the button says so, and
+                  what it costs, so the checkout it opens holds no surprise. */}
+              <BuyButton slug={p.slug} label={price?.withComplete ? giftBuyLabel() : undefined} />
               <Link href="/contact" className="btn-ghost">
                 Ask a question
               </Link>
@@ -192,15 +200,23 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             <CtaNote className="mt-3.5" slug={p.slug} />
             {/* The one bundle, said once, where the decision is being made. */}
             <p className="mt-6 border-t border-line pt-5 text-[13.5px] leading-relaxed text-slate">
-              {price?.free ? "Also in " : "Or take everything — "}
-              <Link href="/products#complete" className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
-                {COMPLETE.name}
-              </Link>
-              {price?.free
-                ? ", every DS Universe product in one license."
-                : FOUNDERS.active
-                  ? `, every DS Universe product in one license — a ${money(APART)} value, ${money(COMPLETE.now)} in the ${FOUNDERS.name}.`
-                  : `, every DS Universe product in one license, for ${money(COMPLETE.now)}.`}
+              {price?.withComplete ? (
+                GIFT.owners
+              ) : (
+                <>
+                  {price?.free ? "Also in " : "Or take everything — "}
+                  <Link href="/products#complete" className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
+                    {COMPLETE.name}
+                  </Link>
+                  {p.slug === PAIR.free
+                    ? `, every DS Universe product in one license — and the only way to get ${GIFT.name}, which adds each session's volume profile and POC.`
+                    : price?.free
+                      ? ", every DS Universe product in one license."
+                      : FOUNDERS.active
+                        ? `, every DS Universe product in one license — a ${money(APART)} value, ${money(COMPLETE.now)} in the ${FOUNDERS.name}.`
+                        : `, every DS Universe product in one license, for ${money(COMPLETE.now)}.`}
+                </>
+              )}
             </p>
           </div>
 

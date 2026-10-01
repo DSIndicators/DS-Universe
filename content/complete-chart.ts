@@ -27,6 +27,8 @@ export const DRAWS: Record<string, string> = {
   prostochastics: "Four speeds in four lanes, one quad latch",
   prosqueeze: "Compression as one live number; every fire graded",
   promacd: "MACD-V with a six-state momentum ribbon",
+  "session-levels": "Each session bracketed over its own bars, its high and low carried forward until it opens again",
+  "pro-session-levels": "The session's volume profile inside its bracket, its POC carried forward as a level",
   "adaptive-priceline": "Always anchored to the candle; the bar-close countdown rides the line",
   "chart-price": "The last price, large, changing every tick: green up, red down, amber when it chops",
   "ds-258": "Every 00/20/50/80 in view, a whisper not a wall",
@@ -39,6 +41,7 @@ export const DRAWS: Record<string, string> = {
 export const DRAWN = [
   "zones", "iceberg", "oracle", "gex", "flow",
   "prorsi", "prostochastics", "prosqueeze", "promacd",
+  "session-levels", "pro-session-levels",
   "adaptive-priceline", "chart-price", "ds-258", "parallax", "toolkit",
   "bulk-replay-downloader",
 ] as const;

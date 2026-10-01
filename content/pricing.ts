@@ -13,8 +13,10 @@
  *     until 2026-09-26; see below).
  *   · DS Bulk Replay Downloader: $29.99, 0% off, and it stays that way.
  *   · The chart essentials and the DS Toolkit rail: free.
+ *   · DS Session Levels: free (2026-09-30). DS Pro Session Levels: NOT sold on
+ *     its own — free with DS Complete (WITH_COMPLETE, and GIFT below).
  *   · ONE bundle, DS Complete: every product, 50% off what the paid ones cost
- *     bought one at a time.
+ *     bought one at a time. The pair adds $0 to that sum.
  *
  * 2026-09-26: Tom took the $99.99 compare-at price off all nine indicator
  * listings on Whop (it had never been a price anyone paid — FTC 16 CFR 233.1),
@@ -43,16 +45,26 @@
 
 import { PRODUCTS, type Series } from "./products";
 
+/** One payment. `list` equals `now` when there is no discount. */
+export type PaidPrice = { free?: undefined; withComplete?: undefined; list: number; now: number };
+
 export type Price =
   /** Free, permanently. Not a trial and not a stripped build. */
-  | { free: true; list?: undefined; now?: undefined }
-  /** One payment. `list` equals `now` when there is no discount. */
-  | { free?: undefined; list: number; now: number };
+  | { free: true; withComplete?: undefined; list?: undefined; now?: undefined }
+  | PaidPrice
+  /** Not sold on its own: it comes, at no charge, with DS Complete (2026-09-30,
+   *  DS Pro Session Levels). It adds nothing to APART and nothing to the
+   *  discount — it is a reason to choose the bundle. */
+  | { withComplete: true; free?: undefined; list?: undefined; now?: undefined };
+
+/** A price somebody pays. Read this, never `!p.free` — there are three kinds. */
+export const isPaid = (p: Price | undefined): p is PaidPrice => !!p && typeof p.now === "number";
 
 const paid = (list: number, now: number): Price => ({ list, now });
 /** One price, nothing crossed out. */
 const flat = (now: number): Price => paid(now, now);
 const FREE: Price = { free: true };
+const WITH_COMPLETE: Price = { withComplete: true };
 
 export const PRICES: Record<string, Price> = {
   // ---- flagship indicators ---------------------------------------------
@@ -66,6 +78,9 @@ export const PRICES: Record<string, Price> = {
   prostochastics: flat(79.99),
   prosqueeze: flat(79.99),
   promacd: flat(79.99),
+  // ---- the session levels pair (2026-09-30, Master Sheet "Pricing" tab) --
+  "session-levels": FREE,
+  "pro-session-levels": WITH_COMPLETE,
   // ---- data utility — no discount, by rule --------------------------------
   "bulk-replay-downloader": flat(29.99),
   // ---- free essentials -------------------------------------------------
@@ -80,7 +95,7 @@ export const priceFor = (slug: string): Price | undefined => PRICES[slug];
 
 /** Whole-percent discount, or 0. Computed, so it cannot disagree with the prices. */
 export const discountPct = (p: Price | undefined) =>
-  p && !p.free && p.list > p.now ? Math.round((1 - p.now / p.list) * 100) : 0;
+  isPaid(p) && p.list > p.now ? Math.round((1 - p.now / p.list) * 100) : 0;
 
 /* -------------------------------------------------------------------------- */
 /* The shelves. Copy per series; membership comes from products.ts.            */
@@ -115,6 +130,16 @@ export const SERIES: SeriesInfo[] = [
       "RSI, stochastics, the squeeze and MACD — each one a single locked-scale panel that turns its read into levels, named states and graded signals, decided on closed bars.",
   },
   {
+    // 2026-09-30. One free tool and its Pro tier, which comes only with DS
+    // Complete — shelved together so the step between them is plain to see.
+    key: "sessions",
+    short: "Sessions",
+    name: "Session levels",
+    tagline: "Every session's high and low, exactly where it happened — and, with DS Complete, the volume that built it.",
+    blurb:
+      "Asia, London and New York, each bracketed over exactly its own bars in its own color, its high and low carried forward until that session opens again. DS Session Levels is free for everyone. DS Pro Session Levels adds each session's volume profile and carries its POC forward as a level beside the high and low — it comes free with DS Complete and is not sold on its own.",
+  },
+  {
     key: "essentials",
     short: "Essentials",
     name: "Free essentials",
@@ -139,7 +164,9 @@ export function seriesPrice(key: Series): Price | null {
   const ps = PRODUCTS.filter((p) => p.series === key).map((p) => PRICES[p.slug]);
   const first = ps[0];
   if (!first) return null;
-  const same = ps.every((p) => p && p.free === first.free && p.now === first.now && p.list === first.list);
+  const same = ps.every(
+    (p) => p && p.free === first.free && p.withComplete === first.withComplete && p.now === first.now && p.list === first.list,
+  );
   return same ? first : null;
 }
 
@@ -155,13 +182,14 @@ export const COMPLETE = {
   /** The struck-through figure on Whop. Must equal APART — checked below. */
   whopAnchor: 749.9,
   blurb:
-    "Every DS Universe product — the flagship indicators, the Pro Series panels, the data utility, and the free essentials with the rail that runs them — in one permanent license.",
+    "Every DS Universe product — the flagship indicators, the Pro Series panels, the session levels, the data utility, and the free essentials with the rail that runs them — in one permanent license, with DS Pro Session Levels, which comes only with it.",
   /** The one line beside the DS Complete chart (CompleteKeystone.tsx). */
   lede: "Every DS Universe product, built to run together on one chart — in one permanent license.",
   /** The four hooks from the sheet, minus the count. */
   points: [
     "Every product, one purchase",
     "Every free essential included",
+    "DS Pro Session Levels, only in DS Complete",
     "Each product keeps its own permanent license",
     "Built to run together on one chart",
   ],
@@ -196,9 +224,33 @@ export const FOUNDERS = {
   cta: "Buy at the founders price",
 } as const;
 
+/**
+ * THE FOUNDERS GIFT (Tom, 2026-09-30): DS Pro Session Levels is free ONLY to
+ * DS Complete buyers — "a little thank you to the Founders", at no cost. It is
+ * inside the DS Complete archive, with its README and guides, and is not sold
+ * on its own (its README, word for word: "It comes free with DS Complete, and
+ * is not sold on its own").
+ *
+ * Every mention on the site reads this object: the gift line in the DS
+ * Complete panel, its ledger mark, the Session levels panel, the product page,
+ * the tile and the FAQ. While the Founders Sale runs it is named a Founders
+ * gift; when FOUNDERS.active goes false it reads "Only in DS Complete" — the
+ * product stays in DS Complete either way, so nothing else changes.
+ */
+export const GIFT = {
+  slug: "pro-session-levels",
+  name: "DS Pro Session Levels",
+  label: FOUNDERS.active ? "Founders gift" : "Only in DS Complete",
+  /** After the product's name. */
+  line: "free with DS Complete, not sold on its own",
+  /** For people who already own DS Complete — its README's own promise. */
+  owners:
+    "Already own DS Complete? It is added to your license at no charge — update DS Complete to the version that includes it. Nothing to buy, nothing to send.",
+} as const;
+
 /** What the paid products cost bought one at a time. COMPUTED. */
 export const APART = round2(
-  Object.values(PRICES).reduce((n, p) => n + (p.free ? 0 : p.now), 0),
+  Object.values(PRICES).reduce((n, p) => n + (isPaid(p) ? p.now : 0), 0),
 );
 export const COMPLETE_SAVING = round2(APART - COMPLETE.now);
 export const COMPLETE_PCT = Math.round((1 - COMPLETE.now / APART) * 100);
@@ -223,6 +275,9 @@ for (const slug of Object.keys(PRICES)) {
     throw new Error(`content/pricing.ts: "${slug}" has a price but is not in the catalogue.`);
   }
 }
+if (!PRICES[GIFT.slug]?.withComplete) {
+  throw new Error(`content/pricing.ts: the Founders gift (${GIFT.slug}) must be priced WITH_COMPLETE.`);
+}
 
 /* -------------------------------------------------------------------------- */
 /* Formatting                                                                  */
@@ -233,7 +288,8 @@ export const money = (n: number) =>
   `$${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
 /** The single line a tile shows. */
-export const tilePrice = (p: Price | undefined) => (!p ? "" : p.free ? "Free" : money(p.now));
+export const tilePrice = (p: Price | undefined) =>
+  !p ? "" : p.free ? "Free" : p.withComplete ? "With DS Complete" : money(p.now);
 
 /**
  * How we sell, said once. NinjaTrader's vendor guidelines forbid superlatives,
@@ -250,10 +306,10 @@ export const TERMS = [
   },
   {
     title: "The essentials are free",
-    text: "The chart essentials and the DS Toolkit rail cost nothing, permanently. Not a trial, not a stripped build.",
+    text: "The chart essentials, DS Session Levels and the DS Toolkit rail cost nothing, permanently. Not a trial, not a stripped build.",
   },
   {
     title: "One bundle",
-    text: "DS Complete is every product at once, for half of what the paid ones cost bought separately.",
+    text: "DS Complete is every product at once, for half of what the paid ones cost bought separately — and the only way to get DS Pro Session Levels.",
   },
 ];

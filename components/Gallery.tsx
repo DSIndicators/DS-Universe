@@ -272,16 +272,23 @@ export function Gallery({
           ))}
         </div>
         {many && (
-          <div className="flex shrink-0 items-center gap-1 pt-2" aria-hidden="true">
+          <div className="flex shrink-0 items-center pt-1" aria-hidden="true">
+            {/* The dashes are tap targets on a phone (2026-09-30 mobile scan):
+                each button is a full 24px square (28 wide from sm) with the
+                dash drawn inside it, so the visible rhythm barely moves — an
+                18px dash at a 24px pitch on phones, the same 24px dash at a 28px
+                pitch as before from sm — and a thumb can no longer land
+                between two of them. */}
             {slides.map((s, n) => (
               <button
                 key={s.src}
                 type="button"
                 tabIndex={-1}
                 onClick={() => go(n)}
-                className="group relative h-4 w-[18px] sm:w-6"
+                aria-label={`Picture ${n + 1} of ${count}`}
+                className="group relative h-6 w-6 sm:w-7"
               >
-                <span className={`absolute inset-x-0 top-1/2 block h-[3px] -translate-y-1/2 rounded-full transition-colors duration-300 ${n === i ? "bg-gold" : "bg-line-strong/70 group-hover:bg-line-strong"}`} />
+                <span className={`absolute inset-x-[3px] top-1/2 block h-[3px] -translate-y-1/2 rounded-full transition-colors duration-300 sm:inset-x-[2px] ${n === i ? "bg-gold" : "bg-line-strong/70 group-hover:bg-line-strong"}`} />
               </button>
             ))}
           </div>
@@ -289,6 +296,9 @@ export function Gallery({
       </div>
 
       {/* ------------------------------------------------------------ thumbnails (from sm up) */}
+      {/* Each thumb is 120px (136 from lg) and gives way evenly when the row
+          would run past the column (2026-09-30 mobile scan: DS Flow's six —
+          a recording and five charts — ran 34px off a 768px tablet). */}
       {many && thumbs && (
         <div className="relative mt-4 hidden gap-2.5 sm:flex" aria-label={`${label} — pick a picture`}>
           {slides.map((s, n) => (
@@ -298,7 +308,7 @@ export function Gallery({
               onClick={() => go(n)}
               aria-label={`Picture ${n + 1} of ${count}: ${s.title}`}
               aria-current={n === i}
-              className={`relative w-[120px] shrink-0 overflow-hidden rounded-lg outline-none transition-all duration-300 ease-silk focus-visible:ring-2 focus-visible:ring-gold lg:w-[136px] ${
+              className={`relative min-w-0 flex-[0_1_120px] overflow-hidden rounded-lg outline-none transition-all duration-300 ease-silk focus-visible:ring-2 focus-visible:ring-gold lg:flex-[0_1_136px] ${
                 n === i ? "ring-2 ring-gold" : "opacity-55 ring-1 ring-white/10 hover:opacity-100 hover:ring-white/25"
               }`}
               style={{ background: ground, aspectRatio: String(ratio) }}

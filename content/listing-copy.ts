@@ -229,6 +229,40 @@ export const LISTING: Record<string, ListingCopy> = {
             "Run a level and close back inside, and the pool ghosts with a small cross at the sweep — the pattern worth seeing."
         ]
     },
+    // 2026-09-30 — from the sheet's Whop Listings tab, split the way every
+    // entry here is (✦ hook, lede, ◆ heading, ▸ points, closing line).
+    "session-levels": {
+        "hook": "Every session's high and low, drawn exactly where the session started and finished.",
+        "lede": "Asia, London and New York each leave two prices behind. This draws them for you — each session as a short bracket over its own bars, in its own color, carried forward until it opens again and faded from the bar that closes through it.",
+        "heading": "Built on the clock",
+        "points": [
+            "Exact highs and lows on every intraday chart",
+            "Levels carried forward until their session reopens",
+            "Futures ETH, ICT killzone and forex presets",
+            "Right in any time zone, through every daylight-saving change"
+        ],
+        "close": [
+            "Free — add it to any intraday chart and the sessions are there."
+        ]
+    },
+    // DS Pro Session Levels has NO Whop listing (it comes only with DS
+    // Complete), so its words come from its shipped README instead — its
+    // opening line, its "What you're looking at" table and "Good to know".
+    "pro-session-levels": {
+        "hook": "Every session's high and low, drawn exactly where the session started and finished — and inside each bracket, the volume that built it.",
+        "lede": "Everything DS Session Levels draws is here, unchanged. Inside every bracket it draws the session's volume profile — how much traded at each price — and turns the busiest price, the POC, into a level of its own. It sits behind your candles and never touches your price scale.",
+        "heading": "On the chart",
+        "points": [
+            "Thin bars inside the bracket — the session's volume at each price; the longest is the POC, the stronger bars the value area",
+            "A line from the longest bar — the POC as a level, dotted forward until the session opens again, faded once price trades at it",
+            "A thick bar or a hairline with a serif — an HVN, or the LVN, the thin place between two of them",
+            "A dotted spine — more than 5% of that profile was completed from 1-minute bars"
+        ],
+        "close": [
+            "No Tick Replay needed: the trade history is read in the background, and the chart never waits for it.",
+            "It comes free with DS Complete, and is not sold on its own."
+        ]
+    },
     "toolkit": {
         "hook": "One rail on the chart: your indicators on top, your drawing tools below, chalk at the bottom.",
         "lede": "Turning an indicator off usually means a dialog, a checkbox and Apply. Here it is one click.",
