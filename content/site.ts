@@ -206,7 +206,8 @@ export const CATALOGUE = {
  *                       old picture, not this one. The dashed boxes on both are
  *                       still unattributed.
  *   sessions          ← DS_20260921_013448.png
- *   timeframes        ← DS_20260921_013152.png
+ *   timeframes        ← DS_20260921_013152.png  (RETIRED 2026-09-30: the 4th
+ *                       slot is now sessions-zones-v1 ← "Main cover page 6.png")
  *   session-profiles  ← DS_20260921_013601.png
  *   levels            ← DS_20260921_013258.png  (RETIRED 2026-09-30: the last
  *                       slot is now sessions-volume-v1 ← "Main cover page 5.png")
@@ -242,12 +243,14 @@ export const CATALOGUE = {
  * ORDER: the clip first, then footprints, then the pictures in the order they
  * already had (both firsts are Tom's). Taking pro-series out did put two Flow
  * pictures side by side — footprints, then sessions — where they used to
- * alternate. Left that way on purpose: the constraint the alternation rule
- * exists to serve is that the two SESSION views never sit together, and they
- * still do not (timeframes separates sessions from session-profiles, and the
- * clip separates levels from footprints around the wrap). Footprints (volume
- * inside each candle group) and sessions (the three session profiles) do not
- * read as the same screenshot twice.
+ * alternate. Footprints (volume inside each candle group) and sessions (the
+ * three session profiles) do not read as the same screenshot twice.
+ * Since 2026-09-30 the last four frames are all session views (sessions,
+ * sessions-zones-v1, session-profiles, sessions-volume-v1): Tom named both
+ * slots for the new pictures, which replaced timeframes and levels. The old
+ * rule that two session views never sit together gives way to his order; the
+ * four still differ at a glance (DS Flow's profiles; DS Zones' cards and the
+ * RSI panel; the profiles alone; DS Parallax's matrix).
  *
  * `ground` is the charts' own black (#040404, sampled): the screen and the
  * enlarged view are painted with it, so a picture that is still loading, or a
@@ -320,10 +323,18 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkevVPy4pSMcKMj1Ip69KD0pgf/9k=",
     },
     {
-      src: "/covers/screen/timeframes.webp",
-      title: "30m, 1h, 2h and 4h beside the chart you trade",
-      tools: ["parallax", "prostochastics"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDj8E9RSgAcEEmn+tMP3qYH/9k=",
+      // ← "Main cover page 6.png" (New Raw Images, 2026-09-30) replaces
+      // timeframes.webp in the 4th slot, Tom's pick. 1920x1080 native, the
+      // same 16:9, never enlarged. Attributed by its labels: the ASIA / LONDON
+      // / NEW YORK brackets with HIGH, LOW, POC and HVN and their edge tags =
+      // DS Pro Session Levels; the SUPPLY / DEMAND cards (FRESH, PIVOT,
+      // DEFENDED, KEY LEVEL, strength, Vol, Δ, "BUY 54% BALANCED") = DS Zones;
+      // "RSI 71.9" on price and the "DS ProRSI" panel = DS ProRSI. The candle
+      // colouring is not claimed.
+      src: "/covers/screen/sessions-zones-v1.webp",
+      title: "Session levels and volume, live zones and RSI levels on one chart",
+      tools: ["pro-session-levels", "zones", "prorsi"],
+      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkOvXg/Skx9adQaAP/2Q==",
     },
     {
       src: "/covers/screen/session-profiles.webp",
