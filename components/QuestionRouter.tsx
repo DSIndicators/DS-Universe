@@ -24,8 +24,12 @@ import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode 
  * THE READ IS COMPUTED, NOT ANIMATED FOR SHOW. Each drawing is derived from
  * the candles revealed so far, the way the indicator itself would:
  *   Zones   — the zone's state machine (FRESH → APPROACHING → TESTING →
- *             DEFENDED, or BREAKING) and its conviction, from where price is;
- *   Iceberg — the test count rises each time a wick is rejected at the level;
+ *             DEFENDED n×, or BREAKING), a diamond on every bar that tests it
+ *             and the zone's own buy/sell profile, from the bars it has seen
+ *             (its read turns from BALANCED to ABSORBED once sellers hitting
+ *             it have been held — illustrative volume, never market data);
+ *   Iceberg — a ceiling confirmed at its second rejected test, a fracture
+ *             on every test, the count rising as wicks are turned back;
  *   GEX     — the nearest level (Call Wall / Gamma Flip / Put Wall) lights up;
  *   Flow    — the buy/sell profile accumulates bar by bar; the heaviest row
  *             is flagged;
@@ -33,7 +37,34 @@ import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode 
  *             SHORT to LONG where price crosses it (a Major signal marker).
  * Every name, state and label is the product's own (content/products.ts).
  * The candles are a drawn illustration — labelled so — never market data,
- * and there are no numbers, results or outcomes anywhere.
+ * and there are no results or outcomes anywhere. The only figures are the
+ * ones the products' captions print, computed from the drawn bars: a test
+ * count, and (since 2026-10-01) DS Zones' buy/sell share.
+ *
+ * 2026-10-01 — DS ZONES AND DS ICEBERG REDRAWN to their visual redesign
+ * (Build 2026-10-01), read from the builds and their READMEs:
+ *   Zones   — a faint band behind the candles: the ACTION EDGE (the side
+ *             price meets — a demand zone's roof) solid, the far edge dotted,
+ *             a stem at its origin; a diamond on the action edge at every bar
+ *             that tested it, FILLED when price was rejected back out, HOLLOW
+ *             when the bar closed inside; the zone's own volume profile at its
+ *             right end, teal buying toward price and violet selling against
+ *             the wall, its heaviest row ticked (the POC). The readout is the
+ *             caption: DEMAND, the state word (DEFENDED counts the closed bars
+ *             that held), the buy | sell rule with its tick, and the read
+ *             (ABSORBED / BALANCED). Cyan while price is approaching or
+ *             testing, as in the product; the slice price has eaten glows
+ *             while it tests.
+ *   Iceberg — was a support RUNWAY drawn in violet; the build now draws
+ *             support teal (ICE BID) and resistance violet (ICE OFFER), so the
+ *             route is an ICE OFFER, keeping the tabs' teal/violet rhythm. A
+ *             level needs two clustered tests, so nothing is drawn until the
+ *             second rejection; then: an exact line with a soft tolerance tint
+ *             from its first test (a short post), a fracture just past each
+ *             wick tip running into the ice, and the keel iceberg on the
+ *             waterline in the runway past the last bar. TESTING for six bars
+ *             after the latest test: the iceberg and the newest fracture in
+ *             the strong colour (magenta), that fracture ringed.
  *
  * HOLOGRAPHIC, WITHOUT GLOW. The projection is made of crisp things only: a
  * scan-line fill, one-pixel edges with a faint offset "ghost" edge in the
@@ -58,6 +89,7 @@ type Route = {
   tone: "bull" | "bear";
   closes: number[];
   lows?: Record<number, number>;
+  highs?: Record<number, number>;
   /** The price range this chart is scaled to (its candles and its levels). */
   range: [number, number];
 };
@@ -82,10 +114,12 @@ const ROUTES: Route[] = [
     product: "DS Iceberg",
     slug: "iceberg",
     title: "Absorption Runways",
-    line: "Where passive size absorbed the tape, tests counted",
+    line: "ICE OFFER above price, ICE BID below, every test marked",
     tone: "bear",
-    closes: [70, 64, 66, 57, 51, 54, 48, 51, 46, 49, 54, 57, 52, 50, 56, 61, 58, 65],
-    lows: { 6: 37.6, 9: 38.2, 13: 37.9 },
+    // A rally turned back three times at one ceiling (the wicks in `highs`),
+    // then drifting off it: an ICE OFFER, confirmed at its second test.
+    closes: [42, 47, 44, 50, 54, 51, 56, 53, 50, 55, 52, 49, 54, 50, 47, 51, 46, 43],
+    highs: { 6: 62.6, 9: 62.0, 12: 62.3 },
     range: [34, 74],
   },
   {
@@ -136,6 +170,7 @@ const S_BULL = "#00FFFF";
 const S_BEAR = "#FF00FF";
 const NEUTRAL = "#555555";
 const LINE = "#2C3139";
+const INK = "#ECEEF1"; // the products' text ink: Zones' diamonds, the rule's tick, the POC tick
 const GREY = "#3A4049";
 
 // Timeline, in 120 ms ticks. The stages light at 0/4/8/12; the read replays
@@ -153,7 +188,8 @@ function candlesOf(r: Route): Candle[] {
     const o = i === 0 ? c + 3 : r.closes[i - 1];
     const w = 1.6 + ((i * 7) % 5) * 0.7;
     const l = r.lows?.[i] ?? Math.min(o, c) - w;
-    return { o, c, h: Math.max(o, c) + w * 0.8, l };
+    const h = r.highs?.[i] ?? Math.max(o, c) + w * 0.8;
+    return { o, c, h, l };
   });
 }
 
@@ -161,20 +197,47 @@ function candlesOf(r: Route): Candle[] {
 
 const ZONE = { lo: 30, hi: 40 };
 type ZoneState = "FRESH" | "APPROACHING" | "TESTING" | "DEFENDED" | "BREAKING";
-function zoneRead(cs: Candle[]): { state: ZoneState; conviction: number } {
-  if (!cs.length) return { state: "FRESH", conviction: 1 };
+/** The bars that traded into the zone: `held` = rejected back out above the
+ *  roof (a filled diamond); otherwise the bar closed inside (a hollow one). */
+const zoneTests = (cs: Candle[]) =>
+  cs.map((c, i) => ({ i, c, held: c.c > ZONE.hi })).filter(({ c }) => c.l <= ZONE.hi);
+function zoneRead(cs: Candle[]): { state: ZoneState; defended: number } {
+  // DEFENDED counts closed bars that traded in and still closed on the zone's
+  // own side of its far edge — back out of it, or still inside it.
+  const defended = zoneTests(cs).filter(({ c }) => c.c >= ZONE.lo).length;
+  if (!cs.length) return { state: "FRESH", defended };
   const last = cs[cs.length - 1];
-  const touched = cs.some((c) => c.l <= ZONE.hi);
-  if (last.c < ZONE.lo) return { state: "BREAKING", conviction: 0 };
-  if (touched && last.c > ZONE.hi + 6) return { state: "DEFENDED", conviction: 4 };
-  if (last.l <= ZONE.hi) return { state: "TESTING", conviction: 2 };
-  if (last.l <= ZONE.hi + 10) return { state: "APPROACHING", conviction: 1 };
-  return { state: "FRESH", conviction: 1 };
+  if (last.c < ZONE.lo) return { state: "BREAKING", defended };
+  if (defended && last.c > ZONE.hi + 6) return { state: "DEFENDED", defended };
+  if (last.l <= ZONE.hi) return { state: "TESTING", defended };
+  if (last.l <= ZONE.hi + 10) return { state: "APPROACHING", defended };
+  return { state: "FRESH", defended };
+}
+/** The zone's own volume profile, one row a point: the volume it was born
+ *  with, plus every revealed bar that traded through the row — up bars as
+ *  buying, down bars as selling. Illustrative units, never shown. */
+const ZONE_BASE = [
+  { v: 31.25, buy: 0.5, sell: 0.9 },
+  { v: 33.75, buy: 0.9, sell: 1.4 },
+  { v: 36.25, buy: 1.2, sell: 1.6 },
+  { v: 38.75, buy: 0.7, sell: 1.0 },
+];
+function zoneProfile(cs: Candle[]) {
+  const rows = ZONE_BASE.map((r) => ({ ...r }));
+  for (const c of cs)
+    for (const r of rows)
+      if (c.l <= r.v + 1.25 && Math.min(c.h, ZONE.hi) >= r.v - 1.25) {
+        if (c.c >= c.o) r.buy += 1;
+        else r.sell += 1;
+      }
+  return rows;
 }
 
-const ICE = { lo: 37, hi: 39.5 };
-const iceTests = (cs: Candle[]) =>
-  cs.filter((c) => c.l <= ICE.hi && Math.min(c.o, c.c) > ICE.hi + 4).length;
+// An ICE OFFER: a ceiling. A test is a bar whose wick reaches the band while
+// its body stays well below it — a rejection.
+const ICE = { lo: 61.5, hi: 64, level: 62.75 };
+const iceHits = (cs: Candle[]) =>
+  cs.map((c, i) => ({ c, i })).filter(({ c }) => c.h >= ICE.lo && Math.max(c.o, c.c) < ICE.lo - 4);
 
 const GEX = [
   { v: 82, label: "CALL WALL", color: TEAL },
@@ -459,6 +522,22 @@ function Candles({
 }
 
 /**
+ * DS Iceberg's keel: the classic iceberg pictogram on its level's waterline —
+ * a peaked tip above the line (its sunlit face lighter), the long jagged mass
+ * below. Drawn at `s` times its unit size (the product scales it with the
+ * volume the level has absorbed).
+ */
+function Keel({ x, y, s, c }: { x: number; y: number; s: number; c: string }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`}>
+      <path d="M -3.8 0.6 L 3.8 0.6 L 2.4 3.6 L 0.9 7.4 L 0 8.6 L -1.1 6 L -2.6 3.4 Z" fill={c} fillOpacity="0.45" />
+      <path d="M -3.4 0 L -1.3 -2.5 L 0 -4.4 L 1.5 -2.2 L 3.4 0 Z" fill={c} />
+      <path d="M -3.4 0 L -1.3 -2.5 L 0 -4.4 L -0.4 -1.1 Z" fill={INK} fillOpacity="0.35" />
+    </g>
+  );
+}
+
+/**
  * The projection. Chart area 0..268 wide, readout column 276..352.
  */
 function Holo({
@@ -508,75 +587,167 @@ function Holo({
   let clipShape: ReactNode = null;
   let drawing: ReactNode = null;
   let readout: ReactNode = null;
+  // Marks that sit ON the candles (Zones' diamonds, Iceberg's fractures and
+  // its iceberg) are drawn after them.
+  let overlay: ReactNode = null;
   let candleColor: (i: number, c: Candle) => string = bullBear;
 
   if (r.kind === "zones") {
-    const { state, conviction } = zoneRead(cs);
-    const yT = y(ZONE.hi);
-    const yB = y(ZONE.lo);
+    const { state, defended } = zoneRead(cs);
+    const tests = zoneTests(cs);
+    const yT = y(ZONE.hi); // the action edge: a demand zone's roof
+    const yB = y(ZONE.lo); // the far edge
+    const xs = X0 - 6;
+    const xe = 268;
     const yR = Math.min(yT, H - 40); // readout anchor, kept inside the frame
     const dim = state === "BREAKING";
-    clipShape = <rect x={X0 - 6} y={yT} width={268 - X0} height={yB - yT} />;
+    // Cyan while price is approaching or testing it, as the product draws it.
+    const edge = state === "APPROACHING" || state === "TESTING" ? S_BULL : tone;
+    const last = cs[cs.length - 1];
+    // The zone's own profile, right-anchored at its end: teal buying toward
+    // price, violet selling against the wall, the heaviest row ticked (POC).
+    const rows = zoneProfile(cs);
+    const max = Math.max(...rows.map((w) => w.buy + w.sell));
+    const PL = 30;
+    const rowH = Math.max(1.2, (yB - yT) / rows.length - 1.2);
+    const poc = rows.reduce((a, b) => (b.buy + b.sell > a.buy + a.sell ? b : a));
+    const buy = rows.reduce((n, w) => n + w.buy, 0);
+    const sell = rows.reduce((n, w) => n + w.sell, 0);
+    const buyShare = buy / (buy + sell);
+    const sellers = buyShare < 0.5;
+    // Heavy selling into a demand zone that held is absorption.
+    const read = defended > 0 && sellers && 1 - buyShare >= 0.55 ? "ABSORBED" : "BALANCED";
+    const word = state === "DEFENDED" && defended > 1 ? `DEFENDED ${defended}×` : state;
+    clipShape = <rect x={xs} y={yT} width={xe - xs} height={yB - yT} />;
     drawing = (
       <g opacity={dim ? 0.45 : 1} className={calm ? "" : "qr-breathe"}>
-        <rect x={X0 - 6} y={yT} width={268 - X0} height={yB - yT} fill={`url(#${scan})`} />
-        <rect x={X0 - 6} y={yT} width={268 - X0} height={yB - yT} fill={tone} fillOpacity="0.05" />
-        {/* ghost edge, then the edge */}
-        <rect x={X0 - 5} y={yT - 1} width={268 - X0} height={yB - yT} fill="none" stroke={ghost} strokeOpacity="0.35" strokeWidth="1" strokeDasharray={dim ? "3 3" : undefined} />
-        <rect x={X0 - 6} y={yT} width={268 - X0} height={yB - yT} fill="none" stroke={tone} strokeWidth="1" strokeDasharray={dim ? "3 3" : undefined} />
-        <rect x={X0 - 6} y={yT} width="2" height={yB - yT} fill={tone} />
+        {/* the band, faint, behind the candles */}
+        <rect x={xs} y={yT} width={xe - xs} height={yB - yT} fill={`url(#${scan})`} opacity="0.55" />
+        <rect x={xs} y={yT} width={xe - xs} height={yB - yT} fill={tone} fillOpacity="0.05" />
+        {/* while price tests it, the slice it has eaten glows */}
+        {state === "TESTING" && last && (
+          <rect x={xs} y={yT} width={xe - xs} height={Math.max(0, y(Math.max(last.l, ZONE.lo)) - yT)} fill={S_BULL} fillOpacity="0.16" />
+        )}
+        {/* the action edge solid (with the projection's ghost edge), the far
+            edge dotted, the stem where the zone was born */}
+        <line x1={xs + 1} x2={xe + 1} y1={yT - 1} y2={yT - 1} stroke={ghost} strokeOpacity="0.3" />
+        <line x1={xs} x2={xe} y1={yT} y2={yT} stroke={edge} strokeWidth="1" />
+        <line x1={xs} x2={xe} y1={yB} y2={yB} stroke={dim ? S_BULL : tone} strokeOpacity="0.85" strokeDasharray="1 2" />
+        <line x1={xs} x2={xs} y1={yT} y2={yB} stroke={tone} strokeWidth="1" />
+        {rows.map((w) => {
+          const L = ((w.buy + w.sell) / max) * PL;
+          const bw = (w.buy / (w.buy + w.sell)) * L;
+          const yy = y(w.v) - rowH / 2;
+          return (
+            <g key={w.v}>
+              <rect x={xe - L} y={yy} width={bw} height={rowH} fill={TEAL} fillOpacity="0.7" />
+              <rect x={xe - L + bw} y={yy} width={L - bw} height={rowH} fill={VIOLET} fillOpacity="0.7" />
+              {w === poc && <rect x={xe - L - 2.5} y={yy} width="1.5" height={rowH} fill={INK} />}
+            </g>
+          );
+        })}
+      </g>
+    );
+    // A diamond on the action edge at every bar that tested the zone: filled
+    // when price was rejected back out, hollow when the bar closed inside.
+    overlay = (
+      <g opacity={dim ? 0.45 : 1}>
+        {tests.map(({ i, held }) => {
+          const x = X0 + i * DX;
+          const d = `M ${x} ${yT - 2.4} L ${x + 2.4} ${yT} L ${x} ${yT + 2.4} L ${x - 2.4} ${yT} Z`;
+          return held ? (
+            <path key={i} d={d} fill={INK} fillOpacity="0.9" />
+          ) : (
+            <path key={i} d={d} fill="none" stroke={INK} strokeOpacity="0.85" strokeWidth="0.8" />
+          );
+        })}
       </g>
     );
     readout = (
       <g>
-        <text x="352" y={yR - 12} textAnchor="end" className="font-mono" fontSize={7 * fs} letterSpacing="0.9" fill="#7C848D">
-          DEMAND ZONE
+        <text x="352" y={yR - 12} textAnchor="end" className="font-mono" fontSize={7 * fs} letterSpacing="0.9" fill={tone}>
+          DEMAND
         </text>
-        <text x="352" y={yR - 1} textAnchor="end" className="font-mono" fontSize={9 * fs} letterSpacing="0.8" fill={tone}>
-          {state}
+        <text x="352" y={yR - 1} textAnchor="end" className="font-mono" fontSize={9 * fs} letterSpacing="0.8" fill={edge}>
+          {word}
         </text>
-        {/* conviction: four cells */}
-        {[0, 1, 2, 3].map((k) => (
-          <rect key={k} x={352 - 44 + k * 11.5} y={yR + 5} width="9" height="2.5" fill={k < conviction ? tone : LINE} />
-        ))}
+        {/* the buy | sell rule, its tick at the split */}
+        <rect x={296} y={yR + 5} width={56 * buyShare} height="1.5" fill={TEAL} />
+        <rect x={296 + 56 * buyShare} y={yR + 5} width={56 * (1 - buyShare)} height="1.5" fill={VIOLET} />
+        <rect x={296 + 56 * buyShare - 0.5} y={yR + 3.5} width="1" height="4.5" fill={INK} />
         <text x="352" y={yR + 15} textAnchor="end" className="font-mono" fontSize={6.5 * fs} letterSpacing="0.9" fill="#7C848D">
-          CONVICTION
+          <tspan fill={sellers ? VIOLET : TEAL}>{`${sellers ? "SELL" : "BUY"} ${Math.round((sellers ? 1 - buyShare : buyShare) * 100)}%`}</tspan> {read}
         </text>
       </g>
     );
   }
 
   if (r.kind === "iceberg") {
-    const tests = iceTests(cs);
+    const hits = iceHits(cs);
+    const tests = hits.length;
+    // A level needs two clustered tests before it is confirmed — nothing is
+    // drawn before that, and a caption never reads less than 2×.
+    const live = tests >= 2;
+    const lastHit = tests ? hits[tests - 1].i : -99;
+    // TESTING for six bars after the latest test.
+    const testing = live && cs.length - 1 - lastHit <= 6;
+    const yL = y(ICE.level);
     const yT = y(ICE.hi);
     const yB = y(ICE.lo);
+    const xe = 268;
+    const x1 = live ? X0 + hits[0].i * DX : xe;
     const yR = Math.min(yT, H - 40);
-    const hits = cs.map((c, i) => ({ c, i })).filter(({ c }) => c.l <= ICE.hi && Math.min(c.o, c.c) > ICE.hi + 4);
-    const x1 = hits.length ? X0 + hits[0].i * DX - 6 : 268;
-    clipShape = <rect x={x1} y={yT - 1} width={268 - x1} height={yB - yT + 2} />;
-    drawing = hits.length ? (
+    clipShape = live ? <rect x={x1} y={yT} width={xe - x1} height={yB - yT} /> : null;
+    drawing = live ? (
       <g>
-        <rect x={x1} y={yT} width={268 - x1} height={yB - yT} fill={`url(#${scan})`} />
-        <rect x={x1 + 1} y={yT - 1} width={268 - x1} height={yB - yT} fill="none" stroke={ghost} strokeOpacity="0.35" />
-        <rect x={x1} y={yT} width={268 - x1} height={yB - yT} fill="none" stroke={tone} strokeWidth="1" />
-        {hits.map(({ i }) => (
-          <path key={i} d={`M ${X0 + i * DX - 3} ${yB + 6} L ${X0 + i * DX} ${yB + 3} L ${X0 + i * DX + 3} ${yB + 6}`} fill="none" stroke={tone} strokeWidth="1" />
-        ))}
+        {/* the soft tolerance tint either side of the exact line */}
+        <rect x={x1} y={yT} width={xe - x1} height={yB - yT} fill={`url(#${scan})`} opacity="0.5" />
+        <rect x={x1} y={yT} width={xe - x1} height={yB - yT} fill={tone} fillOpacity="0.06" />
+        <line x1={x1 + 1} x2={xe + 1} y1={yL - 1} y2={yL - 1} stroke={ghost} strokeOpacity="0.3" />
+        <line x1={x1} x2={xe} y1={yL} y2={yL} stroke={tone} strokeWidth="1" />
+        {/* the post: drawn from its first test */}
+        <line x1={x1} x2={x1} y1={yT - 1.5} y2={yB + 1.5} stroke={tone} strokeWidth="1" />
+      </g>
+    ) : null;
+    // A fracture on every test, just past the wick tip and running up into the
+    // ice, clear of the candle; the newest ringed while the level is testing.
+    // Then the iceberg on its waterline in the runway past the last bar.
+    overlay = live ? (
+      <g>
+        {hits.map(({ i, c }, k) => {
+          const x = X0 + i * DX;
+          const y0 = y(c.h) - 2;
+          const newest = k === tests - 1 && testing;
+          return (
+            <g key={i}>
+              <path d={`M ${x} ${y0} l -1.3 -1.7 l 2.4 -1.5 l -1.7 -1.9 l 1.1 -1.5`} fill="none" stroke={newest ? S_BEAR : tone} strokeWidth="1" strokeLinejoin="bevel" />
+              {newest && <circle cx={x} cy={y0 - 3.3} r="4.4" fill="none" stroke={S_BEAR} strokeWidth="0.8" />}
+            </g>
+          );
+        })}
+        <Keel x={261} y={yL} s={1.25 + 0.1 * (tests - 2)} c={testing ? S_BEAR : tone} />
       </g>
     ) : null;
     readout = (
       <g>
-        <text x="352" y={yR - 12} textAnchor="end" className="font-mono" fontSize={7 * fs} letterSpacing="0.9" fill="#7C848D">
-          RUNWAY
+        <text x="352" y={yR - 12} textAnchor="end" className="font-mono" fontSize={7 * fs} letterSpacing="0.9" fill={live ? tone : "#7C848D"}>
+          ICE OFFER
         </text>
-        <text x="352" y={yR - 1} textAnchor="end" className="font-mono" fontSize={9 * fs} letterSpacing="0.8" fill={tone}>
-          {tests ? `TESTS ×${tests}` : "WATCHING"}
+        <text x="352" y={yR - 1} textAnchor="end" className="font-mono" fontSize={9 * fs} letterSpacing="0.8" fill={live ? tone : "#7C848D"}>
+          {live ? (
+            <>
+              {testing && <tspan fill={S_BEAR}>TESTING </tspan>}
+              {`${tests}×`}
+            </>
+          ) : (
+            "—"
+          )}
         </text>
         {[0, 1, 2].map((k) => (
           <rect key={k} x={352 - 33 + k * 11.5} y={yR + 5} width="9" height="2.5" fill={k < tests ? tone : LINE} />
         ))}
         <text x="352" y={yR + 15} textAnchor="end" className="font-mono" fontSize={6.5 * fs} letterSpacing="0.9" fill="#7C848D">
-          ABSORBED
+          TESTS
         </text>
       </g>
     );
@@ -756,6 +927,7 @@ function Holo({
 
       {drawing}
       <Candles cs={cs} h={H} top={TOP} bottom={BOT} x0={X0} dx={DX} w={6} color={candleColor} fill={0.55} range={r.range} />
+      {overlay}
       {readout}
 
       {!calm && clipShape && (

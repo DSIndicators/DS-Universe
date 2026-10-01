@@ -19,7 +19,7 @@ import { PRODUCTS } from "@/content/products";
  */
 export const DRAWS: Record<string, string> = {
   zones: "Living Zones — tracked FRESH to DEFENDED or BREAKING",
-  iceberg: "Absorption Runways — where passive size absorbed the tape, tests counted",
+  iceberg: "Absorption Runways — ICE BID below price, ICE OFFER above, an iceberg on each, every test marked",
   oracle: "Neural Line — above it, look long; below it, look short",
   gex: "Dealer Gamma Map — Call Wall, Gamma Flip, Put Wall",
   flow: "Candle X-Ray — buy vs sell volume at every price, heavy rows flagged",

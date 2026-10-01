@@ -14,6 +14,10 @@
  *
  * One correction applied on the way in (make the same one on Whop):
  *   DS ProMACD  "the price it will happen at first" -> "would happen at, first"
+ * 2026-10-01, made in the Master sheet too (Whop pasted by Tom), for the
+ * DS Zones / DS Iceberg visual redesign (Build 2026-10-01):
+ *   DS Zones    "dims to a dashed band" -> "dims to a dotted band"
+ *   DS Iceberg  "carry a distinct accent border" -> "are drawn in cyan or magenta"
  */
 export type ListingCopy = {
   /** The one-line opener. Set larger than body text. */
@@ -50,7 +54,7 @@ export const LISTING: Record<string, ListingCopy> = {
         "points": [
             "FRESH → APPROACHING → TESTING → DEFENDED / BREAKING, read from the live tape",
             "Order flow inside the zone drives its evolving conviction",
-            "A broken zone keeps its identity and dims to a dashed band — it never role-reverses",
+            "A broken zone keeps its identity and dims to a dotted band — it never role-reverses",
             "Everything on one price merges into a single ranked level"
         ],
         "close": [
@@ -64,7 +68,7 @@ export const LISTING: Record<string, ListingCopy> = {
         "points": [
             "A wick-rejection and volume test confirmed only when repeated tests cluster at one price",
             "A volume-at-price footprint refined by the true bid/ask on every trade",
-            "Levels both engines agree on carry a distinct accent border",
+            "Levels both engines agree on are drawn in cyan or magenta",
             "Each level shows its traded volume and test count"
         ],
         "close": [

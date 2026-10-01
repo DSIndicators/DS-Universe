@@ -17,8 +17,8 @@ import { PRODUCTS } from "@/content/products";
  * chart ("Built to run together on one chart" — content/pricing.ts), so that
  * is the picture: one NinjaTrader chart, every product's own drawing on it.
  *
- *   Flagship   Zones' defended demand zone · Iceberg's absorption runway and
- *              its test marks · GEX's Call Wall / Gamma Flip / Put Wall ·
+ *   Flagship   Zones' defended demand zone · Iceberg's ICE BID with its
+ *              iceberg · GEX's Call Wall / Gamma Flip / Put Wall ·
  *              Flow's buy/sell profile on one candle group, heavy row boxed ·
  *              Oracle's Neural Line, violet to teal where price crosses it.
  *   Pro Series the four panels under price, titled the way NT8 titles panels:
@@ -52,6 +52,29 @@ import { PRODUCTS } from "@/content/products";
  *              reaches about a third of its session here, not the product's
  *              15%: this session is six bars wide, and at 15% the bars would
  *              be too short to read.
+ *
+ * 2026-10-01 — DS ZONES AND DS ICEBERG REDRAWN to their visual redesign
+ * (Build 2026-10-01), from the builds and their READMEs:
+ *   Zones      the demand zone as a faint band: its action edge (the roof
+ *              price meets) solid, the far edge dotted, a stem at its origin;
+ *              a diamond on the roof at every bar that tested it — filled when
+ *              price was rejected back out, hollow when the bar closed inside;
+ *              its own volume profile just past the last bar, teal buying
+ *              toward price and violet selling against the wall, the POC
+ *              ticked; the caption counts the closed bars that held
+ *              (DEFENDED n×), computed from the tape.
+ *   Iceberg    was a violet runway box under the three wicks at 50.5. The
+ *              tape closes through that price later, so the product would
+ *              show it BROKEN (steel, dotted, no iceberg). What the product
+ *              does draw, live, is the same price retested from ABOVE on the
+ *              way up (two wicks, bars 25 and 26 — clear of the Neural Line and Flow's
+ *              profile, which crowd bar 24): an ICE BID, teal — an exact
+ *              line with a soft tint from its first test (a short post), a
+ *              fracture just past each wick tip running down into the ice,
+ *              the newest ringed (it is TESTING: within six bars of its last
+ *              test), and the keel iceberg on its waterline in the runway past
+ *              the last bar. The broken offer is left out: a dotted steel line
+ *              through Flow's profile would only add noise to an illustration.
  *
  * It BUILDS in the list's order when it scrolls into view. On a desktop,
  * pointing at a series or a product in the list beside it isolates its
@@ -116,8 +139,9 @@ const GAP = 6, P0 = PY1 + 10;
 const panelY = (k: number) => P0 + PANELS.slice(0, k).reduce((n, p) => n + p.h + GAP, 0);
 const RY = panelY(PANELS.length) + 4; // the replay strip
 
-// A drawn tape: down into demand, rejected three times under a runway, then up
-// through the Neural Line. Illustration only.
+// A drawn tape: down into demand, three wicks turned back at one price (50.5)
+// on the way, then up through the Neural Line — retesting that price from
+// above twice as it goes (DS Iceberg's ICE BID). Illustration only.
 const closes = [62, 60, 63, 58, 55, 57, 52, 49, 51, 46, 44, 47, 42, 40, 43, 41, 39, 42, 45, 43, 48, 51, 49, 54, 57, 55, 60, 63, 61, 66, 69, 67];
 const LO = 30, HI = 78;
 const N = closes.length;
@@ -131,6 +155,8 @@ const cand = closes.map((c, i) => {
 cand[9].h = 50.6;
 cand[13].h = 50.9;
 cand[16].h = 50.4;
+cand[25].l = 50.3; // the ICE BID's two tests: wicks down to 50.5 from above,
+cand[26].l = 50.4; // bodies well clear of it
 const smooth = (a: number[], k: number) =>
   a.map((_, i) => {
     const s = a.slice(Math.max(0, i - k + 1), i + 1);
@@ -138,6 +164,39 @@ const smooth = (a: number[], k: number) =>
   });
 const neural = smooth(closes, 5);
 const cross = neural.findIndex((v, i) => i > 4 && closes[i] > v && closes[i - 1] <= neural[i - 1]);
+
+/* DS Zones: the demand zone, from bar 11 to the right edge. A bar that trades
+   to its roof tests it; it held if it closed back above the roof (a filled
+   diamond), and DEFENDED counts every test that closed on the zone's own side
+   of the far edge. Its profile is the volume of those bars at each price inside
+   it — up bars as buying, down bars as selling — on a base it was born with. */
+const ZN = { lo: 37.5, hi: 42.5, from: 11 } as const;
+const ZN_TESTS = cand
+  .map((c, i) => ({ i, c, held: c.c > ZN.hi }))
+  .filter(({ i, c }) => i >= ZN.from && i < N - 1 && c.l <= ZN.hi);
+const ZN_DEF = ZN_TESTS.filter(({ c }) => c.c >= ZN.lo).length;
+const ZN_ROWS = [38, 39, 40, 41, 42].map((v, k) => {
+  let buy = [0.4, 0.7, 1, 0.7, 0.4][k], sell = [0.6, 0.9, 1.3, 0.8, 0.5][k];
+  for (const { c } of ZN_TESTS)
+    if (c.l <= v + 0.5 && Math.min(c.h, ZN.hi) >= v - 0.5) {
+      if (c.c >= c.o) buy += 1;
+      else sell += 1;
+    }
+  return { v, buy, sell };
+});
+const ZN_MAX = Math.max(...ZN_ROWS.map((r) => r.buy + r.sell));
+const ZN_POC = ZN_ROWS.reduce((a, b) => (b.buy + b.sell > a.buy + a.sell ? b : a)).v;
+
+/* DS Iceberg: an ICE BID at 50.5. A test is a wick into the tint whose body
+   stays well above it; two clustered tests confirm the level. TESTING for six
+   bars after the latest test (the product's own window). */
+const ICE = { v: 50.5, tol: 0.9 } as const;
+const ICE_HITS = cand
+  .map((c, i) => ({ i, c }))
+  .filter(({ i, c }) => i < N - 1 && c.l <= ICE.v + ICE.tol && Math.min(c.o, c.c) > ICE.v + 2);
+const ICE_TESTING = ICE_HITS.length > 0 && N - 1 - ICE_HITS[ICE_HITS.length - 1].i <= 6;
+/** The runway: just past the last bar, where the iceberg sits on its waterline. */
+const RUNWAY_X = xAt(N - 1) + 9;
 
 /* The live last bar. DS Chart Price and DS Adaptive Price Line are about the
    price moving right now, so the illustration ticks: the last candle's close
@@ -620,15 +679,6 @@ function Drawing({ t, H, stripY, roomy, tape }: { t: (n: number) => number; H: n
   const clock = `00:${String(tape.secs).padStart(2, "0")}`;
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" role="img" aria-label="Every DS Universe product drawn together on one NinjaTrader chart (illustration)">
-      <defs>
-        <pattern id="cc-scan-t" width="4" height="3" patternUnits="userSpaceOnUse">
-          <path d="M0 0h4v1h-4Z" fill={TEAL} fillOpacity="0.3" />
-        </pattern>
-        <pattern id="cc-scan-v" width="4" height="3" patternUnits="userSpaceOnUse">
-          <path d="M0 0h4v1h-4Z" fill={VIOLET} fillOpacity="0.3" />
-        </pattern>
-      </defs>
-
       {/* the grid and the pane divider */}
       <g stroke={INK} strokeOpacity={A.grid}>
         {[0.25, 0.5, 0.75].map((f) => (
@@ -796,18 +846,52 @@ function Drawing({ t, H, stripY, roomy, tape }: { t: (n: number) => number; H: n
       </L>
 
       {/* ------------------------------------------------------ flagship */}
+      {/* DS Zones: the band, its edges, its stem and its own profile (the
+          diamonds sit on the candles and are drawn after them, below). */}
       <L p="zones">
-        <path d={box(xAt(11) - 4, yP(42.5), PX1 - xAt(11) + 4, yP(37.5) - yP(42.5))} fill="url(#cc-scan-t)" stroke={TEAL} />
-        <path d={box(xAt(11) - 4, yP(42.5), 2, yP(37.5) - yP(42.5))} fill={TEAL} />
-        <text x={xAt(11)} y={yP(37.5) + 2 + t(6)} className="font-mono" fontSize={t(6)} letterSpacing="0.9" fill={TEAL}>
-          DEMAND · DEFENDED
-        </text>
+        {(() => {
+          const xs = r2(xAt(ZN.from) - 4), yt = r2(yP(ZN.hi)), yb = r2(yP(ZN.lo));
+          const rowH = r2((yb - yt) / ZN_ROWS.length - 1.6);
+          return (
+            <>
+              <path d={box(xs, yt, PX1 - xs, yb - yt)} fill={TEAL} fillOpacity="0.07" />
+              <line x1={xs} x2={PX1} y1={yt} y2={yt} stroke={TEAL} />
+              <line x1={xs} x2={PX1} y1={yb} y2={yb} stroke={TEAL} strokeOpacity="0.7" strokeDasharray="1 2" />
+              <line x1={xs} x2={xs} y1={yt} y2={yb} stroke={TEAL} />
+              {ZN_ROWS.map((r) => {
+                const len = ((r.buy + r.sell) / ZN_MAX) * (PX1 - RUNWAY_X + 5);
+                const b = (r.buy / (r.buy + r.sell)) * len;
+                const y = yP(r.v) - rowH / 2;
+                return (
+                  <g key={r.v}>
+                    <path d={box(PX1 - len, y, b, rowH)} fill={TEAL} fillOpacity="0.75" />
+                    <path d={box(PX1 - len + b, y, len - b, rowH)} fill={VIOLET} fillOpacity="0.75" />
+                    {r.v === ZN_POC && <path d={box(PX1 - len - 2.5, y, 1.2, rowH)} fill={INK} />}
+                  </g>
+                );
+              })}
+              <text x={xAt(ZN.from)} y={yb + 2 + t(6)} className="font-mono" fontSize={t(6)} letterSpacing="0.9" fill={TEAL}>
+                {`DEMAND · DEFENDED ${ZN_DEF}×`}
+              </text>
+            </>
+          );
+        })()}
       </L>
+      {/* DS Iceberg: the ICE BID — the exact line with its soft tint, from the
+          post at its first test to the iceberg in the runway (fractures and the
+          iceberg are drawn after the candles, below). */}
       <L p="iceberg">
-        <path d={box(xAt(9) - 3, yP(51.4), xAt(19) - xAt(9), yP(49.6) - yP(51.4))} fill="url(#cc-scan-v)" stroke={VIOLET} />
-        {[9, 13, 16].map((i) => (
-          <path key={i} d={`M ${r2(xAt(i) - 3)} ${r2(yP(51.4) - 5)} L ${r2(xAt(i))} ${r2(yP(51.4) - 2)} L ${r2(xAt(i) + 3)} ${r2(yP(51.4) - 5)}`} fill="none" stroke={VIOLET} />
-        ))}
+        {(() => {
+          const x1 = r2(xAt(ICE_HITS[0].i)), yl = r2(yP(ICE.v));
+          const yt = r2(yP(ICE.v + ICE.tol)), yb = r2(yP(ICE.v - ICE.tol));
+          return (
+            <>
+              <path d={box(x1, yt, RUNWAY_X - x1, yb - yt)} fill={TEAL} fillOpacity="0.08" />
+              <line x1={x1} x2={RUNWAY_X} y1={yl} y2={yl} stroke={TEAL} />
+              <line x1={x1} x2={x1} y1={r2(yt - 1.5)} y2={r2(yb + 1.5)} stroke={TEAL} />
+            </>
+          );
+        })()}
       </L>
       <L p="gex">
         {([[74, "CALL WALL", TEAL], [54, "GAMMA FLIP", SLATE], [31.5, "PUT WALL", VIOLET]] as const).map(([v, tag, c]) => (
@@ -852,6 +936,42 @@ function Drawing({ t, H, stripY, roomy, tape }: { t: (n: number) => number; H: n
           );
         })}
       </g>
+
+      {/* On the candles. DS Zones: a diamond on the roof at every bar that
+          tested the zone — filled when price was rejected back out, hollow
+          when the bar closed inside. */}
+      <L p="zones">
+        {ZN_TESTS.map(({ i, held }) => {
+          const x = r2(xAt(i)), y = r2(yP(ZN.hi));
+          const d = `M${x} ${r2(y - 2.3)}L${r2(x + 2.3)} ${y}L${x} ${r2(y + 2.3)}L${r2(x - 2.3)} ${y}Z`;
+          return held ? <path key={i} d={d} fill={INK} fillOpacity="0.9" /> : <path key={i} d={d} fill="none" stroke={INK} strokeOpacity="0.85" strokeWidth="0.8" />;
+        })}
+      </L>
+      {/* DS Iceberg: a fracture just past each wick tip, running down into the
+          ice — the newest ringed while the level is TESTING — then the iceberg
+          on its waterline: the peaked tip above the line, the long mass below. */}
+      <L p="iceberg">
+        {ICE_HITS.map(({ i, c }, k) => {
+          const x = r2(xAt(i)), y0 = r2(yP(c.l) + 2);
+          const newest = ICE_TESTING && k === ICE_HITS.length - 1;
+          return (
+            <g key={i}>
+              <path d={`M${x} ${y0}l-1.3 1.7l2.4 1.5l-1.7 1.9l1.1 1.5`} fill="none" stroke={TEAL} strokeLinejoin="bevel" />
+              {newest && <path d={dot(x, r2(y0 + 3.3), 4.4)} fill="none" stroke={TEAL} strokeWidth="0.8" />}
+            </g>
+          );
+        })}
+        <g transform={`translate(${r2(RUNWAY_X)} ${r2(yP(ICE.v))})`}>
+          <path d="M-3.8 0.6L3.8 0.6L2.4 3.6L0.9 7.4L0 8.6L-1.1 6L-2.6 3.4Z" fill={TEAL} fillOpacity="0.45" />
+          <path d="M-3.4 0L-1.3 -2.5L0 -4.4L1.5 -2.2L3.4 0Z" fill={TEAL} />
+          <path d="M-3.4 0L-1.3 -2.5L0 -4.4L-0.4 -1.1Z" fill={INK} fillOpacity="0.35" />
+        </g>
+        {roomy && (
+          <text x={r2(RUNWAY_X + 6)} y={r2(yP(ICE.v) + t(4.6) * 0.36)} className="font-mono" fontSize={t(4.6)} letterSpacing="0.5" fill={TEAL}>
+            {`ICE BID ${ICE_HITS.length}×`}
+          </text>
+        )}
+      </L>
 
       {/* DS Adaptive Price Line: anchored to the last candle — a ring at the
           price, the bar-close countdown riding the line, then the line on to

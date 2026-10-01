@@ -23,15 +23,27 @@
  * is 1.979:1 and the gallery stage is 16:9; the recordings' own outer rows are
  * black, so the bands disappear into the chart.
  *
- * TWO EXCEPTIONS
- *  · DS Iceberg: the NinjaTrader window was recorded inset in a pure-black
- *    frame (chart from x=298 to x=7371 of 7680; everything outside is 0,0,0).
- *    Cropped to crop=7080:3880:296:0 first, so the chart fills the frame like
- *    the other fourteen, then padded to 16:9 the same way.
+ * THE EXCEPTION
  *  · DS Bulk Replay Downloader is its app window (5234x4320, 1.21:1). It is set
  *    at 90% of the frame height on the product-guide ground (#111516), in the
  *    boards' own shape (2560x1900), so it sits in that gallery with no bands:
  *    1920x1426.
+ *  · (Retired 2026-10-01: the 09-28 DS Iceberg recording was inset in a black
+ *    frame and cropped first. Its 10-01 replacement fills the frame, so it
+ *    takes the standard recipe.)
+ *
+ * 2026-10-01 — DS ZONES AND DS ICEBERG RE-RECORDED for their visual redesign
+ * (Build 2026-10-01). Sources: "Master Product Folder\\DS Zones\\Media\\DS Zones
+ * New Showcase.mp4" and "...\\DS Iceberg\\Media\\DS Iceberg Official Showcase
+ * .mp4" — 7680x3880 HEVC, 60 fps, 30 s, full frame (outer rows 0,0,0). Same
+ * geometry as above, encoded in the container: scale to 3840x1940, pad to
+ * 3840x2160 (110 rows each side — identical to padding at 8K and scaling),
+ * fps=30, then the same two cuts. DS Zones plays in full (30 s; its first
+ * frame already carries four zones). DS Iceberg starts at source frame 234
+ * (3.90 s), the first frame where its first level is drawn — ICE OFFER
+ * 30069.75 TESTING, its fracture ringed — so the poster shows the product, not
+ * a bare half-drawn chart (26.1 s). New filenames (-v2): the 09-28 files were
+ * served with the one-year immutable cache.
  *
  * `caption` says what the recording SHOWS — no outcome, no forecast, no
  * superlative (NinjaTrader vendor guidelines). The disclosure line under the
@@ -56,25 +68,25 @@ export type Showcase = {
 
 export const SHOWCASE: Record<string, Showcase> = {
   "zones": {
-    src: "/showcase/zones.mp4",
-    srcSmall: "/showcase/zones-sm.mp4",
-    poster: "/showcase/zones-poster.webp",
+    src: "/showcase/zones-v2.mp4",
+    srcSmall: "/showcase/zones-v2-sm.mp4",
+    poster: "/showcase/zones-v2-poster.webp",
     w: 1920,
     h: 1080,
-    seconds: 15,
-    caption: "A session playing out with DS Zones: zones form, are tested and change state as price reaches them.",
-    blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjcGl24HPWkooA/9k=",
-  }, // ← DS Zones Showcase.mp4
+    seconds: 30,
+    caption: "A session playing out with DS Zones: each zone carries its own volume profile and caption, and its state changes as price reaches it — APPROACHING, TESTING, DEFENDED.",
+    blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjc+tHGOM5ooNAH//Z",
+  }, // ← DS Zones New Showcase.mp4 (2026-10-01)
   "iceberg": {
-    src: "/showcase/iceberg.mp4",
-    srcSmall: "/showcase/iceberg-sm.mp4",
-    poster: "/showcase/iceberg-poster.webp",
+    src: "/showcase/iceberg-v2.mp4",
+    srcSmall: "/showcase/iceberg-v2-sm.mp4",
+    poster: "/showcase/iceberg-v2-poster.webp",
     w: 1920,
     h: 1080,
-    seconds: 15,
-    caption: "A session playing out with DS Iceberg: hidden-size levels appear and count their tests as price returns to them.",
-    blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjQex6UcUUUAf/2Q==",
-  }, // ← DS Iceberg Showcase.mp4
+    seconds: 26,
+    caption: "A session playing out with DS Iceberg: an ICE OFFER and then an ICE BID appear on the runway, and every test of them is marked with a fracture.",
+    blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjByaXGOtFFAH/2Q==",
+  }, // ← DS Iceberg Official Showcase .mp4 (2026-10-01), from 3.90 s
   "oracle": {
     src: "/showcase/oracle.mp4",
     srcSmall: "/showcase/oracle-sm.mp4",

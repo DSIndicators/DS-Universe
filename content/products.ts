@@ -19,6 +19,11 @@
  * on its own) added from the sheet's Product Catalog + Product Details tabs
  * (updated 2026-09-30), word for word. They share their own series, "sessions".
  *
+ * 2026-10-01 — two DS Zones / DS Iceberg descriptions corrected in the sheet AND
+ * here for their visual redesign (Build 2026-10-01): a broken zone "dims out as
+ * a dotted band" (was dashed); Iceberg levels both engines agree on "are drawn
+ * in cyan or magenta" (was "carry a distinct accent border", retired in 10-01).
+ *
  * One wording correction is applied on the way in: DS ProMACD's cross price is
  * "the exact price that WOULD cross", not "will" — it is a threshold for the
  * forming bar, not a forecast (the product's own board says so), and NinjaTrader's
@@ -62,7 +67,7 @@ export const PRODUCTS: Product[] = [
             "A broken zone keeps its identity"
         ],
         "helps": "Most zone tools draw a box and leave it. DS Zones draws the box, reads the actual order flow inside it, then tracks what price does to it tick by tick — approached, tested, defended, broken — so the zones on your chart are the ones price is respecting today, not the ones that looked good when they were drawn.",
-        "description": "DS Zones runs two structural engines at once — multi-length swing pivots for a full skeleton, and high-volume impulses for institutional supply and demand — then reads the real aggressive buy versus sell volume traded inside every zone from a volume-at-price footprint. Every level carries an intrinsic supply or demand identity that never flips as price crosses it, and a live, tick-driven state machine drives each zone through FRESH, APPROACHING, TESTING, DEFENDED or BREAKING, with conviction rising when a zone is genuinely defended and draining as it is consumed. A broken zone keeps its identity and dims out as a dashed band rather than vanishing without a trace or role-reversing into the opposite kind of level. A merge step fuses everything that lands on the same price into one ranked map and draws only the strongest few, so you get a clean chart instead of forty boxes. Structure is confirmed on closed bars — it does not repaint — while the live read updates with the tape."
+        "description": "DS Zones runs two structural engines at once — multi-length swing pivots for a full skeleton, and high-volume impulses for institutional supply and demand — then reads the real aggressive buy versus sell volume traded inside every zone from a volume-at-price footprint. Every level carries an intrinsic supply or demand identity that never flips as price crosses it, and a live, tick-driven state machine drives each zone through FRESH, APPROACHING, TESTING, DEFENDED or BREAKING, with conviction rising when a zone is genuinely defended and draining as it is consumed. A broken zone keeps its identity and dims out as a dotted band rather than vanishing without a trace or role-reversing into the opposite kind of level. A merge step fuses everything that lands on the same price into one ranked map and draws only the strongest few, so you get a clean chart instead of forty boxes. Structure is confirmed on closed bars — it does not repaint — while the live read updates with the tape."
     },
     {
         "slug": "iceberg",
@@ -78,7 +83,7 @@ export const PRODUCTS: Product[] = [
             "Closed-bar accurate, never repaints"
         ],
         "helps": "An iceberg order hides its size — only a small piece shows in the book, and every time it's hit, another slice re-posts at the same price. From the outside it looks like a level that just keeps absorbing: heavy volume trades into it, aggressive buyers or sellers keep hitting it, and price is rejected anyway. Price tells you where the market went; DS Iceberg tells you where somebody large stopped it.",
-        "description": "DS Iceberg runs two cooperating engines to confirm a level. The bar engine is a wick-to-body, local-extreme and volume test: a candle qualifies when its rejecting wick is long relative to its body, it sits in the outer quarter of the recent range, it closes on the rejecting side, and its volume is at or above average — a level confirms once enough qualified tests cluster at one price inside the detection window. The order-flow engine independently builds a rolling volume-at-price footprint, refined by the true bid/ask stamped on each trade, and confirms a level only when it is a statistically anomalous high-volume node with correct-side absorption. Levels both engines agree on carry a distinct accent border — your highest-conviction prices, at a glance. Each level is drawn as a self-updating runway zone showing the traded volume and test count behind it, support below price and resistance above, built entirely from closed bars so it does not repaint."
+        "description": "DS Iceberg runs two cooperating engines to confirm a level. The bar engine is a wick-to-body, local-extreme and volume test: a candle qualifies when its rejecting wick is long relative to its body, it sits in the outer quarter of the recent range, it closes on the rejecting side, and its volume is at or above average — a level confirms once enough qualified tests cluster at one price inside the detection window. The order-flow engine independently builds a rolling volume-at-price footprint, refined by the true bid/ask stamped on each trade, and confirms a level only when it is a statistically anomalous high-volume node with correct-side absorption. Levels both engines agree on are drawn in cyan or magenta — your highest-conviction prices, at a glance. Each level is drawn as a self-updating runway zone showing the traded volume and test count behind it, support below price and resistance above, built entirely from closed bars so it does not repaint."
     },
     {
         "slug": "oracle",
