@@ -12,11 +12,13 @@ import { BuyButton, CtaNote } from "@/components/BuyButton";
 import { PriceBlock } from "@/components/Price";
 import { TrialHead, TrialStrip } from "@/components/Trial";
 import { GiftHead, GiftStrip, giftBuyLabel } from "@/components/Sessions";
+import { Markets } from "@/components/Markets";
 import { BY_SLUG, KIND_LABEL, PRODUCTS } from "@/content/products";
 import { CATALOGUE_ORDER, COVER_RATIO, boxartFor, isReleased, seriesMates } from "@/content/release";
 import { BOARD_GROUND, shotsFor } from "@/content/shots";
 import { CHART_GROUND, CHART_H, CHART_W, chartsFor } from "@/content/charts";
 import { showcaseFor } from "@/content/showcase";
+import { marketsFor } from "@/content/markets";
 import { listingCopyFor } from "@/content/listing-copy";
 import { APART, COMPLETE, FOUNDERS, GIFT, money, priceFor, seriesInfo } from "@/content/pricing";
 import { PAIR } from "@/content/sessions";
@@ -46,6 +48,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const charts = chartsFor(p.slug);
   const listingCopy = listingCopyFor(p.slug);
   const showcase = showcaseFor(p.slug);
+  const markets = marketsFor(p.slug);
 
   // ON THE CHART leads the page — the product as it looks on a real chart
   // (Tom, 2026-09-21). The annotated product-guide boards follow the body, as
@@ -175,6 +178,9 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             <Fact label="Series" value={series.name} />
             <Fact label="Category" value={p.category} />
             <Fact label="Platform" value={`${SITE.platform} · ${SITE.minBuild} or newer`} />
+            {/* Where it runs (2026-10-01): the instruments it is built on and
+                the markets it runs on, from what the product actually reads. */}
+            {markets && <Markets markets={markets} />}
           </dl>
         </Reveal>
 

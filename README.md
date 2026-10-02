@@ -20,6 +20,7 @@ Manual: `npm install` → `npm run dev`. Production check: `npm run build && npm
 | Home-page catalogue heading/sub (every product is listed, as rows) | `content/site.ts` → `CATALOGUE` |
 | The storefront link behind every "Get access" | `content/site.ts` → `SITE.storeUrl` |
 | Chart stills, 16:9 webp, one per indicator | `public/covers/<slug>.webp` |
+| Which markets each product is built on and runs on (generated from the sheet's Markets tab) | `content/markets.ts` → `components/Markets.tsx`, the last fact on every product page |
 | Terms & Conditions | `content/terms.ts` |
 | The 3-day free trial — its words and its on/off switch (`TRIAL.active`) | `content/trial.ts` |
 | The trial checkout links (a product is in the trial only if it has one) | `content/whop.ts` → `trial` |

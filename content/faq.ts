@@ -14,6 +14,9 @@
  *     the way the READMEs and the Whop FAQ do;
  *   · added: "Are the free ones really free?" and "Can I get a refund?" — the
  *     second is Terms §13 in plain words (Tom chose to state it, 2026-09-27).
+ *   · added 2026-10-01: "Which markets do they run on?" — a site question, not
+ *     yet on Whop; its facts come from content/markets.ts (the Master sheet's
+ *     Markets tab), so it cannot disagree with the product pages.
  * Store-wide Q6 ("What if I need help?") is the line under the list, with the
  * address as a link.
  *
@@ -24,6 +27,16 @@
 import { SITE } from "./site";
 import { GIFT } from "./pricing";
 import { TRIAL, keepPrice, startsWhen, trialNames, trialProducts } from "./trial";
+import { HOME_MARKETS, tapeOnlySlugs } from "./markets";
+import { BY_SLUG } from "./products";
+
+/** "DS Zones, DS Iceberg, DS Flow and DS Pro Session Levels" — the products
+ *  that read traded volume, named from content/markets.ts so the answer below
+ *  cannot drift from the product pages. */
+const tapeNames = (): string => {
+  const n = tapeOnlySlugs().map((s) => BY_SLUG[s]?.name ?? s);
+  return n.length > 1 ? `${n.slice(0, -1).join(", ")} and ${n[n.length - 1]}` : (n[0] ?? "");
+};
 
 export type Faq = {
   q: string;
@@ -36,6 +49,13 @@ export const FAQ: Faq[] = [
   {
     q: "What do DS Universe products run on?",
     a: `NinjaTrader 8, version ${SITE.minBuild} or newer (Help → About shows yours). Every product installs through NinjaTrader's own import — no file copying and nothing to compile.`,
+  },
+  // Markets (2026-10-01): the question every buyer has before the price, and
+  // sales are final once the files are issued. The short answer here; the
+  // exact one is the Markets block on each product page (content/markets.ts).
+  {
+    q: "Which markets do they run on?",
+    a: `They are built on Nasdaq futures — ${HOME_MARKETS.join(" and ")} — and most run on any market NinjaTrader charts: futures, stocks, forex and crypto. ${tapeNames()} read traded volume, so they are for futures and stocks; forex and CFDs report none in NinjaTrader. DS GEX draws the Nasdaq-100, the S&P 500 and gold. Every product page lists its own markets.`,
   },
   {
     q: "Is this a subscription?",

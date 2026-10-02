@@ -50,7 +50,10 @@ export const HERO = {
 /** The facts column beside "About". Reference-style metadata. */
 export const FACTS = [
   { label: "Platform", value: "NinjaTrader 8" },
-  { label: "Markets", value: "Futures first — any instrument NinjaTrader charts" },
+  // 2026-10-01: was "any instrument NinjaTrader charts", which is not true of
+  // every product (DS GEX, and the tools that read traded volume). The exact
+  // answer is per product: content/markets.ts.
+  { label: "Markets", value: "Futures first — every product page lists its markets" },
   { label: "Timeframes", value: "Any — tick to daily" },
   { label: "Built in", value: "New York City" },
 ];
