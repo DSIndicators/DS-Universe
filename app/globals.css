@@ -431,3 +431,76 @@ body::after {
   border-color: rgba(0, 153, 153, 0.3);
   background: rgba(0, 153, 153, 0.075);
 }
+
+/* ------------------------------------------------------------------
+   HELP (2026-10-02, components/HelpPanel.tsx).
+   The marker is a chart's last-price flag: pinned to the right edge of
+   the window, notched on the left. Two layers, because a clipped shape
+   cannot carry a border — the outer one is the hairline, the inner one
+   the face. Flat surface, one gold tick. No glow, no gradient; the only
+   shadow is the dark one that lifts it off a picture passing under it.
+   ------------------------------------------------------------------ */
+.help-marker {
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+}
+.help-marker-edge {
+  background: #3a4049;
+  padding: 1px 0 1px 1px;
+  clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%);
+}
+.help-marker-face {
+  background: #12151a;
+  clip-path: polygon(11.6px 0, 100% 0, 100% 100%, 11.6px 100%, 0 50%);
+}
+.help-marker:hover .help-marker-face,
+.help-marker:focus-visible .help-marker-face {
+  background: #171b21;
+}
+.help-panel {
+  background: #0e1115;
+  box-shadow: 0 28px 70px -18px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(0, 0, 0, 0.4);
+  animation: help-in 0.24s cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* THE SHEET — the default: up from the bottom, standing on the on-screen
+     keyboard instead of under it and never taller than what is in view (the
+     two values come from the visual viewport — HelpPanel.tsx). */
+  left: 0;
+  right: 0;
+  bottom: var(--help-kb, 0px);
+  width: 100%;
+  max-width: 560px;
+  margin-inline: auto;
+  height: min(86vh, 640px);
+  height: min(86dvh, 640px);
+  max-height: calc(var(--help-vh, 100vh) - 8px);
+  border-bottom-width: 0;
+  border-radius: 14px 14px 0 0;
+}
+@keyframes help-in {
+  from { opacity: 0; transform: translateY(10px); }
+}
+/* THE PANEL — beside the page, wherever the window is wide AND tall enough
+   for it. These two numbers are SHEET in HelpPanel.tsx; keep them together. */
+@media (min-width: 640px) and (min-height: 521px) {
+  .help-panel {
+    left: auto;
+    right: 20px;
+    bottom: 70px;
+    width: 384px;
+    margin-inline: 0;
+    height: min(600px, calc(100vh - 164px));
+    height: min(600px, calc(100dvh - 164px));
+    max-height: none;
+    border-bottom-width: 1px;
+    border-radius: 12px;
+  }
+  .help-backdrop { display: none; }
+}
+/* As a sheet: the page behind does not scroll with it, and the marker is
+   under it, so it steps aside (the sheet has its own close). */
+@media (max-width: 639px), (max-height: 520px) {
+  html:has(.help-panel[data-open]) { overflow: hidden; }
+  .help-marker[aria-expanded="true"] { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .help-panel { animation: none; }
+}

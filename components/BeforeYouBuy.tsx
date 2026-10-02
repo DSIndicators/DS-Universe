@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AskButton } from "@/components/AskButton";
 import { Reveal } from "@/components/ui/Reveal";
 import { AFTER_CHECKOUT, onWaitlist } from "@/content/launch";
 import { FAQ } from "@/content/faq";
@@ -95,10 +96,11 @@ export function BeforeYouBuy() {
           </ul>
           <p className="mt-8 text-[14px] leading-relaxed text-slate">
             Still a question?{" "}
+            <AskButton className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">Ask it here</AskButton>, or write to{" "}
             <a href={`mailto:${SITE.email}`} className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
               {SITE.email}
             </a>{" "}
-            — a person answers, not a form.
+            — a person answers.
           </p>
         </Reveal>
       </div>

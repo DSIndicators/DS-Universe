@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AskButton } from "@/components/AskButton";
 import { Reveal } from "@/components/ui/Reveal";
 import { SITE } from "@/content/site";
 
@@ -29,6 +30,7 @@ export default function ContactPage() {
           {SITE.email}
         </a>
         <p className="mt-6 text-[13px] text-mute">{SITE.city} · replies during US market hours, usually the same day.</p>
+        <AskButton className="btn-ghost mt-8">Or ask from this page</AskButton>
       </Reveal>
       <Reveal className="lg:col-span-5 lg:col-start-8" delay={100}>
         <ul className="divide-y divide-line border-y border-line">

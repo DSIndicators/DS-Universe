@@ -3,6 +3,7 @@ import Image from "next/image";
 import localFont from "next/font/local";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { Help } from "@/components/Help";
 import { NT_LINKS } from "@/content/ninjatrader";
 import { SITE } from "@/content/site";
 import "./globals.css";
@@ -121,6 +122,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
+        {/* Help: answers, and a way to ask — on every page (components/Help.tsx). */}
+        <Help />
       </body>
     </html>
   );

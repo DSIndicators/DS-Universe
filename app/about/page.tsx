@@ -38,7 +38,7 @@ export default function AboutPage() {
               <p key={p} className="body text-pretty">{p}</p>
             ))}
             <p className="body text-pretty">
-              DS Universe is made in {SITE.city} by a trader who builds the tools he trades with. Every product ships with a plain-English guide, and support is a person, not a form.
+              DS Universe is made in {SITE.city} by a trader who builds the tools he trades with. Every product ships with a plain-English guide, and a person answers when you write.
             </p>
           </div>
         </Reveal>
