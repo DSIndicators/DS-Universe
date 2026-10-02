@@ -166,7 +166,7 @@ export const CATALOGUE = {
 };
 
 /**
- * The hero screen: one screen recording and five real NQ charts on
+ * The hero screen: two screen recordings and five real NQ charts on
  * NinjaTrader's black ground, several DS products on each one (Tom, 2026-09-21:
  * "5 new images in. We will rotate the 6 black screen. Remove the other
  * images."; 2026-09-23: "remove the attached picture from the homepage and add
@@ -194,6 +194,33 @@ export const CATALOGUE = {
  * Silent (-an): browsers only autoplay muted video, and every other DS
  * recording on the site is silent too.
  *
+ * THE SECOND CLIP (Tom, 2026-10-02: "place the video as the 2nd video played.
+ * This will show a nice rotation, 1 video with flow and 1 without flow") —
+ * source "Master Product Folder\Homepage 2nd video.mp4": 7680x4320 HEVC, 60fps,
+ * 60.0s, with an audio track. It is 16:9 already, so there is nothing to pad
+ * and nothing is cropped; its own outer rows are black, like the first clip's.
+ *   ffmpeg -i "Homepage 2nd video.mp4" -an -filter_complex \
+ *     "[0:v]fps=30,split=2[a][b];
+ *      [a]scale=1920:1080:flags=lanczos,format=yuv420p[v1];
+ *      [b]scale=1280:720:flags=lanczos,format=yuv420p[v2]" \
+ *     -map "[v1]" -c:v libx264 -profile:v high -preset medium -crf 23 -g 60 \
+ *       -movflags +faststart  →  live-levels-v1.mp4      3.22 MB (1800 frames)
+ *     -map "[v2]" … -level 3.1 -crf 26     →  live-levels-v1-sm.mp4   1.54 MB
+ *   frame 0 of the 1080p file, libwebp q88 →  live-levels-v1-poster.webp
+ * Four times the length of the first clip at about the same weight: a chart
+ * with no volume numbers on it changes very little from frame to frame.
+ * The screen does not send it with the page — components/ui/Monitor.tsx gives
+ * it its file half-way through the first clip.
+ * `tools`, by the same strict rule as the first clip: its data-series header
+ * lists "DS Iceberg, DS Oracle, DS Zones, DS Pro Session Levels", and three of
+ * those draw a LABELLED mark in the recording — the session's volume profile
+ * with "NEW YORK HIGH" and "NEW YORK POC" = DS Pro Session Levels; the
+ * "DEMAND 30040.00 APPROACHING / SELL 55% BALANCED" cards on their bands =
+ * DS Zones; "ICE OFFER 30069.75 TESTING" and "ICE BID 30029.25" on their keel
+ * icebergs = DS Iceberg. DS Oracle is loaded, but nothing on screen carries
+ * its name (candle colouring is never claimed), so it is not listed.
+ * Both are the 2026-10-01 look of DS Zones and DS Iceberg.
+ *
  * Sources for the PICTURES — "02 Product Masters\0920 NEW Product Cover &
  * Images\Product Images\Raw", 3840x2160, served at 2560x1440 (q88):
  *   footprints-v2     ← Homepage main img 2.png  (Tom, 2026-09-23: "Replace this
@@ -210,7 +237,10 @@ export const CATALOGUE = {
  *                       still unattributed.
  *   sessions          ← DS_20260921_013448.png
  *   timeframes        ← DS_20260921_013152.png  (RETIRED 2026-09-30: the 4th
- *                       slot is now sessions-zones-v1 ← "Main cover page 6.png")
+ *                       slot became sessions-zones-v1 ← "Main cover page 6.png",
+ *                       itself RETIRED 2026-10-02 — it showed the pre-10-01
+ *                       DS Zones cards — for zones-iceberg-rsi-v1 ←
+ *                       "Master Product Folder\Homepage image 4 replacement.png")
  *   session-profiles  ← DS_20260921_013601.png
  *   levels            ← DS_20260921_013258.png  (RETIRED 2026-09-30: the last
  *                       slot is now sessions-volume-v1 ← "Main cover page 5.png")
@@ -243,17 +273,19 @@ export const CATALOGUE = {
  * `title` says what the picture SHOWS — no outcome, no forecast, no
  * superlative (NinjaTrader vendor guidelines).
  *
- * ORDER: the clip first, then footprints, then the pictures in the order they
- * already had (both firsts are Tom's). Taking pro-series out did put two Flow
+ * ORDER: the first clip, then the second (2026-10-02, Tom: "the 2nd video
+ * played"), then footprints, then the pictures in the order they already had
+ * (the firsts are Tom's). The two recordings sit together so the screen opens
+ * on movement twice — volume inside the candles, then levels with no volume
+ * on the candles at all — before it settles into pictures; each plays once
+ * and the pictures loop after that. Taking pro-series out did put two Flow
  * pictures side by side — footprints, then sessions — where they used to
  * alternate. Footprints (volume inside each candle group) and sessions (the
  * three session profiles) do not read as the same screenshot twice.
- * Since 2026-09-30 the last four frames are all session views (sessions,
- * sessions-zones-v1, session-profiles, sessions-volume-v1): Tom named both
- * slots for the new pictures, which replaced timeframes and levels. The old
- * rule that two session views never sit together gives way to his order; the
- * four still differ at a glance (DS Flow's profiles; DS Zones' cards and the
- * RSI panel; the profiles alone; DS Parallax's matrix).
+ * Since 2026-09-30 the last four frames were all session views; since
+ * 2026-10-02 the one between the two DS Flow session pictures is
+ * zones-iceberg-rsi-v1, which has no session marks on it at all, so the two
+ * no longer sit side by side.
  *
  * `ground` is the charts' own black (#040404, sampled): the screen and the
  * enlarged view are painted with it, so a picture that is still loading, or a
@@ -263,13 +295,13 @@ export const CATALOGUE = {
  * A frame on the hero screen. Two kinds share one rotation since 2026-09-23:
  *
  *  · a STILL — a 2560x1440 chart picture, which is what every frame was before;
- *  · the CLIP — Tom's 15s screen recording, first in the rotation, played IN
- *    FULL before the pictures start ("Video first, played in full — users can
- *    swipe to skip to next"). Once it has finished ONCE the rotation wraps to
- *    the first PICTURE and never back to the clip, so someone reading the page
- *    is not interrupted by the recording every lap ("Video once, then pictures
- *    loop", Tom, 2026-09-23). Paging, swiping or clicking back to it replays it
- *    from the start.
+ *  · a CLIP — one of Tom's screen recordings, played IN FULL before the frame
+ *    after it starts ("Video first, played in full — users can swipe to skip
+ *    to next"). Once a clip has finished ONCE the rotation steps over it, so
+ *    someone reading the page is not interrupted by a recording every lap
+ *    ("Video once, then pictures loop", Tom, 2026-09-23). Paging, swiping or
+ *    clicking back to it replays it from the start. There are two since
+ *    2026-10-02; the screen handles any number.
  *
  * `kind` is optional on a still, so the pictures below need no marker: anything
  * without one is a picture.
@@ -314,6 +346,19 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gARTGF2YzU4LjEzNC4xMDAA/9sAQwAIPj5JPklVVVVVVVVkXWRoaGhkZGRkaGhocHBwg4ODcHBwaGhwcHx8g4OPk4+Hh4OHk5Obm5u6urKy2dng/////8QATQABAQEAAAAAAAAAAAAAAAAAAgEHAQEBAAAAAAAAAAAAAAAAAAAAAhABAAAAAAAAAAAAAAAAAAAAABEBAAAAAAAAAAAAAAAAAAAAAP/AABEIAAkAEAMBIgACEQADEQD/2gAMAwEAAhEDEQA/AMKFQUP/2Q==",
     },
     {
+      // The second recording (2026-10-02): no DS Flow on it — the first clip is
+      // volume inside the candles, this one is levels. 60s; the screen gives it
+      // its file half-way through the first clip, not with the page.
+      kind: "clip",
+      src: "/covers/screen/live-levels-v1.mp4",
+      srcSmall: "/covers/screen/live-levels-v1-sm.mp4",
+      poster: "/covers/screen/live-levels-v1-poster.webp",
+      seconds: 60,
+      title: "Levels forming as a New York session trades",
+      tools: ["pro-session-levels", "zones", "iceberg"],
+      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjipDYpMe9Pb7xplAH/9k=",
+    },
+    {
       src: "/covers/screen/footprints-v2.webp",
       title: "Volume by price inside each candle group",
       tools: ["flow", "prorsi", "prostochastics"],
@@ -326,18 +371,20 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkevVPy4pSMcKMj1Ip69KD0pgf/9k=",
     },
     {
-      // ← "Main cover page 6.png" (New Raw Images, 2026-09-30) replaces
-      // timeframes.webp in the 4th slot, Tom's pick. 1920x1080 native, the
-      // same 16:9, never enlarged. Attributed by its labels: the ASIA / LONDON
-      // / NEW YORK brackets with HIGH, LOW, POC and HVN and their edge tags =
-      // DS Pro Session Levels; the SUPPLY / DEMAND cards (FRESH, PIVOT,
-      // DEFENDED, KEY LEVEL, strength, Vol, Δ, "BUY 54% BALANCED") = DS Zones;
-      // "RSI 71.9" on price and the "DS ProRSI" panel = DS ProRSI. The candle
-      // colouring is not claimed.
-      src: "/covers/screen/sessions-zones-v1.webp",
-      title: "Session levels and volume, live zones and RSI levels on one chart",
-      tools: ["pro-session-levels", "zones", "prorsi"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkOvXg/Skx9adQaAP/2Q==",
+      // ← "Homepage image 4 replacement.png" (Master Product Folder,
+      // 2026-10-02) replaces sessions-zones-v1.webp, which showed DS Zones as
+      // it looked before Build 10-01. 1920x1080 native, the same 16:9, never
+      // enlarged; LOSSLESS webp — pixel-identical to the PNG, and on a chart
+      // this black only 11 KB more than q88. Attributed by its labels: the
+      // "DEMAND 29490.50 APPROACHING / KEY 8.69K ×3.5 / SELL 67% ABSORBED"
+      // card on its band, with a diamond on each test = DS Zones;
+      // "ICE BID 29449.50 5× 1.22K" on its keel iceberg = DS Iceberg;
+      // "RSI 62.9 / 75.4 / 45.1 / 31.9 / 38.4" on price and the "DS ProRSI"
+      // panel = DS ProRSI. The candle colouring is not claimed.
+      src: "/covers/screen/zones-iceberg-rsi-v1.webp",
+      title: "A live demand zone, an iceberg bid and RSI levels on one chart",
+      tools: ["zones", "iceberg", "prorsi"],
+      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkMAds0mPaloNAj//Z",
     },
     {
       src: "/covers/screen/session-profiles.webp",

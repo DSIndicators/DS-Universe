@@ -8,25 +8,33 @@ import { Viewer } from "@/components/Viewer";
 import { BY_SLUG } from "@/content/products";
 
 /**
- * The hero screen: one 15s screen recording and five real NQ charts on
+ * The hero screen: two screen recordings and five real NQ charts on
  * NinjaTrader's black ground, rotating (Tom, 2026-09-21: "rotate the 6 black
  * screen... make sure all rotations are elegant and all information makes
  * sense. Also give users the ability to pause the screenshots to read, see it
  * clearly"; 2026-09-23: "Video first, played in full ( users can swipe to skip
- * to next) then our 5 pictures").
+ * to next) then our 5 pictures"; 2026-10-02: a second recording, "the 2nd
+ * video played... a nice rotation, 1 video with flow and 1 without flow").
  *
  * THE ROTATION
  *  · a PICTURE is held 7s, with a 1.2s crossfade and a very slow 3% push-in
  *    anchored on the RIGHT edge — the price axis and the latest bars never
  *    leave the screen; only the oldest bars on the left drift out;
- *  · the CLIP is held for exactly as long as it plays. The rotation moves on
+ *  · a CLIP is held for exactly as long as it plays. The rotation moves on
  *    the video's own `ended` event, not a timer, so a slow connection delays
- *    the next picture instead of cutting the recording short;
+ *    the next frame instead of cutting the recording short;
  *  · it never fades to a picture that has not loaded — it waits for it;
- *  · ONCE THE CLIP HAS FINISHED it is out of the automatic rotation: the wrap
- *    goes back to the first PICTURE, not to the recording. A visitor reading
- *    the page is not interrupted by 15s of video every lap. Paging, swiping or
- *    clicking back to it replays it from the start.
+ *  · ONCE A CLIP HAS FINISHED it is out of the automatic rotation: the
+ *    rotation steps over every recording that has already played through, so
+ *    after the first lap it is the pictures that loop. A visitor reading the
+ *    page is not interrupted by video every lap. Paging, swiping or clicking
+ *    back to a recording replays it from the start;
+ *  · ANY NUMBER OF CLIPS (2026-10-02). Each has its own <video>, and only the
+ *    one on screen ever plays. A later clip is not downloaded with the page:
+ *    it is given its file once it is on screen, or once the frame before it
+ *    is half-way through — so a visitor who leaves after ten seconds is never
+ *    sent a 60-second recording they did not see, and one who stays has it
+ *    buffered by the time it starts.
  *
  * PAUSING, AND THE ONE DELIBERATE INCONSISTENCY
  *  · Pause / Play stops everything, the clip included, and Pause also eases a
@@ -54,7 +62,7 @@ import { BY_SLUG } from "@/content/products";
  *
  * WHAT THE VISITOR IS ACTUALLY SENT
  *  · phones (and anyone with saveData on) get the 1280x720 cut, not the
- *    1920x1080 one — same 15 seconds, 1.15MB instead of 2.79MB. The choice is
+ *    1920x1080 one — the same recording at well under half the size. The choice is
  *    made after mount, because it needs the real viewport, so the <video> has
  *    no `src` on the server render and paints its poster until then;
  *  · saveData also starts the screen PAUSED, so nobody on a metered connection
@@ -88,19 +96,21 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
   const [open, setOpen] = useState(false); // the enlarged view
   const [tick, setTick] = useState(0); // restarts the hold (and the segment fill)
   const [moved, setMoved] = useState(false); // the visitor has moved the frames: captions may be announced
-  const [clipDone, setClipDone] = useState(false); // the clip has played through once
-  const [clipAt, setClipAt] = useState(0); // 0..1 through the clip, from the video itself
+  const [done, setDone] = useState<ReadonlySet<number>>(() => new Set()); // clips that have played through once
+  const [armed, setArmed] = useState<ReadonlySet<number>>(() => new Set([0])); // clips that have been given their file
+  const [clipAt, setClipAt] = useState(0); // 0..1 through the clip ON SCREEN, from the video itself
   const loaded = useRef<Set<number>>(new Set());
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const swipe = useRef<{ x: number; y: number; id: number } | null>(null);
   const swiped = useRef(false); // a swipe just happened: the click that follows it is not "enlarge"
-  /* ONE clip in the rotation, so one ref is enough. A second one would need a
-     ref per clip — everything else below already works off `isClip`. */
-  const vid = useRef<HTMLVideoElement>(null);
-  const wasClip = useRef(false);
+  /* One <video> per clip, by frame index. Only the one on screen plays. */
+  const vids = useRef<Map<number, HTMLVideoElement>>(new Map());
+  const at = useRef(0); // the frame on screen, for handlers that outlive a render
+  const cameFrom = useRef(-1); // the frame that was on screen before this one
 
   const frame = frames[i];
   const clip = isClip(frame);
+  at.current = i;
 
   /* A picture rotates on a timer; the clip rotates on `ended`. Both stop for
      Pause, a hidden tab and the enlarged view — only a picture also stops for
@@ -131,15 +141,19 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
     };
   }, []);
 
-  /* Where the rotation goes after `from`. Once the clip has played through, the
-     wrap skips it and lands on the first picture instead. */
+  /* Where the rotation goes after `from`: the next frame, stepping over any
+     clip that has already played through. So the first lap runs every frame in
+     order, and from then on the pictures loop. `played` lets the `ended`
+     handler pass the set it has just updated, before the state has. */
   const nextIndex = useCallback(
-    (from: number) => {
-      const n = from + 1;
-      if (n < count) return n;
-      return clipDone && isClip(frames[0]) ? Math.min(1, count - 1) : 0;
+    (from: number, played: ReadonlySet<number> = done) => {
+      for (let k = 1; k <= count; k++) {
+        const n = (from + k) % count;
+        if (!(isClip(frames[n]) && played.has(n))) return n;
+      }
+      return (from + 1) % count; // nothing but finished clips: plain order
     },
-    [count, clipDone, frames],
+    [count, done, frames],
   );
 
   // The clock for the PICTURES. When the hold is up it moves on only once the
@@ -163,21 +177,28 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
     };
   }, [stillRunning, i, tick, nextIndex, frames]);
 
-  // The clip plays or pauses with the rotation. If the browser refuses to
-  // autoplay, say so instead of showing "Pause" over a frozen frame.
+  // The clip ON SCREEN plays or pauses with the rotation; every other clip is
+  // held still. If the browser refuses to autoplay, say so instead of showing
+  // "Pause" over a frozen frame. A clip is only asked to play once it has its
+  // file (`armed`): it can reach the screen a moment before that, when a
+  // visitor jumps straight to it.
   useEffect(() => {
-    const v = vid.current;
-    if (!v) return;
-    if (!clipPlaying) {
-      if (!v.paused) v.pause();
-      return;
-    }
-    const p = v.play();
-    if (p) p.catch(() => setPaused(true));
-  }, [clipPlaying]);
+    vids.current.forEach((v, n) => {
+      if (n === i && clipPlaying && armed.has(n)) {
+        const p = v.play();
+        // Only a REFUSED autoplay pauses the screen. A play() cut short by a
+        // swipe to another frame (AbortError) is not the browser saying no.
+        if (p) p.catch((e: unknown) => {
+          if ((e as { name?: string })?.name === "NotAllowedError" && at.current === n) setPaused(true);
+        });
+      } else if (!v.paused) {
+        v.pause();
+      }
+    });
+  }, [clipPlaying, i, armed]);
 
-  const rewind = useCallback(() => {
-    const v = vid.current;
+  const rewind = useCallback((n: number) => {
+    const v = vids.current.get(n);
     if (v) {
       try {
         v.currentTime = 0;
@@ -188,11 +209,25 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
     setClipAt(0);
   }, []);
 
-  // Arriving on the clip — by wrap, by swipe or by segment — starts it over.
+  // Arriving on a clip — by rotation, by swipe or by segment — starts it over,
+  // including when the frame before it was the other clip.
   useEffect(() => {
-    if (clip && !wasClip.current) rewind();
-    wasClip.current = clip;
-  }, [clip, rewind]);
+    if (clip && cameFrom.current !== i) rewind(i);
+    cameFrom.current = i;
+  }, [clip, i, rewind]);
+
+  // WHEN A CLIP GETS ITS FILE. The first frame has it from the start. Any other
+  // clip gets it when it reaches the screen, or when it is next in line and the
+  // frame before it is half-way through (a clip by its own clock; a picture is
+  // held 7s, so being on it is enough). Once given, it keeps it.
+  useEffect(() => {
+    if (!mounted) return;
+    const want: number[] = [];
+    if (clip) want.push(i);
+    const nx = nextIndex(i);
+    if (nx !== i && isClip(frames[nx]) && (!clip || clipAt >= 0.5)) want.push(nx);
+    if (want.some((n) => !armed.has(n))) setArmed((a) => new Set([...a, ...want]));
+  }, [mounted, clip, i, clipAt, armed, frames, nextIndex]);
 
   const go = useCallback(
     (n: number) => {
@@ -200,7 +235,7 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
       setI(to);
       setTick((t) => t + 1);
       setMoved(true);
-      if (isClip(frames[to])) rewind(); // includes re-picking the clip it is already on
+      if (isClip(frames[to])) rewind(to); // includes re-picking the clip it is already on
     },
     [count, frames, rewind],
   );
@@ -285,12 +320,16 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
                 >
                   {isClip(f) ? (
                     <video
-                      ref={vid}
+                      ref={(el) => {
+                        if (el) vids.current.set(n, el);
+                        else vids.current.delete(n);
+                      }}
                       /* No `src` until mounted: the 720p / 1080p choice needs
                          the real viewport, and a server-rendered src would
                          fetch the wrong file first. The poster paints meanwhile
-                         — and it IS frame 0, so nothing jumps when it starts. */
-                      src={mounted ? (small ? f.srcSmall : f.src) : undefined}
+                         — and it IS frame 0, so nothing jumps when it starts.
+                         A later clip also waits until it is `armed` (above). */
+                      src={mounted && armed.has(n) ? (small ? f.srcSmall : f.src) : undefined}
                       poster={f.poster}
                       muted
                       playsInline
@@ -299,13 +338,16 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
                       tabIndex={-1}
                       className="h-full w-full object-cover"
                       onTimeUpdate={(e) => {
+                        if (at.current !== n) return; // only the clip on screen drives the segment
                         const v = e.currentTarget;
                         if (v.duration > 0) setClipAt(Math.min(1, v.currentTime / v.duration));
                       }}
                       onEnded={() => {
-                        setClipDone(true);
+                        if (at.current !== n) return;
+                        const played = new Set(done).add(n);
+                        setDone(played);
                         setClipAt(1);
-                        setI((at) => nextIndex(at));
+                        setI(nextIndex(n, played));
                       }}
                     />
                   ) : (
@@ -360,7 +402,7 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
           <span className="w-[3.2em] text-left" aria-hidden="true">{paused ? "Play" : "Pause"}</span>
         </button>
 
-        {/* Six segments fit a 320px phone: 18px with 4px gaps below sm, 24px + 6px from sm up. */}
+        {/* Seven segments fit a 320px phone: 18px with 4px gaps below sm (150px), 24px + 6px from sm up. */}
         <div className="flex shrink-0 items-center gap-1 sm:gap-1.5" role="group" aria-label="Chart pictures">
           {frames.map((f, n) => (
             <button
