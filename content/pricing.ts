@@ -77,7 +77,7 @@ export const PRICES: Record<string, Price> = {
   prorsi: flat(79.99),
   prostochastics: flat(79.99),
   prosqueeze: flat(79.99),
-  promacd: flat(79.99),
+  protrendrange: flat(79.99), // 2026-10-04: took DS ProMACD's place, at its price
   // ---- the session levels pair (2026-09-30, Master Sheet "Pricing" tab) --
   "session-levels": FREE,
   "pro-session-levels": WITH_COMPLETE,
@@ -127,7 +127,7 @@ export const SERIES: SeriesInfo[] = [
     name: "Pro Series panels",
     tagline: "The classic oscillators, rebuilt to say something about price.",
     blurb:
-      "RSI, stochastics, the squeeze and MACD — each one a single locked-scale panel that turns its read into levels, named states and graded signals, decided on closed bars.",
+      "RSI, stochastics, the squeeze, and the trend with its pullbacks — each one a single locked-scale panel that turns its read into levels, named states and graded signals, decided on closed bars.",
   },
   {
     // 2026-09-30. One free tool and its Pro tier, which comes only with DS

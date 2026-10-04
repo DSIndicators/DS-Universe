@@ -25,7 +25,9 @@ import { PRODUCTS } from "@/content/products";
  *              ProRSI one line in a shaded 70/30 scale (and, on price, the
  *              level its crossover made, frozen where price closed through);
  *              ProStochastics four stacked lanes of four speeds with the quad
- *              latch under them; ProSqueeze; ProMACD.
+ *              latch under them; ProSqueeze; ProTrendRange (2026-10-04, in
+ *              DS ProMACD's place): its TREND line over its SWING line on one
+ *              scale, the pullback pockets, the state ribbon.
  *   Essentials the DS Toolkit rail · Parallax's four higher-timeframe charts
  *              spread along the bottom of the price pane (its default) ·
  *              DS 258's 00/20/50/80 lines · the Adaptive Price Line riding the
@@ -133,7 +135,7 @@ const PANELS = [
   { slug: "prorsi", h: 46 },
   { slug: "prostochastics", h: 74 },
   { slug: "prosqueeze", h: 46 },
-  { slug: "promacd", h: 46 },
+  { slug: "protrendrange", h: 46 },
 ] as const;
 const GAP = 6, P0 = PY1 + 10;
 const panelY = (k: number) => P0 + PANELS.slice(0, k).reduce((n, p) => n + p.h + GAP, 0);
@@ -290,6 +292,46 @@ const RSI_HI = 2;
 const RSI_LVL = Math.max(cand[RSI_HI].h, 64.6);
 const RSI_FREEZE = closes.findIndex((c, i) => i > RSI_HI + 3 && c > RSI_LVL);
 /** Two decimals: server and browser must print the same numbers (hydration). */
+/** DS ProTrendRange's own reading, taken on the drawn tape: signed efficiency
+ *  over n changes — EMA(d) / sqrt(EMA(d²)) — scaled by sqrt(n) so two lengths
+ *  share one scale, then printed as 100 × Φ(z): 50 no drift, 84.1 / 15.9 one
+ *  sigma (the product's formula; Φ by Abramowitz–Stegun 7.1.26). The lengths
+ *  are shortened to suit a 32-bar drawing (the product ships 10 and 50). */
+const phi = (z: number) => {
+  const x = Math.abs(z) / Math.SQRT2;
+  const k = 1 / (1 + 0.3275911 * x);
+  const erf = 1 - ((((1.061405429 * k - 1.453152027) * k + 1.421413741) * k - 0.284496736) * k + 0.254829592) * k * Math.exp(-x * x);
+  return 0.5 * (1 + (z < 0 ? -erf : erf));
+};
+const phase = (n: number) => {
+  let m = 0, v = 0;
+  return closes.map((c, i) => {
+    if (i === 0) return 50;
+    const d = c - closes[i - 1];
+    const a = i <= n ? 1 / i : 2 / (n + 1);
+    m += a * (d - m);
+    v += a * (d * d - v);
+    return v > 0 ? 100 * phi((Math.sqrt(Math.min(i, n)) * m) / Math.sqrt(v)) : 50;
+  });
+};
+const TR_TREND = phase(12);
+const TR_SWING = phase(4);
+const SIGMA_HI = 84.13, SIGMA_LO = 15.87;
+/** The latch: a trend turns on at one sigma and stays on until the reading
+ *  crosses the centre. +1 up, −1 down, 0 ranging. */
+const TR_DIR = (() => {
+  let dir = 0;
+  return TR_TREND.map((p, i) => {
+    if (i < 3) return 0; // three changes are not a reading yet
+    if (dir > 0 && p < 50) dir = 0;
+    if (dir < 0 && p > 50) dir = 0;
+    if (dir === 0) dir = p >= SIGMA_HI ? 1 : p <= SIGMA_LO ? -1 : 0;
+    return dir;
+  });
+})();
+/** A pullback: the trend is on and the swing is on the other side of the centre. */
+const TR_PULL = TR_DIR.map((d, i) => (d > 0 && TR_SWING[i] < 50) || (d < 0 && TR_SWING[i] > 50));
+
 const r2 = (n: number) => Math.round(n * 100) / 100;
 const pts = (a: number[], y: (v: number) => number, from = 0) => a.map((v, i) => `${r2(xAt(i + from))},${r2(y(v))}`).join(" ");
 /** A rectangle as a path (dark modes treat <rect> as a background object). */
@@ -1075,19 +1117,51 @@ function Drawing({ t, H, stripY, roomy, tape }: { t: (n: number) => number; H: n
             </>
           );
         } else {
-          const f = smooth(closes, 3);
-          const s = smooth(closes, 9);
+          // DS ProTrendRange: the thick TREND line over the thin SWING line on
+          // one 0–100 scale; the two one-sigma lines and the dashed centre; a
+          // POCKET, in the trend's own hue, wherever the swing runs against a
+          // trend that is on; and the state ribbon along the foot — the side's
+          // hue for a trend, the same hue ghosted while it pulls back, bare
+          // while the market ranges.
+          const yr = (v: number) => yy(v / 100);
+          const hue = (d: number) => (d > 0 ? TEAL : VIOLET);
           body = (
             <>
-              {f.map((v, i) => {
-                const d = (v - s[i]) / 5;
-                const h = r2(Math.max(0.8, Math.abs(d) * 10));
-                return <path key={i} d={box(xAt(i) - 2.5, d >= 0 ? yy(0.55) - h : yy(0.55), 5, h)} fill={d >= 0 ? TEAL : VIOLET} fillOpacity={d >= 0 ? 0.5 : 0.75} />;
-              })}
-              {f.map((v, i) => {
-                const d = v - s[i];
-                return <path key={`r${i}`} d={box(xAt(i) - DX / 2, y0 + ph - 4, DX - 0.5, 2.5)} fill={d > 0 ? TEAL : VIOLET} fillOpacity={Math.abs(d) > 2 ? 1 : 0.5} />;
-              })}
+              <line x1={PX0} x2={PX1} y1={yr(SIGMA_HI)} y2={yr(SIGMA_HI)} stroke={TEAL} strokeOpacity="0.28" />
+              <line x1={PX0} x2={PX1} y1={yr(SIGMA_LO)} y2={yr(SIGMA_LO)} stroke={VIOLET} strokeOpacity="0.28" />
+              <line x1={PX0} x2={PX1} y1={yr(50)} y2={yr(50)} stroke={INK} strokeOpacity={A.mark} strokeDasharray="2 3" />
+              {TR_PULL.map((on, i) =>
+                on ? (
+                  <path
+                    key={`p${i}`}
+                    d={box(xAt(i) - DX / 2, Math.min(yr(50), yr(TR_SWING[i])), DX, Math.abs(yr(TR_SWING[i]) - yr(50)))}
+                    fill={hue(TR_DIR[i])}
+                    fillOpacity="0.34"
+                  />
+                ) : null,
+              )}
+              <polyline points={pts(TR_SWING, yr)} fill="none" stroke={INK} strokeOpacity="0.42" strokeWidth="0.8" />
+              <g strokeWidth="1.5" strokeLinecap="round">
+                {TR_TREND.slice(1).map((v, i) => (
+                  <line
+                    key={`t${i}`}
+                    x1={r2(xAt(i))}
+                    x2={r2(xAt(i + 1))}
+                    y1={r2(yr(TR_TREND[i]))}
+                    y2={r2(yr(v))}
+                    stroke={TR_DIR[i + 1] ? hue(TR_DIR[i + 1]) : INK}
+                    strokeOpacity={TR_DIR[i + 1] ? 1 : 0.8}
+                  />
+                ))}
+              </g>
+              {TR_DIR.map((d, i) => (
+                <path
+                  key={`s${i}`}
+                  d={box(xAt(i) - DX / 2 + 0.3, y0 + ph - 4.5, DX - 0.6, 2.5)}
+                  fill={d ? hue(d) : INK}
+                  fillOpacity={d ? (TR_PULL[i] ? 0.38 : 0.9) : A.grid * 2}
+                />
+              ))}
             </>
           );
         }

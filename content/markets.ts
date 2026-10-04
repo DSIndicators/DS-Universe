@@ -121,9 +121,9 @@ export const MARKETS: Record<string, Markets> = {
     builtOn: true,
     classes: { futures: true, stocks: true, forex: true, crypto: true },
   },
-  "promacd": {
+  "protrendrange": {
     headline: "Any market NinjaTrader charts",
-    note: "Reads price only. Its default MACD-V scale is volatility-normalized, so its zones sit at the same values on every instrument.",
+    note: "Reads price only. Both of its readings sit on one statistical scale, so one sigma is the same reading on every instrument, timeframe and bar type.",
     builtOn: true,
     classes: { futures: true, stocks: true, forex: true, crypto: true },
   },

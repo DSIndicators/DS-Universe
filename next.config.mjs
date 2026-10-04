@@ -53,8 +53,17 @@ const nextConfig = {
   // standing over (Google: every permanent redirect type counts the same);
   // it lands on the Price list view, which is what /pricing was. A #fragment
   // (e.g. /pricing#complete) survives the redirect in every browser.
+  //
+  // /products/promacd (2026-10-04): DS ProMACD left the store when DS
+  // ProTrendRange took its place in the Pro Series, and returns later as a free
+  // product. TEMPORARY on purpose: Google keeps the original URL indexed and
+  // moves no signals on a 307, so the page can come back at the same address.
+  // Delete this entry the day "promacd" is in content/products.ts again.
   async redirects() {
-    return [{ source: "/pricing", destination: "/products?view=list", permanent: true }];
+    return [
+      { source: "/pricing", destination: "/products?view=list", permanent: true },
+      { source: "/products/promacd", destination: "/products#pro", permanent: false },
+    ];
   },
   async headers() {
     return PAGES.map((source) => ({ source, headers: REVALIDATE }));

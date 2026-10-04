@@ -26,7 +26,7 @@ export const DRAWS: Record<string, string> = {
   prorsi: "One RSI, its extremes shaded; its crossovers become levels on price",
   prostochastics: "Four speeds in four lanes, one quad latch",
   prosqueeze: "Compression as one live number; every fire graded",
-  promacd: "MACD-V with a six-state momentum ribbon",
+  protrendrange: "Trend and swing on one scale — the pullback filled as a pocket, the state named bar by bar",
   "session-levels": "Each session bracketed over its own bars, its high and low carried forward until it opens again",
   "pro-session-levels": "The session's volume profile inside its bracket, its POC carried forward as a level",
   "adaptive-priceline": "Always anchored to the candle; the bar-close countdown rides the line",
@@ -40,7 +40,7 @@ export const DRAWS: Record<string, string> = {
 /** The layers CompleteChart.tsx actually draws — kept in step with DRAWS. */
 export const DRAWN = [
   "zones", "iceberg", "oracle", "gex", "flow",
-  "prorsi", "prostochastics", "prosqueeze", "promacd",
+  "prorsi", "prostochastics", "prosqueeze", "protrendrange",
   "session-levels", "pro-session-levels",
   "adaptive-priceline", "chart-price", "ds-258", "parallax", "toolkit",
   "bulk-replay-downloader",

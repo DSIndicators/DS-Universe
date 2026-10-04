@@ -76,7 +76,10 @@ export const WHOP: Record<string, WhopListing> = {
   prorsi: L("ds-prorsi-rsi-crossovers-as-price-levels-ninjatrader-8", "plan_BBivBWLYNMJhb", "plan_OgE67QZlTofd9"),
   prostochastics: L("ds-prostochastics-quad-rotation-stochastics-ninjatrader-8", "plan_ACebJTJOzyeH9"),
   prosqueeze: L("ds-prosqueeze-squeeze-waves-reversion-ninjatrader-8", "plan_sQ0Jx6UJRsggw"),
-  promacd: L("ds-promacd-volatility-normalised-macd-cross-price-ninjatrader-8-8f", "plan_DLiExDW7gxE3R"),
+  // 2026-10-04 — DS ProTrendRange took DS ProMACD's place (listing and plan
+  // from Tom the same day; the listing page was read back and matches the
+  // sheet). DS ProMACD's listing was removed from Whop and now answers 404.
+  protrendrange: L("ds-protrendrange-trend-pullback-range-state-panel-ninjatrader-8", "plan_vELeEOxCkpoYx"),
   // ---- data utility ($29.99, checkout verified 2026-09-25) ----
   "bulk-replay-downloader": L("ds-bulk-replay-downloader-bulk-replay-data-ninjatrader-8", "plan_kKVlaEdC9dtgS"),
   // ---- free essentials (checkout shows "Free", verified 2026-09-25) ----
@@ -90,10 +93,21 @@ export const WHOP: Record<string, WhopListing> = {
   complete: L("ds-complete-all-15-ds-universe-products-one-license-ninjatrader-8", "plan_eVl3N0rb9CZQ2"),
 };
 
+/**
+ * LISTINGS THAT DO NOT EXIST ON WHOP YET (empty since 2026-10-04). A new product can be
+ * previewed on localhost before its Whop listing is made: its buttons go to
+ * the store front. It must never go live that way — a "Buy now" that opens the
+ * store's home page sells nothing — so a production build stops while a slug
+ * is listed here. (`DS_PREVIEW_BUILD=1 npm run build` builds anyway, for
+ * checking only.)
+ */
+export const PENDING_LISTING: readonly string[] = [];
+const LIVE_BUILD = process.env.NODE_ENV === "production" && process.env.DS_PREVIEW_BUILD !== "1";
+
 /* Every listed product has its own plan — a pasted duplicate would send two
    products to one checkout, so the build refuses it. */
 {
-  const plans = Object.values(WHOP).map((w) => w.checkout);
+  const plans = Object.values(WHOP).flatMap((w) => (w.checkout ? [w.checkout] : []));
   if (new Set(plans).size !== plans.length) {
     throw new Error("content/whop.ts: two products share one checkout plan.");
   }
@@ -110,7 +124,17 @@ export const WHOP: Record<string, WhopListing> = {
       if (WHOP[slug]) throw new Error(`content/whop.ts: "${slug}" comes only with DS Complete and must not have a listing.`);
       continue;
     }
-    if (!WHOP[slug]?.checkout) throw new Error(`content/whop.ts: "${slug}" has no checkout link.`);
+    if (!WHOP[slug]?.checkout) {
+      if (PENDING_LISTING.includes(slug) && WHOP[slug] && !LIVE_BUILD) continue;
+      throw new Error(
+        PENDING_LISTING.includes(slug)
+          ? `content/whop.ts: "${slug}" has no Whop listing yet. Create it on Whop, put its listing path and plan here, and take it out of PENDING_LISTING before deploying.`
+          : `content/whop.ts: "${slug}" has no checkout link.`,
+      );
+    }
+  }
+  for (const slug of PENDING_LISTING) {
+    if (WHOP[slug]?.checkout) throw new Error(`content/whop.ts: "${slug}" has a checkout now — take it out of PENDING_LISTING.`);
   }
 }
 

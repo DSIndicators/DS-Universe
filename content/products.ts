@@ -24,10 +24,13 @@
  * a dotted band" (was dashed); Iceberg levels both engines agree on "are drawn
  * in cyan or magenta" (was "carry a distinct accent border", retired in 10-01).
  *
- * One wording correction is applied on the way in: DS ProMACD's cross price is
- * "the exact price that WOULD cross", not "will" — it is a threshold for the
- * forming bar, not a forecast (the product's own board says so), and NinjaTrader's
- * vendor guidelines read "will" as a promise.
+ * 2026-10-04 — DS PROTRENDRANGE TAKES DS PROMACD'S PLACE in the Pro Series.
+ * Same series, same $79.99, so DS Complete's arithmetic does not move. Copy from the sheet's
+ * Product Catalog + Product Details tabs (row replaced the same day), which
+ * take every claim from DSProTrendRange.cs v1.1 and its README. DS ProMACD is
+ * absent until it returns as a free product: /products/promacd answers with a
+ * TEMPORARY redirect to the Pro Series shelf (next.config.mjs), and its
+ * pictures are parked in "LOCAL3001 Picture Updates\Replaced pictures".
  */
 
 export type Kind = "indicator" | "addon";
@@ -182,20 +185,20 @@ export const PRODUCTS: Product[] = [
         "description": "DS ProSqueeze measures compression as Bollinger Band half-width divided by ATR — a continuous read with the three classic tiers, COILING, SQUEEZE and DEEP, as thresholds on top of it rather than the whole story. A fire triggers on the close that leaves the tightest tier in the direction of momentum, and a run is considered over only after two fading bars, so the panel does not call the end of a move on the first pause. Momentum is TTM's own linear-regression read, normalized by ATR and drawn as a line over a quiet field, with the centerline itself colored by the current compression tier. Every fire is graded, not just flagged: ADX at or below twenty plus the state of the C and B wave horizons produce a grade from PRIME down to BARE, or AGAINST FLOW when the wave context disagrees with the fire's direction — and an EARLY read appears when the fastest wave is already hooking toward the medium and slow waves inside an active squeeze, ahead of the fire itself. A separate reversion engine watches RSI(9) against 65/35 and an ATR-banded 25-period EMA and arms a mean-reversion setup, with a defined target and 1:1 risk, only when neither a squeeze nor a running fire is in effect — so the two playbooks never compete for your attention on the same bar. The panel's Y-axis locks by default so a chart drag cannot distort the compression and momentum reads against each other. Closed-bar decisions throughout: it does not repaint."
     },
     {
-        "slug": "promacd",
-        "name": "DS ProMACD",
+        "slug": "protrendrange",
+        "name": "DS ProTrendRange",
         "kind": "indicator",
         "series": "pro",
-        "category": "Momentum & Trend",
-        "purpose": "A MACD panel rebuilt on the volatility-normalized MACD-V scale, with the exact price that would cross the signal line solved in closed form before the bar even closes.",
+        "category": "Trend & Pullback",
+        "purpose": "A trend, pullback and range panel on one statistical scale — a latched trend state, the pullback filled as a pocket in the trend's own color, and one closed-bar RESUME signal that carries the price where it is wrong.",
         "hooks": [
-            "Cross price solved before it happens",
-            "MACD-V gives it real fixed zones",
-            "Six-state momentum ribbon",
-            "Divergence with a full lifecycle"
+            "Trend, pullback and range, named",
+            "One RESUME per leg, with its HOLD",
+            "No threshold to tune, on any chart",
+            "Locked panel scale, never drifts"
         ],
-        "helps": "A standard MACD tells you a cross happened only after the bar that made it closes — a beat too late to act on cleanly, and read on a scale that means something different on every instrument. DS ProMACD solves the exact price that would cross the signal line before the bar closes, reads on the same volatility-normalized MACD-V scale on every chart, and grades every divergence through a full lifecycle instead of leaving you to eyeball whether it is still valid.",
-        "description": "DS ProMACD keeps the classic fast/slow EMA and signal-line structure but changes what you read and when. The exact close that will cross the signal line on the forming bar is solved in closed form from the prior bar alone — fixed for the whole bar, so it cannot repaint — and shown three ways: a price-panel rail with an axis flag, a header chip, and a panel target dash, alongside the zero-line cross price for the same bar. The default scale is MACD-V (Spiroglou, Charles H. Dow Award), which gives the panel genuine fixed zones and a state ribbon across six regimes — RISK, RALLYING, RETRACING, RANGING, REBOUNDING, REVERSING — instead of an axis that rescales itself on every instrument. All four early-signal layers ship in v1.0: a histogram slope-flip, a pre-cross alarm, a zero-line cross read together with its regime context, and ranging suppression so a flat market does not fire on noise. Divergence runs on Elder's relative-depth and separate-legs gates against the histogram (the form that actually matches his rule; applied to the MACD line directly it rejects most sound patterns), carries a PENDING to CONFIRMED, BROKEN or EXPIRED lifecycle instead of a single static mark, and also catches exaggerated equal-extreme patterns. The panel's Y-axis locks by default so a chart drag cannot push the reading off its own scale. Closed-bar decisions throughout: it does not repaint."
+        "helps": "A pullback trade needs three answers in a row — is there a trend, is this a pullback inside it or the end of it, and has the pullback finished — and most panels give one of them. DS ProTrendRange gives all three on one scale: a thick TREND line for the tide, a thin SWING line for the wave, a filled pocket while the wave runs against the tide, and one signal, the RESUME, on the bar the pocket closes. When there is no tide to trade with, it says RANGING and draws the range the market is working instead.",
+        "description": "DS ProTrendRange takes one measurement — signed efficiency, how much of the distance price travelled was progress — over two lengths, and scales each by the square root of its length so a 10-bar and a 50-bar reading sit on one statistical scale: 50 is no drift, 84 and 16 are one sigma of it, 97.7 and 2.3 are two. Those levels are constants on every instrument, timeframe and bar type, Renko included, so there is no threshold to tune, and one bar, however large, cannot move a reading as far as one and a half sigma — a single spike is never read as a strong trend. A trend latches ON when the Trend-length reading reaches one sigma and stays on until it crosses back through the center — the same event as the close crossing its own Trend-length average — so the state cannot flicker along a line; past two sigma it is STRONG, and with no trend latched the market is RANGING. While a trend is on, the Swing-length reading crossing the center against it is a PULLBACK, filled in the panel as a pocket in the trend's own color. The one signal is the RESUME: the swing closes back through the center and the next close holds it, given once per leg and graded PRIME, STANDARD or MINOR by the trend it resumes. On the price chart each resume is drawn as a shelf — a level line at the HOLD price, the pullback's own extreme, from the bar that made it to the bar that confirmed the resume — and while it is live a HOLD rail carries that price to the axis, until the trend makes a new extreme or price trades through it. In a range, two rails mark the extreme the last trend left behind and the reaction against it, and a range row along the foot of the panel shows where the close sits in the Trend-length high-low window. Thirteen values are published for strategies and the Market Analyzer. It reads price only and needs nothing but the chart's own bars. It reads the state of the market and marks a precisely defined event; it is not a forecast. The panel's Y-axis locks by default so a chart drag cannot push the reading off its own scale. Closed-bar decisions throughout: it does not repaint."
     },
     {
         "slug": "session-levels",

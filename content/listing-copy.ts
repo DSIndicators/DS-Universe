@@ -12,8 +12,9 @@
  * flagships (the $749.90 it quotes is right — it is the ten). The site describes
  * Complete in its own words, in content/pricing.ts, without counts.
  *
- * One correction applied on the way in (make the same one on Whop):
- *   DS ProMACD  "the price it will happen at first" -> "would happen at, first"
+ * 2026-10-04: DS ProTrendRange's listing took DS ProMACD's place (the sheet's
+ * Whop Listings row was replaced the same day; DS ProMACD's copy is kept on the
+ * sheet's "Parked" tab for its return as a free product).
  * 2026-10-01, made in the Master sheet too (Whop pasted by Tom), for the
  * DS Zones / DS Iceberg visual redesign (Build 2026-10-01):
  *   DS Zones    "dims to a dashed band" -> "dims to a dotted band"
@@ -162,18 +163,18 @@ export const LISTING: Record<string, ListingCopy> = {
             "Closed-bar decisions throughout — it does not repaint."
         ]
     },
-    "promacd": {
-        "hook": "By the time a MACD cross prints, the bar that made it has already closed. This solves the price it would happen at, first.",
-        "lede": "The exact close that crosses the signal line is worked out in closed form from the prior bar alone — fixed for the whole bar, so it cannot repaint — and shown as a rail on your price chart, a header chip and a panel target.",
-        "heading": "What makes the panel itself different",
+    "protrendrange": {
+        "hook": "Most panels answer one question. A pullback trade asks three: is there a trend, is this a pullback inside it, and has the pullback finished.",
+        "lede": "One measurement taken over two lengths, on one statistical scale — a thick TREND line for the tide, a thin SWING line for the wave — with the pullback filled as a pocket and one closed-bar signal, the RESUME, on the bar the pocket closes.",
+        "heading": "What the panel reads",
         "points": [
-            "MACD-V scale by default — real fixed zones on every instrument, not a self-rescaling axis",
-            "A six-state ribbon: RISK, RALLYING, RETRACING, RANGING, REBOUNDING, REVERSING",
-            "Four early layers — histogram slope-flip, pre-cross alarm, zero-line cross, ranging suppression",
-            "Divergence with a PENDING → CONFIRMED / BROKEN / EXPIRED lifecycle, not a static mark"
+            "TREND latches on at one sigma and stays on until the close crosses its own average — a state, not a line that flickers",
+            "PULLBACK fills as a pocket in the trend's own color; RANGING steps the panel back to neutral and draws the range's two rails on price",
+            "RESUME — one per leg, confirmed on the next close, graded PRIME, STANDARD or MINOR",
+            "Every resume is drawn on price as a shelf at its HOLD level: the pullback's own extreme, the price that says it did not hold"
         ],
         "close": [
-            "The panel's Y-axis locks, so a chart drag can never push the reading off its own scale.",
+            "One sigma is one sigma on every instrument, timeframe and bar type, so there is no threshold to tune. It reads the state of the market and marks a precisely defined event — it is not a forecast. The panel's Y-axis locks, so a chart drag can never push the reading off its own scale.",
             "Closed-bar decisions throughout — it does not repaint."
         ]
     },

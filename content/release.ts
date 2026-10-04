@@ -8,14 +8,18 @@ import { SERIES, type SeriesInfo } from "./pricing";
  * Shelf membership is not declared here — it is each product's `series` in
  * content/products.ts. This file adds only the ART.
  *
- * ART — the 09-20 covers (Tom's "0920 NEW Product Cover & Images"), each box
- * cut off the grey studio backdrop and re-seated in a transparent 4:5 frame at
- * ONE height on ONE baseline with ONE baked soft shadow, so the shelf reads as a
- * row of objects on the page rather than fifteen grey photographs, and works on
- * the white and the mist sections alike. Sources are 705–742px tall boxes;
- * every one is DOWNscaled to 690px, never up.
+ * ART — the 10-04 covers. Every product now wears ONE typeset box: the same
+ * frame, the same type, one accent color of its own, and a drawing of what
+ * that product puts on the chart, staged as a projected hologram (a glass plane
+ * over an emitter, turned a few degrees). They are generated, not photographed — the
+ * source is in LOCAL3001 Picture Updates\Cover system 2026-10-04 (build.py for
+ * the layout and each product's line and hooks, motifs.py for the drawings).
+ * Each is 1280x1600 (a 640x800 frame at 2x), transparent, the box at x 88..552,
+ * y 58..748 of the frame over one baked soft shadow, so the shelf stays a row
+ * of objects on ONE baseline. The 09-20 and 09-30 photographed covers they
+ * replace are in Picture Studio's "Replaced pictures".
  *
- * THE FOLDER IS NEW ON PURPOSE (/boxart/0920/). Assets are served with a
+ * THE FOLDER IS NEW ON PURPOSE (/boxart/1004/). Assets are served with a
  * one-year immutable cache and Next's image optimiser keys on the URL, so a new
  * picture must live at a new path or returning visitors keep the old one.
  */
@@ -30,31 +34,42 @@ export const COVER_RATIO = 4 / 5;
  * (LOCAL3001 Picture Updates) edits this list; so can a person.
  */
 export const BOXART: Record<string, string> = {
-  "zones": "/boxart/0920/zones.webp",
-  "iceberg": "/boxart/0920/iceberg.webp",
-  "oracle": "/boxart/0920/oracle.webp",
-  "gex": "/boxart/0920/gex.webp",
-  "flow": "/boxart/0920/flow.webp",
-  "prorsi": "/boxart/0920/prorsi.webp",
-  "prostochastics": "/boxart/0920/prostochastics.webp",
-  "prosqueeze": "/boxart/0920/prosqueeze.webp",
-  "promacd": "/boxart/0920/promacd.webp",
-  "adaptive-priceline": "/boxart/0920/adaptive-priceline.webp",
-  "chart-price": "/boxart/0920/chart-price.webp",
-  "ds-258": "/boxart/0920/ds-258.webp",
-  "parallax": "/boxart/0920/parallax.webp",
-  "toolkit": "/boxart/0920/toolkit.webp",
-  "bulk-replay-downloader": "/boxart/0920/bulk-replay-downloader.webp",
-  // 2026-09-30 — the Session levels pair. Each box cut from Tom's composite
-  // preview (Master Product Folder\DS <Name>\Media\"… - composite preview.png",
-  // a front-on box, 496x705 inside its border) and seated in the same 4:5
-  // frame, on the same 690px height and baseline, under the same baked shadow
-  // as the 0920 set (the shadow is DS Zones' own, widened by 3 columns).
-  "session-levels": "/boxart/0930/session-levels.webp",
-  "pro-session-levels": "/boxart/0930/pro-session-levels.webp",
+  "zones": "/boxart/1004/zones.webp",
+  "iceberg": "/boxart/1004/iceberg.webp",
+  "oracle": "/boxart/1004/oracle.webp",
+  "gex": "/boxart/1004/gex.webp",
+  "flow": "/boxart/1004/flow.webp",
+  "prorsi": "/boxart/1004/prorsi.webp",
+  "prostochastics": "/boxart/1004/prostochastics.webp",
+  "prosqueeze": "/boxart/1004/prosqueeze.webp",
+  "protrendrange": "/boxart/1004/protrendrange.webp",
+  "adaptive-priceline": "/boxart/1004/adaptive-priceline.webp",
+  "chart-price": "/boxart/1004/chart-price.webp",
+  "ds-258": "/boxart/1004/ds-258.webp",
+  "parallax": "/boxart/1004/parallax.webp",
+  "toolkit": "/boxart/1004/toolkit.webp",
+  "bulk-replay-downloader": "/boxart/1004/bulk-replay-downloader.webp",
+  "session-levels": "/boxart/1004/session-levels.webp",
+  "pro-session-levels": "/boxart/1004/pro-session-levels.webp",
 };
 
-export const boxartFor = (slug: string) => BOXART[slug] ?? `/boxart/0920/${slug}.webp`;
+export const boxartFor = (slug: string) => BOXART[slug] ?? `/boxart/1004/${slug}.webp`;
+
+/**
+ * COVERS THAT ARE STAND-INS. A new product can be previewed on localhost
+ * before its cover exists; it must never go live that way. While a slug is
+ * listed here `next build` for production stops with the reason. Empty since
+ * 2026-10-04: every product has its cover from the cover system.
+ * (`DS_PREVIEW_BUILD=1 npm run build` builds anyway — for checking, not for
+ * deploying; Hostinger never sets it.)
+ */
+export const PLACEHOLDER_ART: readonly string[] = [];
+if (PLACEHOLDER_ART.length && process.env.NODE_ENV === "production" && process.env.DS_PREVIEW_BUILD !== "1") {
+  throw new Error(
+    `content/release.ts: ${PLACEHOLDER_ART.join(", ")} still shows a stand-in cover. ` +
+      `Put the real box art in public/boxart, point BOXART at it and empty PLACEHOLDER_ART before deploying.`,
+  );
+}
 
 export type Shelf = { info: SeriesInfo; products: Product[] };
 
