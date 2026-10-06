@@ -27,7 +27,7 @@ export function Footer() {
             <ul className="space-y-3 text-[14px]">
               {NAV.map((n) => (
                 <li key={n.href}>
-                  <Link href={n.href} className="text-slate transition-colors hover:text-ink">
+                  <Link href={n.href} className={`transition-colors hover:text-ink ${n.vault ? "text-bull-text" : "text-slate"}`}>
                     {n.label}
                   </Link>
                 </li>

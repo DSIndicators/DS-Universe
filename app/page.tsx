@@ -6,15 +6,23 @@ import { WaitlistNote } from "@/components/ui/WaitlistNote";
 import { Reveal } from "@/components/ui/Reveal";
 import { Marketplace } from "@/components/Marketplace";
 import { TrialBand, TrialHeroNote } from "@/components/Trial";
-import { SessionsHeroNote } from "@/components/Sessions";
+import { VaultBand, VaultHeroNote } from "@/components/Vault";
 import { trialProducts } from "@/content/trial";
 import { NT_ASSETS, NT_LINKS } from "@/content/ninjatrader";
 import { ABOUT, CLOSING, DISCLOSURE, FACTS, HERO, PRINCIPLES, SITE } from "@/content/site";
 
 /**
- * Home order: hero (the DS Complete sessions, rotating) → principles →
- * storefront (four series, every tile priced) → DS Complete → About ("Built
- * for the trader") → closing → NinjaTrader featured.
+ * Home order: hero (charts with several DS products on them, rotating) →
+ * principles → the trial → storefront (DS Complete, then the paid series,
+ * every tile priced) → the Free Vault band → About ("Built for the trader")
+ * → closing (the Free Vault) → NinjaTrader featured.
+ *
+ * PAID AND FREE ARE KEPT APART (Tom, 2026-10-05). The free shelf left the
+ * lineup; ONE Free Vault band takes its place, after the last paid shelf —
+ * what the vault is, its boxes as a contact strip, and the way in. The hero
+ * carries one quiet line about it and the closing ask points there, so the
+ * vault is found from the top, the middle and the end of the page without a
+ * single free tile standing among the paid ones.
  *
  * WHY NINJATRADER IS LAST (Tom, 2026-09-26): the NinjaTrader bar already opens
  * every page, so a second NinjaTrader panel straight under the hero sent the
@@ -77,10 +85,9 @@ export default function HomePage() {
                 and its condition — one link down to the band. No price: the
                 hero still carries none. Renders nothing when the trial is off. */}
             <TrialHeroNote className="rise mt-8" style={{ animationDelay: "320ms" }} />
-            {/* The Session levels pair (2026-09-30, Tom: "one quiet 'New' line
-                in the hero"): built like the trial note, one link down to its
-                panel under DS Complete. No price. Off with NEW_NOTE.active. */}
-            <SessionsHeroNote className="rise mt-6" style={{ animationDelay: "360ms" }} />
+            {/* The Free Vault (2026-10-05): built like the trial note, one
+                link to its page. No price — the hero carries none. */}
+            <VaultHeroNote className="rise mt-6" style={{ animationDelay: "360ms" }} />
             {/* The chart reader (components/QuestionRouter.tsx): a question,
                 the bare NT8 chart, the DS tool, and its read. From 1024px it
                 fills the well under the buttons beside the tall monitor; on a
@@ -142,7 +149,12 @@ export default function HomePage() {
       {/* ---------------------------------------------------------- storefront */}
       {/* Opens with DS Complete and threads down through every series
           (2026-09-28: it used to be a band after the last shelf). */}
-      <Marketplace />
+      <Marketplace className="wrap pb-20 pt-24 lg:pb-24 lg:pt-32" />
+
+      {/* ------------------------------------------------------ the Free Vault */}
+      {/* Where the free shelf used to close the lineup (2026-10-05): one band,
+          in the vault's own voice, never a row of free tiles among paid ones. */}
+      <VaultBand />
 
       {/* --------------------------------------------------------------- about */}
       <section>

@@ -86,10 +86,10 @@ export default function TrialPage() {
             <p className="label">Before you start</p>
             <h2 className="display-md mt-4 text-ink text-balance">What people ask first.</h2>
             <p className="mt-6 text-[14px] leading-relaxed text-slate text-pretty">
-              Not ready to try a paid one? The chart essentials are free, permanently — no trial clock at all.
+              Not ready to try a paid one? Everything in the Free Vault is free, permanently — no trial clock at all.
             </p>
-            <Link href="/products#essentials" className="group mt-4 inline-flex items-center gap-2 text-[14px] text-ink">
-              See the free essentials
+            <Link href="/free-vault" className="group mt-4 inline-flex items-center gap-2 text-[14px] text-ink">
+              Open the Free Vault
               <Arrow />
             </Link>
           </Reveal>

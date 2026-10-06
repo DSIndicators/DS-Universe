@@ -6,6 +6,7 @@ import { cta } from "@/content/launch";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/Badge";
+import { VaultMark } from "@/components/Vault";
 import { NAV, POWERED_BY, SITE } from "@/content/site";
 
 export function Navbar() {
@@ -60,6 +61,24 @@ export function Navbar() {
         <nav className="hidden items-center gap-5 lg:flex xl:gap-8" aria-label="Primary">
           {NAV.map((n) => {
             const active = pathname === n.href || pathname.startsWith(n.href + "/");
+            // The Free Vault's tab (content/site.ts NAV `vault`): its mark, the
+            // instrument face and the house teal over a 1px teal rule — a
+            // different voice from the plain words beside it, so it is seen
+            // at once and read as a different place from the store.
+            if (n.vault)
+              return (
+                <Link
+                  key={n.href}
+                  href={n.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`vault-tab inline-flex h-9 items-center gap-2 whitespace-nowrap font-mono text-[11.5px] uppercase tracking-[0.14em] transition-colors duration-200 ${
+                    active ? "text-[#7FE3DF]" : "text-bull-text hover:text-[#7FE3DF]"
+                  }`}
+                >
+                  <VaultMark />
+                  {n.label}
+                </Link>
+              );
             return (
               <Link
                 key={n.href}
@@ -111,11 +130,25 @@ export function Navbar() {
         className="border-b border-line bg-ground lg:hidden"
       >
         <nav className="wrap flex flex-col py-3" aria-label="Mobile">
-          {NAV.map((n) => (
-            <Link key={n.href} href={n.href} className="py-3.5 text-[15px] text-ink">
-              {n.label}
-            </Link>
-          ))}
+          {NAV.map((n) =>
+            n.vault ? (
+              // The Free Vault in the phone menu: the same voice as its tab,
+              // between two hairlines, with what it is said beside it.
+              <Link
+                key={n.href}
+                href={n.href}
+                className="my-1.5 flex items-center gap-2.5 border-y border-[rgba(0,153,153,0.34)] py-3.5 font-mono text-[12.5px] uppercase tracking-[0.14em] text-bull-text"
+              >
+                <VaultMark />
+                {n.label}
+                <span className="ml-auto font-sans text-[12.5px] normal-case tracking-normal text-mute">Free downloads</span>
+              </Link>
+            ) : (
+              <Link key={n.href} href={n.href} className="py-3.5 text-[15px] text-ink">
+                {n.label}
+              </Link>
+            ),
+          )}
           <Link href="/products" className="btn-primary mb-3 mt-2">
             {cta("Get access", "See prices")}
           </Link>

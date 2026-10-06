@@ -35,7 +35,18 @@ export function BeforeYouBuy() {
           {TERMS.map((t, i) => (
             <Reveal key={t.title} delay={i * 80} className="border-t border-line-strong pt-5">
               <h3 className="display-sm text-ink">{t.title}</h3>
-              <p className="mt-2.5 text-[14px] leading-relaxed text-slate text-pretty">{t.text}</p>
+              <p className="mt-2.5 text-[14px] leading-relaxed text-slate text-pretty">
+                {t.text}
+                {t.link && (
+                  <>
+                    {" "}
+                    <Link href={t.link.href} className="whitespace-nowrap text-ink underline decoration-bull/60 underline-offset-4 hover:decoration-bull-text">
+                      {t.link.label}
+                    </Link>
+                    .
+                  </>
+                )}
+              </p>
             </Reveal>
           ))}
         </div>

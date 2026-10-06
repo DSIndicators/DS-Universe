@@ -1,4 +1,4 @@
-import { discountPct, isPaid, money, type Price } from "@/content/pricing";
+import { WITH_BUNDLE, discountPct, isPaid, money, type Price } from "@/content/pricing";
 
 /**
  * Every price on the site is laid out by one of these, so a price can never be
@@ -29,8 +29,12 @@ import { discountPct, isPaid, money, type Price } from "@/content/pricing";
 
 const TERMS_PAID = "One payment · Yours to keep · Updates included";
 const TERMS_FREE = "Permanently · Not a trial · Nothing stripped out";
-/** DS Pro Session Levels (2026-09-30): no price of its own — it comes with DS Complete. */
+/** DS ASL, DS Toolkit: no price of their own — each comes free with DS Complete. */
 const TERMS_WITH = "Not sold on its own · Inside the DS Complete archive · Updates included";
+/** The label after its first word: the price tag sets "Free" as the figure
+ *  and the rest beside it. Fails the build if the label stops starting so. */
+if (!WITH_BUNDLE.label.startsWith("Free ")) throw new Error('components/Price.tsx: WITH_BUNDLE.label must begin with "Free ".');
+const WITH_REST = WITH_BUNDLE.label.slice("Free ".length);
 
 /** The figure a tile or a list row carries: plain type, no container. */
 export function PriceFigure({
@@ -44,21 +48,14 @@ export function PriceFigure({
 }) {
   if (!price) return null;
   const type = size === "md" ? "text-[14.5px]" : "text-[13.5px]";
-  // "With DS Complete" is the one figure that is words. On a phone tile
-  // (~130px under 400px) it shortens to "In DS Complete" so the arrow keeps
-  // its line.
+  // "Free with DS Complete" (content/pricing.ts WITH_BUNDLE) is the one figure
+  // that is words — the site's one label for a product that comes with the
+  // bundle, never shortened to "Free". It may take two lines on a narrow tile
+  // (its line height opens up for that, and the half-leading is taken back
+  // so its first line sits where every other figure does); the rest are one line.
   return (
-    <span className={`inline-block font-mono ${type} font-normal leading-none text-ink tabular-nums ${className}`}>
-      {price.free ? (
-        "Free"
-      ) : price.withComplete ? (
-        <>
-          <span className="min-[400px]:hidden">In DS Complete</span>
-          <span className="hidden min-[400px]:inline">With DS Complete</span>
-        </>
-      ) : (
-        money(price.now)
-      )}
+    <span className={`inline-block font-mono ${type} font-normal ${price.withComplete ? "-my-[0.175em] leading-[1.35]" : "leading-none"} text-ink tabular-nums ${className}`}>
+      {price.free ? "Free" : price.withComplete ? WITH_BUNDLE.label : money(price.now)}
     </span>
   );
 }
@@ -96,9 +93,10 @@ export function PriceTag({
         <span className={`font-display ${big} font-[350] leading-none tracking-[-0.03em] text-ink tabular-nums`}>
           {isPaid(price) ? money(price.now) : "Free"}
         </span>
-        {/* Free, but only inside DS Complete: the condition is set beside the
-            figure, as "each" is — never a different figure. */}
-        {price.withComplete && <span className="text-[14.5px] text-slate">with DS Complete</span>}
+        {/* Not sold on its own: the condition is set beside the figure, as
+            "each" is, so the two read as the site's one label for it — "Free
+            with DS Complete" (WITH_BUNDLE.label; checked below). */}
+        {price.withComplete && <span className="text-[14.5px] text-slate">{WITH_REST}</span>}
         {each && isPaid(price) && <span className="text-[14.5px] text-slate">each</span>}
         {off > 0 && isPaid(price) && (
           <s className="text-[15px] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(price.list)}`}>

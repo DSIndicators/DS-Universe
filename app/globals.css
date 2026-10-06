@@ -504,3 +504,31 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
   .help-panel { animation: none; }
 }
+
+/* ------------------------------------------------------------------
+   THE FREE VAULT (2026-10-05, components/Vault.tsx).
+   Gold is money on this site and the store is made of rounded panels on
+   a gold thread. The vault is the house teal — "free, on your chart" —
+   and a BAND, not a card: full width, between two teal hairlines, on a
+   flat tint. No glow, no gradient, nothing that animates.
+   ------------------------------------------------------------------ */
+.vault-band {
+  border-top: 1px solid rgba(0, 153, 153, 0.34);
+  border-bottom: 1px solid rgba(0, 153, 153, 0.18);
+  background: rgba(0, 153, 153, 0.028);
+}
+/* The vault page's shelf: the series panel's own build, edged in teal. */
+.vault-panel {
+  background: rgba(9, 12, 14, 0.82);
+  border-color: rgba(0, 153, 153, 0.3);
+  box-shadow: inset 0 1px 0 rgba(67, 205, 200, 0.16);
+}
+/* The Free Vault's tab in the header: a 1px teal rule under it, always —
+   the mark a printed index gives the section that is not like the others. */
+.vault-tab {
+  box-shadow: inset 0 -1px 0 rgba(0, 153, 153, 0.55);
+}
+.vault-tab[aria-current="page"],
+.vault-tab:hover {
+  box-shadow: inset 0 -1px 0 #43cdc8;
+}

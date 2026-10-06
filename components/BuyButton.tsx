@@ -1,5 +1,5 @@
 import { AFTER_CHECKOUT, onWaitlist, opensWhen } from "@/content/launch";
-import { buyHref, buyLabel, listingFor, purchaseKey } from "@/content/whop";
+import { PENDING_NOTE, buyHref, buyLabel, isPending, listingFor, purchaseKey } from "@/content/whop";
 
 /**
  * The buy button. One component, so every one on the site agrees about where
@@ -10,8 +10,16 @@ import { buyHref, buyLabel, listingFor, purchaseKey } from "@/content/whop";
  * (content/launch.ts) it says "Join the waitlist" instead, with no edit here.
  *
  * A key with no listing renders nothing rather than a dead link. A product
- * that comes only with DS Complete (DS Pro Session Levels) is bought through
- * DS Complete's checkout and says "Get DS Complete" (purchaseKey, buyLabel).
+ * that comes free with DS Complete and is not sold on its own (DS ASL, DS
+ * Toolkit) is had through DS Complete's checkout and says "Get DS Complete"
+ * (purchaseKey, buyLabel).
+ *
+ * A PENDING product (content/whop.ts PENDING_LISTING — its Whop listing does
+ * not exist yet) gets no link at all: the button's place holds a plain,
+ * inert "Not open yet", in the ghost button's own frame with a dashed edge,
+ * so the page is honest about it and nothing can be clicked through to a
+ * checkout that is not there. A production build refuses to run while any
+ * product is pending, so visitors never meet this state.
  */
 export function BuyButton({
   slug,
@@ -25,11 +33,22 @@ export function BuyButton({
   /** Override the words (e.g. "DS Complete — $374.95"). */
   label?: string;
 }) {
+  if (isPending(slug)) {
+    return (
+      <span
+        data-pending={slug}
+        className={`inline-flex h-10 cursor-default select-none items-center justify-center rounded-md border border-dashed border-line-strong px-5 text-[13.5px] font-medium text-mute ${className}`}
+      >
+        {PENDING_NOTE.label}
+      </span>
+    );
+  }
   const l = listingFor(purchaseKey(slug));
   if (!l) return null;
   return (
     <a
       href={buyHref(l)}
+      data-buy={slug}
       target="_blank"
       rel="noopener"
       className={`${variant === "primary" ? "btn-primary" : "btn-ghost"} ${className}`}
@@ -61,6 +80,9 @@ export function CtaNote({
         Nothing is charged and no card is asked for — you are told {opensWhen()}.
       </p>
     );
+  }
+  if (slug && isPending(slug)) {
+    return <p className={`max-w-md text-[12.5px] leading-relaxed ${muted} ${className}`}>{PENDING_NOTE.text}</p>;
   }
   const key = slug ? purchaseKey(slug) : undefined;
   const l = key ? listingFor(key) : undefined;

@@ -6,8 +6,7 @@
  * built 2026-09-25 from the shipped READMEs, User Guides and the Master Product
  * Sheet. Tab "Store-wide FAQ" Q1-Q5 and tab "FAQ by Product" → DS Complete
  * Q2 and Q5, lightly revised for the site:
- *   · no product COUNTS (the site rule: the lineup changes) — Whop's "Five
- *     essentials are free" reads "The chart essentials are free" here;
+ *   · no product COUNTS (the site rule: the lineup changes);
  *   · the build number comes from SITE.minBuild, so it cannot drift;
  *   · Q "What happens right after I buy?" is not repeated as a question: the
  *     three steps beside the list (AFTER_CHECKOUT) already say it, word for word
@@ -25,18 +24,25 @@
  */
 
 import { SITE } from "./site";
-import { GIFT } from "./pricing";
+import { BUNDLED, BUNDLED_NAMES, WITH_BUNDLE, bundledFor } from "./pricing";
+import { VAULT_PATH, productHref } from "./release";
 import { TRIAL, keepPrice, startsWhen, trialNames, trialProducts } from "./trial";
 import { HOME_MARKETS, tapeOnlySlugs } from "./markets";
 import { BY_SLUG } from "./products";
 
-/** "DS Zones, DS Iceberg, DS Flow and DS Pro Session Levels" — the products
+/** "DS Zones, DS Iceberg, DS Flow and DS ASL" — the products
  *  that read traded volume, named from content/markets.ts so the answer below
  *  cannot drift from the product pages. */
 const tapeNames = (): string => {
   const n = tapeOnlySlugs().map((s) => BY_SLUG[s]?.name ?? s);
   return n.length > 1 ? `${n.slice(0, -1).join(", ")} and ${n[n.length - 1]}` : (n[0] ?? "");
 };
+
+/** What a "How do I get …?" answer adds after the product's own note. */
+const MORE: Record<string, string> = {
+  asl: "It draws everything DS Session Levels does, with each session's volume added, so use one or the other on a chart. DS Session Levels itself is free for everyone, in the Free Vault.",
+};
+if (!bundledFor("asl")) throw new Error("content/faq.ts: the DS ASL answer has no product to belong to.");
 
 export type Faq = {
   q: string;
@@ -59,7 +65,7 @@ export const FAQ: Faq[] = [
   },
   {
     q: "Is this a subscription?",
-    a: "No. Each product is one payment and yours to keep — no monthly fee, nothing to renew — and every later version is included. The chart essentials are free.",
+    a: "No. Each paid product is one payment and yours to keep — no monthly fee, nothing to renew — and every later version is included. The products in the Free Vault are free.",
   },
   // The 3-day free trial (2026-09-29, content/trial.ts) — present only while
   // the trial is on. Every condition in one answer: length, start, cost, end,
@@ -73,17 +79,23 @@ export const FAQ: Faq[] = [
         },
       ]
     : []),
+  // The Free Vault (2026-10-05): free, each its own download, never part of
+  // DS Complete — the sheet's own words — and licensed like everything else.
+  // (DS Toolkit is not one of them: it comes free with DS Complete.)
   {
     q: "Are the free ones really free?",
-    a: "Yes, permanently. Not a trial and not a stripped build: the same product, through the same checkout, at no charge. They are the simplest way to see how DS Universe draws on your own chart before you pay for anything.",
+    a: "Yes, permanently. Not a trial and not a stripped build: the same product, through the same checkout, at no charge. They live in the Free Vault, each as its own download, and none of them is part of DS Complete. A free product is licensed like a paid one: checkout asks for your NinjaTrader account email, and the license is switched on by hand.",
+    link: { href: VAULT_PATH, label: "Open the Free Vault" },
   },
-  // The Session levels pair (2026-09-30): the one product that is not sold on
-  // its own, and how a buyer — or a Founder who already owns DS Complete — gets it.
-  {
-    q: `How do I get ${GIFT.name}?`,
-    a: `With DS Complete — it comes free with it and is not sold on its own; it is inside the DS Complete archive with its own README and guides. ${GIFT.owners} It draws everything DS Session Levels does, with each session's volume added, so use one or the other on a chart. DS Session Levels itself is free for everyone.`,
-    link: { href: `/products/${GIFT.slug}`, label: GIFT.name },
-  },
+  // FREE WITH DS COMPLETE (content/pricing.ts BUNDLED): the products that are
+  // not sold on their own — DS ASL and DS Toolkit — and how a buyer gets each.
+  // One question per product, built the same way: the standard sentence, then
+  // that product's own note (BUNDLED.note), then what else a buyer should know.
+  ...BUNDLED.map((b) => ({
+    q: `How do I get ${b.name}?`,
+    a: `With DS Complete — ${b.name}, ${b.long}, ${WITH_BUNDLE.line}; it is inside the DS Complete archive. ${b.note}${MORE[b.slug] ? ` ${MORE[b.slug]}` : ""}`,
+    link: { href: productHref(b.slug), label: b.name },
+  })),
   {
     q: "Can I use it on more than one computer?",
     a: "Yes. Your license is tied to your NinjaTrader account, not to a machine, so it runs on any computer you sign into — desktop, laptop or VPS.",
@@ -94,15 +106,15 @@ export const FAQ: Faq[] = [
   },
   {
     q: "Is anything cut down in DS Complete?",
-    a: "Nothing. It is a delivery method, not a different build: every product keeps its own settings, colors and guides, all licensed permanently to your NinjaTrader account. One archive, one import.",
+    a: `Nothing. It is a delivery method, not a different build: every product in it keeps its own settings, colors and guides, all licensed permanently to your NinjaTrader account. One archive, one import. ${BUNDLED_NAMES} ${BUNDLED.length > 1 ? WITH_BUNDLE.lineAll : WITH_BUNDLE.line}. The Free Vault products are not in it — each of those is its own download.`,
   },
   {
     q: "I already own a DS product. Can I still get DS Complete?",
-    a: "Yes. DS Complete contains every product, so before importing it you remove the single DS products you installed — free ones too — and restart NinjaTrader. Its README walks you through it.",
+    a: `Yes. DS Complete contains every paid product, and ${BUNDLED_NAMES} with them, so before importing it you remove the DS products you installed one by one, including an earlier DS Toolkit, and restart NinjaTrader first. Its README walks you through it.`,
   },
   {
     q: "Can I get a refund?",
-    a: "Because the software is delivered digitally, sales are final once the files have been issued, except where a refund is required by law. The free essentials and the charts on every product page are there so you can judge first.",
+    a: "Because the software is delivered digitally, sales are final once the files have been issued, except where a refund is required by law. The Free Vault and the charts on every product page are there so you can judge first.",
     link: { href: "/terms#section-13", label: "Terms, section 13" },
   },
 ];

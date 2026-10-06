@@ -93,7 +93,8 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
   const restore = useRef(false); // return focus to the opener after closing
 
   const slug = useMemo(() => {
-    const m = /^\/products\/([a-z0-9-]+)\/?$/.exec(pathname);
+    // A product's page is under /products or, for a free one, /free-vault.
+    const m = /^\/(?:products|free-vault)\/([a-z0-9-]+)\/?$/.exec(pathname);
     // hasOwn: /products/constructor is a 404 that still carries this layout.
     return m && Object.hasOwn(products, m[1]) ? m[1] : null;
   }, [pathname, products]);

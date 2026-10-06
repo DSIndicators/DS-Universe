@@ -15,10 +15,15 @@ Manual: `npm install` → `npm run dev`. Production check: `npm run build && npm
 | Thing | File |
 |---|---|
 | Every line of site copy (hero, about, principles, facts, closing, disclosure) | `content/site.ts` |
-| The catalogue — generated from the Product Information Sheet | `content/products.ts` |
+| The catalogue — generated from the Master Product & Pricing Sheet (which series each product is in decides where it lives) | `content/products.ts` |
+| Where each series is shelved: the store (`/products`), DS Complete, or the Free Vault — and every product's address (`productHref`) | `content/release.ts` |
+| Every price, DS Complete, and the products that come free with it and are not sold on their own (DS ASL, DS Toolkit — `BUNDLED`, `WITH_BUNDLE`) | `content/pricing.ts` |
+| The Free Vault: its words | `content/vault.ts` → `components/Vault.tsx`, `app/free-vault/` |
+| A product's page (one component, two addresses: `/products/<slug>` and `/free-vault/<slug>`) | `components/ProductPage.tsx` |
+| Buy links, and the products whose Whop listing does not exist yet (`PENDING_LISTING`) | `content/whop.ts` |
+| Old addresses that forward (renamed products, free products moved to the vault, DS Toolkit moved back out of it) | `next.config.mjs` → `redirects()` |
 | The hero monitor's screen (image or mp4) | `content/site.ts` → `MONITOR` |
 | Home-page catalogue heading/sub (every product is listed, as rows) | `content/site.ts` → `CATALOGUE` |
-| The storefront link behind every "Get access" | `content/site.ts` → `SITE.storeUrl` |
 | Chart stills, 16:9 webp, one per indicator | `public/covers/<slug>.webp` |
 | Which markets each product is built on and runs on (generated from the sheet's Markets tab) | `content/markets.ts` → `components/Markets.tsx`, the last fact on every product page |
 | The Help marker (bottom right of every page): its words | `content/help.ts` — the questions are `content/faq.ts`, the same list the store shows |
@@ -55,17 +60,41 @@ so nobody is left without a way to ask. Local preview has no settings, so it sho
 ## Rules this site follows
 
 - **No product counts anywhere.** The lineup changes; the site never says "14 indicators".
-- **No prices.** Every "Get access" goes to `SITE.storeUrl`.
+- **Every number comes from `content/pricing.ts`.** Nothing else types a price, and the build stops
+  if the paid products no longer sum to DS Complete's struck-through figure.
+- **Paid and free are kept apart (2026-10-05).** The store (`/products`) and DS Complete hold paid
+  products only. Every free product is in the Free Vault (`/free-vault`), each on its own page
+  under it; `content/pricing.ts` stops the build if a free product is outside the vault or a vault
+  product is not free, and the DS Complete chart cannot draw a product that is not in DS Complete.
+- **Free with DS Complete (2026-10-05).** DS ASL and DS Toolkit are not sold or offered on their
+  own: each comes free with DS Complete. One label everywhere — "Free with DS Complete" — and one
+  sentence — "comes free with DS Complete and is not sold on its own" — both from
+  `content/pricing.ts` (`WITH_BUNDLE`); the products are listed in `BUNDLED`. Their pages are
+  `/products/asl` and `/products/toolkit`, and every button on them buys DS Complete. The build
+  stops if such a product is given a Whop listing, is priced any other way, or sits in any series
+  but `exclusive` — and `content/whop.ts` refuses DS Toolkit's retired free plan and listing.
 - **Product copy comes from the sheet.** `purpose` (one line) → lists. `hooks` (four) + `helps`
   (one paragraph) → product page. `description` is kept in the data but **not rendered**.
 - **No performance claims, no guarantees.** The disclosure block is in the footer and on every
   product page.
+- **A new picture gets a new filename.** Assets are cached for a year.
 
 ## Adding, removing or renaming a product
 
-Edit `content/products.ts` (or regenerate it from the sheet). For an indicator, drop a
-1920×1080 still at `public/covers/<slug>.webp`. Add-ons have `cover: null` and get a quiet
-typographic tile. Nothing else needs touching — routes, cards and "more" rails follow the data.
+1. Change the Master Product & Pricing Sheet, then regenerate the three sheet-driven files:
+   `content/products.ts`, `content/listing-copy.ts`, `content/markets.ts` (`python3 tools/gen_site_content.py <sheet.xlsx> <out-folder>`
+   writes the three bodies to paste in; slugs and series keys are in its first lines).
+2. Give it a price in `content/pricing.ts` and a box in `content/release.ts` → `BOXART` (covers are
+   made by `LOCAL3001 Picture Updates\Cover system 2026-10-04\build.py`, into a NEW folder under
+   `public/boxart`).
+3. Give it its Whop listing in `content/whop.ts` — or list it in `PENDING_LISTING` until the
+   listing exists. **A production build refuses to run while anything is pending**;
+   `DS_PREVIEW_BUILD=1 npm run build` builds anyway, for looking only.
+4. A paid product also needs its layer on the DS Complete chart (`content/complete-chart.ts` says
+   which is missing); an indicator in DS Complete gets its switch on the drawn DS Toolkit rail by
+   itself (`RAIL_ROWS`). A renamed or moved product needs its old address in `next.config.mjs`.
+5. Pictures are optional and per product: `content/charts.ts` (on the chart), `content/shots.ts`
+   (product-guide boards), `content/showcase.ts` (the recording).
 
 ## Swapping in the "charts in action" recording
 

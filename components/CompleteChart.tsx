@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { BUILD_ORDER, SEQUENCE, built, useCompleteStage, type Focus, type Series } from "@/components/CompleteStage";
-import { DRAWS } from "@/content/complete-chart";
+import { DRAWS, RAIL_ROWS } from "@/content/complete-chart";
 import { SERIES } from "@/content/pricing";
-import { PRODUCTS } from "@/content/products";
+import { COMPLETE_PRODUCTS, STORE_SHELVES, productHref } from "@/content/release";
 
 /**
  * THE DS COMPLETE CHART (2026-09-29) — the image of DS Complete.
@@ -13,47 +13,66 @@ import { PRODUCTS } from "@/content/products";
  * Tom: the box render was "stretched out and blurry, zero effort"; "I really
  * like the technicality of our interactive chart". The box was also a picture
  * of packaging, with a price and a product count printed on it that would go
- * stale. What a DS Complete buyer actually gets is every tool running on one
- * chart ("Built to run together on one chart" — content/pricing.ts), so that
- * is the picture: one NinjaTrader chart, every product's own drawing on it.
+ * stale. What a DS Complete buyer actually gets is every tool in it running on
+ * one chart ("Built to run together on one chart"), so that is the picture: one
+ * NinjaTrader chart, the drawing of every product IN DS COMPLETE on it.
+ *
+ * 2026-10-05 — REDRAWN TO THE NEW BUNDLE. DS Complete is the paid products,
+ * DS ASL and DS Toolkit; the Free Vault products are not part of it. So the
+ * chart lost every vault layer — DS Parallax's four mini charts, DS 258's
+ * level lines, the DS Adaptive Price Line, DS Chart Price's large readout (and
+ * the ticking last bar those two were drawn on), and the stochastics and
+ * squeeze panels, which are free products now — and gained the two new Pro
+ * Series panels. Nothing from the vault and nothing retired is drawn as part
+ * of the bundle, and content/complete-chart.ts fails the build if that ever
+ * changes.
+ *
+ * THE DS TOOLKIT RAIL IS BACK (the same day: Tom — "DS Toolkit will come FREE
+ * with the purchase of DS Complete Bundle only, same as DS ASL"). It stands
+ * where it stood before the restructure, at the left of the price pane, in
+ * the same drawing: a faint framed rail, one filled switch per indicator, a
+ * hairline, the drawing tools as outlines under it. Its switches are the
+ * indicators IN DS COMPLETE and nothing else, one each, in the ledger's order
+ * (content/complete-chart.ts RAIL_ROWS) — all on, because every one of them is
+ * drawn on this chart.
  *
  *   Flagship   Zones' defended demand zone · Iceberg's ICE BID with its
  *              iceberg · GEX's Call Wall / Gamma Flip / Put Wall ·
  *              Flow's buy/sell profile on one candle group, heavy row boxed ·
  *              Oracle's Neural Line, violet to teal where price crosses it.
  *   Pro Series the four panels under price, titled the way NT8 titles panels:
- *              ProRSI one line in a shaded 70/30 scale (and, on price, the
- *              level its crossover made, frozen where price closed through);
- *              ProStochastics four stacked lanes of four speeds with the quad
- *              latch under them; ProSqueeze; ProTrendRange (2026-10-04, in
- *              DS ProMACD's place): its TREND line over its SWING line on one
+ *              ProRSI — one line in a shaded 70/30 scale (and, on price, the
+ *              level its crossover made, frozen where price closed through).
+ *              ProLiquidityHunter — price as a line on close over its pools:
+ *              a band from every swing extreme price has not traded back
+ *              through, buy-side (teal) over the highs and sell-side (violet)
+ *              under the lows, stronger the nearer price is to it; a pool
+ *              price trades through ends on a bright stop and is named by the
+ *              NEXT close — SWEPT if it closed back inside, RUN if it held
+ *              beyond (the product's own rule, computed from the tape).
+ *              ProHeikinAshi — the Heikin-Ashi candle of every bar standing on
+ *              its own open (the dashed line), teal up and violet down, drawn
+ *              hollow where the real close is already through its flip level
+ *              (FLIP PENDING); two slower Heikin-Ashi candles as lanes above;
+ *              and, on price, the flip level as a dashed rail with its flag —
+ *              the middle of the last Heikin-Ashi body, the product's formula.
+ *              ProTrendRange — its TREND line over its SWING line on one
  *              scale, the pullback pockets, the state ribbon.
- *   Essentials the DS Toolkit rail · Parallax's four higher-timeframe charts
- *              spread along the bottom of the price pane (its default) ·
- *              DS 258's 00/20/50/80 lines · the Adaptive Price Line riding the
- *              last candle with its bar-close countdown · Chart Price's large
- *              last price, top centre, changing colour with every tick.
- *
- * Tom, 2026-09-29: "DS Chart Price ... is a price flickering every tick per
- * change", the Adaptive Price Line "do[es] not represent the indicators
- * well", "default position for DS Parallax is on the bottom, 4 spread
- * evenly", and "DS ProRSI and DS ProStochastics looks nearly identical". The
- * layers above are redrawn from the products' own showcase recordings.
  *   Utility    the Market Replay days on hand, which DS Bulk Replay
  *              Downloader fetched.
- *   Sessions   (2026-09-30) one session — London, teal, its house colour —
- *              bracketed over exactly its own bars, a tick at each end, its
- *              high and low carried forward as dotted lines that fade from the
- *              bar that closes through them, named at the bracket's end and
- *              tagged at the right edge (DS Session Levels); inside the
- *              bracket, thin volume bars against its first bar, the value area
- *              stronger, an HVN thick and an LVN a hairline with a serif, and
- *              the POC carried forward as a level until price trades back at
- *              it (DS Pro Session Levels). Placed in the one stretch of the
- *              chart where its lines meet no other tool's labels. The profile
- *              reaches about a third of its session here, not the product's
- *              15%: this session is six bars wide, and at 15% the bars would
- *              be too short to read.
+ *   Free with DS Complete
+ *   DS Toolkit the rail at the left of the price pane (above).
+ *   DS ASL     (Advanced Session Levels) one session —
+ *              London, teal, its house colour — bracketed over exactly its own
+ *              bars, a tick at each end, its high and low carried forward as
+ *              dotted lines that fade from the bar that closes through them,
+ *              named at the bracket's end and tagged at the right edge; inside
+ *              the bracket, thin volume bars against its first bar, the value
+ *              area stronger, an HVN thick and an LVN a hairline with a serif,
+ *              and the POC carried forward as a level until price trades back
+ *              at it. The profile reaches about a third of its session here,
+ *              not the product's 15%: this session is six bars wide, and at
+ *              15% the bars would be too short to read.
  *
  * 2026-10-01 — DS ZONES AND DS ICEBERG REDRAWN to their visual redesign
  * (Build 2026-10-01), from the builds and their READMEs:
@@ -65,18 +84,12 @@ import { PRODUCTS } from "@/content/products";
  *              toward price and violet selling against the wall, the POC
  *              ticked; the caption counts the closed bars that held
  *              (DEFENDED n×), computed from the tape.
- *   Iceberg    was a violet runway box under the three wicks at 50.5. The
- *              tape closes through that price later, so the product would
- *              show it BROKEN (steel, dotted, no iceberg). What the product
- *              does draw, live, is the same price retested from ABOVE on the
- *              way up (two wicks, bars 25 and 26 — clear of the Neural Line and Flow's
- *              profile, which crowd bar 24): an ICE BID, teal — an exact
- *              line with a soft tint from its first test (a short post), a
- *              fracture just past each wick tip running down into the ice,
- *              the newest ringed (it is TESTING: within six bars of its last
- *              test), and the keel iceberg on its waterline in the runway past
- *              the last bar. The broken offer is left out: a dotted steel line
- *              through Flow's profile would only add noise to an illustration.
+ *   Iceberg    the price retested from ABOVE on the way up (two wicks, bars
+ *              25 and 26): an ICE BID, teal — an exact line with a soft tint
+ *              from its first test (a short post), a fracture just past each
+ *              wick tip running down into the ice, the newest ringed (it is
+ *              TESTING: within six bars of its last test), and the keel
+ *              iceberg on its waterline in the runway past the last bar.
  *
  * It BUILDS in the list's order when it scrolls into view. On a desktop,
  * pointing at a series or a product in the list beside it isolates its
@@ -86,7 +99,7 @@ import { PRODUCTS } from "@/content/products";
  * which just leads them to the product page, makes the whole website seem too
  * jumpy"). A touch screen has no hover, and the list sits a screen below the
  * chart. So on touch screens the chart carries its own controls, next to the
- * drawing: four series tabs under its header, and under the drawing a stepper
+ * drawing: the series tabs under its header, and under the drawing a stepper
  * (‹ product ›), the product's line in its own words, and a deliberate "View
  * DS … →" link — leaving for a product page is a choice, never a side effect.
  * While nobody touches it and it is on screen, it TOURS: one product every
@@ -109,9 +122,8 @@ import { PRODUCTS } from "@/content/products";
  *
  * The same rules as the chart reader: a drawn illustration, labelled so; no
  * results or outcomes; crisp edges, no glow. The only figures are the ones
- * these tools display — an illustrative last price, the bar-close countdown,
- * the stochastic lanes' settings, a pool's touch count. content/complete-chart.ts
- * fails the build if a product joins the lineup without a layer here.
+ * these tools display — illustrative session prices and a zone's test count.
+ * Nothing on it moves once it has built.
  */
 
 const TEAL = "#19F2E6";
@@ -123,18 +135,23 @@ const ONLINE = "#2EE884";
 const A = { grid: 0.045, frame: 0.12, mark: 0.2, faint: 0.32, mute: 0.52 } as const;
 
 const W = 480;
+// The price pane starts to the right of the DS Toolkit rail, which stands in
+// the margin at the left (RAIL below) — as it did before 2026-10-05.
 const PX0 = 34, PX1 = 428, PY0 = 22;
+/* The DS Toolkit rail: a frame, one switch per indicator in DS Complete
+   (RAIL_ROWS, so it grows and shrinks with the bundle), a hairline, three
+   drawing tools. Geometry in drawing units, from the rail's own top-left. */
+const RAIL = { x: 6, y: PY0, w: 20, pitch: 13, sw: 8, tools: 3, toolPitch: 12 } as const;
+const RAIL_RULE = 8 + RAIL_ROWS.length * RAIL.pitch + 3; // the hairline under the switches
+const RAIL_H = RAIL_RULE + 8 + RAIL.tools * RAIL.toolPitch + 3;
 const PSB = 292; // the bottom of the price scale: candles and levels live above it
-// DS Parallax sits where it sits by default: four higher-timeframe charts spread
-// evenly along the bottom of the price pane, under the candles.
-const PAR_Y = PSB + 6, PAR_H = 38, PAR_GAP = 8;
-const PY1 = PAR_Y + PAR_H + 4; // the price pane's bottom edge
-// The Pro panels, each titled the way NT8 titles a panel. ProStochastics is
-// taller: its four speeds are four stacked lanes, as in the product.
+const PY1 = PSB + 6; // the price pane's bottom edge
+// The Pro panels, each titled the way NT8 titles a panel. The two in the
+// middle are taller: one is a map of bands, the other a row of candles.
 const PANELS = [
   { slug: "prorsi", h: 46 },
-  { slug: "prostochastics", h: 74 },
-  { slug: "prosqueeze", h: 46 },
+  { slug: "proliquidityhunter", h: 62 },
+  { slug: "proheikinashi", h: 62 },
   { slug: "protrendrange", h: 46 },
 ] as const;
 const GAP = 6, P0 = PY1 + 10;
@@ -200,23 +217,17 @@ const ICE_TESTING = ICE_HITS.length > 0 && N - 1 - ICE_HITS[ICE_HITS.length - 1]
 /** The runway: just past the last bar, where the iceberg sits on its waterline. */
 const RUNWAY_X = xAt(N - 1) + 9;
 
-/* The live last bar. DS Chart Price and DS Adaptive Price Line are about the
-   price moving right now, so the illustration ticks: the last candle's close
-   moves a quarter point at a time, the Chart Price digits change with it —
-   green on an uptick, red on a downtick, amber when the tape chops (the
-   product's own colours) — and the Adaptive Price Line rides it with its
-   bar-close countdown. The price is illustrative, scaled so the drawn tape
-   reads as MNQ; it is not market data. */
+/* The price scale. Illustrative, scaled so the drawn tape reads as MNQ; it
+   is not market data. */
 const PRICE_AT_50 = 29400;
 const PT = 2.5; // price per drawing unit
 const toPrice = (v: number) => PRICE_AT_50 + (v - 50) * PT;
-const toV = (price: number) => 50 + (price - PRICE_AT_50) / PT;
-const P_LAST = toPrice(closes[N - 1]);
-const UP = "#46E36B", DOWN = "#FF5A4E", CHOP = "#F2B544";
+/** The amber of DS ProRSI's signal line. */
+const AMBER = "#F2B544";
 /** A level as MNQ prints it: to the quarter point, two decimals. */
 const tickPrice = (v: number) => (Math.round(toPrice(v) * 4) / 4).toFixed(2);
 
-/* DS Session Levels / DS Pro Session Levels: one finished session, London,
+/* DS ASL: one finished session, London,
    bars 4–9. Its high and low are the real extremes of its own bars (the
    product's "exact" levels); each is taken where a later bar CLOSES through
    it (a wick does not count). The profile is drawn, not computed from the
@@ -251,11 +262,7 @@ const PROFILE = (() => {
   }
   return rows.map((r, i) => ({ ...r, va: i >= lo && i <= hi }));
 })();
-type Tape = { price: number; dir: 1 | -1; chop: boolean; secs: number; flips: number[] };
-const TAPE0: Tape = { price: P_LAST, dir: 1, chop: false, secs: 42, flips: [] };
-
-/* ProRSI: a short RSI over the tape (six warm-up bars so it starts settled).
-   ProStochastics: four lanes of four speeds, fast to slow. */
+/* ProRSI: a short RSI over the tape (six warm-up bars so it starts settled). */
 const rsi = (() => {
   const x = [60, 61, 59, 62, 60, 61, ...closes];
   let ag = 0, al = 0;
@@ -268,24 +275,88 @@ const rsi = (() => {
   });
   return out.slice(6);
 })();
-const stoch = (len: number, k: number) =>
-  smooth(
-    closes.map((c, i) => {
-      const w = cand.slice(Math.max(0, i - len + 1), i + 1);
-      const lo = Math.min(...w.map((b) => b.l)), hi = Math.max(...w.map((b) => b.h));
-      return ((c - lo) / (hi - lo)) * 100;
-    }),
-    k,
-  );
-// Fast to slow: the fast lane turns with every swing, the slow one only with
-// the whole move. (Labelled with the product's lane settings; the drawing
-// scales them to its 32 bars.)
-const LANES = [
-  { label: "5·3", v: stoch(3, 1) },
-  { label: "14·3", v: stoch(5, 2) },
-  { label: "40·4", v: stoch(10, 3) },
-  { label: "60·10", v: stoch(20, 3) },
-];
+/* DS ProLiquidityHunter: every swing extreme price has moved away from and
+   not traded back through is a pool — buy-side over a swing high, sell-side
+   under a swing low. A swing here is a bar whose extreme stands beyond the
+   bar either side of it; the product confirms a swing by a reversal sized in
+   average true range, which a 32-bar drawing cannot show. A pool is TAKEN by
+   the first later bar that trades through its level, and the NEXT close gives
+   the verdict: back inside the level is SWEPT, still beyond it is RUN (the
+   product's own rule). A pool taken on the last bar has no next close yet, so
+   it carries no verdict. Two things keep the drawing readable, both the
+   product's own ideas in small: an extreme within one unit of a pool that is
+   still standing joins it (a stacked pool) rather than drawing a second band,
+   and a pool taken within three bars of forming is left out. `heat` ranks the
+   live pools by how near price is — nearest strongest. */
+type LiqPool = { side: "buy" | "sell"; from: number; v: number; taken: number; verdict: "SWEPT" | "RUN" | null; heat: number };
+const POOLS: LiqPool[] = (() => {
+  const out: LiqPool[] = [];
+  const K = 1;
+  for (let i = K; i < N - K; i++) {
+    const around = [...cand.slice(i - K, i), ...cand.slice(i + 1, i + K + 1)];
+    for (const side of ["buy", "sell"] as const) {
+      const v = side === "buy" ? cand[i].h : cand[i].l;
+      const isSwing = side === "buy" ? around.every((b) => b.h < v) : around.every((b) => b.l > v);
+      if (!isSwing) continue;
+      let taken = -1;
+      for (let j = i + 1; j < N; j++)
+        if (side === "buy" ? cand[j].h > v : cand[j].l < v) {
+          taken = j;
+          break;
+        }
+      if (taken >= 0 && taken - i < 3) continue;
+      if (out.some((q) => q.side === side && Math.abs(q.v - v) <= 1 && (q.taken < 0 || q.taken > i))) continue;
+      const next = taken >= 0 && taken + 1 < N ? closes[taken + 1] : null;
+      const verdict = next === null ? null : (side === "buy" ? next < v : next > v) ? "SWEPT" : "RUN";
+      out.push({ side, from: i, v, taken, verdict, heat: 0.22 });
+    }
+  }
+  const last = closes[N - 1];
+  out
+    .filter((q) => q.taken < 0)
+    .sort((a, b) => Math.abs(a.v - last) - Math.abs(b.v - last))
+    .forEach((q, k) => (q.heat = [0.92, 0.58, 0.34][k] ?? 0.26));
+  return out;
+})();
+
+/* DS ProHeikinAshi: the classic Heikin-Ashi candle from the tape's own bars —
+   close is the bar's average price, (O + H + L + C) / 4; open is the middle of
+   the candle before it. The next candle opens at the middle of this one's
+   body, so that price is the FLIP LEVEL: the next bar is the other colour
+   exactly when its average finishes beyond it. A candle is FLIP PENDING —
+   drawn hollow — when the real close is already through its own flip level.
+   Two slower candles (three and six of the chart's bars here; the product
+   ships five and fifteen) are built from the same bars and ride above as lanes. */
+const HA = (() => {
+  const out: { o: number; c: number; h: number; l: number; flip: number; pending: boolean }[] = [];
+  cand.forEach((b, i) => {
+    const c = (b.o + b.h + b.l + b.c) / 4;
+    const o = i ? (out[i - 1].o + out[i - 1].c) / 2 : (b.o + b.c) / 2;
+    const flip = (o + c) / 2;
+    out.push({ o, c, h: Math.max(b.h, o, c), l: Math.min(b.l, o, c), flip, pending: c >= o ? b.c < flip : b.c > flip });
+  });
+  return out;
+})();
+/** The largest reach from an open, so every candle fits its half of the panel. */
+const HA_REACH = Math.max(...HA.map((b) => Math.max(b.h - b.o, b.o - b.l)));
+/** Is the slower Heikin-Ashi candle that holds bar i up? One value per bar. */
+const haLane = (span: number) => {
+  let o = 0, c = 0;
+  const up: boolean[] = [];
+  for (let g = 0; g * span < N; g++) {
+    const bars = cand.slice(g * span, (g + 1) * span);
+    const hi = Math.max(...bars.map((b) => b.h)), lo = Math.min(...bars.map((b) => b.l));
+    const cc = (bars[0].o + hi + lo + bars[bars.length - 1].c) / 4;
+    o = g ? (o + c) / 2 : (bars[0].o + bars[bars.length - 1].c) / 2;
+    c = cc;
+    bars.forEach(() => up.push(c >= o));
+  }
+  return up;
+};
+const HA_LANES = [haLane(3), haLane(6)];
+/** The flip level of the last closed bar — where the rail is drawn on price. */
+const HA_FLIP = HA[N - 1].flip;
+
 /* ProRSI's level on price: the swing high whose RSI crossover made it, drawn
    right until price closes through it — and frozen there, as the product does. */
 const RSI_HI = 2;
@@ -339,14 +410,17 @@ const box = (x: number, y: number, w: number, h: number) => `M${r2(x)} ${r2(y)}h
 /** A small dot as a path, for the same reason. */
 const dot = (cx: number, cy: number, r: number) => `M${r2(cx - r)} ${r2(cy)}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`;
 
-const SERIES_OF = Object.fromEntries(PRODUCTS.map((p) => [p.slug, p.series])) as Record<string, Series>;
-const NAME_OF = Object.fromEntries(PRODUCTS.map((p) => [p.slug, p.name])) as Record<string, string>;
+const SERIES_OF = Object.fromEntries(COMPLETE_PRODUCTS.map((p) => [p.slug, p.series])) as Record<string, Series>;
+const NAME_OF = Object.fromEntries(COMPLETE_PRODUCTS.map((p) => [p.slug, p.name])) as Record<string, string>;
 const SERIES_NAME = Object.fromEntries(SERIES.map((s) => [s.key, s.name])) as Record<Series, string>;
-/** The tabs' short words (the ledger's series names, cut to fit four across a phone). */
-const TAB: Record<Series, string> = { flagship: "Flagship", pro: "Pro Series", sessions: "Sessions", essentials: "Essentials", utility: "Utility" };
-/** Under 380px five full words do not fit one row (2026-09-30): the two
- *  longest shorten to the word that names them on their own panels. */
-const TAB_SHORT: Record<Series, string> = { flagship: "Flagship", pro: "Pro", sessions: "Sessions", essentials: "Free", utility: "Utility" };
+/** The tabs' short words. The series that comes free with DS Complete (DS ASL,
+ *  DS Toolkit) is named by the site's one label for it. */
+const TAB: Partial<Record<Series, string>> = { flagship: "Flagship", pro: "Pro Series", utility: "Utility", exclusive: SERIES_NAME.exclusive };
+/** Under 440px the four tabs do not fit one row in full, so "Pro Series"
+ *  shortens to the word that names it on its own panel. */
+const TAB_SHORT: Partial<Record<Series, string>> = { ...TAB, pro: "Pro" };
+/** Series with a panel of their own below the chart (the store's shelves). */
+const HAS_PANEL = new Set<Series>(STORE_SHELVES.map((s) => s.info.key));
 
 /** How long the tour rests on each product, and on the whole chart between rounds. */
 const DWELL = 3200;
@@ -358,8 +432,7 @@ function L({ p, also = [], children }: { p: string; also?: string[]; children: R
   const { focus, step } = useCompleteStage();
   const s = SERIES_OF[p];
   const { shown } = built(s, step);
-  // `also`: products that draw this layer too (DS Pro Session Levels draws
-  // every bracket DS Session Levels does).
+  // `also`: other products that draw this layer too.
   const lit = !focus || (focus.slug ? focus.slug === p || also.includes(focus.slug) : focus.series === s || also.some((a) => SERIES_OF[a] === focus.series));
   return (
     <g className="cc-l" style={{ opacity: !shown ? 0 : lit ? 1 : 0.13, transition: "opacity 450ms ease" }}>
@@ -400,40 +473,6 @@ function useTouch() {
     return () => mq.removeEventListener("change", set);
   }, []);
   return touch;
-}
-
-/** The live last bar: a tick every 0.4–1 s, a quarter or half point at a
- *  time, pulled back toward where the drawing ends so the candle never
- *  wanders off; "chop" (amber) = four direction changes in the last five
- *  ticks; the bar-close countdown runs every second. Seeded, so every visit
- *  ticks the same way; it only runs while the chart is on screen. */
-function useTape(active: boolean) {
-  const [tape, setTape] = useState<Tape>(TAPE0);
-  useEffect(() => {
-    if (!active) return;
-    let seed = 90217;
-    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-    let t = 0;
-    const tick = () => {
-      setTape((s) => {
-        // a tape has some momentum (62% to keep going), and a pull home
-        const drift = s.price - P_LAST;
-        const up = rnd() < (s.dir > 0 ? 0.62 : 0.38) - drift * 0.08;
-        const dir: 1 | -1 = up ? 1 : -1;
-        const size = rnd() < 0.72 ? 0.25 : 0.5;
-        const flips = [...s.flips, dir !== s.dir ? 1 : 0].slice(-5);
-        return { ...s, price: s.price + dir * size, dir, flips, chop: flips.reduce((a, b) => a + b, 0) >= 4 };
-      });
-      t = window.setTimeout(tick, 400 + rnd() * 600);
-    };
-    t = window.setTimeout(tick, 500);
-    const clock = window.setInterval(() => setTape((s) => ({ ...s, secs: s.secs > 0 ? s.secs - 1 : 59 })), 1000);
-    return () => {
-      window.clearTimeout(t);
-      window.clearInterval(clock);
-    };
-  }, [active]);
-  return tape;
 }
 
 /* ------------------------------------------------------------------ card */
@@ -505,7 +544,6 @@ export function CompleteChart({ className = "" }: { className?: string }) {
   }, []);
 
   const touring = touch && !reduced && !stopped && step > BUILD_ORDER.length && onScreen && pageVisible;
-  const tape = useTape(!reduced && step > BUILD_ORDER.length && onScreen && pageVisible);
 
   useEffect(() => {
     if (!touring) return;
@@ -525,16 +563,16 @@ export function CompleteChart({ className = "" }: { className?: string }) {
   // The replay strip sits under its label, whatever size the label is drawn at.
   const stripY = RY + 7 + t(6);
   const H = stripY + 14;
-  // Phones: the 258 tags would crowd the GEX labels at the right edge, and the
-  // stochastic lanes' names their lines; the levels and lanes stay, the small
-  // tags go.
+  // Phones: the small tags (session names, a pool's verdict, the flip flag's
+  // price) would crowd one another once the type is scaled up; the levels and
+  // marks stay, the small tags go.
   const roomy = fs < 1.3;
 
   return (
     <div ref={card} className={`border border-line bg-[rgba(14,17,21,0.72)] ${className}`}>
       <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
         <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.12em] text-mute min-[400px]:tracking-[0.16em]">
-          One chart <span className="text-slate">·</span> every tool
+          One chart <span className="text-slate">·</span> every tool in it
         </span>
         <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-slate">
           <span className="h-1.5 w-1.5 rounded-full" style={{ background: ONLINE }} aria-hidden="true" />
@@ -543,9 +581,8 @@ export function CompleteChart({ className = "" }: { className?: string }) {
       </div>
 
       {/* touch screens: the series tabs, right above the drawing */}
-      {/* Five series since 2026-09-30: the tabs take the width their words
-          need (not five equal columns, which cut "Flagship" and "Essentials"
-          short at 320px) and share what is left. */}
+      {/* The tabs take the width their words need (not equal columns) and
+          share what is left. */}
       <div className="flex gap-1 border-b border-line px-2 py-2.5 min-[400px]:gap-1.5 min-[400px]:px-3 [@media(hover:hover)_and_(pointer:fine)]:hidden" role="group" aria-label="Show one series on the chart">
         {BUILD_ORDER.map((s) => {
           const on = focus?.series === s || built(s, step).building;
@@ -558,8 +595,8 @@ export function CompleteChart({ className = "" }: { className?: string }) {
               className="h-8 min-w-0 flex-[1_1_auto] whitespace-nowrap rounded-[3px] border px-1 font-mono text-[8px] uppercase tracking-[0.02em] transition-colors duration-300 min-[360px]:text-[8.5px] min-[360px]:tracking-[0.05em] min-[400px]:text-[9px] min-[400px]:tracking-[0.1em]"
               style={{ borderColor: on ? "rgba(25,242,230,0.5)" : "#23272D", color: on ? TEAL : "#7C848D" }}
             >
-              <span className="min-[380px]:hidden">{TAB_SHORT[s]}</span>
-              <span className="hidden min-[380px]:inline">{TAB[s]}</span>
+              <span className="min-[440px]:hidden">{TAB_SHORT[s]}</span>
+              <span className="hidden min-[440px]:inline">{TAB[s]}</span>
             </button>
           );
         })}
@@ -571,7 +608,7 @@ export function CompleteChart({ className = "" }: { className?: string }) {
         </noscript>
         {/* the chart window's ground is HTML, not SVG (see "never grey") */}
         <div className="rounded-[5px] border border-line bg-[#0B0E12]">
-          <Drawing t={t} H={H} stripY={stripY} roomy={roomy} tape={tape} />
+          <Drawing t={t} H={H} stripY={stripY} roomy={roomy} />
         </div>
       </div>
 
@@ -585,7 +622,7 @@ export function CompleteChart({ className = "" }: { className?: string }) {
               {DRAWS[focus.slug]}
             </>
           ) : focus ? (
-            PRODUCTS.filter((p) => p.series === focus.series).map((p) => p.name).join(" · ")
+            COMPLETE_PRODUCTS.filter((p) => p.series === focus.series).map((p) => p.name).join(" · ")
           ) : (
             <span className="text-mute">Point at a product in the list to find its drawing.</span>
           )}
@@ -629,27 +666,42 @@ function TouchFoot({ focus, touring, pos, choose }: { focus: Focus; touring: boo
         <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-[#565D66]">Illustration</span>
         <p className="mt-1 text-[12.5px] leading-snug text-slate text-pretty">
           {!s ? (
-            <span className="text-mute">Every DS tool, drawn on one chart. Tap a series, or step through them one by one.</span>
+            <span className="text-mute">Every tool in DS Complete, drawn on one chart. Tap a series, or step through them one by one.</span>
           ) : focus?.slug ? (
             DRAWS[focus.slug]
           ) : (
-            PRODUCTS.filter((p) => p.series === s).map((p) => p.name).join(" · ")
+            COMPLETE_PRODUCTS.filter((p) => p.series === s).map((p) => p.name).join(" · ")
           )}
         </p>
         {s && (
           <p className="mt-auto pt-1.5">
             {focus?.slug ? (
               <Link
-                href={`/products/${focus.slug}`}
+                href={productHref(focus.slug)}
                 onClick={() => choose({ ...focus, source: "tap" })}
                 className="inline-block py-1 text-[12.5px] text-ink underline decoration-line-strong underline-offset-4"
               >
                 View {NAME_OF[focus.slug]} →
               </Link>
-            ) : (
+            ) : HAS_PANEL.has(s) ? (
               <a href={`#${s}`} onClick={() => choose({ ...focus, source: "tap" })} className="inline-block py-1 text-[12.5px] text-ink underline decoration-line-strong underline-offset-4">
                 Go to the {SERIES_NAME[s]} ↓
               </a>
+            ) : (
+              // A series with no panel of its own (free with DS Complete): the
+              // page of each product in it.
+              <span className="flex flex-wrap gap-x-5">
+                {inSeries.map((it) => (
+                  <Link
+                    key={it.slug}
+                    href={productHref(it.slug)}
+                    onClick={() => choose({ ...focus, source: "tap" })}
+                    className="inline-block py-1 text-[12.5px] text-ink underline decoration-line-strong underline-offset-4"
+                  >
+                    View {NAME_OF[it.slug]} →
+                  </Link>
+                ))}
+              </span>
             )}
           </p>
         )}
@@ -689,38 +741,10 @@ function Segments({ values, y, hi, lo, width }: { values: number[]; y: (v: numbe
   );
 }
 
-/** DS Parallax's four minis: each timeframe's closes (its own scale) and its
- *  liquidity pools, anchored to a swing — buy-side at a high, sell-side at a
- *  low — with a touch count; a pool price has since run through is swept and
- *  ghosts out. Drawn, not market data. */
-type Pool = { side: "buy" | "sell"; from: number; touches: number; swept?: boolean };
-const MINI_RAW: { tf: string; c: number[]; pools: Pool[] }[] = [
-  { tf: "15m", c: [0.32, 0.36, 0.29, 0.41, 0.46, 0.42, 0.56, 0.62, 0.7], pools: [{ side: "sell", from: 2, touches: 2 }] },
-  { tf: "1h", c: [0.72, 0.52, 0.36, 0.3, 0.38, 0.46, 0.5, 0.63, 0.74], pools: [{ side: "sell", from: 3, touches: 2 }, { side: "buy", from: 0, touches: 1, swept: true }] },
-  { tf: "4h", c: [0.76, 0.6, 0.68, 0.5, 0.56, 0.42, 0.5, 0.45, 0.53], pools: [{ side: "buy", from: 0, touches: 2 }, { side: "sell", from: 5, touches: 1 }] },
-  { tf: "1D", c: [0.8, 0.7, 0.62, 0.67, 0.5, 0.56, 0.46, 0.41, 0.38], pools: [{ side: "buy", from: 3, touches: 2 }, { side: "sell", from: 7, touches: 1, swept: true }] },
-];
-const MINIS = MINI_RAW.map((m) => {
-  const raw = m.c.map((c, i) => {
-    const o = i ? m.c[i - 1] : c + 0.03;
-    return { o, c, h: Math.max(o, c) + 0.045, l: Math.min(o, c) - 0.045 };
-  });
-  const lo = Math.min(...raw.map((b) => b.l)) - 0.03, hi = Math.max(...raw.map((b) => b.h)) + 0.03;
-  const n = (v: number) => (v - lo) / (hi - lo);
-  const bars = raw.map((b) => ({ o: n(b.o), c: n(b.c), h: n(b.h), l: n(b.l) }));
-  const pools = m.pools.map((pl) => ({ ...pl, at: pl.side === "buy" ? bars[pl.from].h : bars[pl.from].l }));
-  return { tf: m.tf, bars, pools };
-});
-
-function Drawing({ t, H, stripY, roomy, tape }: { t: (n: number) => number; H: number; stripY: number; roomy: boolean; tape: Tape }) {
-  // The last candle follows the tape; every other candle is fixed.
-  const vNow = toV(tape.price);
-  const bars = cand.map((c, i) => (i < N - 1 ? c : { o: c.o, c: vNow, h: Math.max(c.h, c.o, vNow), l: Math.min(c.l, c.o, vNow) }));
-  const priceColour = tape.chop ? CHOP : tape.dir > 0 ? UP : DOWN;
-  const xLast = xAt(N - 1);
-  const clock = `00:${String(tape.secs).padStart(2, "0")}`;
+function Drawing({ t, H, stripY, roomy }: { t: (n: number) => number; H: number; stripY: number; roomy: boolean }) {
+  const bars = cand;
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" role="img" aria-label="Every DS Universe product drawn together on one NinjaTrader chart (illustration)">
+    <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" role="img" aria-label="Every product in DS Complete drawn together on one NinjaTrader chart (illustration)">
       {/* the grid and the pane divider */}
       <g stroke={INK} strokeOpacity={A.grid}>
         {[0.25, 0.5, 0.75].map((f) => (
@@ -732,97 +756,29 @@ function Drawing({ t, H, stripY, roomy, tape }: { t: (n: number) => number; H: n
         MNQ · 1 MIN
       </text>
 
-      {/* ---------------------------------------------------- essentials */}
-      <L p="ds-258">
-        {([[70, "80"], [58, "50"], [46, "20"], [34, "00"]] as const).map(([v, tag]) => (
-          <g key={tag}>
-            <line x1={PX0} x2={PX1} y1={yP(v)} y2={yP(v)} stroke={INK} strokeOpacity="0.16" strokeDasharray="1 3" />
-            {roomy && (
-              <text x={PX1 - 2} y={yP(v) - 2} textAnchor="end" className="font-mono" fontSize={t(6)} fill={INK} fillOpacity={A.faint}>
-                {tag}
-              </text>
-            )}
-          </g>
-        ))}
-      </L>
-      {/* DS Parallax, in its default place: four higher-timeframe charts spread
-          evenly along the bottom of the price pane, each marking its resting
-          stops — buy-side above the highs, sell-side below the lows; the
-          touch count sets the line weight; a swept level ghosts out. */}
-      <L p="parallax">
-        {MINIS.map((m, k) => {
-          const w = (PX1 - PX0 - 12 - 3 * PAR_GAP) / 4;
-          const x0 = PX0 + 6 + k * (w + PAR_GAP);
-          const top = PAR_Y + 5 + t(4.6);
-          const bot = PAR_Y + PAR_H - 4;
-          const my = (f: number) => r2(bot - f * (bot - top));
-          const cw = (w - 10) / m.bars.length;
-          const cx = (i: number) => x0 + 5 + (i + 0.5) * cw;
-          return (
-            <g key={m.tf}>
-              <path d={box(x0 + 0.5, PAR_Y + 0.5, w - 1, PAR_H - 1)} fill={INK} fillOpacity="0.02" stroke={INK} strokeOpacity={A.frame} />
-              <text x={x0 + 3} y={PAR_Y + 2 + t(4.6)} className="font-mono" fontSize={t(4.6)} letterSpacing="0.6" fill={INK} fillOpacity={A.mute}>
-                {`NQ · ${m.tf}`}
-              </text>
-              {m.pools.map((pl, q) => {
-                const c = pl.side === "buy" ? TEAL : VIOLET;
-                const y = my(pl.at);
-                return (
-                  <g key={q}>
-                    <line x1={cx(pl.from) - cw * 0.3} x2={x0 + w - 3} y1={y} y2={y} stroke={c} strokeOpacity={pl.swept ? 0.35 : 0.85} strokeWidth={pl.touches > 1 ? 1.2 : 0.7} strokeDasharray={pl.swept ? "2 2" : undefined} />
-                    {!pl.swept && pl.touches > 1 && (
-                      <text x={x0 + w - 3} y={pl.side === "buy" ? y - 1.5 : y + 1.5 + t(4)} textAnchor="end" className="font-mono" fontSize={t(4)} fill={c}>
-                        {`×${pl.touches}`}
-                      </text>
-                    )}
-                  </g>
-                );
-              })}
-              {m.bars.map((b, i) => {
-                const up = b.c >= b.o;
-                const c = up ? TEAL : VIOLET;
-                return (
-                  <g key={i}>
-                    <line x1={r2(cx(i))} x2={r2(cx(i))} y1={my(b.h)} y2={my(b.l)} stroke={c} strokeOpacity="0.75" />
-                    <path d={box(cx(i) - cw * 0.26, my(Math.max(b.o, b.c)), cw * 0.52, Math.max(0.8, my(Math.min(b.o, b.c)) - my(Math.max(b.o, b.c))))} fill={c} fillOpacity="0.85" />
-                  </g>
-                );
-              })}
-            </g>
-          );
-        })}
-      </L>
-      {/* DS Chart Price: the last price, large, top centre, changing on every
-          tick — green up, red down, amber when the tape chops. */}
-      <L p="chart-price">
-        <text x={(PX0 + PX1) / 2} y={PY0 + 2 + t(13)} textAnchor="middle" className="font-mono" fontSize={t(13)} fontWeight="600" letterSpacing="0.4" fill={priceColour}>
-          {tape.price.toFixed(2)}
-        </text>
-      </L>
+      {/* ------------------------------------------------------- DS Toolkit */}
+      {/* The rail in the left margin of the price pane: a faint frame, one
+          filled switch for each indicator in DS Complete (all on — each is
+          drawn on this chart), a hairline, then the drawing tools as outlines. */}
       <L p="toolkit">
-        <g transform="translate(6 22)">
-          <path d={box(0.5, 0.5, 19, 175)} fill={INK} fillOpacity="0.03" stroke={INK} strokeOpacity={A.frame} />
-          {Array.from({ length: 9 }).map((_, k) =>
-            k === 6 ? (
-              <path key={k} d={box(6.5, 8.5 + k * 13, 7, 7)} fill="none" stroke={INK} strokeOpacity={A.mark} />
-            ) : (
-              <path key={k} d={box(6, 8 + k * 13, 8, 8)} fill={TEAL} fillOpacity="0.7" />
-            ),
-          )}
-          <line x1="4" x2="16" y1="128" y2="128" stroke={INK} strokeOpacity={A.frame} />
-          {[0, 1, 2].map((k) => (
-            <path key={k} d={box(6.5, 136.5 + k * 12, 7, 7)} fill="none" stroke={INK} strokeOpacity={A.mute} />
+        <g transform={`translate(${RAIL.x} ${RAIL.y})`}>
+          <path d={box(0.5, 0.5, RAIL.w - 1, RAIL_H)} fill={INK} fillOpacity="0.03" stroke={INK} strokeOpacity={A.frame} />
+          {RAIL_ROWS.map((slug, k) => (
+            <path key={slug} d={box((RAIL.w - RAIL.sw) / 2, 8 + k * RAIL.pitch, RAIL.sw, RAIL.sw)} fill={TEAL} fillOpacity="0.7" />
+          ))}
+          <line x1="4" x2={RAIL.w - 4} y1={RAIL_RULE} y2={RAIL_RULE} stroke={INK} strokeOpacity={A.frame} />
+          {Array.from({ length: RAIL.tools }).map((_, k) => (
+            <path key={k} d={box((RAIL.w - 7) / 2, RAIL_RULE + 8.5 + k * RAIL.toolPitch, 7, 7)} fill="none" stroke={INK} strokeOpacity={A.mute} />
           ))}
         </g>
       </L>
 
-      {/* ------------------------------------------------------ sessions */}
-      {/* DS Session Levels: the London bracket over exactly its own bars,
-          a tick at each end; its high and low carried forward, dotted, fading
-          from the bar that closed through them; named at the bracket's end
-          and tagged at the right edge. DS Pro Session Levels draws the same
-          bracket, so pointing at either lights it. */}
-      <L p="session-levels" also={["pro-session-levels"]}>
+      {/* ----------------------------------------------------------- DS ASL */}
+      {/* DS ASL — Advanced Session Levels: the London bracket over exactly
+          its own bars, a tick at each end; its high and low carried forward,
+          dotted, fading from the bar that closed through them; named at the
+          bracket's end and tagged at the right edge. */}
+      <L p="asl">
         {(() => {
           const xs = r2(xAt(SES.a) - 3.5), xe = r2(xAt(SES.b) + 3.5);
           const yh = r2(yP(SES_HI)), yl = r2(yP(SES_LO));
@@ -849,11 +805,9 @@ function Drawing({ t, H, stripY, roomy, tape }: { t: (n: number) => number; H: n
             </>
           );
         })()}
-      </L>
-      {/* DS Pro Session Levels: the volume inside the bracket — thin bars
-          against its first bar, the value area stronger, the POC the longest
-          and carried forward as a level until price trades back at it. */}
-      <L p="pro-session-levels">
+        {/* The volume inside the bracket — thin bars against its first bar,
+            the value area stronger, the POC the longest and carried forward
+            as a level until price trades back at it. */}
         {(() => {
           const x0 = r2(xAt(SES.a) - 3.5);
           const reach = (xAt(SES.b) - xAt(SES.a) + 7) * 0.34;
@@ -1015,31 +969,28 @@ function Drawing({ t, H, stripY, roomy, tape }: { t: (n: number) => number; H: n
         )}
       </L>
 
-      {/* DS Adaptive Price Line: anchored to the last candle — a ring at the
-          price, the bar-close countdown riding the line, then the line on to
-          the edge of the chart. It moves with every tick. */}
-      <L p="adaptive-priceline">
+      {/* ------------------------------------------------------ Pro Series */}
+      {/* DS ProHeikinAshi on the price pane: the flip level as a real price —
+          a dashed rail from the bar that set it to the axis, with its flag. */}
+      <L p="proheikinashi">
         {(() => {
-          const y = r2(yP(vNow));
-          const fsz = t(5.2);
-          const bx = xLast + 12;
-          const bw = r2(fsz * 0.62 * clock.length + 6);
-          const bh = r2(fsz + 4);
+          const y = r2(yP(HA_FLIP));
+          const x0 = r2(xAt(N - 1) + 5);
+          const fsz = t(4.6);
+          const label = roomy ? `FLIP ${tickPrice(HA_FLIP)}` : "FLIP";
+          const fw = r2(fsz * 0.66 * label.length + 6), fh = r2(fsz + 4);
           return (
             <>
-              <path d={dot(xLast + 7, y, 1.9)} fill="none" stroke={TEAL} strokeOpacity="0.9" />
-              <line x1={xLast + 9} x2={bx} y1={y} y2={y} stroke={TEAL} strokeOpacity="0.7" />
-              <path d={box(bx + 0.5, y - bh / 2, bw, bh)} fill="none" stroke={TEAL} strokeOpacity="0.8" />
-              <text x={bx + 0.5 + bw / 2} y={y + fsz * 0.36} textAnchor="middle" className="font-mono" fontSize={fsz} fill={INK} fillOpacity="0.9">
-                {clock}
+              <line x1={x0} x2={r2(W - 4 - fw)} y1={y} y2={y} stroke={VIOLET} strokeOpacity="0.9" strokeDasharray="2 2" />
+              <path d={`M${r2(W - 4 - fw)} ${y}l2.5 ${r2(-fh / 2)}h${r2(fw - 2.5)}v${fh}h${r2(-(fw - 2.5))}Z`} fill="none" stroke={VIOLET} strokeOpacity="0.9" strokeWidth="0.8" />
+              <text x={r2(W - 4 - fw / 2 + 1)} y={r2(y + fsz * 0.36)} textAnchor="middle" className="font-mono" fontSize={fsz} letterSpacing="0.4" fill={VIOLET}>
+                {label}
               </text>
-              <line x1={bx + bw + 0.5} x2={W - 3} y1={y} y2={y} stroke={TEAL} strokeOpacity="0.7" />
             </>
           );
         })()}
       </L>
 
-      {/* ------------------------------------------------------ Pro Series */}
       {/* DS ProRSI on the price pane: the level its crossover made, anchored
           to the swing high, drawn right until price closed through it — and
           frozen there. */}
@@ -1067,52 +1018,71 @@ function Drawing({ t, H, stripY, roomy, tape }: { t: (n: number) => number; H: n
               {[70, 30].map((v) => (
                 <line key={v} x1={PX0} x2={PX1} y1={yr(v)} y2={yr(v)} stroke={v > 50 ? VIOLET : TEAL} strokeOpacity="0.3" strokeDasharray="2 3" />
               ))}
-              <polyline points={pts(smooth(rsi, 4), yr)} fill="none" stroke={CHOP} strokeOpacity="0.55" />
+              <polyline points={pts(smooth(rsi, 4), yr)} fill="none" stroke={AMBER} strokeOpacity="0.55" />
               <Segments values={rsi} y={yr} hi={70} lo={30} width={1.25} />
             </>
           );
-        } else if (slug === "prostochastics") {
-          // DS ProStochastics: FOUR speeds as four stacked lanes, fast on top,
-          // each named by its settings; the quad latch along the bottom lights
-          // where three or more lanes agree.
-          const laneTop = y0 + 4 + t(6);
-          const laneH = (y0 + ph - 7 - laneTop) / LANES.length;
+        } else if (slug === "proliquidityhunter") {
+          // DS ProLiquidityHunter: price as a line on close over its pools.
+          // A live pool runs to the right edge, stronger the nearer price is
+          // to it; a taken pool stops on a bright tick at the bar that took
+          // it, named SWEPT or RUN by the next close.
+          const top = y0 + 6 + t(6), bot = y0 + ph - 5;
+          const yl = (v: number) => top + (1 - (v - LO) / (HI - LO)) * (bot - top);
           body = (
             <>
-              {LANES.map((ln, j) => {
-                const ly0 = laneTop + j * laneH;
-                const ly = (v: number) => ly0 + 1.5 + (1 - v / 100) * (laneH - 3);
+              {POOLS.map((pl, q) => {
+                const c = pl.side === "buy" ? TEAL : VIOLET;
+                const y = yl(pl.v);
+                const live = pl.taken < 0;
+                const xa = xAt(pl.from), xb = live ? PX1 - 1 : xAt(pl.taken);
                 return (
-                  <g key={ln.label}>
-                    {j > 0 && <line x1={PX0 + 1} x2={PX1 - 1} y1={ly0} y2={ly0} stroke={INK} strokeOpacity={A.grid * 1.6} />}
-                    <Segments values={ln.v} y={ly} hi={80} lo={20} width={0.9} />
-                    {roomy && (
-                      <text x={PX1 - 3} y={ly0 + laneH / 2 + t(4.2) * 0.36} textAnchor="end" className="font-mono" fontSize={t(4.2)} fill={INK} fillOpacity={A.mute}>
-                        {ln.label}
+                  <g key={q}>
+                    <path d={box(xa, y - 1.5, xb - xa, 3)} fill={c} fillOpacity={pl.heat} />
+                    {!live && <path d={box(xb - 0.6, y - 3.5, 1.2, 7)} fill={c} />}
+                    {!live && roomy && pl.verdict && xb - xa > 22 && (
+                      <text x={r2(xb - 3)} y={r2(pl.side === "buy" ? y - 3 : y + 2.5 + t(4))} textAnchor="end" className="font-mono" fontSize={t(4)} letterSpacing="0.5" fill={c}>
+                        {pl.verdict}
                       </text>
                     )}
                   </g>
                 );
               })}
-              {closes.map((_, i) => {
-                const hi = LANES.filter((ln) => ln.v[i] > 70).length;
-                const lo = LANES.filter((ln) => ln.v[i] < 30).length;
-                const c = hi >= 3 ? VIOLET : lo >= 3 ? TEAL : null;
-                return <path key={`q${i}`} d={box(xAt(i) - DX / 2 + 0.3, y0 + ph - 4.5, DX - 0.6, 2.5)} fill={c ?? INK} fillOpacity={c ? 0.85 : A.grid * 2} />;
-              })}
+              <polyline points={pts(closes, yl)} fill="none" stroke={INK} strokeOpacity="0.85" strokeWidth="1" strokeLinejoin="round" />
             </>
           );
-        } else if (slug === "prosqueeze") {
+        } else if (slug === "proheikinashi") {
+          // DS ProHeikinAshi: two lanes for the slower candles, then every
+          // Heikin-Ashi candle standing on its own open — the dashed line —
+          // hollow where the real close is already through its flip level.
+          const lanes = y0 + 5 + t(6);
+          const top = lanes + 9, bot = y0 + ph - 4;
+          const mid = (top + bot) / 2;
+          const k = (bot - top) / 2 / HA_REACH;
+          const yh = (d: number) => mid - d * k;
           body = (
             <>
-              {closes.map((c, i) => {
-                const m = (c - (i ? closes[i - 1] : c)) / 6 + Math.sin(i / 4) * 0.35;
-                const h = r2(Math.max(0.8, Math.abs(m) * 12));
-                return <path key={i} d={box(xAt(i) - 2.5, m >= 0 ? yy(0.5) - h : yy(0.5), 5, h)} fill={m >= 0 ? TEAL : VIOLET} fillOpacity="0.6" />;
-              })}
-              {closes.map((_, i) => {
-                const on = i >= 8 && i <= 18;
-                return <path key={`d${i}`} d={box(xAt(i) - 1.5, y0 + ph - 5, 3, 3)} fill={INK} fillOpacity={on ? 0.85 : A.mark} />;
+              {HA_LANES.map((lane, j) =>
+                lane.map((up, i) => (
+                  <path key={`l${j}-${i}`} d={box(xAt(i) - DX / 2, lanes + j * 3.5, DX + 0.2, 2.2)} fill={up ? TEAL : VIOLET} fillOpacity={j ? 0.5 : 0.8} />
+                )),
+              )}
+              <line x1={PX0} x2={PX1} y1={mid} y2={mid} stroke={INK} strokeOpacity={A.mark} strokeDasharray="2 3" />
+              {HA.map((b, i) => {
+                const up = b.c >= b.o;
+                const c = up ? TEAL : VIOLET;
+                const x = xAt(i);
+                const y1 = yh(b.c - b.o), h = Math.max(1, Math.abs(y1 - mid));
+                return (
+                  <g key={i}>
+                    <line x1={r2(x)} x2={r2(x)} y1={r2(yh(b.h - b.o))} y2={r2(yh(b.l - b.o))} stroke={c} strokeOpacity="0.55" strokeWidth="0.8" />
+                    {b.pending ? (
+                      <path d={box(x - 3, Math.min(y1, mid), 6, h)} fill="none" stroke={c} strokeWidth="0.9" />
+                    ) : (
+                      <path d={box(x - 3, Math.min(y1, mid), 6, h)} fill={c} fillOpacity="0.85" />
+                    )}
+                  </g>
+                );
               })}
             </>
           );

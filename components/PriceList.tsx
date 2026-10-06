@@ -4,8 +4,8 @@ import { BuyButton } from "@/components/BuyButton";
 import { PriceFigure } from "@/components/Price";
 import { External, TrialMark } from "@/components/Trial";
 import { TRIAL, trialHref } from "@/content/trial";
-import { GIFT, PRICES, discountPct, isPaid, money } from "@/content/pricing";
-import { COVER_RATIO, boxartFor } from "@/content/release";
+import { PRICES, WITH_BUNDLE, discountPct, isPaid, money } from "@/content/pricing";
+import { COVER_RATIO, boxartFor, productHref } from "@/content/release";
 import type { Product } from "@/content/products";
 
 /**
@@ -19,8 +19,7 @@ import type { Product } from "@/content/products";
  */
 export function PriceList({ products, buttonWidth = 124 }: { products: Product[]; buttonWidth?: number }) {
   // Every row of one list shares one button width, so the price column stays
-  // on one line. 124px fits "Buy now" and "Get it free"; the Session levels
-  // list passes 168px for "Get DS Complete" (2026-09-30).
+  // on one line. 124px fits "Buy now", "Get it free" and "Not open yet".
   const bw = { width: buttonWidth };
   return (
     <>
@@ -42,7 +41,7 @@ export function PriceList({ products, buttonWidth = 124 }: { products: Product[]
             className="grid grid-cols-[52px_minmax(0,1fr)] items-center gap-x-4 gap-y-3 border-t border-line py-4 sm:grid-cols-[52px_minmax(0,1fr)_auto_auto] sm:gap-x-6"
           >
             <Link
-              href={`/products/${p.slug}`}
+              href={productHref(p.slug)}
               className="spotlight relative block w-[52px]"
               style={{ aspectRatio: String(COVER_RATIO) }}
               tabIndex={-1}
@@ -51,7 +50,7 @@ export function PriceList({ products, buttonWidth = 124 }: { products: Product[]
               <Image src={boxartFor(p.slug)} alt="" fill sizes="52px" className="object-contain" />
             </Link>
             <div className="min-w-0">
-              <Link href={`/products/${p.slug}`} className="font-display text-[15px] text-ink transition-colors hover:text-gold-deep">
+              <Link href={productHref(p.slug)} className="font-display text-[15px] text-ink transition-colors hover:text-gold-deep">
                 {p.name}
               </Link>
               <p className="mt-0.5 truncate text-[12.5px] text-slate">{p.category}</p>
@@ -70,11 +69,11 @@ export function PriceList({ products, buttonWidth = 124 }: { products: Product[]
                   <External className="!h-3 !w-3" />
                 </a>
               )}
-              {/* The Founders gift (2026-09-30): the row that is bought as DS Complete. */}
+              {/* A row that is had by buying DS Complete. */}
               {pr?.withComplete && (
                 <span className="mt-1.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-gold">
                   <span className="h-[6px] w-[6px] shrink-0 rotate-45 border border-gold" aria-hidden="true" />
-                  {GIFT.label}
+                  {WITH_BUNDLE.short}
                 </span>
               )}
             </div>

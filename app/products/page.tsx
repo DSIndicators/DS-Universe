@@ -5,7 +5,7 @@ import { WaitlistNote } from "@/components/ui/WaitlistNote";
 import { StoreBar, type StoreBarItem } from "@/components/StoreBar";
 import { BeforeYouBuy } from "@/components/BeforeYouBuy";
 import { TrialStoreNote } from "@/components/Trial";
-import { SHELVES } from "@/content/release";
+import { STORE_SHELVES } from "@/content/release";
 import { COMPLETE, COMPLETE_PCT, FOUNDERS, PRICES, isPaid, money, seriesPrice, tilePrice } from "@/content/pricing";
 import { PRODUCTS } from "@/content/products";
 import { StillMonitor } from "@/components/ui/StillMonitor";
@@ -14,7 +14,7 @@ import { DISCLOSURE, PRODUCTS_SCREEN } from "@/content/site";
 export const metadata: Metadata = {
   title: "Products & pricing",
   description:
-    "Every DS Universe product for NinjaTrader 8 and what it costs — flagship indicators, the Pro Series panels, the session levels, the free chart essentials and the Market Replay utility, each bought once. DS Complete is all of it for half of what the paid ones cost apart.",
+    "The DS Universe store for NinjaTrader 8 and what everything costs — the flagship indicators, the Pro Series panels and the Market Replay utility, each bought once. DS Complete is all of them for half of what they cost apart.",
   // ?view=list is the same page in another layout — one URL for search.
   alternates: { canonical: "/products" },
 };
@@ -43,7 +43,20 @@ export const metadata: Metadata = {
  *
  * Nothing on this page types a number: every figure comes from
  * content/pricing.ts, and every count is left out (the lineup changes).
+ *
+ * PAID ONLY (2026-10-05). The free shelf, its entry in the price bar and the
+ * Session levels pair left this page: the free products are the Free Vault
+ * (/free-vault), and DS ASL and DS Toolkit are shown as part of DS Complete. The third price
+ * at the head is now the data utility. Old links to the two anchors that are
+ * gone (/products#essentials, /products#sessions) are forwarded by the script
+ * below — a server cannot see a #fragment, so the page does it before paint.
  */
+
+/** Anchors this page used to have, and where their content lives now. */
+const MOVED_ANCHORS: Record<string, string> = {
+  "#essentials": "/free-vault",
+  "#sessions": "/free-vault/session-levels",
+};
 export default function ProductsPage() {
   // The indicator price, if every paid indicator shares one — computed, so the
   // lede cannot quote a number the shelves below do not show.
@@ -56,6 +69,8 @@ export default function ProductsPage() {
     ),
   ];
   const lead = nows.length === 1 ? nows[0] : null;
+  const utilityPrice = seriesPrice("utility");
+  const utility = utilityPrice && isPaid(utilityPrice) ? utilityPrice.now : null;
 
   // DS Complete leads the row, as it leads the shelves (2026-09-28).
   const offer = [
@@ -68,12 +83,14 @@ export default function ProductsPage() {
     lead !== null
       ? { price: money(lead), label: "Indicators", note: "Each, one payment", href: "#flagship" }
       : { price: "Once", label: "Indicators", note: "One payment", href: "#flagship" },
-    { price: "Free", label: "Essentials", note: "Permanently", href: "#essentials" },
+    utility !== null
+      ? { price: money(utility), label: "Data utility", note: "One payment", href: "#utility" }
+      : { price: "Once", label: "Data utility", note: "One payment", href: "#utility" },
   ];
 
   const bar: StoreBarItem[] = [
     { id: "complete", label: COMPLETE.name, price: money(COMPLETE.now) },
-    ...SHELVES.map((s) => ({
+    ...STORE_SHELVES.map((s) => ({
       id: s.info.key,
       label: s.info.short,
       price: tilePrice(seriesPrice(s.info.key) ?? undefined) || undefined,
@@ -88,7 +105,8 @@ export default function ProductsPage() {
       <script
         dangerouslySetInnerHTML={{
           __html:
-            "try{if(new URLSearchParams(location.search).get('view')==='list')document.documentElement.dataset.storeView='list'}catch(e){}",
+            `try{var m=${JSON.stringify(MOVED_ANCHORS)}[location.hash];if(m)location.replace(m);` +
+            "if(new URLSearchParams(location.search).get('view')==='list')document.documentElement.dataset.storeView='list'}catch(e){}",
         }}
       />
 
@@ -100,7 +118,7 @@ export default function ProductsPage() {
               <p className="label">Products &amp; pricing</p>
               <h1 className="display-xl mt-5 text-ink text-balance">Every tool, one question each.</h1>
               <p className="lede mt-6 max-w-xl text-pretty">
-                Every product is bought once and kept — no subscription. Open any box for what it
+                Every product here is bought once and kept — no subscription. Open any box for what it
                 shows, how it helps, and the guide to reading it on a live chart.
               </p>
 

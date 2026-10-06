@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
-import { COVER_RATIO, boxartFor } from "@/content/release";
+import { COVER_RATIO, boxartFor, productHref } from "@/content/release";
 import {
   TRIAL,
   keepPrice,
@@ -193,7 +193,7 @@ function TrialTile({ p }: { p: Product }) {
   return (
     <div className="group grid min-w-0 grid-cols-[92px_minmax(0,1fr)] items-center gap-x-5 sm:block">
       <Link
-        href={`/products/${p.slug}`}
+        href={productHref(p.slug)}
         className="relative block"
         style={{ aspectRatio: String(COVER_RATIO) }}
         tabIndex={-1}
@@ -212,7 +212,7 @@ function TrialTile({ p }: { p: Product }) {
         </span>
       </Link>
       <div className="min-w-0 sm:mt-2 sm:px-0.5">
-        <Link href={`/products/${p.slug}`} className="block truncate font-display text-[15px] leading-tight text-ink transition-colors duration-300 hover:text-gold-deep">
+        <Link href={productHref(p.slug)} className="block truncate font-display text-[15px] leading-tight text-ink transition-colors duration-300 hover:text-gold-deep">
           {p.name}
         </Link>
         <span className="mt-1 block truncate text-[12px] text-mute">{p.category}</span>

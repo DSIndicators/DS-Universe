@@ -6,6 +6,7 @@ import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { MONITOR, isClip, type ScreenFrame } from "@/content/site";
 import { Viewer } from "@/components/Viewer";
 import { BY_SLUG } from "@/content/products";
+import { productHref } from "@/content/release";
 
 /**
  * The hero screen: two screen recordings and five real NQ charts on
@@ -505,7 +506,7 @@ function Tools({ frame, className = "" }: { frame: ScreenFrame; className?: stri
           {k > 0 && <wbr />}
           <span className="whitespace-nowrap">
             <Link
-              href={`/products/${p.slug}`}
+              href={productHref(p.slug)}
               className="text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-gold"
             >
               {p.name}

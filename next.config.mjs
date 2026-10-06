@@ -28,6 +28,8 @@ const PAGES = [
   "/",
   "/products",
   "/products/:slug",
+  "/free-vault",
+  "/free-vault/:slug",
   "/trial",
   "/ninjatrader",
   "/about",
@@ -54,15 +56,43 @@ const nextConfig = {
   // it lands on the Price list view, which is what /pricing was. A #fragment
   // (e.g. /pricing#complete) survives the redirect in every browser.
   //
-  // /products/promacd (2026-10-04): DS ProMACD left the store when DS
-  // ProTrendRange took its place in the Pro Series, and returns later as a free
-  // product. TEMPORARY on purpose: Google keeps the original URL indexed and
-  // moves no signals on a 307, so the page can come back at the same address.
-  // Delete this entry the day "promacd" is in content/products.ts again.
+  // THE LINEUP OF 2026-10-05 — every address that moved, forwarded for good:
+  //  · four products were renamed, so their old addresses go to the new ones
+  //    (three of them are free now, so they land in the Free Vault);
+  //  · the five free products already on the site moved from /products/<slug>
+  //    to /free-vault/<slug>;
+  //  · DS Toolkit went the other way the same day. It comes free with DS
+  //    Complete now and is not in the Free Vault, so its page is
+  //    /products/toolkit (where it always was) and the vault address it held
+  //    for a few hours, /free-vault/toolkit, forwards there. There is NO
+  //    /products/toolkit -> /free-vault/toolkit rule any more: the two would
+  //    loop.
+  // All permanent (308). The TEMPORARY /products/promacd -> /products#pro rule
+  // of 2026-10-04 is gone: the product is back, as DS MACD, in the Free Vault.
+  // The old shelf anchors (/products#essentials, /products#sessions) cannot be
+  // redirected here — a #fragment never reaches the server — so /products
+  // forwards them itself before first paint (app/products/page.tsx).
   async redirects() {
     return [
       { source: "/pricing", destination: "/products?view=list", permanent: true },
-      { source: "/products/promacd", destination: "/products#pro", permanent: false },
+      // renamed
+      { source: "/products/promacd", destination: "/free-vault/macd", permanent: true },
+      { source: "/products/prostochastics", destination: "/free-vault/stochastics", permanent: true },
+      { source: "/products/prosqueeze", destination: "/free-vault/squeeze", permanent: true },
+      { source: "/products/pro-session-levels", destination: "/products/asl", permanent: true },
+      // free products: out of the store, into the Free Vault
+      { source: "/products/adaptive-priceline", destination: "/free-vault/adaptive-priceline", permanent: true },
+      { source: "/products/chart-price", destination: "/free-vault/chart-price", permanent: true },
+      { source: "/products/ds-258", destination: "/free-vault/ds-258", permanent: true },
+      { source: "/products/parallax", destination: "/free-vault/parallax", permanent: true },
+      { source: "/products/session-levels", destination: "/free-vault/session-levels", permanent: true },
+      // DS Toolkit: out of the Free Vault, free with DS Complete (2026-10-05)
+      { source: "/free-vault/toolkit", destination: "/products/toolkit", permanent: true },
+      // the four free products that never had a store address: a guessed one still lands
+      { source: "/products/macd", destination: "/free-vault/macd", permanent: true },
+      { source: "/products/stochastics", destination: "/free-vault/stochastics", permanent: true },
+      { source: "/products/squeeze", destination: "/free-vault/squeeze", permanent: true },
+      { source: "/products/vwap", destination: "/free-vault/vwap", permanent: true },
     ];
   },
   async headers() {

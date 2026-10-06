@@ -11,12 +11,12 @@ export const SITE = {
   tagline: "Trading tools for NinjaTrader 8",
   url: "https://dsuniverse.net",
   description:
-    "DS Universe builds calm, precise trading tools for NinjaTrader 8 — indicators that read the market in plain language, bought once, and free essentials that make the chart easier to live with.",
+    "DS Universe builds calm, precise trading tools for NinjaTrader 8 — indicators that read the market in plain language, bought once, and a Free Vault of tools that make the chart easier to live with.",
   email: "support@dsuniverse.net",
   city: "New York City",
   platform: "NinjaTrader 8",
   /** The oldest build the shipped archives import into — they are exported
-      from 8.1.8.1 (Info.xml of all sixteen, checked 2026-09-25). */
+      from 8.1.8.1 (Info.xml of every archive, checked 2026-09-25). */
   minBuild: "8.1.8.1",
   /**
    * The Whop store root. Per-product buy links live in content/whop.ts — that is
@@ -27,11 +27,21 @@ export const SITE = {
   storeUrl: "https://whop.com/dsuniverse",
 };
 
-export const NAV = [
+/**
+ * `vault` marks the Free Vault's entry (Tom, 2026-10-05: "a tab users can see
+ * instantly and be intrigued to go to"). The header, the phone menu and the
+ * footer set it in the vault's own voice — the instrument face, in the house
+ * teal that already means "free, on your chart" on this site, behind the
+ * vault's small mark (components/Vault.tsx) — so it reads as a different
+ * place from the store at a glance. Type and one accent; no pill, no glow.
+ */
+export type NavItem = { label: string; href: string; vault?: boolean };
+export const NAV: NavItem[] = [
   // Home first (Tom, 2026-09-27). One store page since 2026-09-27: /pricing
   // redirects to /products?view=list.
   { label: "Home", href: "/" },
   { label: "Products", href: "/products" },
+  { label: "Free Vault", href: "/free-vault", vault: true },
   { label: "NinjaTrader", href: "/ninjatrader" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -42,7 +52,7 @@ export const NAV = [
 export const HERO = {
   eyebrow: "For NinjaTrader 8",
   title: "See the market clearly.",
-  sub: "Indicators that put what matters on the chart and leave the rest off — each one bought once, and the essentials free.",
+  sub: "Indicators that put what matters on the chart and leave the rest off — each one bought once. The Free Vault costs nothing.",
   primary: { label: "Explore the lineup", href: "/products" },
   secondary: { label: "See prices", href: "/products?view=list" },
 };
@@ -62,8 +72,8 @@ export const ABOUT = {
   heading: "Built for the trader who wants less on the screen, and more from it.",
   paragraphs: [
     "DS Universe is a family of indicators and tools for NinjaTrader 8, written natively in NinjaScript and drawn directly on your chart. Each indicator answers one question about the market — where a level is holding, where size was hidden, what traded inside the candle, which side the trend is on — and prints the answer in plain trading language.",
-    "The Pro Series takes the oscillators every trader already knows and makes them say something about price: levels on the chart, named states, graded signals, decided on closed bars.",
-    "Every product is sold on its own, for a single payment, and the chart essentials — the price line, the readout, the level map, the higher-timeframe matrix, the session levels and the DS Toolkit rail — are free. DS Complete is everything at once, for half of what the paid products cost apart, and the only way to get DS Pro Session Levels.",
+    "The Pro Series puts one panel under your candles and makes it say something about price: levels on the chart, named states and measured odds, decided on closed bars.",
+    "Every paid product is sold on its own, for a single payment. DS Complete is all of them at once, for half of what they cost apart; DS ASL and DS Toolkit come free with it and are not sold on their own. The Free Vault stands apart — the price line, the readout, the level map, the higher-timeframe matrix, the session levels and the panels — each its own free download.",
     "Everything runs on your machine, on your data, on the platform's supported public API. Nothing is hidden behind a second window.",
   ],
 };
@@ -85,14 +95,15 @@ export const PRINCIPLES = [
 ];
 
 /**
- * The closing ask is the FREE essentials, not the expensive thing. It is the
- * only offer on the page that costs a visitor nothing to accept, and it puts the
- * DS Toolkit rail — the thing every other product appears on — onto their chart.
+ * The closing ask is the FREE VAULT, not the expensive thing. It is the only
+ * offer on the page that costs a visitor nothing to accept. (It named the DS
+ * Toolkit rail until 2026-10-05; the rail comes free with DS Complete now and
+ * is not in the vault, so the line names two things that are.)
  */
 export const CLOSING = {
   heading: "Start with the free ones.",
-  text: "The essentials cost nothing, and they are not a trial. Put the rail and the price line on your chart and see whether the rest is for you — there is a real person on the other end of the email either way.",
-  primary: { label: "See the free essentials", href: "/products#essentials" },
+  text: "The Free Vault costs nothing, and it is not a trial. Put the price line and the session levels on your chart and see whether the rest is for you — there is a real person on the other end of the email either way.",
+  primary: { label: "Open the Free Vault", href: "/free-vault" },
   secondary: { label: "Talk to us", href: "/contact" },
 };
 
@@ -162,7 +173,7 @@ export const DISCLOSURE = {
 export const CATALOGUE = {
   eyebrow: "The lineup",
   heading: "All of it at once, or one tool at a time.",
-  sub: "DS Complete is every product in one purchase. Or pick them one by one: each indicator is a single payment, and the chart essentials are free. Open any cover for what it shows, how it helps, and the guide to reading it.",
+  sub: "DS Complete is every paid product in one purchase. Or pick them one by one: each is a single payment. Open any cover for what it shows, how it helps, and the guide to reading it.",
 };
 
 /**
@@ -342,7 +353,7 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
       poster: "/covers/screen/replay-poster.webp",
       seconds: 15,
       title: "A session playing out, bar by bar",
-      tools: ["flow", "prorsi", "prostochastics"],
+      tools: ["flow", "prorsi", "stochastics"],
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gARTGF2YzU4LjEzNC4xMDAA/9sAQwAIPj5JPklVVVVVVVVkXWRoaGhkZGRkaGhocHBwg4ODcHBwaGhwcHx8g4OPk4+Hh4OHk5Obm5u6urKy2dng/////8QATQABAQEAAAAAAAAAAAAAAAAAAgEHAQEBAAAAAAAAAAAAAAAAAAAAAhABAAAAAAAAAAAAAAAAAAAAABEBAAAAAAAAAAAAAAAAAAAAAP/AABEIAAkAEAMBIgACEQADEQD/2gAMAwEAAhEDEQA/AMKFQUP/2Q==",
     },
     {
@@ -355,19 +366,19 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
       poster: "/covers/screen/live-levels-v1-poster.webp",
       seconds: 60,
       title: "Levels forming as a New York session trades",
-      tools: ["pro-session-levels", "zones", "iceberg"],
+      tools: ["asl", "zones", "iceberg"],
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjipDYpMe9Pb7xplAH/9k=",
     },
     {
       src: "/covers/screen/footprints-v2.webp",
       title: "Volume by price inside each candle group",
-      tools: ["flow", "prorsi", "prostochastics"],
+      tools: ["flow", "prorsi", "stochastics"],
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDk2RYycESZ6cfzphJOMrj6DFT9zTJO1MD/2Q==",
     },
     {
       src: "/covers/screen/sessions.webp",
       title: "Asia, London and New York, session by session",
-      tools: ["flow", "prorsi", "prostochastics"],
+      tools: ["flow", "prorsi", "stochastics"],
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkevVPy4pSMcKMj1Ip69KD0pgf/9k=",
     },
     {
@@ -389,7 +400,7 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
     {
       src: "/covers/screen/session-profiles.webp",
       title: "Where each session’s volume built up",
-      tools: ["flow", "prorsi", "prostochastics"],
+      tools: ["flow", "prorsi", "stochastics"],
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDk8ycfKMjvgZpGHQgFT3Hap6jl/hpiP//Z",
     },
     {
@@ -402,7 +413,7 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
       // DS Parallax. The countdown box beside price is not claimed.
       src: "/covers/screen/sessions-volume-v1.webp",
       title: "Session levels, session volume and four higher timeframes on one chart",
-      tools: ["pro-session-levels", "flow", "parallax"],
+      tools: ["asl", "flow", "parallax"],
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkTtBcAZ9MfWiTbn5RgE+lLH0ok6D60wP/2Q==",
     },
   ],

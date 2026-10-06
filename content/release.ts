@@ -1,14 +1,22 @@
-import { PRODUCTS, type Product, type Series } from "./products";
+import { PRODUCTS, VAULT, type Product, type Series } from "./products";
 import { SERIES, type SeriesInfo } from "./pricing";
 
 /**
- * The storefront, shelved by SERIES (the tiers of the 09-20 sheet): flagship
- * indicators, Pro Series panels, the Session levels pair (2026-09-30), the free
- * essentials, and the data utility.
- * Shelf membership is not declared here — it is each product's `series` in
- * content/products.ts. This file adds only the ART.
+ * WHERE EVERYTHING IS SHELVED (the lineup of 2026-10-05: paid and free apart).
+ * Membership is never declared here — it is each product's `series` in
+ * content/products.ts. This file sorts the series into the three places the
+ * site has, and adds the ART.
  *
- * ART — the 10-04 covers. Every product now wears ONE typeset box: the same
+ *   STORE_SHELVES     /products and the home lineup: the series sold one by
+ *                     one — flagship, Pro Series, the data utility.
+ *   COMPLETE_SHELVES  what DS Complete holds: those, plus the series that
+ *                     comes free with it and is not sold on its own (DS ASL,
+ *                     DS Toolkit). The ledger and the drawn chart read this,
+ *                     so neither can show a Free Vault product.
+ *   VAULT_PRODUCTS    the Free Vault, /free-vault: the free products, each
+ *                     with a page of its own under it.
+ *
+ * ART — the cover system. Every product wears ONE typeset box: the same
  * frame, the same type, one accent color of its own, and a drawing of what
  * that product puts on the chart, staged as a projected hologram (a glass plane
  * over an emitter, turned a few degrees). They are generated, not photographed — the
@@ -16,12 +24,19 @@ import { SERIES, type SeriesInfo } from "./pricing";
  * the layout and each product's line and hooks, motifs.py for the drawings).
  * Each is 1280x1600 (a 640x800 frame at 2x), transparent, the box at x 88..552,
  * y 58..748 of the frame over one baked soft shadow, so the shelf stays a row
- * of objects on ONE baseline. The 09-20 and 09-30 photographed covers they
- * replace are in Picture Studio's "Replaced pictures".
+ * of objects on ONE baseline.
  *
- * THE FOLDER IS NEW ON PURPOSE (/boxart/1004/). Assets are served with a
- * one-year immutable cache and Next's image optimiser keys on the URL, so a new
- * picture must live at a new path or returning visitors keep the old one.
+ * A NEW PICTURE LIVES AT A NEW PATH. Assets are served with a one-year
+ * immutable cache and Next's image optimiser keys on the URL, so returning
+ * visitors would keep an old cover under an old name.
+ *   /boxart/1004/  the 10-04 covers that did not change on 10-05.
+ *   /boxart/1005/  the 10-05 covers: the two new Pro Series panels, DS ASL, and
+ *                  every Free Vault box — the four new or renamed ones, and the
+ *                  five whose box printed the old series name in its corner.
+ *                  DS Toolkit's is toolkit-complete.webp: its corner reads
+ *                  "DS COMPLETE", like DS ASL's. (The first 10-05 render,
+ *                  toolkit.webp, printed "FREE VAULT" and was moved out of the
+ *                  repo the same day, before anything was pushed.)
  */
 
 /** Cover frame, width / height. Every tile and the grid read this one number. */
@@ -29,9 +44,8 @@ export const COVER_RATIO = 4 / 5;
 
 /**
  * One box per product, by slug. A LIST, not a formula, so a single cover can
- * be re-exported under a new filename without touching the others (one-year
- * immutable asset cache: a new picture needs a new path). Picture Studio
- * (LOCAL3001 Picture Updates) edits this list; so can a person.
+ * be re-exported under a new filename without touching the others. Picture
+ * Studio (LOCAL3001 Picture Updates) edits this list; so can a person.
  */
 export const BOXART: Record<string, string> = {
   "zones": "/boxart/1004/zones.webp",
@@ -40,26 +54,37 @@ export const BOXART: Record<string, string> = {
   "gex": "/boxart/1004/gex.webp",
   "flow": "/boxart/1004/flow.webp",
   "prorsi": "/boxart/1004/prorsi.webp",
-  "prostochastics": "/boxart/1004/prostochastics.webp",
-  "prosqueeze": "/boxart/1004/prosqueeze.webp",
+  "proliquidityhunter": "/boxart/1005/proliquidityhunter.webp",
+  "proheikinashi": "/boxart/1005/proheikinashi.webp",
   "protrendrange": "/boxart/1004/protrendrange.webp",
-  "adaptive-priceline": "/boxart/1004/adaptive-priceline.webp",
-  "chart-price": "/boxart/1004/chart-price.webp",
-  "ds-258": "/boxart/1004/ds-258.webp",
-  "parallax": "/boxart/1004/parallax.webp",
-  "toolkit": "/boxart/1004/toolkit.webp",
   "bulk-replay-downloader": "/boxart/1004/bulk-replay-downloader.webp",
-  "session-levels": "/boxart/1004/session-levels.webp",
-  "pro-session-levels": "/boxart/1004/pro-session-levels.webp",
+  "asl": "/boxart/1005/asl.webp",
+  "toolkit": "/boxart/1005/toolkit-complete.webp",
+  "adaptive-priceline": "/boxart/1005/adaptive-priceline.webp",
+  "chart-price": "/boxart/1005/chart-price.webp",
+  "ds-258": "/boxart/1005/ds-258.webp",
+  "parallax": "/boxart/1005/parallax.webp",
+  "session-levels": "/boxart/1005/session-levels.webp",
+  "stochastics": "/boxart/1005/stochastics.webp",
+  "squeeze": "/boxart/1005/squeeze.webp",
+  "macd": "/boxart/1005/macd.webp",
+  "vwap": "/boxart/1005/vwap.webp",
 };
 
-export const boxartFor = (slug: string) => BOXART[slug] ?? `/boxart/1004/${slug}.webp`;
+/** Every product has its box in the list — a missing one stops the build
+ *  rather than requesting a picture that is not there. */
+export const boxartFor = (slug: string) => {
+  const art = BOXART[slug];
+  if (!art) throw new Error(`content/release.ts: no box art listed for "${slug}".`);
+  return art;
+};
+for (const p of PRODUCTS) boxartFor(p.slug);
 
 /**
  * COVERS THAT ARE STAND-INS. A new product can be previewed on localhost
  * before its cover exists; it must never go live that way. While a slug is
- * listed here `next build` for production stops with the reason. Empty since
- * 2026-10-04: every product has its cover from the cover system.
+ * listed here `next build` for production stops with the reason. Empty: every
+ * product has its cover from the cover system.
  * (`DS_PREVIEW_BUILD=1 npm run build` builds anyway — for checking, not for
  * deploying; Hostinger never sets it.)
  */
@@ -74,29 +99,57 @@ if (PLACEHOLDER_ART.length && process.env.NODE_ENV === "production" && process.e
 export type Shelf = { info: SeriesInfo; products: Product[] };
 
 /**
- * A NEW SERIES LEADS THE STORE for a while (Tom, 2026-09-30: the Session levels
- * pair sits straight under DS Complete, where the Founders gift is seen beside
- * the offer it comes with). Set to null when it is no longer new: the panel
- * drops back to its catalogue place (content/pricing.ts SERIES — after the Pro
- * Series) and the thread loses its "New" label. Nothing else changes.
+ * A NEW SERIES CAN LEAD THE STORE for a while (as the Session levels pair did
+ * from 2026-09-30 to 2026-10-05). Name a store series here and its panel moves
+ * straight under DS Complete with "New" on its thread; null = catalogue order.
  */
-export const NEW_SERIES: Series | null = "sessions";
+export const NEW_SERIES: Series | null = null;
 
-const CATALOGUE_SHELVES: Shelf[] = SERIES.map((info) => ({
+const ALL_SHELVES: Shelf[] = SERIES.map((info) => ({
   info,
   products: PRODUCTS.filter((p) => p.series === info.key),
 })).filter((s) => s.products.length > 0);
 
-/** The shelves in the order the store runs them. */
-export const SHELVES: Shelf[] = [
+/** The series a visitor can buy from one by one, in catalogue order. */
+const STORE_KEYS: readonly Series[] = ["flagship", "pro", "utility"];
+/** The series whose products come free with DS Complete and are not sold on their own. */
+const EXCLUSIVE_KEYS: readonly Series[] = ["exclusive"];
+
+const CATALOGUE_SHELVES = ALL_SHELVES.filter((s) => STORE_KEYS.includes(s.info.key));
+
+/** The store's shelves in the order the store runs them. */
+export const STORE_SHELVES: Shelf[] = [
   ...CATALOGUE_SHELVES.filter((s) => s.info.key === NEW_SERIES),
   ...CATALOGUE_SHELVES.filter((s) => s.info.key !== NEW_SERIES),
 ];
 
-/** The shelves in catalogue order — the DS Complete ledger reads this. */
-export const CATALOGUE_ORDER: Shelf[] = CATALOGUE_SHELVES;
+/** What DS Complete holds, in catalogue order — the ledger and the drawn chart read this. */
+export const COMPLETE_SHELVES: Shelf[] = ALL_SHELVES.filter(
+  (s) => STORE_KEYS.includes(s.info.key) || EXCLUSIVE_KEYS.includes(s.info.key),
+);
+export const COMPLETE_PRODUCTS: Product[] = COMPLETE_SHELVES.flatMap((s) => s.products);
+export const inComplete = (slug: string) => COMPLETE_PRODUCTS.some((p) => p.slug === slug);
 
+/** The Free Vault, in the sheet's order. */
+export const VAULT_PRODUCTS: Product[] = PRODUCTS.filter((p) => p.series === VAULT);
+/** Everything with a page under /products. */
+export const STORE_PRODUCTS: Product[] = PRODUCTS.filter((p) => p.series !== VAULT);
+
+/* Every series is in exactly one place. A new key in content/products.ts that
+   nobody shelved stops the build instead of quietly vanishing from the site. */
+for (const s of ALL_SHELVES) {
+  const k = s.info.key;
+  const places = [STORE_KEYS.includes(k), EXCLUSIVE_KEYS.includes(k), k === VAULT].filter(Boolean).length;
+  if (places !== 1) throw new Error(`content/release.ts: the "${k}" series is shelved in ${places} places; it must be in exactly one.`);
+}
+
+/** The Free Vault's own address, and each product's page — the ONE place a product URL is made. */
+export const VAULT_PATH = "/free-vault";
+export const STORE_PATH = "/products";
 const bySlug = new Map(PRODUCTS.map((p) => [p.slug, p]));
+export const productHref = (slug: string) =>
+  `${bySlug.get(slug)?.series === VAULT ? VAULT_PATH : STORE_PATH}/${slug}`;
+
 export const resolveProduct = (slug: string): Product | undefined => bySlug.get(slug);
 
 /** Everything with a public page — the whole catalogue. */

@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { COVER_RATIO, boxartFor, resolveProduct } from "@/content/release";
-import { GIFT, priceFor } from "@/content/pricing";
-import { buyHref, buyLabel, listingFor, purchaseKey } from "@/content/whop";
+import { COVER_RATIO, boxartFor, productHref, resolveProduct } from "@/content/release";
+import { WITH_BUNDLE, priceFor } from "@/content/pricing";
+import { PENDING_NOTE, buyHref, buyLabel, isPending, listingFor, purchaseKey } from "@/content/whop";
 import { PriceFigure } from "@/components/Price";
 import { TrialMark } from "@/components/Trial";
 import { Arrow } from "@/components/ui/Arrow";
@@ -34,14 +34,33 @@ import { TRIAL, trialHref } from "@/content/trial";
  * light pool behind the box) needs its own stacking context, so it lives on a
  * layer INSIDE the frame, never on the frame itself (2026-09-21).
  */
-export function BoxCard({ slug, priority = false, bare = false }: { slug: string; priority?: boolean; bare?: boolean }) {
+export function BoxCard({
+  slug,
+  priority = false,
+  bare = false,
+  lead = false,
+}: {
+  slug: string;
+  priority?: boolean;
+  bare?: boolean;
+  /**
+   * THE LEAD TILE of a two-column phone grid that holds an odd number of boxes
+   * (the Free Vault's nine, 2026-10-05). Below 640px it takes the whole first
+   * row: its box stays in the first column at exactly the size of every other
+   * box, and its words move into the second column beside it, with two of the
+   * product's own hooks — so the grid has no empty cell and no tile left alone
+   * on the last row. From 640px it is an ordinary tile.
+   */
+  lead?: boolean;
+}) {
   const p = resolveProduct(slug);
   if (!p) return null;
   const price = priceFor(slug);
-  // A product that comes only with DS Complete is bought as DS Complete
-  // (content/whop.ts purchaseKey): its hover button says "Get DS Complete".
+  // A product that comes free with DS Complete (DS ASL, DS Toolkit) is had by
+  // buying DS Complete (content/whop.ts purchaseKey): its hover button says
+  // "Get DS Complete".
   const listing = listingFor(purchaseKey(slug));
-  const gift = !!price?.withComplete;
+  const exclusive = !!price?.withComplete;
   // THE 3-DAY FREE TRIAL (2026-09-29, content/trial.ts). A trial product's
   // hover action is the trial — the lower step for someone still browsing; the
   // product page carries "Buy now" as before. The tile also carries one legend
@@ -51,7 +70,7 @@ export function BoxCard({ slug, priority = false, bare = false }: { slug: string
   const sizes = "(min-width: 1024px) 220px, (min-width: 768px) 30vw, (min-width: 640px) 45vw, 90vw";
 
   return (
-    <div className="group relative w-full min-w-0">
+    <div className={`group relative w-full min-w-0 ${lead ? "max-sm:col-span-2 max-sm:grid max-sm:grid-cols-2 max-sm:items-end max-sm:gap-x-5" : ""}`}>
       <div className="relative" style={{ aspectRatio: String(COVER_RATIO) }}>
         <div className="spotlight absolute inset-0">
           <div className="absolute inset-0 transition-transform duration-500 ease-silk group-hover:-translate-y-1.5">
@@ -81,9 +100,9 @@ export function BoxCard({ slug, priority = false, bare = false }: { slug: string
       {/* `bare` drops the label where the page around the tile already says
           all of it (the single-product shelf). */}
       {!bare && (
-        <div className="mt-2 px-0.5">
+        <div className={`mt-2 px-0.5 ${lead ? "max-sm:mt-0 max-sm:pb-[7%]" : ""}`}>
           {/* The name never cuts off on a phone (2026-09-30 mobile scan:
-              "DS Pro Session Le…", "DS Adaptive Price Li…"). Below 640px it
+              "DS Adaptive Price Li…"). Below 640px it
               may take two lines and every tile reserves both, so the
               category and the price row stay on one baseline across the
               row; from 640px it is one line, as before. */}
@@ -91,36 +110,59 @@ export function BoxCard({ slug, priority = false, bare = false }: { slug: string
             {p.name}
           </span>
           <span className="mt-1 block truncate text-[12px] text-mute">{p.category}</span>
+          {/* The lead tile's second column has the room a tile does not: two
+              of the product's own hooks, phones only. */}
+          {lead && (
+            <span className="mt-3 hidden space-y-1.5 text-[12.5px] leading-snug text-slate max-sm:block" aria-hidden="true">
+              {p.hooks.slice(0, 2).map((h) => (
+                <span key={h} className="block text-pretty">
+                  {h}
+                </span>
+              ))}
+            </span>
+          )}
           {/* The price, set rather than decorated (2026-09-27): a hairline, the
               figure in the display face, and an arrow that says the box opens.
               No pill — Tom: "cheap looking circled prices". */}
-          <span className="mt-3 flex items-center justify-between border-t border-line pt-3">
+          <span className="mt-3 flex items-start justify-between gap-2 border-t border-line pt-3">
             <PriceFigure price={price} />
-            <Arrow className="text-mute transition-all duration-300 ease-silk group-hover:translate-x-0.5 group-hover:text-gold-deep" />
+            <Arrow className="shrink-0 text-mute transition-all duration-300 ease-silk group-hover:translate-x-0.5 group-hover:text-gold-deep" />
           </span>
-          {/* The trial legend. The short form below 400px, where a tile is
-              ~125px wide and the full phrase would not fit on one line. */}
+          {/* The trial legend. The short form below 440px, where a tile is
+              under ~160px wide and the full phrase would not fit on one line
+              (at 400px it wrapped to two — seen in the 2026-10-05 phone shots). */}
           {trial && (
             <span className="mt-2.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-bull-text" aria-hidden="true">
               <TrialMark />
-              <span className="min-[400px]:hidden">{TRIAL.short}</span>
-              <span className="hidden min-[400px]:inline">{TRIAL.label}</span>
+              <span className="min-[440px]:hidden">{TRIAL.short}</span>
+              <span className="hidden min-[440px]:inline">{TRIAL.label}</span>
             </span>
           )}
-          {/* The Founders gift (2026-09-30): the same legend line, in gold —
-              the thread's node, then its name. */}
-          {gift && (
+          {/* Its Whop listing does not exist yet (content/whop.ts
+              PENDING_LISTING): said on the tile, so nobody opens the page
+              expecting a button. Never seen live — a production build stops
+              while anything is pending. */}
+          {isPending(slug) && (
+            <span className="mt-2.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-mute" aria-hidden="true">
+              <span className="h-px w-3 shrink-0 bg-line-strong" />
+              {PENDING_NOTE.label}
+            </span>
+          )}
+          {/* Free with DS Complete: the price row above already says it in
+              full (components/Price.tsx), so the legend line under it carries
+              the other half — in gold, the thread's node, then its words. */}
+          {exclusive && (
             <span className="mt-2.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-gold" aria-hidden="true">
               <span className="h-[6px] w-[6px] shrink-0 rotate-45 border border-gold" />
-              {GIFT.label}
+              {WITH_BUNDLE.short}
             </span>
           )}
         </div>
       )}
 
       {/* The whole tile is the link to our page; the buy button sits above it. */}
-      <Link href={`/products/${p.slug}`} className="absolute inset-0 z-10 rounded-xl">
-        <span className="sr-only">{`${p.name} — ${p.category}${trial ? ` — ${TRIAL.label} available` : ""}${gift ? ` — ${GIFT.line}` : ""}`}</span>
+      <Link href={productHref(p.slug)} className="absolute inset-0 z-10 rounded-xl">
+        <span className="sr-only">{`${p.name} — ${p.category}${trial ? ` — ${TRIAL.label} available` : ""}${exclusive ? ` — ${WITH_BUNDLE.line}` : ""}${isPending(slug) ? ` — ${PENDING_NOTE.label.toLowerCase()}` : ""}`}</span>
       </Link>
     </div>
   );

@@ -1,8 +1,8 @@
 "use client";
 
 import { createContext, useContext, useState, type ReactNode } from "react";
-import { PRODUCTS, type Series } from "@/content/products";
-import { SERIES } from "@/content/pricing";
+import type { Series } from "@/content/products";
+import { COMPLETE_SHELVES } from "@/content/release";
 
 /**
  * The shared state of the DS Complete panel: which part of the lineup is being
@@ -17,9 +17,10 @@ import { SERIES } from "@/content/pricing";
  * flickers along with the tour.
  */
 export type { Series } from "@/content/products";
-/** The build runs in the list's own order (the catalogue's — content/pricing.ts
- *  SERIES), so each step lights its row. */
-export const BUILD_ORDER: Series[] = SERIES.map((s) => s.key).filter((k) => PRODUCTS.some((p) => p.series === k));
+/** The build runs in the list's own order — the series DS Complete holds
+ *  (content/release.ts COMPLETE_SHELVES), so each step lights its row. The
+ *  Free Vault is not among them: nothing free is drawn as part of the bundle. */
+export const BUILD_ORDER: Series[] = COMPLETE_SHELVES.map((s) => s.info.key);
 
 export type Focus = { series: Series; slug?: string; source: "hover" | "tap" | "tour" } | null;
 
@@ -49,6 +50,6 @@ export function built(series: Series, step: number) {
 }
 
 /** Every product in the list's order: series by series, as the shelves run. */
-export const SEQUENCE: { slug: string; series: Series }[] = BUILD_ORDER.flatMap((s) =>
-  PRODUCTS.filter((p) => p.series === s).map((p) => ({ slug: p.slug, series: s })),
+export const SEQUENCE: { slug: string; series: Series }[] = COMPLETE_SHELVES.flatMap((s) =>
+  s.products.map((p) => ({ slug: p.slug, series: s.info.key })),
 );

@@ -1,15 +1,21 @@
 import { Fragment } from "react";
 import { CompleteKeystone } from "@/components/CompleteKeystone";
 import { Shelf } from "@/components/Shelf";
-import { SessionPair } from "@/components/SessionPair";
 import { Reveal } from "@/components/ui/Reveal";
-import { NEW_SERIES, SHELVES } from "@/content/release";
+import { NEW_SERIES, STORE_SHELVES } from "@/content/release";
 import { CATALOGUE } from "@/content/site";
 
 /**
- * The storefront: every product, shelved by series, each tile priced and each
- * shelf buyable. Used on the home page (with the heading, covers only) and on
- * /products (heading rendered by the page, both views), so the two cannot drift.
+ * The storefront: DS Complete, then every PAID product, shelved by series,
+ * each tile priced and each shelf buyable. Used on the home page (with the
+ * heading, covers only) and on /products (heading rendered by the page, both
+ * views), so the two cannot drift.
+ *
+ * PAID ONLY (2026-10-05). The free products are not a shelf here any more:
+ * they are the Free Vault, a page of their own (/free-vault). DS ASL and DS
+ * Toolkit have no shelf either — they are shown inside DS Complete, which
+ * they come free with and which is the only way to get them.
+ * The shelves come from content/release.ts STORE_SHELVES.
  */
 export function Marketplace({
   withHeading = true,
@@ -37,19 +43,13 @@ export function Marketplace({
           length of the thread. */}
       <div className={withHeading ? "mt-14 lg:mt-16" : ""}>
         <CompleteKeystone />
-        {SHELVES.map((shelf, i) => (
+        {STORE_SHELVES.map((shelf, i) => (
           <Fragment key={shelf.info.key}>
             <Thread
               label={i === 0 ? "Inside DS Complete" : "Included"}
               isNew={shelf.info.key === NEW_SERIES}
             />
-            {/* The Session levels pair has its own panel: two boxes and the
-                Free | Pro sheet (2026-09-30). Every other series is a Shelf. */}
-            {shelf.info.key === "sessions" ? (
-              <SessionPair shelf={shelf} priority={i === 0} views={views} />
-            ) : (
-              <Shelf shelf={shelf} priority={i === 0} views={views} />
-            )}
+            <Shelf shelf={shelf} priority={i === 0} views={views} />
           </Fragment>
         ))}
       </div>

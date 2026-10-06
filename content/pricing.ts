@@ -8,15 +8,27 @@
  * ---------------------------------------------------------------------------
  * THE MODEL (Tom, 2026-09-20 — "DS LAUNCH 09-20"; supersedes the five packs)
  *
- *   · Every product is sold on its own, at one flat, permanent price.
+ *   · Every paid product is sold on its own, at one flat, permanent price.
  *   · Every paid indicator: $79.99, one payment (was shown as $99.99 -> $79.99
  *     until 2026-09-26; see below).
  *   · DS Bulk Replay Downloader: $29.99, 0% off, and it stays that way.
- *   · The chart essentials and the DS Toolkit rail: free.
- *   · DS Session Levels: free (2026-09-30). DS Pro Session Levels: NOT sold on
- *     its own — free with DS Complete (WITH_COMPLETE, and GIFT below).
- *   · ONE bundle, DS Complete: every product, 50% off what the paid ones cost
- *     bought one at a time. The pair adds $0 to that sum.
+ *   · ONE bundle, DS Complete: the paid products, DS ASL and DS Toolkit, 50%
+ *     off what the paid ones cost bought one at a time. DS ASL and DS Toolkit
+ *     are NOT sold on their own — each comes free with DS Complete
+ *     (WITH_COMPLETE, and WITH_BUNDLE below) and adds $0 to that sum.
+ *   · THE FREE VAULT (Tom, 2026-10-05): the free products stand apart. Each is
+ *     its own free listing and its own download; none is part of DS Complete.
+ *   · DS TOOLKIT (Tom, 2026-10-05, later the same day): "DS Toolkit will come
+ *     FREE with the purchase of DS Complete Bundle only, same as DS ASL." It
+ *     left the Free Vault; it has no listing and no download of its own.
+ *
+ * THE LINEUP OF 2026-10-05 (Master sheet, Pricing tab — its own checks: single
+ * prices sum to $749.90, DS Complete $374.95): DS ProLiquidityHunter and
+ * DS ProHeikinAshi joined the Pro Series at $79.99; DS Stochastics and
+ * DS Squeeze left it and are free; DS MACD is back, free; DS VWAP is new, free.
+ * Nine indicators at $79.99 + $29.99 is still $749.90, so DS Complete's
+ * arithmetic did not move. The six new Whop listings were wired the same
+ * night (content/whop.ts); nothing is pending.
  *
  * 2026-09-26: Tom took the $99.99 compare-at price off all nine indicator
  * listings on Whop (it had never been a price anyone paid — FTC 16 CFR 233.1),
@@ -24,13 +36,13 @@
  * only struck figure left anywhere is DS Complete's $749.90, which is the real
  * sum of the paid products. Re-read on Whop 2026-09-26.
  *
- * EVERY NUMBER BELOW WAS READ OFF THE LIVE WHOP LISTING on 2026-09-20, all
- * sixteen pages opened one by one (the listings were in waitlist mode):
+ * THE NUMBERS OF THE 09-20 LINEUP WERE READ OFF THE LIVE WHOP LISTINGS on
+ * 2026-09-20, every page opened one by one (the listings were in waitlist mode):
  *   nine paid indicators   $99.99 struck -> $79.99  (20% off)
  *   DS Complete            $749.90 struck -> $374.95 (50% off)
  *   DS Bulk Replay         $29.99, nothing crossed out (the old $37.49 anchor is
  *                          gone from Whop — re-checked 2026-09-25)
- *   five free products     "Free" on Whop
+ *   the free products      "Free" on Whop
  * RE-READ 2026-09-25 (store opened): every listing AND every direct checkout
  * shows exactly these numbers.
  *
@@ -52,9 +64,9 @@ export type Price =
   /** Free, permanently. Not a trial and not a stripped build. */
   | { free: true; withComplete?: undefined; list?: undefined; now?: undefined }
   | PaidPrice
-  /** Not sold on its own: it comes, at no charge, with DS Complete (2026-09-30,
-   *  DS Pro Session Levels). It adds nothing to APART and nothing to the
-   *  discount — it is a reason to choose the bundle. */
+  /** Not sold on its own: it comes free with DS Complete (DS ASL, DS Toolkit).
+   *  It adds nothing to APART and nothing to the discount — it is a reason to
+   *  choose the bundle. */
   | { withComplete: true; free?: undefined; list?: undefined; now?: undefined };
 
 /** A price somebody pays. Read this, never `!p.free` — there are three kinds. */
@@ -75,20 +87,24 @@ export const PRICES: Record<string, Price> = {
   flow: flat(79.99),
   // ---- Pro Series panels -----------------------------------------------
   prorsi: flat(79.99),
-  prostochastics: flat(79.99),
-  prosqueeze: flat(79.99),
-  protrendrange: flat(79.99), // 2026-10-04: took DS ProMACD's place, at its price
-  // ---- the session levels pair (2026-09-30, Master Sheet "Pricing" tab) --
-  "session-levels": FREE,
-  "pro-session-levels": WITH_COMPLETE,
+  proliquidityhunter: flat(79.99), // 2026-10-05
+  proheikinashi: flat(79.99), // 2026-10-05
+  protrendrange: flat(79.99),
   // ---- data utility — no discount, by rule --------------------------------
   "bulk-replay-downloader": flat(29.99),
-  // ---- free essentials -------------------------------------------------
+  // ---- free with DS Complete, not sold on their own ---------------------------
+  asl: WITH_COMPLETE,
+  toolkit: WITH_COMPLETE, // 2026-10-05: out of the Free Vault, into the bundle
+  // ---- the Free Vault ---------------------------------------------------
   "adaptive-priceline": FREE,
   "chart-price": FREE,
   "ds-258": FREE,
   parallax: FREE,
-  toolkit: FREE,
+  "session-levels": FREE,
+  stochastics: FREE,
+  squeeze: FREE,
+  macd: FREE,
+  vwap: FREE,
 };
 
 export const priceFor = (slug: string): Price | undefined => PRICES[slug];
@@ -125,27 +141,9 @@ export const SERIES: SeriesInfo[] = [
     key: "pro",
     short: "Pro Series",
     name: "Pro Series panels",
-    tagline: "The classic oscillators, rebuilt to say something about price.",
+    tagline: "One panel under your candles each, built to say something about price.",
     blurb:
-      "RSI, stochastics, the squeeze, and the trend with its pullbacks — each one a single locked-scale panel that turns its read into levels, named states and graded signals, decided on closed bars.",
-  },
-  {
-    // 2026-09-30. One free tool and its Pro tier, which comes only with DS
-    // Complete — shelved together so the step between them is plain to see.
-    key: "sessions",
-    short: "Sessions",
-    name: "Session levels",
-    tagline: "Every session's high and low, exactly where it happened — and, with DS Complete, the volume that built it.",
-    blurb:
-      "Asia, London and New York, each bracketed over exactly its own bars in its own color, its high and low carried forward until that session opens again. DS Session Levels is free for everyone. DS Pro Session Levels adds each session's volume profile and carries its POC forward as a level beside the high and low — it comes free with DS Complete and is not sold on its own.",
-  },
-  {
-    key: "essentials",
-    short: "Essentials",
-    name: "Free essentials",
-    tagline: "The chart, easier to read and easier to drive.",
-    blurb:
-      "The price line, the price readout, the Nasdaq level map, the higher-timeframe matrix and the rail that switches every DS indicator on and off. Free permanently — no trial clock, and nothing removed to make room for a paid version.",
+      "RSI crossovers left on the chart as levels, a liquidity map with measured reach odds, Heikin-Ashi with its flip level as a real price, and the trend with its pullbacks — each a single panel under your candles, decided on closed bars.",
   },
   {
     key: "utility",
@@ -154,6 +152,27 @@ export const SERIES: SeriesInfo[] = [
     tagline: "A Market Replay library, queued once and left to run.",
     blurb:
       "Queue every instrument and date you want and it fetches NinjaTrader's own replay data unattended, file by file, skipping the days you already have.",
+  },
+  {
+    // DS ASL and DS Toolkit. Not a shelf in the store: they are shown as part
+    // of DS Complete, which is the only way to get them (content/release.ts
+    // STORE_SHELVES). The name is the one label the site uses for both.
+    key: "exclusive",
+    short: "Free with DS Complete",
+    name: "Free with DS Complete",
+    tagline: "Advanced Session Levels, and the rail that switches every DS indicator on and off.",
+    blurb:
+      "DS ASL draws each session's volume profile inside its bracket and carries its POC forward as a level beside the high and low. DS Toolkit is one rail on the chart: every DS indicator as an on/off row, your drawing tools underneath. Each comes free with DS Complete and is not sold on its own.",
+  },
+  {
+    // THE FREE VAULT (2026-10-05). Its own page, /free-vault — never a shelf
+    // in the store and never part of DS Complete.
+    key: "vault",
+    short: "Free Vault",
+    name: "Free Vault",
+    tagline: "Free indicators and tools for NinjaTrader 8, each its own download.",
+    blurb:
+      "The price line, the price readout, the Nasdaq level map, the higher-timeframe matrix, the session levels, and the stochastics, squeeze, MACD and VWAP panels. Free permanently — no trial clock, and nothing removed to make room for a paid version.",
   },
 ];
 
@@ -174,6 +193,74 @@ export function seriesPrice(key: Series): Price | null {
 /* DS Complete — the only bundle.                                              */
 /* -------------------------------------------------------------------------- */
 
+/** "DS Zones, DS Iceberg and DS Flow" — the house list style, no serial comma. */
+const listOf = (names: string[]) =>
+  names.length < 2 ? (names[0] ?? "") : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+const namesIn = (key: Series) => PRODUCTS.filter((p) => p.series === key).map((p) => p.name);
+
+/**
+ * FREE WITH DS COMPLETE — the products that are not sold or offered on their
+ * own and come free with the bundle. Two of them, presented identically:
+ *
+ *   DS ASL      Advanced Session Levels (until 2026-10-05: DS Pro Session
+ *               Levels, presented as a "Founders gift").
+ *   DS Toolkit  the rail. Until 2026-10-05 a free download of its own; Tom:
+ *               "DS Toolkit will come FREE with the purchase of DS Complete
+ *               Bundle only, same as DS ASL."
+ *
+ * ONE WORDING for both, everywhere (Tom's standard, 2026-10-05):
+ *   label     "Free with DS Complete"
+ *   sentence  "comes free with DS Complete and is not sold on its own"
+ * Every mention on the site reads WITH_BUNDLE and BUNDLED: the lines in the
+ * DS Complete panel, the ledger marks, the product pages, the tiles and the
+ * FAQ. Nothing else types either phrase.
+ */
+export const WITH_BUNDLE = {
+  label: "Free with DS Complete",
+  /** After a product's name. */
+  line: "comes free with DS Complete and is not sold on its own",
+  /** The same sentence about several products at once. */
+  lineAll: "come free with DS Complete and are not sold on their own",
+  /** Beside the label where there is room for only a few words. */
+  short: "Not sold on its own",
+} as const;
+
+export type Bundled = {
+  slug: string;
+  name: string;
+  /** What it is, in a few words — said once beside the name. */
+  long: string;
+  /** In the DS Complete panel, after the name: what it adds. No full stop. */
+  panel: string;
+  /** Under the price on its own page: what a buyer needs to know before
+   *  checking out. A fact about that product, never a sales line. */
+  note: string;
+};
+
+export const BUNDLED: readonly Bundled[] = [
+  {
+    slug: "asl",
+    name: "DS ASL",
+    long: "Advanced Session Levels",
+    panel: "Advanced Session Levels: each session's volume profile and POC",
+    /** For people who already own DS Complete — its README's own promise. */
+    note: "Already own DS Complete? It is added to your license at no charge — update DS Complete to the version that includes it. Nothing to buy, nothing to send.",
+  },
+  {
+    slug: "toolkit",
+    name: "DS Toolkit",
+    long: "the rail that switches every DS indicator on a chart on and off",
+    panel: "one rail on the chart: every DS indicator on or off in one click, your drawing tools underneath",
+    /** Two copies of one assembly clash in NinjaTrader, so an earlier
+     *  stand-alone DS Toolkit has to go before DS Complete is imported. Kept
+     *  general on purpose: the steps are the DS Complete README's to give. */
+    note: "Installed an earlier DS Toolkit? It is inside DS Complete now, and two copies clash: remove the DS products you installed one by one, including an earlier DS Toolkit, and restart NinjaTrader before importing DS Complete. Its README walks you through it.",
+  },
+];
+export const bundledFor = (slug: string): Bundled | undefined => BUNDLED.find((b) => b.slug === slug);
+/** "DS ASL and DS Toolkit" — named from the list, so the sentence follows it. */
+export const BUNDLED_NAMES = listOf(BUNDLED.map((b) => b.name));
+
 export const COMPLETE = {
   key: "complete",
   name: "DS Complete",
@@ -181,17 +268,24 @@ export const COMPLETE = {
   now: 374.95,
   /** The struck-through figure on Whop. Must equal APART — checked below. */
   whopAnchor: 749.9,
-  blurb:
-    "Every DS Universe product — the flagship indicators, the Pro Series panels, the session levels, the data utility, and the free essentials with the rail that runs them — in one permanent license, with DS Pro Session Levels, which comes only with it.",
+  /**
+   * The sheet's own description of DS Complete (Product Details, 2026-10-05),
+   * with its typed counts left out and every product NAMED from the catalogue,
+   * so the sentence cannot go stale when the lineup changes.
+   */
+  blurb: `DS Complete is the whole paid DS Universe lineup, licensed once. It bundles the flagship indicators (${listOf(namesIn("flagship"))}), the Pro Series panels (${listOf(namesIn("pro"))}) and ${listOf(namesIn("utility"))}. ${BUNDLED_NAMES} ${BUNDLED.length > 1 ? WITH_BUNDLE.lineAll : WITH_BUNDLE.line}.`,
+  /** What DS Complete does NOT hold. (The sheet's sentence said "the free DS
+   *  Universe products"; it names the vault here, because two products now
+   *  come free WITH DS Complete and the two must not be confused.) */
+  apart: "The Free Vault products are not part of DS Complete: each is its own download and runs beside it.",
   /** The one line beside the DS Complete chart (CompleteKeystone.tsx). */
-  lede: "Every DS Universe product, built to run together on one chart — in one permanent license.",
-  /** The four hooks from the sheet, minus the count. */
+  lede: "Every paid DS Universe product, built to run together on one chart — in one permanent license.",
+  /** The sheet's hooks (its "$374.95 vs. $749.90 apart" is the panel's own price row, computed). */
   points: [
-    "Every product, one purchase",
-    "Every free essential included",
-    "DS Pro Session Levels, only in DS Complete",
-    "Each product keeps its own permanent license",
-    "Built to run together on one chart",
+    "Every paid product, one purchase",
+    `${BUNDLED_NAMES}, free with DS Complete`,
+    "Every product keeps its own permanent license",
+    "Built together, owned together",
   ],
   /** The box render — the Whop listing's art. The site shows the drawn chart instead (2026-09-29). */
   art: "/boxart/0920/complete-v2.webp",
@@ -204,9 +298,8 @@ export const COMPLETE = {
  *
  * ONE SWITCH. Every mention of the sale on the site reads this object: the
  * strip across the DS Complete panel, the "founders price" label, the
- * button's words, the /products price row and the line on every product page
- * (the note under the button was dropped on 2026-09-29 when the panel was
- * dialed down — the strip already says it). When the sale ends, set `active: false` (and update COMPLETE.now /
+ * button's words, the /products price row and the line on every paid product
+ * page. When the sale ends, set `active: false` (and update COMPLETE.now /
  * whopAnchor to the new Whop price) — nothing else needs touching.
  *
  * HONEST URGENCY. There is no end date, so there is no countdown and no date
@@ -222,30 +315,6 @@ export const FOUNDERS = {
   strip: "50% off DS Complete — the founders price won't last",
   /** The buy button's words while the store is open. */
   cta: "Buy at the founders price",
-} as const;
-
-/**
- * THE FOUNDERS GIFT (Tom, 2026-09-30): DS Pro Session Levels is free ONLY to
- * DS Complete buyers — "a little thank you to the Founders", at no cost. It is
- * inside the DS Complete archive, with its README and guides, and is not sold
- * on its own (its README, word for word: "It comes free with DS Complete, and
- * is not sold on its own").
- *
- * Every mention on the site reads this object: the gift line in the DS
- * Complete panel, its ledger mark, the Session levels panel, the product page,
- * the tile and the FAQ. While the Founders Sale runs it is named a Founders
- * gift; when FOUNDERS.active goes false it reads "Only in DS Complete" — the
- * product stays in DS Complete either way, so nothing else changes.
- */
-export const GIFT = {
-  slug: "pro-session-levels",
-  name: "DS Pro Session Levels",
-  label: FOUNDERS.active ? "Founders gift" : "Only in DS Complete",
-  /** After the product's name. */
-  line: "free with DS Complete, not sold on its own",
-  /** For people who already own DS Complete — its README's own promise. */
-  owners:
-    "Already own DS Complete? It is added to your license at no charge — update DS Complete to the version that includes it. Nothing to buy, nothing to send.",
 } as const;
 
 /** What the paid products cost bought one at a time. COMPUTED. */
@@ -275,8 +344,37 @@ for (const slug of Object.keys(PRICES)) {
     throw new Error(`content/pricing.ts: "${slug}" has a price but is not in the catalogue.`);
   }
 }
-if (!PRICES[GIFT.slug]?.withComplete) {
-  throw new Error(`content/pricing.ts: the Founders gift (${GIFT.slug}) must be priced WITH_COMPLETE.`);
+/* PAID AND FREE ARE KEPT APART (2026-10-05), and so is what comes with the
+   bundle. Three kinds of price, three places, each tied to the other both ways:
+     free            <=>  the "vault" series      (the Free Vault)
+     with DS Complete <=>  the "exclusive" series  (free with the bundle, no
+                                                   listing of its own)
+     a paid price    <=>  every other series      (the store)
+   So "free" can never drift back onto a store shelf or into DS Complete, and
+   a product that comes with the bundle can never be offered as a download of
+   its own (DS Toolkit was one until 2026-10-05). */
+for (const p of PRODUCTS) {
+  const price = PRICES[p.slug];
+  const free = !!price?.free;
+  if (free !== (p.series === "vault")) {
+    throw new Error(`content/pricing.ts: "${p.slug}" is ${free ? "free but not in the Free Vault" : "in the Free Vault but not free"}.`);
+  }
+  const bundled = !!price?.withComplete;
+  if (bundled !== (p.series === "exclusive")) {
+    throw new Error(
+      `content/pricing.ts: "${p.slug}" is ${bundled ? "priced WITH_COMPLETE but not in the \"exclusive\" series" : "in the \"exclusive\" series but not priced WITH_COMPLETE"}.`,
+    );
+  }
+  if (bundled !== BUNDLED.some((b) => b.slug === p.slug)) {
+    throw new Error(
+      `content/pricing.ts: "${p.slug}" ${bundled ? "comes free with DS Complete but has no entry in BUNDLED" : "is in BUNDLED but is not priced WITH_COMPLETE"}.`,
+    );
+  }
+}
+for (const b of BUNDLED) {
+  const p = PRODUCTS.find((x) => x.slug === b.slug);
+  if (!p) throw new Error(`content/pricing.ts: BUNDLED lists "${b.slug}", which is not in the catalogue.`);
+  if (p.name !== b.name) throw new Error(`content/pricing.ts: BUNDLED's name for "${b.slug}" no longer matches the catalogue's.`);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -289,13 +387,13 @@ export const money = (n: number) =>
 
 /** The single line a tile shows. */
 export const tilePrice = (p: Price | undefined) =>
-  !p ? "" : p.free ? "Free" : p.withComplete ? "With DS Complete" : money(p.now);
+  !p ? "" : p.free ? "Free" : p.withComplete ? WITH_BUNDLE.label : money(p.now);
 
 /**
  * How we sell, said once. NinjaTrader's vendor guidelines forbid superlatives,
  * which is just as well — these terms do not need one.
  */
-export const TERMS = [
+export const TERMS: { title: string; text: string; link?: { href: string; label: string } }[] = [
   {
     title: "One payment",
     text: "Buy a product once and it is yours. There is no subscription, no renewal and no clock running against you.",
@@ -305,11 +403,12 @@ export const TERMS = [
     text: "Every later version of what you bought, at no extra cost.",
   },
   {
-    title: "The essentials are free",
-    text: "The chart essentials, DS Session Levels and the DS Toolkit rail cost nothing, permanently. Not a trial, not a stripped build.",
+    title: "One bundle",
+    text: `DS Complete is every paid product at once, for half of what they cost bought separately. ${BUNDLED_NAMES} ${BUNDLED.length > 1 ? WITH_BUNDLE.lineAll : WITH_BUNDLE.line}.`,
   },
   {
-    title: "One bundle",
-    text: "DS Complete is every product at once, for half of what the paid ones cost bought separately — and the only way to get DS Pro Session Levels.",
+    title: "The Free Vault is separate",
+    text: "The Free Vault products are not in the store and not in DS Complete. Each is its own download, free permanently — not a trial, not a stripped build.",
+    link: { href: "/free-vault", label: "Open the Free Vault" },
   },
 ];

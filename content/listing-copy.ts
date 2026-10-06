@@ -2,23 +2,25 @@
  * The listing copy — the same words a buyer reads on Whop, on our own page.
  *
  * GENERATED from the "Whop Listings" tab of "DS Universe - Master Product &
- * Pricing Sheet" (DS LAUNCH 09-20). Do not hand-edit: change the sheet and
- * regenerate, so the store and the site never drift apart. The trailing
- * disclaimer each listing carries is dropped on purpose — the footer renders the
- * full risk, hypothetical performance and trademark disclosures on every page.
+ * Pricing Sheet" (updated 2026-10-05), split the way every entry is: the "✦"
+ * line is the hook, the next paragraph the lede, "◆" the heading, the four "▸"
+ * lines the points, and what follows the closing paragraphs. Do not hand-edit:
+ * change the sheet and regenerate, so the store and the site never drift apart.
+ * The trailing disclaimer each listing carries is dropped on purpose — the
+ * footer renders the full risk, hypothetical performance and trademark
+ * disclosures on every page.
  *
- * DS Complete's listing is NOT used on the site: it counts "nine paid tools" and
- * "four flagship indicators", and the lineup has ten paid products and five
- * flagships (the $749.90 it quotes is right — it is the ten). The site describes
- * Complete in its own words, in content/pricing.ts, without counts.
+ * DS ASL has NO Whop listing (it comes free with DS Complete and is not sold
+ * on its own), so its words are its shipped README's — its opening line, its
+ * "What you're looking at" table and "Good to know" — and its last line is the
+ * site's one sentence for a product that comes with the bundle.
+ * DS TOOLKIT comes free with DS Complete too (2026-10-05) and its own Whop
+ * listing is retired. Its entry keeps the listing's words about what the rail
+ * does, and ends on the same sentence as DS ASL's.
  *
- * 2026-10-04: DS ProTrendRange's listing took DS ProMACD's place (the sheet's
- * Whop Listings row was replaced the same day; DS ProMACD's copy is kept on the
- * sheet's "Parked" tab for its return as a free product).
- * 2026-10-01, made in the Master sheet too (Whop pasted by Tom), for the
- * DS Zones / DS Iceberg visual redesign (Build 2026-10-01):
- *   DS Zones    "dims to a dashed band" -> "dims to a dotted band"
- *   DS Iceberg  "carry a distinct accent border" -> "are drawn in cyan or magenta"
+ * DS Complete's listing is not used on the site: it prints prices and counts
+ * as text. The site describes DS Complete from content/pricing.ts, where every
+ * figure is computed and every product named from the catalogue.
  */
 export type ListingCopy = {
   /** The one-line opener. Set larger than body text. */
@@ -34,20 +36,6 @@ export type ListingCopy = {
 };
 
 export const LISTING: Record<string, ListingCopy> = {
-    "bulk-replay-downloader": {
-        "hook": "Building a replay library one instrument and one day at a time is an evening's work for a week of data.",
-        "lede": "This queues the whole job and shows a per-file progress list while it runs.",
-        "heading": "How a run works",
-        "points": [
-            "Add instruments, tick the ones you want, set a start and end date",
-            "Files land in NinjaTrader's own replay folder — Playback finds them automatically",
-            "Days you already have are skipped; a truncated file is re-fetched, not trusted",
-            "An older start date beyond NinjaTrader's ~90-day window is moved forward automatically"
-        ],
-        "close": [
-            "It supplies no data of its own and bypasses no platform limit — it only automates NinjaTrader's own download, in bulk."
-        ]
-    },
     "zones": {
         "hook": "Most zone tools draw a box and leave it. This one tracks what price does to it.",
         "lede": "Swing pivots, volume supply/demand and real order flow merge into one ranked map — and only the strongest few are drawn.",
@@ -133,33 +121,33 @@ export const LISTING: Record<string, ListingCopy> = {
             "Closed-bar decisions throughout — it does not repaint."
         ]
     },
-    "prostochastics": {
-        "hook": "One stochastic lane tells you overbought. Four lanes, latched together, tell you whether that means anything.",
-        "lede": "Fast, standard, slow and long stochastics share one panel, and a quad latch only arms when all four sit at an extreme at once.",
-        "heading": "From an armed latch",
+    "proliquidityhunter": {
+        "hook": "Every liquidity tool draws the highs and lows price left behind. This one also says how likely price is to go back for each — and keeps score.",
+        "lede": "Every swing extreme price has not traded back through is mapped as a pool, over a line-on-close view of price, and heated by the measured odds that price reaches it within the horizon — odds read from your own chart's history.",
+        "heading": "What the panel reads",
         "points": [
-            "ROTATION — the fastest lane turns back out of its extreme",
-            "PRIME — that rotation carries a same-direction divergence with it",
-            "PULLBACK — the slow lane holds a trend while the fast lane dips and turns",
-            "Confluence count shows how many lanes agree, lane by lane"
+            "POOLS — buy-side over the highs, sell-side under the lows, stacked when they coincide and ranked LOCAL, SWING or MAJOR",
+            "ODDS — COOL from 5%, WARM from 25%, HOT from 60%: probabilities, the same on every chart, with nothing to tune",
+            "TRACK RECORD — how often each tier was taken within the horizon, measured on the chart in front of you",
+            "SWEPT or RUN — the verdict on a taken pool, given on the next close; a swept MAJOR pool is marked on price"
         ],
         "close": [
-            "Divergence runs independently on every lane from confirmed pivots, marked on the panel and on the price chart. The panel's Y-axis locks, so a chart drag can never misalign the four lanes.",
+            "It measures reach — distance and time — and marks a precisely defined event. It does not see resting orders, and it is not a forecast of direction. It reads price only, on any instrument, timeframe and bar type.",
             "Closed-bar decisions throughout — it does not repaint."
         ]
     },
-    "prosqueeze": {
-        "hook": "Knowing a squeeze is on is the easy part. Knowing whether the fire is worth trusting is the part that matters.",
-        "lede": "Compression reads as one continuous number, not a dot — COILING, SQUEEZE and DEEP are thresholds on top of it — and every fire is graded the moment it happens, not just flagged.",
-        "heading": "What grades a fire",
+    "proheikinashi": {
+        "hook": "A Heikin-Ashi chart shows the trend and hides the price. Its candles are averages, so nothing on it is a price that traded.",
+        "lede": "DS ProHeikinAshi leaves your candlestick chart alone and draws the Heikin-Ashi candle in a panel under it, with the one thing a Heikin-Ashi chart cannot show: the price at which its color flips.",
+        "heading": "What the panel reads",
         "points": [
-            "ADX and two wave horizons produce PRIME down to BARE, or AGAINST FLOW",
-            "EARLY marks the fastest wave hooking toward the others before the fire prints",
-            "TTM momentum drawn as a line, normalized by ATR, over a tier-colored centerline",
-            "A reversion setup arms — with a defined target and 1:1 risk — only when there is no squeeze and no running fire"
+            "FLIP LEVEL — the price the next bar's average must finish beyond for the color to change, drawn on your price chart as a rail",
+            "CUSHION — how far the close stands clear of it, in the chart's own unit: FLIP PENDING, HOLDING or FIRM",
+            "FLIP ODDS — how often a candle with this cushion flipped on the next bar, from a measured table that then learns your chart",
+            "Two higher-timeframe candles as lanes, built from the chart's own bars with no second data series"
         ],
         "close": [
-            "Two playbooks that never compete for your attention on the same bar. The panel's Y-axis locks, so a chart drag can never distort the read.",
+            "No length, threshold or sensitivity to tune. A Heikin-Ashi color describes the last few bars — measured, it did not say where price went next, and the panel is not a forecast. What can be measured is when the color ends.",
             "Closed-bar decisions throughout — it does not repaint."
         ]
     },
@@ -176,6 +164,35 @@ export const LISTING: Record<string, ListingCopy> = {
         "close": [
             "One sigma is one sigma on every instrument, timeframe and bar type, so there is no threshold to tune. It reads the state of the market and marks a precisely defined event — it is not a forecast. The panel's Y-axis locks, so a chart drag can never push the reading off its own scale.",
             "Closed-bar decisions throughout — it does not repaint."
+        ]
+    },
+    "bulk-replay-downloader": {
+        "hook": "Building a replay library one instrument and one day at a time is an evening's work for a week of data.",
+        "lede": "This queues the whole job and shows a per-file progress list while it runs.",
+        "heading": "How a run works",
+        "points": [
+            "Add instruments, tick the ones you want, set a start and end date",
+            "Files land in NinjaTrader's own replay folder — Playback finds them automatically",
+            "Days you already have are skipped; a truncated file is re-fetched, not trusted",
+            "An older start date beyond NinjaTrader's ~90-day window is moved forward automatically"
+        ],
+        "close": [
+            "It supplies no data of its own and bypasses no platform limit — it only automates NinjaTrader's own download, in bulk."
+        ]
+    },
+    "asl": {
+        "hook": "Every session's high and low, drawn exactly where the session started and finished — and inside each bracket, the volume that built it.",
+        "lede": "Everything DS Session Levels draws is here, unchanged. Inside every bracket it draws the session's volume profile — how much traded at each price — and turns the busiest price, the POC, into a level of its own. It sits behind your candles and never touches your price scale.",
+        "heading": "On the chart",
+        "points": [
+            "Thin bars inside the bracket — the session's volume at each price; the longest is the POC, the stronger bars the value area",
+            "A line from the longest bar — the POC as a level, dotted forward until the session opens again, faded once price trades at it",
+            "A thick bar or a hairline with a serif — an HVN, or the LVN, the thin place between two of them",
+            "A dotted spine — more than 5% of that profile was completed from 1-minute bars"
+        ],
+        "close": [
+            "No Tick Replay needed: the trade history is read in the background, and the chart never waits for it.",
+            "It comes free with DS Complete and is not sold on its own."
         ]
     },
     "adaptive-priceline": {
@@ -234,8 +251,6 @@ export const LISTING: Record<string, ListingCopy> = {
             "Run a level and close back inside, and the pool ghosts with a small cross at the sweep — the pattern worth seeing."
         ]
     },
-    // 2026-09-30 — from the sheet's Whop Listings tab, split the way every
-    // entry here is (✦ hook, lede, ◆ heading, ▸ points, closing line).
     "session-levels": {
         "hook": "Every session's high and low, drawn exactly where the session started and finished.",
         "lede": "Asia, London and New York each leave two prices behind. This draws them for you — each session as a short bracket over its own bars, in its own color, carried forward until it opens again and faded from the bar that closes through it.",
@@ -250,24 +265,6 @@ export const LISTING: Record<string, ListingCopy> = {
             "Free — add it to any intraday chart and the sessions are there."
         ]
     },
-    // DS Pro Session Levels has NO Whop listing (it comes only with DS
-    // Complete), so its words come from its shipped README instead — its
-    // opening line, its "What you're looking at" table and "Good to know".
-    "pro-session-levels": {
-        "hook": "Every session's high and low, drawn exactly where the session started and finished — and inside each bracket, the volume that built it.",
-        "lede": "Everything DS Session Levels draws is here, unchanged. Inside every bracket it draws the session's volume profile — how much traded at each price — and turns the busiest price, the POC, into a level of its own. It sits behind your candles and never touches your price scale.",
-        "heading": "On the chart",
-        "points": [
-            "Thin bars inside the bracket — the session's volume at each price; the longest is the POC, the stronger bars the value area",
-            "A line from the longest bar — the POC as a level, dotted forward until the session opens again, faded once price trades at it",
-            "A thick bar or a hairline with a serif — an HVN, or the LVN, the thin place between two of them",
-            "A dotted spine — more than 5% of that profile was completed from 1-minute bars"
-        ],
-        "close": [
-            "No Tick Replay needed: the trade history is read in the background, and the chart never waits for it.",
-            "It comes free with DS Complete, and is not sold on its own."
-        ]
-    },
     "toolkit": {
         "hook": "One rail on the chart: your indicators on top, your drawing tools below, chalk at the bottom.",
         "lede": "Turning an indicator off usually means a dialog, a checkbox and Apply. Here it is one click.",
@@ -279,7 +276,71 @@ export const LISTING: Record<string, ListingCopy> = {
             "Three real opacity looks — Solid genuinely blocks the chart, Frosted and Ghost let it through"
         ],
         "close": [
-            "Every drawing tool on your build appears for free, plus DS Chalk — a real drawing tool whose strokes pan, zoom and save with the workspace."
+            "Every drawing tool on your build appears for free, plus DS Chalk — a real drawing tool whose strokes pan, zoom and save with the workspace.",
+            "It comes free with DS Complete and is not sold on its own."
+        ]
+    },
+    "stochastics": {
+        "hook": "One stochastic lane tells you overbought. Four lanes, latched together, tell you whether that means anything.",
+        "lede": "Fast, standard, slow and long stochastics share one panel, and a quad latch only arms when all four sit at an extreme at once.",
+        "heading": "From an armed latch",
+        "points": [
+            "ROTATION — the fastest lane turns back out of its extreme",
+            "PRIME — that rotation carries a same-direction divergence with it",
+            "PULLBACK — the slow lane holds a trend while the fast lane dips and turns",
+            "Confluence count shows how many lanes agree, lane by lane"
+        ],
+        "close": [
+            "Divergence runs independently on every lane from confirmed pivots, marked on the panel and on the price chart. The panel's Y-axis locks, so a chart drag can never misalign the four lanes.",
+            "Closed-bar decisions throughout — it does not repaint.",
+            "Free — add it to a chart and all four lanes are there."
+        ]
+    },
+    "squeeze": {
+        "hook": "Knowing a squeeze is on is the easy part. Knowing whether the fire is worth trusting is the part that matters.",
+        "lede": "Compression reads as one continuous number, not a dot — COILING, SQUEEZE and DEEP are thresholds on top of it — and every fire is graded the moment it happens, not just flagged.",
+        "heading": "What grades a fire",
+        "points": [
+            "ADX and two wave horizons produce PRIME down to BARE, or AGAINST FLOW",
+            "EARLY marks the fastest wave hooking toward the others before the fire prints",
+            "TTM momentum drawn as a line, normalized by ATR, over a tier-colored centerline",
+            "A reversion setup arms — with a defined target and 1:1 risk — only when there is no squeeze and no running fire"
+        ],
+        "close": [
+            "Two playbooks that never compete for your attention on the same bar. The panel's Y-axis locks, so a chart drag can never distort the read.",
+            "Closed-bar decisions throughout — it does not repaint.",
+            "Free — add it to a chart and the squeeze read is there."
+        ]
+    },
+    "macd": {
+        "hook": "By the time a MACD cross prints, the bar that made it has already closed. This solves the price it will happen at first.",
+        "lede": "The close that crosses the signal line is worked out in closed form from the prior bar — exact on the Classic and PPO scales, within one bar's change in ATR on the default MACD-V scale — and shown as a rail on your price chart, a header chip and a panel target.",
+        "heading": "What makes the panel itself different",
+        "points": [
+            "MACD-V scale by default — real fixed zones on every instrument, not a self-rescaling axis",
+            "A six-state ribbon: RISK, RALLYING, RETRACING, RANGING, REBOUNDING, REVERSING",
+            "Four early layers — histogram slope-flip, pre-cross alarm, zero-line cross, ranging suppression",
+            "Divergence with a PENDING → CONFIRMED / BROKEN / EXPIRED lifecycle, not a static mark"
+        ],
+        "close": [
+            "The panel's Y-axis locks, so a chart drag can never push the reading off its own scale.",
+            "Closed-bar decisions throughout — it does not repaint.",
+            "Free — add it to a chart and the cross price is there."
+        ]
+    },
+    "vwap": {
+        "hook": "Where is value? There are two honest answers, and this panel draws both.",
+        "lede": "Value today is the session's VWAP. Value now is what the market has been paying lately. DS VWAP runs price as a line through a live band that follows it, keeps the session VWAP on the map as the anchor, and uses the chart's right-side margin to look forward.",
+        "heading": "Measured, not assumed",
+        "points": [
+            "A live VWAP on a volume clock — it forgets by contracts traded, not by minutes",
+            "Bands that hold half and nine in ten closes, learned from your own chart",
+            "The session VWAP with its own measured edges, the same line on every intraday chart",
+            "Reach contours and return odds in the margin, with the track record on screen"
+        ],
+        "close": [
+            "It measures where price stands and what a move would take. It does not claim that a stretch reverts or that it continues. Closed-bar decisions throughout — it does not repaint.",
+            "Free — add it to a chart and both VWAPs are there."
         ]
     }
 };

@@ -1,6 +1,6 @@
 import { FAQ } from "@/content/faq";
 import { marketsFor } from "@/content/markets";
-import { isPaid, money, priceFor } from "@/content/pricing";
+import { WITH_BUNDLE, isPaid, money, priceFor } from "@/content/pricing";
 import { PRODUCTS } from "@/content/products";
 import { SITE } from "@/content/site";
 import { TRIAL, hasTrial } from "@/content/trial";
@@ -25,7 +25,7 @@ export function Help() {
         p.slug,
         {
           name: p.name,
-          price: price?.free ? "Free" : price?.withComplete ? "Comes with DS Complete" : isPaid(price) ? `${money(price.now)}, one payment` : "",
+          price: price?.free ? "Free" : price?.withComplete ? `${WITH_BUNDLE.label} · ${WITH_BUNDLE.short.toLowerCase()}` : isPaid(price) ? `${money(price.now)}, one payment` : "",
           runs: marketsFor(p.slug)?.headline ?? "",
           trial: hasTrial(p.slug) ? TRIAL.label : "",
         },

@@ -2,7 +2,7 @@
  * MARKETS — which instruments each product is built on and runs on.
  *
  * GENERATED from the "Markets" tab of "DS Universe - Master Product & Pricing
- * Sheet" (added 2026-10-01). Do not hand-edit the entries: change the sheet's
+ * Sheet" (added 2026-10-01; regenerated 2026-10-05 for the new lineup). Do not hand-edit the entries: change the sheet's
  * source and regenerate, so the site and the sheet keep saying the same thing.
  *
  * WHY IT EXISTS (Tom, 2026-10-01): a buyer's first question is "does it work
@@ -18,7 +18,7 @@
  *    NinjaTrader charts: futures, stocks, forex, crypto.
  *  · Tools that read TRADED VOLUME and split it into buying and selling — by
  *    the bid/ask of each trade live, estimated from lower-timeframe bars on
- *    loaded history (DS Zones, DS Iceberg, DS Flow, DS Pro Session Levels) —
+ *    loaded history (DS Zones, DS Iceberg, DS Flow, DS ASL) —
  *    are for exchange-traded markets. Nothing in their code refuses a forex
  *    chart; it would draw a misleading read, which is why the page says no. NinjaTrader's support states it plainly: forex is not traded on
  *    a centralized exchange, "there is no tape available for Forex trades",
@@ -30,6 +30,9 @@
  *    SPY and GLD charts included — resolves to no market and draws nothing.
  *  · DS 258 ships as the Nasdaq map (Block size 100 points) and is moved to
  *    another market with that one setting.
+ *  · DS VWAP weighs each bar by its volume relative to the others, so it runs
+ *    on any feed; where no volume is reported its lines are time-weighted
+ *    averages, and the panel says so (the sheet's own footnote).
  *
  * "BUILT ON" is a statement of fact, not of performance: every chart on this
  * site is a Nasdaq futures chart, and the products' rules are judged on real
@@ -109,15 +112,15 @@ export const MARKETS: Record<string, Markets> = {
     builtOn: true,
     classes: { futures: true, stocks: true, forex: true, crypto: true },
   },
-  "prostochastics": {
+  "proliquidityhunter": {
     headline: "Any market NinjaTrader charts",
-    note: "Reads price only. A stochastic runs from 0 to 100 on every market, so nothing needs adjusting.",
+    note: "Reads price only. Pools are sized by the average true range and the heat tiers are probabilities, so both mean the same thing on every instrument, timeframe and bar type.",
     builtOn: true,
     classes: { futures: true, stocks: true, forex: true, crypto: true },
   },
-  "prosqueeze": {
+  "proheikinashi": {
     headline: "Any market NinjaTrader charts",
-    note: "Reads price only. Compression is Bollinger width over ATR — a ratio, with nothing tied to one market's point size.",
+    note: "Reads price only. The cushion is counted in the chart's own unit, so the same reading means the same thing on every instrument and timeframe. Use it on real bars: on NinjaTrader's Renko bars the cushion says little, and the panel says so.",
     builtOn: true,
     classes: { futures: true, stocks: true, forex: true, crypto: true },
   },
@@ -127,17 +130,22 @@ export const MARKETS: Record<string, Markets> = {
     builtOn: true,
     classes: { futures: true, stocks: true, forex: true, crypto: true },
   },
-  "session-levels": {
-    headline: "Any market NinjaTrader charts",
-    note: "Any intraday chart. Presets for the futures day, ICT killzones and forex sessions, on New York time by default.",
-    builtOn: true,
-    classes: { futures: true, stocks: true, forex: true, crypto: true },
+  "bulk-replay-downloader": {
+    headline: "What NinjaTrader's replay servers carry",
+    note: "It downloads NinjaTrader's own Market Replay files: roughly the last 90 days, for the instruments NinjaTrader serves. Futures days follow the front-month contract by default.",
+    builtOn: false,
   },
-  "pro-session-levels": {
+  "asl": {
     headline: "Futures and stocks",
     note: "The session profiles are built from traded volume. Forex and CFDs report none in NinjaTrader — DS Session Levels, the free one, is the tool for those.",
     builtOn: true,
     classes: { futures: true, stocks: true, forex: false, crypto: false },
+  },
+  "toolkit": {
+    headline: "Any chart",
+    note: "It works the chart, not the market: the rail lists whichever DS indicators are on that chart.",
+    builtOn: false,
+    classes: { futures: true, stocks: true, forex: true, crypto: true },
   },
   "adaptive-priceline": {
     headline: "Any market NinjaTrader charts",
@@ -163,16 +171,35 @@ export const MARKETS: Record<string, Markets> = {
     builtOn: true,
     classes: { futures: true, stocks: true, forex: true, crypto: true },
   },
-  "toolkit": {
-    headline: "Any chart",
-    note: "It works the chart, not the market: the rail lists whichever DS indicators are on that chart.",
-    builtOn: false,
+  "session-levels": {
+    headline: "Any market NinjaTrader charts",
+    note: "Any intraday chart. Presets for the futures day, ICT killzones and forex sessions, on New York time by default.",
+    builtOn: true,
     classes: { futures: true, stocks: true, forex: true, crypto: true },
   },
-  "bulk-replay-downloader": {
-    headline: "What NinjaTrader's replay servers carry",
-    note: "It downloads NinjaTrader's own Market Replay files: roughly the last 90 days, for the instruments NinjaTrader serves. Futures days follow the front-month contract by default.",
-    builtOn: false,
+  "stochastics": {
+    headline: "Any market NinjaTrader charts",
+    note: "Reads price only. A stochastic runs from 0 to 100 on every market, so nothing needs adjusting.",
+    builtOn: true,
+    classes: { futures: true, stocks: true, forex: true, crypto: true },
+  },
+  "squeeze": {
+    headline: "Any market NinjaTrader charts",
+    note: "Reads price only. Compression is Bollinger width over ATR — a ratio, with nothing tied to one market's point size.",
+    builtOn: true,
+    classes: { futures: true, stocks: true, forex: true, crypto: true },
+  },
+  "macd": {
+    headline: "Any market NinjaTrader charts",
+    note: "Reads price only. Its default MACD-V scale is volatility-normalized, so its zones sit at the same values on every instrument.",
+    builtOn: true,
+    classes: { futures: true, stocks: true, forex: true, crypto: true },
+  },
+  "vwap": {
+    headline: "Any market NinjaTrader charts",
+    note: "Both VWAPs are weighted by bar volume and built on one-minute bars, so they are the same lines on every intraday chart of an instrument. Where a feed reports no volume they become time-weighted averages, and the panel says so.",
+    builtOn: true,
+    classes: { futures: true, stocks: true, forex: true, crypto: true },
   },
 };
 
