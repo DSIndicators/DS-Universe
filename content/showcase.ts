@@ -53,8 +53,9 @@
  * (was prostochastics.*), DS Squeeze (was prosqueeze.*) and DS ASL (was
  * pro-session-levels.*). The files are the same recordings under their new
  * names, so each still shows its OLD name in the panel title or the chart's
- * indicator list — they are Tom's to re-record. DS MACD and DS VWAP have no
- * recording yet.
+ * indicator list — they are Tom's to re-record. DS MACD has no recording yet.
+ * DS VWAP's ("DS VWAP.mp4", 7334x4320 HEVC 60 fps, 30 s, black template,
+ * padded left and right in black, never cropped) went in on 2026-10-06.
  *
  * 2026-10-06 — DS ProLiquidityHunter and DS ProHeikinAshi (DS Media\\02
  * Products\\<name>), both 30 s, HEVC 60 fps, 4320 high and narrower than 16:9,
@@ -196,6 +197,16 @@ export const SHOWCASE: Record<string, Showcase> = {
   //   template. 1.70:1, so it is scaled to 1080 high and padded LEFT AND RIGHT to
   //   16:9 in black (its own outer columns are 1,1,1) — never cropped. It replaced
   //   the same day's light-template take (protrendrange.mp4), hence -v2.
+  "vwap": {
+    src: "/showcase/vwap.mp4",
+    srcSmall: "/showcase/vwap-sm.mp4",
+    poster: "/showcase/vwap-poster.webp",
+    w: 1920,
+    h: 1080,
+    seconds: 30,
+    caption: "A session playing out with DS VWAP: the live band and the session VWAP move under price, with the reach contours opening in the right margin.",
+    blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjsMf4T+VJtINOpWoA/9k=",
+  }, // ← DS VWAP.mp4
   "adaptive-priceline": {
     src: "/showcase/adaptive-priceline.mp4",
     srcSmall: "/showcase/adaptive-priceline-sm.mp4",
