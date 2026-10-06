@@ -53,8 +53,17 @@
  * (was prostochastics.*), DS Squeeze (was prosqueeze.*) and DS ASL (was
  * pro-session-levels.*). The files are the same recordings under their new
  * names, so each still shows its OLD name in the panel title or the chart's
- * indicator list — they are Tom's to re-record. DS ProLiquidityHunter,
- * DS ProHeikinAshi, DS MACD and DS VWAP have no recording yet.
+ * indicator list — they are Tom's to re-record. DS MACD and DS VWAP have no
+ * recording yet.
+ *
+ * 2026-10-06 — DS ProLiquidityHunter and DS ProHeikinAshi (DS Media\\02
+ * Products\\<name>), both 30 s, HEVC 60 fps, 4320 high and narrower than 16:9,
+ * so each is scaled to 1080 high and padded LEFT AND RIGHT in its own ground,
+ * never cropped: "DS ProLiquidityHunter Showcase Main.mp4" (7366x4320, black)
+ * and "DS ProHeikenAshi.mp4" (7188x4320, light template #E3E3E3; its 2-row
+ * black edge top and bottom is trimmed first so the pad joins cleanly).
+ * Both are Tom's to re-record: the first shows "DS Pro Session Levels" in the
+ * chart's indicator list, the second the earlier panel label "DS ProHeikenAshi".
  *
  * A re-exported recording gets NEW filenames (one-year immutable asset cache).
  * Picture Studio (LOCAL3001 Picture Updates) can replace these.
@@ -154,6 +163,26 @@ export const SHOWCASE: Record<string, Showcase> = {
     caption: "A session playing out with DS Squeeze: the squeeze panel builds and releases beneath price.",
     blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjcexox7U6kNAH/9k=",
   }, // ← DS ProSqueeze.mp4
+  "proliquidityhunter": {
+    src: "/showcase/proliquidityhunter.mp4",
+    srcSmall: "/showcase/proliquidityhunter-sm.mp4",
+    poster: "/showcase/proliquidityhunter-poster.webp",
+    w: 1920,
+    h: 1080,
+    seconds: 30,
+    caption: "A session playing out with DS ProLiquidityHunter: pools build over the highs and under the lows, and the odds ladder beside the panel re-ranks them as price moves.",
+    blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjtrdxmjac9MU9OtK33BTsB//Z",
+  }, // ← DS ProLiquidityHunter Showcase Main.mp4
+  "proheikinashi": {
+    src: "/showcase/proheikinashi.mp4",
+    srcSmall: "/showcase/proheikinashi-sm.mp4",
+    poster: "/showcase/proheikinashi-poster.webp",
+    w: 1920,
+    h: 1080,
+    seconds: 30,
+    caption: "A session playing out with DS ProHeikinAshi on a light chart: the panel's bars turn between teal and violet and the flip rails follow price.",
+    blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDpd4PcD3zSg5HBzSUq9/rQB//Z",
+  }, // ← DS ProHeikenAshi.mp4 (light template)
   "protrendrange": {
     src: "/showcase/protrendrange-v2.mp4",
     srcSmall: "/showcase/protrendrange-v2-sm.mp4",
