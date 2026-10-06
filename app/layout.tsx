@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Help } from "@/components/Help";
+import { DomGuard } from "@/components/DomGuard";
 import { NT_LINKS } from "@/content/ninjatrader";
 import { SITE } from "@/content/site";
 import "./globals.css";
@@ -74,6 +75,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // before hydration (components/StoreBar.tsx). It silences THIS element's
     // attributes only — nothing below it.
     <html lang="en" suppressHydrationWarning className={`${sans.variable} ${mono.variable} ${inter.variable}`}>
+      <head>
+        {/* Before React starts: keeps a TRANSLATED page from crashing the site
+            (components/DomGuard.tsx). */}
+        <DomGuard />
+      </head>
       <body className="flex min-h-screen flex-col antialiased">
         <a
           href="#main"

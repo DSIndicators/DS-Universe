@@ -616,15 +616,21 @@ export function CompleteChart({ className = "" }: { className?: string }) {
       <div className="hidden min-h-[40px] items-baseline gap-3 border-t border-line px-4 py-2.5 [@media(hover:hover)_and_(pointer:fine)]:flex" aria-live="polite">
         <span className="shrink-0 font-mono text-[9.5px] uppercase tracking-[0.16em] text-[#565D66]">Illustration</span>
         <span className="min-w-0 text-[12.5px] leading-snug text-slate">
+          {/* Each state is its own KEYED element, so React swaps elements and
+              never a bare text node — a page translator replaces text nodes,
+              and swapping one it had replaced is what crashed the site on
+              2026-10-06 (components/DomGuard.tsx). */}
           {focus?.slug ? (
-            <>
+            <span key={focus.slug}>
               <span className="mr-2 text-ink">{NAME_OF[focus.slug]}</span>
-              {DRAWS[focus.slug]}
-            </>
+              <span>{DRAWS[focus.slug]}</span>
+            </span>
           ) : focus ? (
-            COMPLETE_PRODUCTS.filter((p) => p.series === focus.series).map((p) => p.name).join(" · ")
+            <span key={`series-${focus.series}`}>
+              {COMPLETE_PRODUCTS.filter((p) => p.series === focus.series).map((p) => p.name).join(" · ")}
+            </span>
           ) : (
-            <span className="text-mute">Point at a product in the list to find its drawing.</span>
+            <span key="rest" className="text-mute">Point at a product in the list to find its drawing.</span>
           )}
         </span>
       </div>
