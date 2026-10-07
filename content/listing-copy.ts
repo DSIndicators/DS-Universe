@@ -216,6 +216,7 @@ export const LISTING: Record<string, ListingCopy> = {
         "heading": "Built in",
         "points": [
             "Nine placements on the price panel — top, middle or bottom; left, center or right",
+            "Mono color and Reduced motion modes for a calmer readout, with an opacity control",
             "Three price levels, each sounding once per approach with a real volume control",
             "Four tones synthesized in memory — no sound files to install",
             "Realtime only — never fires on history, chart load or while you scroll back"
