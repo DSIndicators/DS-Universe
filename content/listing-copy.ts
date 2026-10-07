@@ -203,7 +203,7 @@ export const LISTING: Record<string, ListingCopy> = {
         "points": [
             "A bar-close countdown riding the line, timezone-proof and correct across DST",
             "Counts down on Heiken-Ashi and Volumetric charts too",
-            "Glow, rounded caps and an anchor circle, painted behind the bars",
+            "Glow, rounded caps and an anchor bead seated on the candle, painted behind the bars",
             "Zero per-frame allocations, so it never lags"
         ],
         "close": [
