@@ -227,11 +227,11 @@ export const LISTING: Record<string, ListingCopy> = {
     },
     "ds-258": {
         "hook": "The four prices inside every Nasdaq hundred-point block, always on the chart.",
-        "lede": "29,000 · 29,020 · 29,050 · 29,080 · 29,100 — the 00, 20, 50 and 80 keep doing the work. This lays a line on every one in view, at an opacity you forget until price stops on it.",
-        "heading": "Built to disappear",
+        "lede": "29,000 · 29,020 · 29,050 · 29,080 · 29,100 — the 00, 20, 50 and 80 keep doing the work. This lays a line on every one in view, quietly behind your candles until price stops on it.",
+        "heading": "Built to stay out of the way",
         "points": [
             "Every 00/20/50/80 level in view, each in its own color",
-            "Opacity 7 by default — a whisper, not a wall",
+            "Quiet by default — clear at a glance, never a wall",
             "De-clutters automatically as you zoom out",
             "Nothing to calculate, nothing to configure"
         ],
@@ -240,8 +240,8 @@ export const LISTING: Record<string, ListingCopy> = {
         ]
     },
     "parallax": {
-        "hook": "Four higher timeframes, live, in the corner of the chart you actually trade.",
-        "lede": "30m, 1h, 2h and 4h — each with its own axis, candles and countdown to close. You never change your chart's own timeframe.",
+        "hook": "Four higher timeframes, live, on the chart you actually trade.",
+        "lede": "15m, 1h, 4h and 1D — each with its own axis, candles and countdown to close. You never change your chart's own timeframe.",
         "heading": "It marks one thing, properly",
         "points": [
             "BSL — buy stops resting above an unswept swing high",

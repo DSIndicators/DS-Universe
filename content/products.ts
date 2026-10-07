@@ -298,15 +298,15 @@ export const PRODUCTS: Product[] = [
         "kind": "indicator",
         "series": "vault",
         "category": "Key Levels",
-        "purpose": "A whisper-quiet map of the Nasdaq's 00/20/50/80 price levels, drawn across the whole visible chart so the levels NQ keeps reacting to are never in the way.",
+        "purpose": "A quiet map of the Nasdaq's 00/20/50/80 price levels, drawn across the whole visible chart so the levels NQ keeps reacting to are never in the way.",
         "hooks": [
             "Every 00/20/50/80 in view",
-            "Opacity 7, a whisper not a wall",
+            "Clear at a glance, never a wall",
             "Nothing to calculate or configure",
             "Its own color per level"
         ],
-        "helps": "Nasdaq futures move in hundred-point blocks, and the same four prices inside every block keep doing the work: the 00, the 20, the 50 and the 80. Drawing them by hand gets old fast. DS 258 lays a whisper-quiet line on every one of them across the visible chart, in its own color, at an opacity low enough to forget it's there — until price stops on one.",
-        "description": "DS 258 is a pure render-only overlay: on every frame it reads the chart's own price scale and lays a line across the full width of the price panel at every 00, 20, 50 and 80 level currently in view — no calculation, no lookback, nothing to configure beyond which families to show. Each of the four levels carries its own DS Universe color (gold for 00, blue for 20, platinum for 50, rose for 80) at a default opacity of 7, deliberately low enough that the map recedes into the chart until price actually reacts to one. Lines draw behind the candles by default and de-clutter automatically as you zoom out — the 20 and 80 families fade first, then the 50, so the chart never turns into a ladder of lines at wide zoom. Support in DS Toolkit covers all four level families from one row, including the mute and restore behavior the rest of the suite uses."
+        "helps": "Nasdaq futures move in hundred-point blocks, and the same four prices inside every block keep doing the work: the 00, the 20, the 50 and the 80. Drawing them by hand gets old fast. DS 258 lays a quiet line on every one of them across the visible chart, in its own color, behind your candles and out of the way — until price stops on one.",
+        "description": "DS 258 is a pure render-only overlay: on every frame it reads the chart's own price scale and lays a line across the full width of the price panel at every 00, 20, 50 and 80 level currently in view — no calculation, no lookback, nothing to configure beyond which families to show. Each of the four levels carries its own DS Universe color (gold for 00, blue for 20, platinum for 50, rose for 80) at a default opacity of 20: clear at a glance, and quiet enough that the map stays behind the chart until price actually reacts to one. On a light chart the default colors are drawn in deeper shades of the same hues, so the map reads there too. Lines draw behind the candles by default and de-clutter automatically as you zoom out — the 20 and 80 families fade first, then the 50, so the chart never turns into a ladder of lines at wide zoom. Support in DS Toolkit covers all four level families from one row, including the mute and restore behavior the rest of the suite uses."
     },
     {
         "slug": "parallax",
@@ -314,15 +314,15 @@ export const PRODUCTS: Product[] = [
         "kind": "indicator",
         "series": "vault",
         "category": "Multi-Timeframe Liquidity",
-        "purpose": "A multi-timeframe liquidity matrix: up to four live higher-timeframe charts in the corner of your chart, each marking exactly where the resting stops are.",
+        "purpose": "A multi-timeframe liquidity matrix: up to four live higher-timeframe charts on your chart, each marking exactly where the resting stops are.",
         "hooks": [
             "Four timeframes, one chart",
             "Buy-side and sell-side pools marked",
             "Touch count sets line weight",
             "Swept levels ghost out"
         ],
-        "helps": "You trade one timeframe. The structure that decides whether your trade works lives on others. DS Parallax puts up to four live higher-timeframe charts in the corner of the chart you're executing on — each with its own axis, candles and countdown to close — and marks the one thing that matters most on every one of them: where the resting stops are.",
-        "description": "DS Parallax draws up to four live higher-timeframe mini-charts (30m/1h/2h/4h by default) in the corner of your execution chart, each auto-scaled and running its own countdown to close, so the higher-timeframe pattern stays readable at a glance without ever changing your chart's own timeframe. Buy-side liquidity is marked just above unswept swing highs, sell-side just below unswept swing lows, and relative-equal highs and lows are clustered into a single level with a touch count — because more tests of a level means more stops resting beyond it, which is the only strength the engine can honestly claim. A pool is drawn only while it is live — no newer bar has traded through it, so there is no wait-N-bars pivot delay — and once price sweeps a level and closes back inside, it is ghosted with a small x at the sweep bar, because the sweep itself is the pattern worth recognizing; a level price closed through and held beyond was a breakout, and it is simply gone. A fold tab collapses the whole matrix for a clean chart without taking the indicator off."
+        "helps": "You trade one timeframe. The structure that decides whether your trade works lives on others. DS Parallax puts up to four live higher-timeframe charts on the chart you're executing on — each with its own axis, candles and countdown to close — and marks the one thing that matters most on every one of them: where the resting stops are.",
+        "description": "DS Parallax draws up to four live higher-timeframe mini-charts (15m/1h/4h/1D by default) on your execution chart, each auto-scaled and running its own countdown to close, so the higher-timeframe pattern stays readable at a glance without ever changing your chart's own timeframe. Buy-side liquidity is marked just above unswept swing highs, sell-side just below unswept swing lows, and relative-equal highs and lows are clustered into a single level with a touch count — because more tests of a level means more stops resting beyond it, which is the only strength the engine can honestly claim. A pool is drawn only while it is live — no newer bar has traded through it, so there is no wait-N-bars pivot delay — and once price sweeps a level and closes back inside, it is ghosted with a small x at the sweep bar, because the sweep itself is the pattern worth recognizing; a level price closed through and held beyond was a breakout, and it is simply gone. A fold tab collapses the whole matrix for a clean chart without taking the indicator off."
     },
     {
         "slug": "session-levels",
