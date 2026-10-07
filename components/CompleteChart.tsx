@@ -42,7 +42,7 @@ import { COMPLETE_PRODUCTS, STORE_SHELVES, productHref } from "@/content/release
  *              Oracle's Neural Line, violet to teal where price crosses it.
  *   Pro Series the four panels under price, titled the way NT8 titles panels:
  *              ProRSI — one line in a shaded 70/30 scale (and, on price, the
- *              level its crossover made, frozen where price closed through).
+ *              zone its turn made, ending where price closed through its far edge).
  *              ProLiquidityHunter — price as a line on close over its pools:
  *              a band from every swing extreme price has not traded back
  *              through, buy-side (teal) over the highs and sell-side (violet)
@@ -357,11 +357,14 @@ const HA_LANES = [haLane(3), haLane(6)];
 /** The flip level of the last closed bar — where the rail is drawn on price. */
 const HA_FLIP = HA[N - 1].flip;
 
-/* ProRSI's level on price: the swing high whose RSI crossover made it, drawn
-   right until price closes through it — and frozen there, as the product does. */
+/* ProRSI's zone on price: the far edge at the swing high whose turn made it, the
+   near edge a little inside, drawn right until price closes through the far edge
+   - and ended there, as the product does. */
 const RSI_HI = 2;
 const RSI_LVL = Math.max(cand[RSI_HI].h, 64.6);
 const RSI_FREEZE = closes.findIndex((c, i) => i > RSI_HI + 3 && c > RSI_LVL);
+/** The zone's near edge, in the tape's own price units. */
+const RSI_NEAR = RSI_LVL - 2.2;
 /** Two decimals: server and browser must print the same numbers (hydration). */
 /** DS ProTrendRange's own reading, taken on the drawn tape: signed efficiency
  *  over n changes — EMA(d) / sqrt(EMA(d²)) — scaled by sqrt(n) so two lengths
@@ -997,15 +1000,20 @@ function Drawing({ t, H, stripY, roomy }: { t: (n: number) => number; H: number;
         })()}
       </L>
 
-      {/* DS ProRSI on the price pane: the level its crossover made, anchored
-          to the swing high, drawn right until price closed through it — and
-          frozen there. */}
+      {/* DS ProRSI on the price pane: the zone its turn made - far edge at the
+          swing high, near edge inside it, strata between - drawn right until
+          price closed through the far edge. */}
       <L p="prorsi">
-        <line x1={xAt(RSI_HI)} x2={xAt(RSI_FREEZE)} y1={yP(RSI_LVL)} y2={yP(RSI_LVL)} stroke={VIOLET} strokeOpacity="0.85" />
-        <path d={dot(xAt(RSI_HI), yP(RSI_LVL), 1.8)} fill={VIOLET} />
+        <path d={box(xAt(RSI_HI), yP(RSI_LVL), xAt(RSI_FREEZE) - xAt(RSI_HI), yP(RSI_NEAR) - yP(RSI_LVL))} fill={VIOLET} fillOpacity="0.1" />
+        {[0.3, 0.55, 0.8].map((f) => (
+          <line key={f} x1={xAt(RSI_HI)} x2={xAt(RSI_FREEZE)} y1={r2(yP(RSI_LVL - f * (RSI_LVL - RSI_NEAR)))} y2={r2(yP(RSI_LVL - f * (RSI_LVL - RSI_NEAR)))} stroke={VIOLET} strokeOpacity="0.28" strokeWidth="0.5" />
+        ))}
+        <line x1={xAt(RSI_HI)} x2={xAt(RSI_FREEZE)} y1={yP(RSI_LVL)} y2={yP(RSI_LVL)} stroke={VIOLET} strokeOpacity="0.9" />
+        <line x1={xAt(RSI_HI)} x2={xAt(RSI_FREEZE)} y1={yP(RSI_NEAR)} y2={yP(RSI_NEAR)} stroke={VIOLET} strokeOpacity="0.45" strokeWidth="0.5" />
+        <line x1={xAt(RSI_HI)} x2={xAt(RSI_HI)} y1={yP(RSI_LVL) - 2} y2={yP(RSI_NEAR) + 2} stroke={VIOLET} />
         <line x1={xAt(RSI_FREEZE)} x2={xAt(RSI_FREEZE)} y1={yP(RSI_LVL) - 3} y2={yP(RSI_LVL) + 3} stroke={VIOLET} />
         <text x={xAt(RSI_HI) + 5} y={yP(RSI_LVL) - 3} className="font-mono" fontSize={t(5)} letterSpacing="0.8" fill={VIOLET}>
-          RSI LEVEL
+          RSI ZONE
         </text>
       </L>
       {PANELS.map(({ slug, h: ph }, k) => {

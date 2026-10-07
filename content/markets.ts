@@ -108,7 +108,7 @@ export const MARKETS: Record<string, Markets> = {
   },
   "prorsi": {
     headline: "Any market NinjaTrader charts",
-    note: "Reads price only. Its levels are spaced by ATR, so they scale to whatever market the chart is on.",
+    note: "Reads price and volume. Zone depth is bounded by ATR and volume is measured against the chart's own normal, so both scale to whatever market the chart is on. Where a market reports no volume it runs as a classic RSI.",
     builtOn: true,
     classes: { futures: true, stocks: true, forex: true, crypto: true },
   },

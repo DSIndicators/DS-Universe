@@ -107,17 +107,18 @@ export const LISTING: Record<string, ListingCopy> = {
         ]
     },
     "prorsi": {
-        "hook": "An RSI cross is a moment on an oscillator. This turns it into a level on your actual chart.",
-        "lede": "Every RSI/signal crossover is anchored to the swing that produced it, spaced from its neighbors by ATR, and left on the price panel as a level you can actually trade against.",
-        "heading": "How a level behaves",
+        "hook": "A classic RSI counts a quiet bar and a heavy bar the same. This one weighs each bar by its volume, and maps where the turns happened.",
+        "lede": "Each bar's move is weighted by its volume against what is normal for that minute of the day. When the RSI turns back from an extreme, the turn is left on your price chart as a zone: its far edge at the turn's extreme, its near edge where the nearest volume of the turn traded.",
+        "heading": "What a zone tells you",
         "points": [
-            "Tinted by how extreme the RSI was the moment it was born",
-            "Labeled with the exact RSI reading and a live touch count",
-            "Frozen to a thin gray trace the instant price closes through it",
-            "The panel's Y-axis locks, so dragging the chart can never distort the read"
+            "STRATA — five hairlines inside the zone, one at each sixth of its volume",
+            "PIPS — one, two or three lit on the flag, by the volume behind the turn against normal",
+            "REINFORCED — a later turn on the same ground strengthens the zone instead of stacking another",
+            "RECORD — zones HELD and zones BROKE, counted on the chart in front of you"
         ],
         "close": [
-            "Underneath, a full RSI panel: heat ribbon, shaded 30/70 zones, a segment-colored line, and the nearest support and resistance distance in points and percent.",
+            "Underneath, the RSI panel: the weighted line over a faint classic RSI, a heat ribbon, a volume strip, the distance to the nearest zones and the price at which the RSI would cross its signal.",
+            "A zone describes where momentum turned and where the volume traded. It is a map and a record, not a forecast.",
             "Closed-bar decisions throughout — it does not repaint."
         ]
     },

@@ -32,7 +32,7 @@ export const DRAWS: Record<string, string> = {
   oracle: "Neural Line — above it, look long; below it, look short",
   gex: "Dealer Gamma Map — Call Wall, Gamma Flip, Put Wall",
   flow: "Candle X-Ray — buy vs sell volume at every price, heavy rows flagged",
-  prorsi: "One RSI, its extremes shaded; its crossovers become levels on price",
+  prorsi: "A volume-weighted RSI, its extremes shaded; its turns become zones on price",
   proliquidityhunter: "Every resting pool mapped over a line on close — buy-side over the highs, sell-side under the lows, SWEPT or RUN on the next close",
   proheikinashi: "Heikin-Ashi under real candles, each standing on its own open; the flip level drawn on price as a real price",
   protrendrange: "Trend and swing on one scale — the pullback filled as a pocket, the state named bar by bar",
