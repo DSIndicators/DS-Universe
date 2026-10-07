@@ -143,7 +143,7 @@ export const SERIES: SeriesInfo[] = [
     name: "Pro Series panels",
     tagline: "One panel under your candles each, built to say something about price.",
     blurb:
-      "RSI crossovers left on the chart as levels, a liquidity map with measured reach odds, Heikin-Ashi with its flip level as a real price, and the trend with its pullbacks — each a single panel under your candles, decided on closed bars.",
+      "A volume-weighted RSI whose turns become zones on price, a liquidity map with measured reach odds, Heikin-Ashi with its flip level as a real price, and the trend with its pullbacks — each a single panel under your candles, decided on closed bars.",
   },
   {
     key: "utility",
