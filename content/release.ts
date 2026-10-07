@@ -37,6 +37,9 @@ import { SERIES, type SeriesInfo } from "./pricing";
  *                  "DS COMPLETE", like DS ASL's. (The first 10-05 render,
  *                  toolkit.webp, printed "FREE VAULT" and was moved out of the
  *                  repo the same day, before anything was pushed.)
+ *   /boxart/1007/  the 10-07 covers: DS ProRSI (v2.0 cover line, hooks and
+ *                  category) and DS 258 (its second hook no longer says
+ *                  Opacity 7). Same drawing, same layout; only the words.
  */
 
 /** Cover frame, width / height. Every tile and the grid read this one number. */
@@ -53,7 +56,7 @@ export const BOXART: Record<string, string> = {
   "oracle": "/boxart/1004/oracle.webp",
   "gex": "/boxart/1004/gex.webp",
   "flow": "/boxart/1004/flow.webp",
-  "prorsi": "/boxart/1004/prorsi.webp",
+  "prorsi": "/boxart/1007/prorsi.webp",
   "proliquidityhunter": "/boxart/1005/proliquidityhunter.webp",
   "proheikinashi": "/boxart/1005/proheikinashi.webp",
   "protrendrange": "/boxart/1004/protrendrange.webp",
@@ -62,7 +65,7 @@ export const BOXART: Record<string, string> = {
   "toolkit": "/boxart/1005/toolkit-complete.webp",
   "adaptive-priceline": "/boxart/1005/adaptive-priceline.webp",
   "chart-price": "/boxart/1005/chart-price.webp",
-  "ds-258": "/boxart/1005/ds-258.webp",
+  "ds-258": "/boxart/1007/ds-258.webp",
   "parallax": "/boxart/1005/parallax.webp",
   "session-levels": "/boxart/1005/session-levels.webp",
   "stochastics": "/boxart/1005/stochastics.webp",
