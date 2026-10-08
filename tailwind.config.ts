@@ -54,6 +54,11 @@ const config: Config = {
         // the trial strip (WCAG AA needs 4.5).
         bull: { DEFAULT: "#009999", strong: "#00FFFF", text: "#43CDC8" },
         bear: { DEFAULT: "#A33DFF", strong: "#FF00FF" },
+        // THE FREE VAULT's brass (2026-10-08, Tom: "the background should
+        // have hints of gold"). Not the store's gold: a quieter, warmer brass
+        // for hairlines, marks and small type in the vault only. DEFAULT
+        // #C9A55E measures 8.3:1 on the ground, `light` #E6CF9C 12.6:1.
+        vault: { DEFAULT: "#C9A55E", light: "#E6CF9C" },
       },
       fontFamily: {
         // Inter Tight for everything we say, JetBrains Mono for everything we

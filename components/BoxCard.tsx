@@ -7,6 +7,8 @@ import { PriceFigure } from "@/components/Price";
 import { TrialMark } from "@/components/Trial";
 import { Arrow } from "@/components/ui/Arrow";
 import { TRIAL, trialHref } from "@/content/trial";
+import { shotFor } from "@/content/loupe";
+import { Lens } from "@/components/Loupe";
 
 /**
  * One storefront tile: the box, then the name, what it is and what it costs —
@@ -39,6 +41,8 @@ export function BoxCard({
   priority = false,
   bare = false,
   lead = false,
+  chart = false,
+  chartWidth = 380,
 }: {
   slug: string;
   priority?: boolean;
@@ -52,6 +56,20 @@ export function BoxCard({
    * on the last row. From 640px it is an ordinary tile.
    */
   lead?: boolean;
+  /**
+   * THE CHART TILE (Tom, 2026-10-08: "i like the chart designs more, so we'll
+   * be moving to implement them to the products on the homepage"). In place
+   * of the box: the product's own NinjaTrader chart through the loupe
+   * (components/Loupe.tsx, in the store's gold), magnified where it does its
+   * work, pulling back to the whole chart on hover. Everything under it —
+   * name, category, price, the trial and DS Complete legends, the buy button
+   * on hover — is the same tile. A product without a picture in
+   * content/loupe.ts keeps its box.
+   */
+  chart?: boolean;
+  /** The chart frame's widest CSS width at 1024px+, so the magnified picture
+   *  is requested sharp (Shelf knows the column it sits in). */
+  chartWidth?: number;
 }) {
   const p = resolveProduct(slug);
   if (!p) return null;
@@ -69,8 +87,30 @@ export function BoxCard({
   const trial = trialHref(slug);
   const sizes = "(min-width: 1024px) 220px, (min-width: 768px) 30vw, (min-width: 640px) 45vw, 90vw";
 
+  const shot = chart ? shotFor(slug) : undefined;
+  const buyLink = listing && (
+    <a
+      href={trial ?? buyHref(listing)}
+      target="_blank"
+      rel="noopener"
+      className={
+        shot
+          ? "absolute bottom-[14px] left-1/2 z-20 hidden h-9 -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-md bg-ivory/95 px-4 text-[12.5px] font-medium text-ground opacity-0 shadow-lift backdrop-blur-sm transition-all duration-300 ease-silk hover:bg-white focus-visible:opacity-100 md:flex md:group-hover:opacity-100"
+          : "absolute inset-x-[16%] bottom-[9%] z-20 hidden h-9 items-center justify-center rounded-md bg-ivory/95 px-3 text-[12.5px] font-medium text-ground opacity-0 shadow-lift backdrop-blur-sm transition-all duration-300 ease-silk hover:bg-white focus-visible:opacity-100 md:flex md:translate-y-1 md:group-hover:-translate-y-1.5 md:group-hover:opacity-100"
+      }
+    >
+      {trial ? TRIAL.ctaTile : buyLabel(slug)}
+    </a>
+  );
+
   return (
-    <div className={`group relative w-full min-w-0 ${lead ? "max-sm:col-span-2 max-sm:grid max-sm:grid-cols-2 max-sm:items-end max-sm:gap-x-5" : ""}`}>
+    <div className={`group relative w-full min-w-0 ${lead && !shot ? "max-sm:col-span-2 max-sm:grid max-sm:grid-cols-2 max-sm:items-end max-sm:gap-x-5" : ""}`}>
+      {shot ? (
+        <div className="relative">
+          <Lens shot={shot} a={3 / 2} tone="gold" showMark priority={priority} cssWidth={{ lg: chartWidth, sm: "46vw", base: "92vw" }} />
+          {buyLink}
+        </div>
+      ) : (
       <div className="relative" style={{ aspectRatio: String(COVER_RATIO) }}>
         <div className="spotlight absolute inset-0">
           <div className="absolute inset-0 transition-transform duration-500 ease-silk group-hover:-translate-y-1.5">
@@ -85,34 +125,28 @@ export function BoxCard({
           </div>
         </div>
 
-        {listing && (
-          <a
-            href={trial ?? buyHref(listing)}
-            target="_blank"
-            rel="noopener"
-            className="absolute inset-x-[16%] bottom-[9%] z-20 hidden h-9 items-center justify-center rounded-md bg-ivory/95 px-3 text-[12.5px] font-medium text-ground opacity-0 shadow-lift backdrop-blur-sm transition-all duration-300 ease-silk hover:bg-white focus-visible:opacity-100 md:flex md:translate-y-1 md:group-hover:-translate-y-1.5 md:group-hover:opacity-100"
-          >
-            {trial ? TRIAL.ctaTile : buyLabel(slug)}
-          </a>
-        )}
+        {buyLink}
       </div>
+      )}
 
       {/* `bare` drops the label where the page around the tile already says
           all of it (the single-product shelf). */}
       {!bare && (
-        <div className={`mt-2 px-0.5 ${lead ? "max-sm:mt-0 max-sm:pb-[7%]" : ""}`}>
+        <div className={`${shot ? "mt-4" : "mt-2"} px-0.5 ${lead && !shot ? "max-sm:mt-0 max-sm:pb-[7%]" : ""}`}>
           {/* The name never cuts off on a phone (2026-09-30 mobile scan:
               "DS Adaptive Price Li…"). Below 640px it
               may take two lines and every tile reserves both, so the
               category and the price row stay on one baseline across the
               row; from 640px it is one line, as before. */}
-          <span className="block min-h-[2.5em] font-display text-[15px] leading-tight text-ink transition-colors duration-300 line-clamp-2 group-hover:text-gold-deep sm:min-h-0 sm:line-clamp-1">
+          <span className={`block font-display leading-tight text-ink transition-colors duration-300 group-hover:text-gold-deep ${shot ? "text-[16.5px] font-[500] tracking-[-0.012em]" : "min-h-[2.5em] text-[15px] line-clamp-2 sm:min-h-0 sm:line-clamp-1"}`}>
             {p.name}
           </span>
           <span className="mt-1 block truncate text-[12px] text-mute">{p.category}</span>
           {/* The lead tile's second column has the room a tile does not: two
               of the product's own hooks, phones only. */}
-          {lead && (
+          {/* A chart tile says, in one line, what its picture shows. */}
+          {shot && <span className="mt-2.5 block text-[13px] leading-snug text-slate text-pretty sm:min-h-[2.75em]">{shot.reading}</span>}
+          {lead && !shot && (
             <span className="mt-3 hidden space-y-1.5 text-[12.5px] leading-snug text-slate max-sm:block" aria-hidden="true">
               {p.hooks.slice(0, 2).map((h) => (
                 <span key={h} className="block text-pretty">

@@ -3,7 +3,10 @@ import { CompleteKeystone } from "@/components/CompleteKeystone";
 import { Shelf } from "@/components/Shelf";
 import { Reveal } from "@/components/ui/Reveal";
 import { NEW_SERIES, STORE_SHELVES } from "@/content/release";
-import { CATALOGUE } from "@/content/site";
+import Link from "next/link";
+import { CATALOGUE, DISCLOSURE } from "@/content/site";
+
+const CHARTS_NOTE = "Every picture is the product running in NinjaTrader 8, magnified on the place where it does its work.";
 
 /**
  * The storefront: DS Complete, then every PAID product, shelved by series,
@@ -20,11 +23,18 @@ import { CATALOGUE } from "@/content/site";
 export function Marketplace({
   withHeading = true,
   views = false,
+  display = "box",
   className = "wrap py-24 lg:py-32",
 }: {
   withHeading?: boolean;
   /** Render each shelf's covers AND price-list bodies (the /products store). */
   views?: boolean;
+  /** "chart" on the home page (2026-10-08): the shelves show each product by
+   *  its own chart (components/Loupe.tsx) — and, because chart pictures may
+   *  not appear without the risk and hypothetical-performance disclosures
+   *  beside them (NinjaTrader vendor guidelines rev 2.11.2025, p.2), the
+   *  lineup then closes on DISCLOSURE.chart. */
+  display?: "box" | "chart";
   className?: string;
 }) {
   return (
@@ -49,10 +59,18 @@ export function Marketplace({
               label={i === 0 ? "Inside DS Complete" : "Included"}
               isNew={shelf.info.key === NEW_SERIES}
             />
-            <Shelf shelf={shelf} priority={i === 0} views={views} />
+            <Shelf shelf={shelf} priority={i === 0} views={views} display={display} />
           </Fragment>
         ))}
       </div>
+      {display === "chart" && (
+        <p className="mt-10 max-w-3xl text-[12.5px] leading-relaxed text-mute">
+          {CHARTS_NOTE} {DISCLOSURE.chart}{" "}
+          <Link href="/disclosures" className="underline decoration-mute/50 underline-offset-4 hover:text-ink">
+            Disclosures
+          </Link>
+        </p>
+      )}
     </section>
   );
 }

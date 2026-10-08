@@ -4,7 +4,10 @@ import { BuyButton, CtaNote } from "@/components/BuyButton";
 import { PriceTag } from "@/components/Price";
 import { PriceList } from "@/components/PriceList";
 import { isPaid, seriesPrice } from "@/content/pricing";
-import type { Shelf as ShelfT } from "@/content/release";
+import { shotFor } from "@/content/loupe";
+import { Lens } from "@/components/Loupe";
+import Link from "next/link";
+import { productHref, type Shelf as ShelfT } from "@/content/release";
 
 /**
  * One series = one PANEL (rebuilt 2026-09-27).
@@ -42,23 +45,37 @@ export function Shelf({
   shelf,
   priority = false,
   views = false,
+  display = "box",
 }: {
   shelf: ShelfT;
   priority?: boolean;
   views?: boolean;
+  /** "chart" (the home page, 2026-10-08): every product shown by its own
+   *  chart through the loupe instead of its box. "box" everywhere else. */
+  display?: "box" | "chart";
 }) {
   const { info, products } = shelf;
+  const charts = display === "chart";
   const price = seriesPrice(info.key);
   const solo = products.length === 1 ? products[0] : undefined;
   /** Wraps what only the covers view shows. A plain block — never put layout classes on it. */
   const CoversOnly = ({ children }: { children: React.ReactNode }) =>
     views ? <div className="v-covers">{children}</div> : <>{children}</>;
 
+  const soloShot = solo && charts ? shotFor(solo.slug) : undefined;
   const covers = solo ? (
     <div className="mt-10 flex flex-col gap-8 sm:flex-row sm:items-center sm:gap-12">
-      <div className="w-full max-w-[220px] shrink-0">
-        <BoxCard slug={solo.slug} priority={priority} bare />
-      </div>
+      {soloShot ? (
+        // The single product, by its own picture: a wider frame, and the
+        // whole frame is the way to its page (its buy button is in the head).
+        <Link href={productHref(solo.slug)} className="group block w-full shrink-0 sm:w-[46%]" aria-label={`${solo.name} — ${solo.category}`}>
+          <Lens shot={soloShot} a={3 / 2} tone="gold" showMark priority={priority} cssWidth={{ lg: 520, sm: "46vw", base: "92vw" }} />
+        </Link>
+      ) : (
+        <div className="w-full max-w-[220px] shrink-0">
+          <BoxCard slug={solo.slug} priority={priority} bare />
+        </div>
+      )}
       <div className="flex-1">
         <p className="max-w-xl text-[15px] leading-relaxed text-ink text-pretty">{solo.purpose}</p>
         <ul className="mt-6 grid max-w-xl gap-2.5 sm:grid-cols-2" aria-label={`${solo.name} highlights`}>
@@ -70,6 +87,23 @@ export function Shelf({
           ))}
         </ul>
       </div>
+    </div>
+  ) : charts ? (
+    // THE CHART GRID — rows of two wide frames, then rows of three, so every
+    // row is full at every width: 5 = 2 + 3, 4 = 2 + 2, 3 = 3, 2 = 2. On a
+    // tablet, pairs, with the first product across the whole row when the
+    // count is odd; on a phone, one chart to a row — a chart narrower than
+    // that is a texture, not a picture.
+    <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-6">
+      {products.map((p, i) => {
+        const wide = chartRowWide(products.length, i);
+        const lone = products.length % 2 === 1 && i === 0;
+        return (
+          <div key={p.slug} className={`min-w-0 ${lone ? "sm:col-span-2" : ""} ${wide ? "lg:col-span-3" : "lg:col-span-2"}`}>
+            <BoxCard slug={p.slug} priority={priority && i < 2} chart chartWidth={wide ? 540 : 350} />
+          </div>
+        );
+      })}
     </div>
   ) : (
     <div className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
@@ -124,4 +158,12 @@ export function Shelf({
       </Reveal>
     </section>
   );
+}
+
+/** Is tile i of n in a row of two (wide) at 1024px+? Rows of two come first,
+ *  then rows of three: 5 = 2 + 3, 4 = 2 + 2, 3 = 3, 2 = 2, 6 = 3 + 3. */
+function chartRowWide(n: number, i: number) {
+  if (n % 3 === 0) return false;
+  const twos = n % 3 === 1 ? 2 : 1; // rows of two needed to make the rest divide by three
+  return i < twos * 2;
 }

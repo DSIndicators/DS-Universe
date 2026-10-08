@@ -56,7 +56,12 @@ export const VAULT_COPY = {
   heroLink: "Open the vault",
   /** Above the tiles on the vault page. */
   shelfHeading: "Everything in the vault",
-  shelfSub: "Open any box for what it shows, how it helps, and its free download.",
+  shelfSub: "Search by what an indicator computes, or open any deposit for what it shows, how it helps and its free download.",
+  /** The entrance (2026-10-08): the line under the lede, and its two ways in. */
+  enter: "Open the vault",
+  enterSearch: "Search by feature",
+  /** Each product here is shown by its own NinjaTrader chart (content/loupe.ts). */
+  chartsNote: "Every picture is the indicator on a real NinjaTrader 8 chart, magnified on the place where it does its work.",
   /** After the tiles: where the paid lineup is. */
   storeHeading: "Looking for the paid lineup?",
   storeText: "The flagship indicators, the Pro Series panels and the data utility are in the store, sold one by one or together as DS Complete. Nothing in the vault is needed to run them, and nothing in the vault is included with them.",

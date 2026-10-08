@@ -513,10 +513,39 @@ body::after {
    flat tint. No glow, no gradient, nothing that animates.
    ------------------------------------------------------------------ */
 .vault-band {
-  border-top: 1px solid rgba(0, 153, 153, 0.34);
-  border-bottom: 1px solid rgba(0, 153, 153, 0.18);
-  background: rgba(0, 153, 153, 0.028);
+  /* Brass since 2026-10-08, the vault's own metal (it was teal): two brass
+     hairlines and a lamp-warm lift, so the band reads as the vault's door on
+     the home page. */
+  border-top: 1px solid rgba(201, 165, 94, 0.36);
+  border-bottom: 1px solid rgba(201, 165, 94, 0.18);
+  background:
+    radial-gradient(60% 70% at 50% 0%, rgba(214, 178, 108, 0.06) 0%, rgba(214, 178, 108, 0) 70%),
+    rgba(16, 14, 10, 0.5);
 }
+/* The drawer's rail: its first frame lines up with the page's gutter at every
+   width (.wrap: 24 / 32 / 40px inside a 1200px column), and so does the snap. */
+.vault-rail {
+  --gutter: max(24px, calc((100vw - 1200px) / 2 + 24px));
+  padding-inline: var(--gutter);
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+.vault-rail::-webkit-scrollbar { display: none; }
+@media (min-width: 640px) { .vault-rail { --gutter: max(32px, calc((100vw - 1200px) / 2 + 32px)); } }
+@media (min-width: 1024px) { .vault-rail { --gutter: max(40px, calc((100vw - 1200px) / 2 + 40px)); } }
+.vault-rail-key {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(201, 165, 94, 0.35);
+  color: #e6cf9c;
+  font-size: 14px;
+  transition: border-color 200ms, opacity 200ms;
+}
+.vault-rail-key:hover:not(:disabled) { border-color: #c9a55e; }
+.vault-rail-key:disabled { opacity: 0.3; cursor: default; }
 /* The vault page's shelf: the series panel's own build, edged in teal. */
 .vault-panel {
   background: rgba(9, 12, 14, 0.82);
@@ -531,4 +560,318 @@ body::after {
 .vault-tab[aria-current="page"],
 .vault-tab:hover {
   box-shadow: inset 0 -1px 0 #43cdc8;
+}
+
+/* ------------------------------------------------------------------
+   THE VAULT ROOM (2026-10-08, app/free-vault/page.tsx).
+   Tom: "i want the free vault to feel luxurious, like they've just
+   stepped into a vault. the background should have hints of gold...
+   Elegance and precision."
+
+   How it is built — light and metal, never decoration:
+   · THE LIGHT. On this page the room's ambient light turns from the
+     site's teal/violet to BRASS: one pool from above, as if a lamp hung
+     over the door, and a low warm return at the right. The chart-paper
+     grid behind the page warms with it. 9-12% at the source, gone by
+     the middle of the screen — noticed, not read.
+   · THE METAL. Brass (#C9A55E) is the vault's only colour: hairlines,
+     the dial, engraved numbers, small type. It is never a fill behind
+     words, never gradient text, never a glow around an object.
+   · THE CHAMBER. The deposits sit in one heavy panel with a brass edge,
+     a lit top edge and four screw heads at its corners — the inside of
+     a door, not a card.
+   Everything that moves stops under prefers-reduced-motion (base layer).
+   ------------------------------------------------------------------ */
+html:has(.vault-room) body::after {
+  background:
+    radial-gradient(55% 40% at 50% -6%, rgba(214, 178, 108, 0.12) 0%, rgba(214, 178, 108, 0.035) 45%, rgba(214, 178, 108, 0) 72%),
+    radial-gradient(38% 42% at 96% 46%, rgba(201, 165, 94, 0.05) 0%, rgba(201, 165, 94, 0) 70%),
+    radial-gradient(45% 45% at 4% 100%, rgba(163, 61, 255, 0.03) 0%, rgba(163, 61, 255, 0) 70%);
+}
+html:has(.vault-room) body::before {
+  background-image:
+    radial-gradient(circle at 0.5px 0.5px, rgba(232, 204, 148, 0.2) 0.75px, transparent 1.5px),
+    linear-gradient(90deg, rgba(222, 192, 134, 0.045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(222, 192, 134, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(222, 192, 134, 0.02) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(222, 192, 134, 0.02) 1px, transparent 1px);
+}
+@media (max-width: 767px) {
+  html:has(.vault-room) body::before {
+    background-image:
+      radial-gradient(circle at 0.5px 0.5px, rgba(232, 204, 148, 0.3) 0.8px, transparent 1.6px),
+      linear-gradient(90deg, rgba(222, 192, 134, 0.075) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(222, 192, 134, 0.075) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(222, 192, 134, 0.034) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(222, 192, 134, 0.034) 1px, transparent 1px);
+  }
+}
+/* The header's Free Vault tab, while you are in the vault: brass. */
+html:has(.vault-room) .vault-tab,
+html:has(.vault-room) .vault-tab[aria-current="page"] {
+  color: #e6cf9c;
+  box-shadow: inset 0 -1px 0 #c9a55e;
+}
+
+/* The entrance: the headline and the dial, the plaque across the foot. */
+.vault-title {
+  font-size: clamp(2.7rem, 5.6vw, 4.6rem);
+  letter-spacing: -0.045em;
+}
+.vault-btn {
+  display: inline-flex;
+  height: 44px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  border: 1px solid rgba(201, 165, 94, 0.55);
+  background: rgba(201, 165, 94, 0.06);
+  color: #e6cf9c;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  transition: border-color 200ms, background-color 200ms, color 200ms;
+}
+.vault-btn:hover {
+  border-color: #c9a55e;
+  background: rgba(201, 165, 94, 0.12);
+  color: #f3e3bd;
+}
+.vault-plaque {
+  border-top: 1px solid rgba(201, 165, 94, 0.42);
+  border-bottom: 1px solid rgba(201, 165, 94, 0.2);
+  /* the graduations of a rule, every 12px, along the top edge */
+  background-image: repeating-linear-gradient(90deg, rgba(201, 165, 94, 0.32) 0 1px, transparent 1px 12px);
+  background-size: 100% 4px;
+  background-repeat: no-repeat;
+}
+.vault-plaque-cell + .vault-plaque-cell {
+  border-left: 1px solid rgba(201, 165, 94, 0.14);
+}
+@media (max-width: 767px) {
+  .vault-plaque-cell:nth-child(odd) { border-left: 0; padding-right: 16px; }
+  .vault-plaque-cell:nth-child(even) { padding-left: 16px; }
+  .vault-plaque-cell:nth-child(n + 3) { border-top: 1px solid rgba(201, 165, 94, 0.14); }
+}
+
+/* The dial: the door opening, once, then the rosette's slow drift. */
+.vault-dial-bezel,
+.vault-dial-wheel,
+.vault-dial-rose {
+  transform-box: view-box;
+  transform-origin: 240px 240px;
+}
+.vault-dial-bezel { animation: vault-bezel 2.4s cubic-bezier(0.16, 0.84, 0.2, 1) 0.25s both; }
+.vault-dial-wheel { animation: vault-wheel 2.4s cubic-bezier(0.16, 0.84, 0.2, 1) 0.25s both; }
+.vault-dial-rose { animation: vault-rose 240s linear infinite; }
+@keyframes vault-bezel { from { transform: rotate(-120deg); } to { transform: rotate(0deg); } }
+@keyframes vault-wheel { from { transform: rotate(72deg); } to { transform: rotate(0deg); } }
+@keyframes vault-rose { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* The chamber that holds the deposits. */
+.vault-chamber {
+  border: 1px solid rgba(201, 165, 94, 0.26);
+  background: linear-gradient(180deg, rgba(16, 14, 10, 0.92) 0%, rgba(9, 9, 9, 0.9) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(230, 207, 156, 0.12),
+    0 50px 100px -50px rgba(0, 0, 0, 0.95);
+}
+.vault-chamber::before {
+  /* four screw heads, 14px in from each corner */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 14px 14px, rgba(201, 165, 94, 0.55) 0 1.6px, transparent 2.4px),
+    radial-gradient(circle at calc(100% - 14px) 14px, rgba(201, 165, 94, 0.55) 0 1.6px, transparent 2.4px),
+    radial-gradient(circle at 14px calc(100% - 14px), rgba(201, 165, 94, 0.55) 0 1.6px, transparent 2.4px),
+    radial-gradient(circle at calc(100% - 14px) calc(100% - 14px), rgba(201, 165, 94, 0.55) 0 1.6px, transparent 2.4px);
+}
+
+/* The search: one field on a brass rule, the keys as engraved tabs. */
+.vault-field {
+  border: 1px solid rgba(201, 165, 94, 0.3);
+  background: rgba(4, 4, 4, 0.55);
+  transition: border-color 200ms, background-color 200ms;
+}
+.vault-field:focus-within {
+  border-color: rgba(201, 165, 94, 0.75);
+  background: rgba(4, 4, 4, 0.8);
+}
+.vault-field:focus-within,
+.vault-field input:focus-visible {
+  outline: none;
+}
+.vault-sugg {
+  border: 1px solid rgba(201, 165, 94, 0.45);
+  background: #0c0b09;
+  box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.9);
+}
+.vault-key {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  min-height: 32px;
+  padding: 6px 10px 6px 11px;
+  border: 1px solid rgba(201, 165, 94, 0.2);
+  background: rgba(255, 255, 255, 0.012);
+  color: #a3abb3;
+  font-size: 12.5px;
+  line-height: 1.2;
+  transition: border-color 160ms, color 160ms, background-color 160ms;
+}
+.vault-key:hover:not(:disabled) {
+  border-color: rgba(201, 165, 94, 0.5);
+  color: #e7ecef;
+}
+.vault-key[aria-pressed="true"] {
+  border-color: #c9a55e;
+  background: rgba(201, 165, 94, 0.1);
+  color: #f3e3bd;
+}
+.vault-key:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+.vault-key { flex-shrink: 0; white-space: nowrap; }
+.vault-keys { scrollbar-width: none; scroll-padding-inline: 20px; }
+.vault-keys::-webkit-scrollbar { display: none; }
+@media (max-width: 639px) {
+  /* the rail fades at its right edge so it reads as "more this way" */
+  .vault-keys { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+}
+.vault-key-n {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  color: #7c848d;
+  font-variant-numeric: tabular-nums;
+}
+.vault-key[aria-pressed="true"] .vault-key-n { color: #c9a55e; }
+@media (pointer: coarse) {
+  .vault-key { min-height: 40px; padding-top: 10px; padding-bottom: 10px; }
+}
+
+/* THE LOUPE (components/Loupe.tsx) — the chart magnified on its focus,
+   pulling back on hover or keyboard focus of its card. One transform on one
+   layer; nothing reflows. Its metal is a variable: brass in the Free Vault,
+   the store's gold on the store's shelves — the same instrument in each
+   room's own colour. */
+.loupe-brass { --lp: 230 207 156; --lp-edge: 201 165 94; }
+.loupe-gold { --lp: 221 186 110; --lp-edge: 205 166 86; }
+.loupe-lens {
+  transform: var(--lens);
+  transform-origin: 50% 50%;
+  transition: transform 1100ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+.loupe {
+  outline: 1px solid rgb(var(--lp-edge) / 0.22);
+  outline-offset: 0;
+  transition: outline-color 300ms;
+}
+@media (hover: hover) {
+  .group:hover .loupe-lens { transform: none; }
+  .group:hover .loupe { outline-color: rgb(var(--lp-edge) / 0.6); }
+}
+.group:focus-visible .loupe-lens,
+.group:has(:focus-visible) .loupe-lens { transform: none; }
+.group:focus-visible .loupe,
+.group:has(:focus-visible) .loupe { outline-color: rgb(var(--lp-edge) / 0.6); }
+.vault-plate:focus-visible { outline-offset: 6px; }
+
+.loupe-crop {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: rgb(var(--lp) / 0.85);
+  pointer-events: none;
+}
+.loupe-crop-tl { left: 8px; top: 8px; border-left: 1px solid; border-top: 1px solid; }
+.loupe-crop-tr { right: 8px; top: 8px; border-right: 1px solid; border-top: 1px solid; }
+.loupe-crop-bl { left: 8px; bottom: 8px; border-left: 1px solid; border-bottom: 1px solid; }
+.loupe-crop-br { right: 8px; bottom: 8px; border-right: 1px solid; border-bottom: 1px solid; }
+.loupe-mag { color: rgb(var(--lp)); right: 26px; top: 6px; }
+.loupe-mag-in,
+.loupe-mag-out { transition: opacity 400ms; }
+.loupe-mag-out { position: absolute; right: 0; opacity: 0; }
+@media (hover: hover) {
+  .group:hover .loupe-mag-in { opacity: 0; }
+  .group:hover .loupe-mag-out { opacity: 1; }
+}
+.group:focus-visible .loupe-mag-in,
+.group:has(:focus-visible) .loupe-mag-in { opacity: 0; }
+.group:focus-visible .loupe-mag-out,
+.group:has(:focus-visible) .loupe-mag-out { opacity: 1; }
+
+/* The mark: the indicator's own label, pinned where it printed it. */
+.loupe-mark {
+  left: var(--mx);
+  top: var(--my);
+  transition: left 1100ms cubic-bezier(0.2, 0.7, 0.2, 1), top 1100ms cubic-bezier(0.2, 0.7, 0.2, 1), opacity 300ms;
+}
+.loupe-mark-dot {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgb(var(--lp));
+  border-radius: 50%;
+}
+.loupe-mark-label {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  width: max-content;
+  max-width: calc(var(--room, 0.5) * 100cqw - 26px);
+  padding: 3px 7px;
+  line-height: 1.45;
+  border: 1px solid rgb(var(--lp-edge) / 0.55);
+  background: rgba(4, 4, 4, 0.86);
+  color: rgb(var(--lp));
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+.loupe-mark-label::before {
+  /* the leader from the ring to the label */
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  width: 9px;
+  height: 1px;
+  background: rgb(var(--lp) / 0.8);
+}
+.loupe-mark-left { left: auto; right: 14px; }
+.loupe-mark-left::before { left: auto; right: -10px; }
+.loupe-mark-below { top: 14px; left: 50%; transform: translateX(-50%); max-width: calc(100cqw - 32px); text-align: center; }
+.loupe-mark-below::before { top: -10px; left: 50%; width: 1px; height: 9px; }
+@media (hover: hover) {
+  .group:hover .loupe-mark:not(.loupe-mark-pinned) { opacity: 0; }
+  .group:hover .loupe-mark-pinned { left: var(--fx); top: var(--fy); }
+}
+.group:focus-visible .loupe-mark:not(.loupe-mark-pinned),
+.group:has(:focus-visible) .loupe-mark:not(.loupe-mark-pinned) { opacity: 0; }
+.group:focus-visible .loupe-mark-pinned,
+.group:has(:focus-visible) .loupe-mark-pinned { left: var(--fx); top: var(--fy); }
+
+/* THE DEPOSIT WALL — brushed fronts, joined by a brass seam. */
+.vault-wall {
+  gap: 1px;
+  background: rgba(201, 165, 94, 0.22);
+  border: 1px solid rgba(201, 165, 94, 0.22);
+}
+.vault-box {
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.011) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, #14120e 0%, #0c0b09 100%);
+  transition: background-color 300ms;
+}
+.vault-slot {
+  padding: 5px;
+  background: #050505;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(230, 207, 156, 0.08);
 }

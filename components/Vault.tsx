@@ -1,9 +1,9 @@
 import type { CSSProperties } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { Arrow } from "@/components/ui/Arrow";
-import { COVER_RATIO, VAULT_PATH, VAULT_PRODUCTS, boxartFor, productHref } from "@/content/release";
+import { VAULT_PATH, VAULT_PRODUCTS } from "@/content/release";
+import { VaultRail } from "@/components/VaultRail";
 import { VAULT_COPY } from "@/content/vault";
 
 /**
@@ -29,7 +29,10 @@ import { VAULT_COPY } from "@/content/vault";
  *   header / phone menu / footer   the "Free Vault" tab (components/Navbar.tsx)
  *   home hero                      VaultHeroNote   that it exists, one link
  *   home, after the paid lineup    VaultBand       what it is, its boxes, the way in
- *   /free-vault                    the page: VaultFacts, the tiles, how it works
+ *   /free-vault                    the page — since 2026-10-08 THE VAULT ROOM:
+ *                                  brass, not teal (Tom: "hints of gold"); its
+ *                                  dial (VaultDial), VaultPlaque, and the search
+ *                                  and real-chart deposits (VaultRoom)
  *   /free-vault/<slug>             each product's own page (ProductPage.tsx)
  */
 
@@ -45,9 +48,18 @@ export function VaultMark({ className = "" }: { className?: string }) {
 }
 
 /** The mark and the words, in the instrument voice. */
-export function VaultLabel({ className = "", text = VAULT_COPY.label }: { className?: string; text?: string }) {
+export function VaultLabel({
+  className = "",
+  text = VAULT_COPY.label,
+  tone = "teal",
+}: {
+  className?: string;
+  text?: string;
+  /** "brass" inside the vault itself (/free-vault, 2026-10-08); teal everywhere else. */
+  tone?: "teal" | "brass";
+}) {
   return (
-    <span className={`inline-flex items-center gap-2.5 font-mono text-[10.5px] uppercase tracking-[0.16em] text-bull-text ${className}`}>
+    <span className={`inline-flex items-center gap-2.5 font-mono text-[10.5px] uppercase tracking-[0.16em] ${tone === "brass" ? "text-vault" : "text-bull-text"} ${className}`}>
       <VaultMark />
       {text}
     </span>
@@ -55,13 +67,33 @@ export function VaultLabel({ className = "", text = VAULT_COPY.label }: { classN
 }
 
 /** The facts as a spec sheet: small-caps key, plain value, one hairline each. */
-export function VaultFacts({ className = "" }: { className?: string }) {
+export function VaultFacts({ className = "", tone = "plain" }: { className?: string; tone?: "plain" | "brass" }) {
+  const rule = tone === "brass" ? "border-[rgba(201,165,94,0.2)]" : "border-line";
   return (
-    <dl className={`border-t border-line ${className}`} aria-label="How the Free Vault works">
+    <dl className={`border-t ${rule} ${className}`} aria-label="How the Free Vault works">
       {VAULT_COPY.facts.map((f) => (
-        <div key={f.k} className="grid grid-cols-[104px_minmax(0,1fr)] gap-x-4 border-b border-line py-2.5">
-          <dt className="pt-[3px] font-mono text-[10px] uppercase tracking-[0.14em] text-mute">{f.k}</dt>
+        <div key={f.k} className={`grid grid-cols-[104px_minmax(0,1fr)] gap-x-4 border-b ${rule} py-2.5`}>
+          <dt className={`pt-[3px] font-mono text-[10px] uppercase tracking-[0.14em] ${tone === "brass" ? "text-vault" : "text-mute"}`}>{f.k}</dt>
           <dd className="text-[13.5px] leading-snug text-ink text-pretty">{f.v}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+/**
+ * THE PLAQUE — the same facts as VaultFacts, engraved across the foot of the
+ * vault's entrance (/free-vault, 2026-10-08): four cells between two brass
+ * hairlines, a key in the instrument face over each plain value. Two columns
+ * on a phone, four from 768px.
+ */
+export function VaultPlaque({ className = "" }: { className?: string }) {
+  return (
+    <dl className={`vault-plaque grid grid-cols-2 md:grid-cols-4 ${className}`} aria-label="How the Free Vault works">
+      {VAULT_COPY.facts.map((f) => (
+        <div key={f.k} className="vault-plaque-cell px-0 py-5 md:px-6 md:first:pl-0">
+          <dt className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-vault">{f.k}</dt>
+          <dd className="mt-2 text-[13.5px] leading-snug text-ink text-pretty">{f.v}</dd>
         </div>
       ))}
     </dl>
@@ -100,53 +132,28 @@ export function VaultBand() {
   if (!ps.length) return null;
   return (
     <section id="free-vault" className="vault-band scroll-mt-[100px]" aria-labelledby="vault-band-title">
-      <div className="wrap py-20 lg:py-24">
+      <div className="wrap pt-20 lg:pt-24">
         <Reveal className="grid gap-x-10 gap-y-9 md:grid-cols-12 md:items-start">
           <div className="md:col-span-7">
-            <VaultLabel />
+            <VaultLabel tone="brass" />
             <h2 id="vault-band-title" className="display-lg mt-4 text-ink text-balance">
               {VAULT_COPY.band.heading}
             </h2>
             <p className="mt-4 max-w-xl text-[14.5px] leading-relaxed text-slate text-pretty">{VAULT_COPY.band.text}</p>
-            <Link href={VAULT_PATH} className="btn-primary group mt-7">
+            <Link href={VAULT_PATH} className="vault-btn group mt-7">
               {VAULT_COPY.band.cta}
               <Arrow />
             </Link>
           </div>
-          <VaultFacts className="md:col-span-5" />
-        </Reveal>
-
-        <Reveal delay={80}>
-          <ul className={`mt-12 grid gap-x-3 gap-y-5 sm:gap-x-4 ${STRIP_COLS[ps.length] ?? "grid-cols-5 lg:grid-cols-10"}`} aria-label="In the Free Vault">
-            {ps.map((p) => (
-              <li key={p.slug} className="min-w-0">
-                <Link href={productHref(p.slug)} className="group relative block" style={{ aspectRatio: String(COVER_RATIO) }} aria-label={`${p.name} — free, in the Free Vault`}>
-                  <span className="spotlight absolute inset-0">
-                    <span className="absolute inset-0 transition-transform duration-500 ease-silk group-hover:-translate-y-1">
-                      <Image src={boxartFor(p.slug)} alt="" fill sizes="(min-width: 1024px) 120px, (min-width: 640px) 11vw, 30vw" className="object-contain" />
-                    </span>
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <VaultFacts className="md:col-span-5" tone="brass" />
         </Reveal>
       </div>
+      {/* Every product in the vault by its own chart, on one sliding rail
+          (components/VaultRail.tsx) — it replaced the strip of boxes. */}
+      <Reveal delay={80} className="pb-20 pt-14 lg:pb-24">
+        <VaultRail />
+      </Reveal>
     </section>
   );
 }
 
-/** The strip closes on a full row at every width, whatever the vault holds:
- *  whole rows on a phone (three, four or five across, whichever divides the
- *  count), one line of boxes from the width that fits them. Written out —
- *  Tailwind cannot see a class built in a template string. A count none of
- *  these divide (7, 11) leaves a short last row on a phone. */
-const STRIP_COLS: Record<number, string> = {
-  6: "grid-cols-3 sm:grid-cols-6",
-  7: "grid-cols-4 sm:grid-cols-7",
-  8: "grid-cols-4 sm:grid-cols-8",
-  9: "grid-cols-3 sm:grid-cols-9",
-  10: "grid-cols-5 lg:grid-cols-10",
-  11: "grid-cols-4 sm:grid-cols-11",
-  12: "grid-cols-4 sm:grid-cols-6 lg:grid-cols-12",
-};
