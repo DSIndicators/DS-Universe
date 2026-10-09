@@ -1,12 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
 import { BuyButton } from "@/components/BuyButton";
 import { PriceFigure } from "@/components/Price";
 import { External, TrialMark } from "@/components/Trial";
 import { TRIAL, trialHref } from "@/content/trial";
 import { PRICES, WITH_BUNDLE, discountPct, isPaid, money } from "@/content/pricing";
-import { COVER_RATIO, boxartFor, productHref } from "@/content/release";
+import { productHref } from "@/content/release";
 import type { Product } from "@/content/products";
+import { CoverArt } from "@/components/CoverArt";
 
 /**
  * The "Price list" view of a shelf: one row per product — a small cover, the
@@ -40,14 +40,8 @@ export function PriceList({ products, buttonWidth = 124 }: { products: Product[]
             key={p.slug}
             className="grid grid-cols-[52px_minmax(0,1fr)] items-center gap-x-4 gap-y-3 border-t border-line py-4 sm:grid-cols-[52px_minmax(0,1fr)_auto_auto] sm:gap-x-6"
           >
-            <Link
-              href={productHref(p.slug)}
-              className="spotlight relative block w-[52px]"
-              style={{ aspectRatio: String(COVER_RATIO) }}
-              tabIndex={-1}
-              aria-hidden="true"
-            >
-              <Image src={boxartFor(p.slug)} alt="" fill sizes="52px" className="object-contain" />
+            <Link href={productHref(p.slug)} className="block w-[52px] border border-line" tabIndex={-1} aria-hidden="true">
+              <CoverArt slug={p.slug} sizes="52px" />
             </Link>
             <div className="min-w-0">
               <Link href={productHref(p.slug)} className="font-display text-[15px] text-ink transition-colors hover:text-gold-deep">

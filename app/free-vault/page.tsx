@@ -38,9 +38,15 @@ export const metadata: Metadata = {
  *   4. One quiet pointer to the store, for the visitor who came for the paid
  *      lineup.
  *
- * Everything is in the vault's own voice (components/Vault.tsx): teal where
- * the store is gold, its own mark, a flat band where the store has panels.
- * No count of products is typed (the lineup changes).
+ * Everything is in the vault's own voice (components/Vault.tsx): brass where
+ * the store is gold, its own mark. No count of products is typed (the lineup
+ * changes).
+ *
+ * A MARKETPLACE, NOT A JOURNAL (2026-10-08, later): the entrance is kept
+ * short so the products start within the first screen on a desktop, and the
+ * products are laid out as a store — filters beside, cards with their price
+ * and button (components/VaultRoom.tsx, components/ProductCard.tsx). On a
+ * phone the dial is drawn smaller for the same reason.
  */
 export default function FreeVaultPage() {
   const open = !onWaitlist();
@@ -49,7 +55,7 @@ export default function FreeVaultPage() {
     <div className="vault-room">
       {/* -------------------------------------------------------- the entrance */}
       <section className="vault-entrance relative overflow-hidden">
-        <div className="wrap relative pt-12 sm:pt-16 lg:pt-20">
+        <div className="wrap relative pt-10 sm:pt-12 lg:pt-14">
           <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-10">
             <Reveal className="lg:col-span-7">
               <VaultLabel tone="brass" />
@@ -65,19 +71,19 @@ export default function FreeVaultPage() {
                 </VaultSearchLink>
               </div>
             </Reveal>
-            <div className="relative mx-auto w-full max-w-[270px] sm:max-w-[340px] lg:col-span-5 lg:max-w-[440px]">
+            <div className="relative mx-auto w-full max-w-[200px] sm:max-w-[280px] lg:col-span-5 lg:max-w-[340px]">
               <VaultDial className="block w-full text-vault" />
             </div>
           </div>
           <Reveal delay={120}>
-            <VaultPlaque className="mt-12 lg:mt-16" />
+            <VaultPlaque className="mt-10 lg:mt-12" />
           </Reveal>
         </div>
       </section>
 
       {/* -------------------------------------------------------- the deposits */}
-      <section id="deposits" className="wrap scroll-mt-[96px] pb-20 pt-14 lg:pb-28 lg:pt-20" aria-labelledby="vault-shelf-title">
-        <div className="vault-chamber relative p-5 sm:p-8 lg:p-12">
+      <section id="deposits" className="wrap scroll-mt-[96px] pb-20 pt-10 lg:pb-28 lg:pt-14" aria-labelledby="vault-shelf-title">
+        <div className="vault-chamber relative p-5 sm:p-8 lg:p-10">
           <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
             <div className="max-w-2xl">
               <h2 id="vault-shelf-title" className="display-md text-ink text-balance">
@@ -90,7 +96,7 @@ export default function FreeVaultPage() {
               Free · permanently
             </p>
           </div>
-          <div className="mt-8">
+          <div className="mt-7">
             <VaultRoom />
           </div>
           <p className="mt-12 max-w-3xl border-t border-[rgba(201,165,94,0.16)] pt-5 text-[12.5px] leading-relaxed text-mute">

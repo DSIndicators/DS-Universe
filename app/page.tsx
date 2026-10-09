@@ -149,7 +149,7 @@ export default function HomePage() {
       {/* ---------------------------------------------------------- storefront */}
       {/* Opens with DS Complete and threads down through every series
           (2026-09-28: it used to be a band after the last shelf). */}
-      <Marketplace display="chart" className="wrap pb-20 pt-24 lg:pb-24 lg:pt-32" />
+      <Marketplace className="wrap pb-20 pt-24 lg:pb-24 lg:pt-32" />
 
       {/* ------------------------------------------------------ the Free Vault */}
       {/* Where the free shelf used to close the lineup (2026-10-05): one band,

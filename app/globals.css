@@ -752,126 +752,77 @@ html:has(.vault-room) .vault-tab[aria-current="page"] {
   .vault-key { min-height: 40px; padding-top: 10px; padding-bottom: 10px; }
 }
 
-/* THE LOUPE (components/Loupe.tsx) — the chart magnified on its focus,
-   pulling back on hover or keyboard focus of its card. One transform on one
-   layer; nothing reflows. Its metal is a variable: brass in the Free Vault,
-   the store's gold on the store's shelves — the same instrument in each
-   room's own colour. */
-.loupe-brass { --lp: 230 207 156; --lp-edge: 201 165 94; }
-.loupe-gold { --lp: 221 186 110; --lp-edge: 205 166 86; }
-.loupe-lens {
-  transform: var(--lens);
-  transform-origin: 50% 50%;
-  transition: transform 1100ms cubic-bezier(0.2, 0.7, 0.2, 1);
-  will-change: transform;
+/* THE PRODUCT CARD (components/ProductCard.tsx, 2026-10-08) — the
+   marketplace's one tile. A surface edged by a hairline; on hover the edge
+   takes the tone, the card lifts 2px and the cover pushes in 3%. Brass in the
+   Free Vault, gold in the store. Square corners: sturdy, never a pill. */
+.pcard-vault { --pc: 201 165 94; --pc-light: 230 207 156; }
+.pcard-store { --pc: 205 166 86; --pc-light: 221 186 110; }
+.pcard {
+  border: 1px solid #1d2127;
+  background: rgba(255, 255, 255, 0.016);
+  transition: border-color 350ms cubic-bezier(0.2, 0.7, 0.2, 1), background-color 350ms, transform 350ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.loupe {
-  outline: 1px solid rgb(var(--lp-edge) / 0.22);
-  outline-offset: 0;
-  transition: outline-color 300ms;
-}
+.pcard-media { border-bottom: 1px solid #1d2127; }
+.pcard-tick { color: rgb(var(--pc)); }
+.pcard-free { color: rgb(var(--pc-light)); }
+.pcard-name { transition: color 300ms; }
+.cover-img { transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+/* The cover shoot's shell (content/covers.ts COVER_GAPS "blank"): an empty square, one step up from the card. */
+.cover-blank { background: #101318; }
 @media (hover: hover) {
-  .group:hover .loupe-lens { transform: none; }
-  .group:hover .loupe { outline-color: rgb(var(--lp-edge) / 0.6); }
+  .pcard:hover { border-color: rgb(var(--pc) / 0.45); background: rgba(255, 255, 255, 0.028); transform: translateY(-2px); }
+  .pcard:hover .pcard-name { color: rgb(var(--pc-light)); }
+  .group:hover .cover-img { transform: scale(1.03); }
 }
-.group:focus-visible .loupe-lens,
-.group:has(:focus-visible) .loupe-lens { transform: none; }
-.group:focus-visible .loupe,
-.group:has(:focus-visible) .loupe { outline-color: rgb(var(--lp-edge) / 0.6); }
-.vault-plate:focus-visible { outline-offset: 6px; }
+.pcard:has(.pcard-link:focus-visible) { outline: 1px solid rgb(var(--pc) / 0.85); outline-offset: 3px; }
+.pcard:has(.pcard-link:focus-visible) .pcard-name { color: rgb(var(--pc-light)); }
+.pcard-link:focus-visible { outline: none; }
+.pcard-btn {
+  position: relative;
+  z-index: 20;
+  display: inline-flex;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border: 1px solid rgb(var(--pc) / 0.55);
+  border-radius: 2px;
+  padding: 0 14px;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgb(var(--pc-light));
+  transition: background-color 250ms, color 250ms, border-color 250ms;
+}
+.pcard-btn:hover,
+.pcard-btn:focus-visible { background: rgb(var(--pc)); border-color: rgb(var(--pc)); color: #080a0d; outline: none; }
+@media (prefers-reduced-motion: reduce) {
+  .pcard, .cover-img { transition: none; }
+  .pcard:hover { transform: none; }
+  .group:hover .cover-img { transform: none; }
+}
 
-.loupe-crop {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-color: rgb(var(--lp) / 0.85);
-  pointer-events: none;
+/* THE FEATURE FILTERS (components/VaultRoom.tsx) — on a desktop, a sidebar of
+   checkbox rows with the count each would leave; a phone keeps the key rails. */
+.vault-facet {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  text-align: left;
+  font-size: 13px;
+  color: #a3abb3;
+  transition: color 200ms;
 }
-.loupe-crop-tl { left: 8px; top: 8px; border-left: 1px solid; border-top: 1px solid; }
-.loupe-crop-tr { right: 8px; top: 8px; border-right: 1px solid; border-top: 1px solid; }
-.loupe-crop-bl { left: 8px; bottom: 8px; border-left: 1px solid; border-bottom: 1px solid; }
-.loupe-crop-br { right: 8px; bottom: 8px; border-right: 1px solid; border-bottom: 1px solid; }
-.loupe-mag { color: rgb(var(--lp)); right: 26px; top: 6px; }
-.loupe-mag-in,
-.loupe-mag-out { transition: opacity 400ms; }
-.loupe-mag-out { position: absolute; right: 0; opacity: 0; }
-@media (hover: hover) {
-  .group:hover .loupe-mag-in { opacity: 0; }
-  .group:hover .loupe-mag-out { opacity: 1; }
-}
-.group:focus-visible .loupe-mag-in,
-.group:has(:focus-visible) .loupe-mag-in { opacity: 0; }
-.group:focus-visible .loupe-mag-out,
-.group:has(:focus-visible) .loupe-mag-out { opacity: 1; }
-
-/* The mark: the indicator's own label, pinned where it printed it. */
-.loupe-mark {
-  left: var(--mx);
-  top: var(--my);
-  transition: left 1100ms cubic-bezier(0.2, 0.7, 0.2, 1), top 1100ms cubic-bezier(0.2, 0.7, 0.2, 1), opacity 300ms;
-}
-.loupe-mark-dot {
-  position: absolute;
-  left: -5px;
-  top: -5px;
-  width: 10px;
-  height: 10px;
-  border: 1px solid rgb(var(--lp));
-  border-radius: 50%;
-}
-.loupe-mark-label {
-  position: absolute;
-  top: 50%;
-  left: 14px;
-  transform: translateY(-50%);
-  width: max-content;
-  max-width: calc(var(--room, 0.5) * 100cqw - 26px);
-  padding: 3px 7px;
-  line-height: 1.45;
-  border: 1px solid rgb(var(--lp-edge) / 0.55);
-  background: rgba(4, 4, 4, 0.86);
-  color: rgb(var(--lp));
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.06em;
-}
-.loupe-mark-label::before {
-  /* the leader from the ring to the label */
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: -10px;
-  width: 9px;
-  height: 1px;
-  background: rgb(var(--lp) / 0.8);
-}
-.loupe-mark-left { left: auto; right: 14px; }
-.loupe-mark-left::before { left: auto; right: -10px; }
-.loupe-mark-below { top: 14px; left: 50%; transform: translateX(-50%); max-width: calc(100cqw - 32px); text-align: center; }
-.loupe-mark-below::before { top: -10px; left: 50%; width: 1px; height: 9px; }
-@media (hover: hover) {
-  .group:hover .loupe-mark:not(.loupe-mark-pinned) { opacity: 0; }
-  .group:hover .loupe-mark-pinned { left: var(--fx); top: var(--fy); }
-}
-.group:focus-visible .loupe-mark:not(.loupe-mark-pinned),
-.group:has(:focus-visible) .loupe-mark:not(.loupe-mark-pinned) { opacity: 0; }
-.group:focus-visible .loupe-mark-pinned,
-.group:has(:focus-visible) .loupe-mark-pinned { left: var(--fx); top: var(--fy); }
-
-/* THE DEPOSIT WALL — brushed fronts, joined by a brass seam. */
-.vault-wall {
-  gap: 1px;
-  background: rgba(201, 165, 94, 0.22);
-  border: 1px solid rgba(201, 165, 94, 0.22);
-}
-.vault-box {
-  background:
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.011) 0 1px, transparent 1px 3px),
-    linear-gradient(180deg, #14120e 0%, #0c0b09 100%);
-  transition: background-color 300ms;
-}
-.vault-slot {
-  padding: 5px;
-  background: #050505;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(230, 207, 156, 0.08);
-}
+.vault-facet:hover:not(:disabled) { color: #e7ecef; }
+.vault-facet-box { width: 12px; height: 12px; border: 1px solid rgba(201, 165, 94, 0.45); display: grid; place-items: center; }
+.vault-facet[aria-pressed="true"] { color: #e7ecef; }
+.vault-facet[aria-pressed="true"] .vault-facet-box { background: #c9a55e; border-color: #c9a55e; }
+.vault-facet[aria-pressed="true"] .vault-facet-box::after { content: ""; width: 6px; height: 3px; border-left: 1.4px solid #080a0d; border-bottom: 1.4px solid #080a0d; transform: translateY(-1px) rotate(-45deg); }
+.vault-facet:disabled { color: #4a5058; cursor: default; }
+.vault-facet:disabled .vault-facet-box { border-color: rgba(201, 165, 94, 0.15); }
+.vault-facet-n { font-family: var(--font-mono), ui-monospace, monospace; font-size: 10.5px; color: #7c848d; font-variant-numeric: tabular-nums; }
+.vault-facet:focus-visible { outline: 1px solid rgba(201, 165, 94, 0.8); outline-offset: 2px; }

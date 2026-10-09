@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { Arrow } from "@/components/ui/Arrow";
 import { Gallery } from "@/components/Gallery";
 import { ListingDetail } from "@/components/ListingDetail";
 import { TestFirst } from "@/components/TestFirst";
-import { BoxCard } from "@/components/BoxCard";
+import { ProductCard } from "@/components/ProductCard";
+import { CoverArt } from "@/components/CoverArt";
+import { ogCardFor, squareCoverFor } from "@/content/covers";
 import { BuyButton, CtaNote } from "@/components/BuyButton";
 import { PriceBlock } from "@/components/Price";
 import { TrialHead, TrialStrip } from "@/components/Trial";
+import { trialHref } from "@/content/trial";
 import { ExclusiveHead, ExclusiveStrip, completeBuyLabel } from "@/components/Exclusive";
 import { VaultLabel } from "@/components/Vault";
 import { Markets } from "@/components/Markets";
 import { BY_SLUG, KIND_LABEL, VAULT } from "@/content/products";
-import { COMPLETE_PRODUCTS, COMPLETE_SHELVES, COVER_RATIO, STORE_PATH, VAULT_PATH, boxartFor, productHref, seriesMates } from "@/content/release";
+import { COMPLETE_PRODUCTS, COMPLETE_SHELVES, STORE_PATH, VAULT_PATH, productHref, seriesMates } from "@/content/release";
 import { BOARD_GROUND, shotsFor } from "@/content/shots";
 import { CHART_GROUND, CHART_H, CHART_W, chartsFor } from "@/content/charts";
 import { showcaseFor } from "@/content/showcase";
@@ -23,6 +25,7 @@ import { listingCopyFor } from "@/content/listing-copy";
 import { APART, COMPLETE, FOUNDERS, WITH_BUNDLE, bundledFor, money, priceFor, seriesInfo } from "@/content/pricing";
 import { VAULT_COPY } from "@/content/vault";
 import { DISCLOSURE, SITE } from "@/content/site";
+import { onWaitlist } from "@/content/launch";
 
 /**
  * ONE PRODUCT'S PAGE — the same page at two addresses (2026-10-05):
@@ -48,7 +51,21 @@ if (!ASL) throw new Error('components/ProductPage.tsx: "asl" is no longer in BUN
 export function productMetadata(slug: string): Metadata {
   const p = BY_SLUG[slug];
   if (!p) return {};
-  return { title: p.name, description: p.purpose, alternates: { canonical: productHref(p.slug) } };
+  // Its own share card when it has a cover (content/covers.ts ogCardFor);
+  // otherwise the site card from app/layout.tsx carries on.
+  const card = ogCardFor(p.slug);
+  const title = `${p.name} — ${p.category}`;
+  return {
+    title: p.name,
+    description: p.purpose,
+    alternates: { canonical: productHref(p.slug) },
+    ...(card
+      ? {
+          openGraph: { title, description: p.purpose, type: "website", url: productHref(p.slug), siteName: SITE.name, images: [{ url: card, width: 1200, height: 630, alt: `${p.name} on a NinjaTrader 8 chart` }] },
+          twitter: { card: "summary_large_image", title, description: p.purpose, images: [card] },
+        }
+      : {}),
+  };
 }
 
 export function ProductPage({ slug }: { slug: string }) {
@@ -132,8 +149,37 @@ export function ProductPage({ slug }: { slug: string }) {
   // with no pictures yet (a new one) closes its head at the ordinary depth.
   const hasLead = chartSlides.length > 0 || boardSlides.length > 0;
 
+  // STRUCTURED DATA (2026-10-09): schema.org Product for search engines — the
+  // name, what it is, its square cover and the one offer it is sold by. Only
+  // facts the page already states: no rating, no review count. A product that
+  // is not sold on its own (DS ASL, DS Toolkit) has no offer, so none is
+  // printed; nor is one for a product without its cover yet.
+  const cover = squareCoverFor(p.slug);
+  const offer = price && !price.withComplete ? (price.free ? "0.00" : price.now.toFixed(2)) : null;
+  const ld =
+    cover && offer
+      ? {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: p.name,
+          description: p.purpose,
+          category: p.category,
+          image: `${SITE.url}${cover.src}`,
+          brand: { "@type": "Brand", name: SITE.name },
+          url: `${SITE.url}${productHref(p.slug)}`,
+          offers: {
+            "@type": "Offer",
+            price: offer,
+            priceCurrency: "USD",
+            availability: onWaitlist() ? "https://schema.org/PreOrder" : "https://schema.org/InStock",
+            url: `${SITE.url}${productHref(p.slug)}`,
+          },
+        }
+      : null;
+
   return (
     <>
+      {ld && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />}
       {/* ---------------------------------------------------------------- head */}
       <section className="hero-wash">
         <div className="wrap pt-10 sm:pt-14 lg:pt-16">
@@ -166,6 +212,18 @@ export function ProductPage({ slug }: { slug: string }) {
               <TrialHead slug={p.slug} className="mt-9" />
               {/* Free with DS Complete (DS ASL, DS Toolkit): how it is had. */}
               <ExclusiveHead slug={p.slug} className="mt-9" />
+              {/* THE BUY LINE (2026-10-09): every other product shows its price
+                  and its button in the first screen, as a store's product page
+                  does — before, they waited at the price card below the
+                  gallery. A trial product leads with its trial (above); a
+                  product free with DS Complete with how it is had. */}
+              {price && !price.withComplete && !trialHref(p.slug) && (
+                <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+                  <span className={`font-display text-[30px] font-[300] leading-none tabular-nums ${price.free ? "text-bull-text" : "text-ink"}`}>{price.free ? "Free" : money(price.now)}</span>
+                  <BuyButton slug={p.slug} />
+                  <span className="text-[13px] leading-snug text-slate">{price.free ? "Permanently · not a trial" : "One payment · yours to keep"}</span>
+                </div>
+              )}
             </Reveal>
             <Reveal className="lg:col-span-5 lg:justify-self-end" delay={100}>
               <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1" aria-label="Highlights">
@@ -203,11 +261,9 @@ export function ProductPage({ slug }: { slug: string }) {
       {/* ---------------------------------------------------------------- body */}
       <section className="wrap grid gap-12 py-20 lg:grid-cols-12 lg:py-28">
         <Reveal className="lg:col-span-4">
-          {/* The box, small, above the facts — the page's one picture of the
-              product as a product. */}
-          <div className="spotlight relative w-[176px]" style={{ aspectRatio: String(COVER_RATIO) }}>
-            <Image src={boxartFor(p.slug)} alt={`${p.name} box`} fill sizes="176px" className="object-contain" />
-          </div>
+          {/* The product's square cover, small, above the facts — the same
+              picture its card carries on every shelf (content/covers.ts). */}
+          <CoverArt slug={p.slug} sizes="(min-width: 1024px) 300px, 280px" className="w-full max-w-[280px] border border-line lg:max-w-[300px]" />
           <dl className="mt-10 space-y-6 border-t border-line pt-8">
             <Fact label="Type" value={KIND_LABEL[p.kind].singular} />
             <Fact label="Series" value={series.name} />
@@ -319,14 +375,15 @@ export function ProductPage({ slug }: { slug: string }) {
               <Arrow />
             </Link>
           </Reveal>
-          {/* Up to five boxes on a desktop row. Narrower grids show only as
-              many as close a full row — an even number in the phone's two
-              columns, three in the tablet's three — so no box is left alone
-              on a last row (moreCell). */}
-          <Reveal className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+          {/* Up to five cards on a desktop row (1280px+). Narrower grids show
+              only as many as close a full row — three in the tablet's three
+              columns — so no card is left alone on a last row; a phone lists
+              up to four as rows (moreCell). The marketplace card, as on every
+              shelf (components/ProductCard.tsx). */}
+          <Reveal className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-5 xl:grid-cols-5">
             {more.map((m, i) => (
-              <div key={m.slug} className={moreCell(i, more.length)}>
-                <BoxCard slug={m.slug} />
+              <div key={m.slug} className={`flex ${moreCell(i, more.length)}`}>
+                <ProductCard slug={m.slug} tone={inVault ? "vault" : "store"} hooks={1} sizes={MORE_SIZES} className="w-full" />
               </div>
             ))}
           </Reveal>
@@ -337,20 +394,23 @@ export function ProductPage({ slug }: { slug: string }) {
 }
 
 /**
- * Which of the "more" boxes show at which width, so every grid closes on a
- * full row: two columns on a phone (an even number of boxes), three from
- * 640px (three boxes), five from 1024px (all of them). Written out in full —
- * Tailwind cannot see a class built from a number.
+ * Which of the "more" cards show at which width, so every grid closes on a
+ * full row: up to four rows on a phone, three from 640px (three cards), five
+ * from 1280px (all of them). Written out in full — Tailwind cannot see a
+ * class built from a number.
  */
 function moreCell(i: number, n: number) {
-  const phone = n > 1 && n % 2 === 1 ? n - 1 : n; // boxes shown in two columns
-  const tablet = n > 3 ? 3 : n; // boxes shown in three columns
+  const phone = Math.min(n, 4); // cards listed as rows on a phone
+  const tablet = n > 3 ? 3 : n; // cards shown in three columns
   const onPhone = i < phone, onTablet = i < tablet;
   if (onPhone && onTablet) return "min-w-0";
-  if (onPhone && !onTablet) return "min-w-0 sm:hidden lg:block";
-  if (!onPhone && onTablet) return "hidden min-w-0 sm:block";
-  return "hidden min-w-0 lg:block";
+  if (onPhone && !onTablet) return "min-w-0 sm:hidden xl:flex";
+  if (!onPhone && onTablet) return "hidden min-w-0 sm:flex";
+  return "hidden min-w-0 xl:flex";
 }
+
+/** The "more" cards' rendered widths: five across from 1280px, three from 640px, a row on a phone. */
+const MORE_SIZES = "(min-width: 1280px) 210px, (min-width: 640px) 30vw, 104px";
 
 function Fact({ label, value }: { label: string; value: string }) {
   return (

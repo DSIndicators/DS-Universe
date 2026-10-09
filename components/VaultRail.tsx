@@ -1,20 +1,18 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Lens } from "@/components/Loupe";
-import { shotFor } from "@/content/loupe";
-import { VAULT_PRODUCTS, productHref } from "@/content/release";
+import { ProductCard } from "@/components/ProductCard";
+import { VAULT_PRODUCTS } from "@/content/release";
 
 /**
  * THE VAULT'S DRAWER on the home page (2026-10-08) — every Free Vault product
- * by its own chart, in brass, on one rail that slides sideways. It replaced
- * the strip of box art (Tom: "i like the chart designs more, so we'll be
- * moving to implement them to the products on the homepage").
+ * on one rail that slides sideways, each as the marketplace card it is in
+ * the vault itself (components/ProductCard.tsx, in brass): its square cover,
+ * its name, one of its hooks, "Free" and "Get it free".
  *
- * One row whatever the vault holds: snap-aligned frames, the next one always
+ * One row whatever the vault holds: snap-aligned cards, the next one always
  * showing at the edge so the rail reads as "more this way", two quiet arrow
- * keys that page it a frame at a time (disabled at either end), and plain
+ * keys that page it a card at a time (disabled at either end), and plain
  * swipe / trackpad / Shift-wheel scrolling. The rail's edges line up with the
  * page's own gutters (.wrap). No autoplay — a moving shelf is noise.
  */
@@ -48,7 +46,6 @@ export function VaultRail() {
     el.scrollBy({ left: dir * step * Math.max(1, Math.floor(el.clientWidth / step)), behavior: still ? "auto" : "smooth" });
   };
 
-  const ps = VAULT_PRODUCTS.filter((p) => shotFor(p.slug));
   return (
     <div className="relative">
       <div className="wrap flex items-center justify-between gap-6">
@@ -62,26 +59,12 @@ export function VaultRail() {
           </button>
         </div>
       </div>
-      <ul
-        ref={ref}
-        className="vault-rail mt-5 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2"
-        aria-label="In the Free Vault"
-      >
-        {ps.map((p) => {
-          const shot = shotFor(p.slug)!;
-          return (
-            <li key={p.slug} className="w-[78vw] max-w-[300px] shrink-0 snap-start sm:w-[300px]">
-              <Link href={productHref(p.slug)} className="group block" aria-label={`${p.name} — ${p.category}. Free, in the Free Vault.`}>
-                <Lens shot={shot} a={3 / 2} tone="brass" showMark={false} cssWidth={{ lg: 300, sm: "300px", base: "78vw" }} />
-                <span className="mt-3 flex items-baseline justify-between gap-3 border-t border-[rgba(201,165,94,0.2)] pt-2.5">
-                  <span className="truncate font-display text-[15px] text-ink transition-colors group-hover:text-vault-light">{p.name}</span>
-                  <span className="shrink-0 font-mono text-[9.5px] uppercase tracking-[0.18em] text-vault">Free</span>
-                </span>
-                <span className="mt-0.5 block truncate text-[12px] text-mute">{p.category}</span>
-              </Link>
-            </li>
-          );
-        })}
+      <ul ref={ref} className="vault-rail mt-5 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-3 pt-1" aria-label="In the Free Vault">
+        {VAULT_PRODUCTS.map((p) => (
+          <li key={p.slug} className="flex w-[72vw] max-w-[248px] shrink-0 snap-start sm:w-[248px]">
+            <ProductCard slug={p.slug} tone="vault" hooks={1} phoneRow={false} sizes="(min-width: 640px) 248px, 72vw" className="w-full" />
+          </li>
+        ))}
       </ul>
     </div>
   );

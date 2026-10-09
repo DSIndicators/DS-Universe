@@ -1,8 +1,7 @@
 import type { CSSProperties } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
-import { COVER_RATIO, boxartFor, productHref } from "@/content/release";
+import { productHref } from "@/content/release";
 import {
   TRIAL,
   keepPrice,
@@ -14,6 +13,7 @@ import {
   trialTerms,
 } from "@/content/trial";
 import type { Product } from "@/content/products";
+import { CoverArt } from "@/components/CoverArt";
 
 /**
  * THE 3-DAY FREE TRIAL on the page (2026-09-29). Every word and the switch
@@ -35,7 +35,7 @@ import type { Product } from "@/content/products";
  * WHERE IT APPEARS — each placement answers a different moment:
  *   home hero            TrialHeroNote   first screen: that it exists
  *   home, before lineup  TrialBand       the offer in full: tiles, terms, steps
- *   shelf tiles          BoxCard         which boxes carry it (a legend line)
+ *   shelf cards          ProductCard     which cards carry it (a legend line)
  *   price list rows      PriceList       a direct link, row by row
  *   /products head       TrialStoreNote  the store's first screen
  *   product page head    TrialHead       the first action on the page
@@ -182,34 +182,18 @@ export function TrialGrid({ products, className = "" }: { products: Product[]; c
 }
 
 /**
- * One trial product. From 640px it is built exactly like a shelf tile (the box
- * at shelf size, the name, what it is, a hairline) with the trial button where
- * the price would be — visible, not on hover, because touch screens have no
- * hover. On a phone it is a row: the box small on the left, the words and the
- * button beside it.
+ * One trial product. From 640px it is built like a shelf card (the square
+ * cover, the name, what it is, a hairline) with the trial button where the
+ * price would be — visible, not on hover, because touch screens have no
+ * hover. On a phone it is a row: the cover small on the left, the words and
+ * the button beside it.
  */
 function TrialTile({ p }: { p: Product }) {
   const keep = keepPrice(p.slug);
   return (
     <div className="group grid min-w-0 grid-cols-[92px_minmax(0,1fr)] items-center gap-x-5 sm:block">
-      <Link
-        href={productHref(p.slug)}
-        className="relative block"
-        style={{ aspectRatio: String(COVER_RATIO) }}
-        tabIndex={-1}
-        aria-hidden="true"
-      >
-        <span className="spotlight absolute inset-0">
-          <span className="absolute inset-0 transition-transform duration-500 ease-silk group-hover:-translate-y-1.5">
-            <Image
-              src={boxartFor(p.slug)}
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 220px, (min-width: 640px) 30vw, 92px"
-              className="object-contain"
-            />
-          </span>
-        </span>
+      <Link href={productHref(p.slug)} className="pcard pcard-store relative block" tabIndex={-1} aria-hidden="true">
+        <CoverArt slug={p.slug} sizes="(min-width: 1024px) 220px, (min-width: 640px) 30vw, 92px" />
       </Link>
       <div className="min-w-0 sm:mt-2 sm:px-0.5">
         <Link href={productHref(p.slug)} className="block truncate font-display text-[15px] leading-tight text-ink transition-colors duration-300 hover:text-gold-deep">

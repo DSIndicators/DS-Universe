@@ -1,11 +1,10 @@
 import { Reveal } from "@/components/ui/Reveal";
-import { BoxCard } from "@/components/BoxCard";
+import { ProductCard } from "@/components/ProductCard";
+import { CoverArt } from "@/components/CoverArt";
 import { BuyButton, CtaNote } from "@/components/BuyButton";
 import { PriceTag } from "@/components/Price";
 import { PriceList } from "@/components/PriceList";
 import { isPaid, seriesPrice } from "@/content/pricing";
-import { shotFor } from "@/content/loupe";
-import { Lens } from "@/components/Loupe";
 import Link from "next/link";
 import { productHref, type Shelf as ShelfT } from "@/content/release";
 
@@ -26,14 +25,15 @@ import { productHref, type Shelf as ShelfT } from "@/content/release";
  * Every product carries its own gold price chip as well, so a price is never
  * more than a glance from the box it belongs to.
  *
- * THE GRID IS FIXED — five across at lg for every shelf. A four-product shelf
- * leaves its fifth cell empty rather than growing its boxes: every cover is
- * normalised to one height in the artwork, and letting the layout rescale
- * them per shelf would undo exactly that (the 2026-09-18 lesson).
+ * THE GRID IS FIXED — five across from 1280px for every shelf, three from
+ * 768px. A four-product shelf leaves its fifth cell empty rather than growing
+ * its cards, so every card — and every square cover — is one size on every
+ * shelf (the 2026-09-18 lesson, kept through the 2026-10-08 marketplace
+ * cards, components/ProductCard.tsx). On a phone each card is a row.
  *
- * A SERIES OF ONE (the data utility): its box beside its purpose and four
- * highlights, and the buy button under the price. In the grid it would be a
- * single box marooned in four empty cells.
+ * A SERIES OF ONE (the data utility): its square cover beside its purpose and
+ * four highlights, and the buy button under the price. In the grid it would
+ * be a single card marooned in four empty cells.
  *
  * TWO VIEWS (the /products store). With `views`, the panel renders its body
  * twice — `.v-covers` (the boxes) and `.v-list` (PriceList) — under the one
@@ -41,76 +41,52 @@ import { productHref, type Shelf as ShelfT } from "@/content/release";
  * html[data-store-view]). The paragraph and the solo panel's own buy button
  * belong to the covers view: in the list every row carries its own button.
  */
+/** A shelf card's rendered widths: five across from 1280px, three from 768px, two from 640px, a row on a phone. */
+const CARD_SIZES = "(min-width: 1280px) 200px, (min-width: 768px) 30vw, (min-width: 640px) 45vw, 104px";
+
 export function Shelf({
   shelf,
   priority = false,
   views = false,
-  display = "box",
 }: {
   shelf: ShelfT;
   priority?: boolean;
   views?: boolean;
-  /** "chart" (the home page, 2026-10-08): every product shown by its own
-   *  chart through the loupe instead of its box. "box" everywhere else. */
-  display?: "box" | "chart";
 }) {
   const { info, products } = shelf;
-  const charts = display === "chart";
   const price = seriesPrice(info.key);
   const solo = products.length === 1 ? products[0] : undefined;
   /** Wraps what only the covers view shows. A plain block — never put layout classes on it. */
   const CoversOnly = ({ children }: { children: React.ReactNode }) =>
     views ? <div className="v-covers">{children}</div> : <>{children}</>;
 
-  const soloShot = solo && charts ? shotFor(solo.slug) : undefined;
   const covers = solo ? (
     <div className="mt-10 flex flex-col gap-8 sm:flex-row sm:items-center sm:gap-12">
-      {soloShot ? (
-        // The single product, by its own picture: a wider frame, and the
-        // whole frame is the way to its page (its buy button is in the head).
-        <Link href={productHref(solo.slug)} className="group block w-full shrink-0 sm:w-[46%]" aria-label={`${solo.name} — ${solo.category}`}>
-          <Lens shot={soloShot} a={3 / 2} tone="gold" showMark priority={priority} cssWidth={{ lg: 520, sm: "46vw", base: "92vw" }} />
-        </Link>
-      ) : (
-        <div className="w-full max-w-[220px] shrink-0">
-          <BoxCard slug={solo.slug} priority={priority} bare />
-        </div>
-      )}
+      {/* The single product by its square cover; the cover is the way to its
+          page (its buy button is in the head). */}
+      <Link href={productHref(solo.slug)} className="pcard pcard-store group block w-full max-w-[280px] shrink-0" aria-label={`${solo.name} — ${solo.category}`}>
+        <CoverArt slug={solo.slug} sizes="280px" priority={priority} />
+      </Link>
       <div className="flex-1">
         <p className="max-w-xl text-[15px] leading-relaxed text-ink text-pretty">{solo.purpose}</p>
         <ul className="mt-6 grid max-w-xl gap-2.5 sm:grid-cols-2" aria-label={`${solo.name} highlights`}>
           {solo.hooks.map((h) => (
-            <li key={h} className="flex items-center gap-3 rounded-lg border border-line bg-white/[0.02] px-4 py-3 text-[13.5px] text-ink">
-              <span className="block h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
+            <li key={h} className="flex items-center gap-3 border border-line bg-white/[0.02] px-4 py-3 text-[13.5px] text-ink">
+              <span className="block h-1.5 w-1.5 shrink-0 rotate-45 bg-gold" aria-hidden="true" />
               {h}
             </li>
           ))}
         </ul>
       </div>
     </div>
-  ) : charts ? (
-    // THE CHART GRID — rows of two wide frames, then rows of three, so every
-    // row is full at every width: 5 = 2 + 3, 4 = 2 + 2, 3 = 3, 2 = 2. On a
-    // tablet, pairs, with the first product across the whole row when the
-    // count is odd; on a phone, one chart to a row — a chart narrower than
-    // that is a texture, not a picture.
-    <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-6">
-      {products.map((p, i) => {
-        const wide = chartRowWide(products.length, i);
-        const lone = products.length % 2 === 1 && i === 0;
-        return (
-          <div key={p.slug} className={`min-w-0 ${lone ? "sm:col-span-2" : ""} ${wide ? "lg:col-span-3" : "lg:col-span-2"}`}>
-            <BoxCard slug={p.slug} priority={priority && i < 2} chart chartWidth={wide ? 540 : 350} />
-          </div>
-        );
-      })}
-    </div>
   ) : (
-    <div className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+    <ul className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 xl:grid-cols-5">
       {products.map((p, i) => (
-        <BoxCard key={p.slug} slug={p.slug} priority={priority && i < 5} />
+        <li key={p.slug} className="flex min-w-0">
+          <ProductCard slug={p.slug} tone="store" hooks={1} sizes={CARD_SIZES} priority={priority && i < 5} className="w-full" />
+        </li>
       ))}
-    </div>
+    </ul>
   );
 
   return (
@@ -158,12 +134,4 @@ export function Shelf({
       </Reveal>
     </section>
   );
-}
-
-/** Is tile i of n in a row of two (wide) at 1024px+? Rows of two come first,
- *  then rows of three: 5 = 2 + 3, 4 = 2 + 2, 3 = 3, 2 = 2, 6 = 3 + 3. */
-function chartRowWide(n: number, i: number) {
-  if (n % 3 === 0) return false;
-  const twos = n % 3 === 1 ? 2 : 1; // rows of two needed to make the rest divide by three
-  return i < twos * 2;
 }

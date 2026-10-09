@@ -1,4 +1,13 @@
 /**
+ * NOW (2026-10-08, later): THE INTERIM COVER SOURCE. The marketplace cards
+ * show every product by one SQUARE cover (content/covers.ts). Until a product
+ * has its square cover, its card shows a square cut of the picture below,
+ * centred on `focus` (components/CoverArt.tsx). The magnifying loupe, its
+ * marks and its readings are no longer drawn (the loupe component and its CSS
+ * are in DS-Universe-3\_to_delete\removed-1008-market); `mark` and `reading`
+ * are kept as the record of what each picture shows. When every product has
+ * its square cover, this file can go.
+ *
  * THE LOUPE — EACH PRODUCT SHOWN BY ITS OWN CHART. Built for the Free Vault
  * first (Tom, 2026-10-08:
  * "the product images are too generic and looks like a fake store front, i
