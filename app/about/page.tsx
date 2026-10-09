@@ -23,11 +23,11 @@ export default function AboutPage() {
           <dl className="space-y-7">
             {FACTS.map((f) => (
               <div key={f.label}>
-                <dt className="flex items-center gap-2.5 text-[14px] text-ink">
+                <dt className="flex items-center gap-2.5 text-[length:calc(14px*var(--type))] text-ink">
                   <span className="block h-2 w-2 rounded-[2px] bg-gold" aria-hidden="true" />
                   {f.label}
                 </dt>
-                <dd className="mt-1.5 pl-[18px] text-[14.5px] text-slate">{f.value}</dd>
+                <dd className="mt-1.5 pl-[18px] text-[length:calc(14.5px*var(--type))] text-slate">{f.value}</dd>
               </div>
             ))}
           </dl>
@@ -49,7 +49,7 @@ export default function AboutPage() {
           {PRINCIPLES.map((p, i) => (
             <Reveal key={p.title} delay={i * 90} className="border-t border-line-strong pt-6">
               <h2 className="display-sm text-ink">{p.title}</h2>
-              <p className="mt-3 text-[14px] leading-relaxed text-slate text-pretty">{p.text}</p>
+              <p className="mt-3 text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">{p.text}</p>
             </Reveal>
           ))}
         </div>

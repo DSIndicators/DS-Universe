@@ -5,14 +5,24 @@ import { PRODUCTS } from "@/content/products";
  * have 1 coherent size and vision").
  *
  * Every product in the marketplace is shown by one SQUARE picture: Tom's own
- * NinjaTrader 8 chart on the light template, cropped square to the move the
- * indicator is about, with his hand-drawn marks on it. The cards in the Free
+ * NinjaTrader 8 chart, cropped square to the move the indicator is about,
+ * with his hand-drawn marks on it, shown on the site's dark plate (below). The cards in the Free
  * Vault, the store, the home page and the "more" row on every product page
  * all draw the cover from here (components/CoverArt.tsx), so a cover added
  * here appears everywhere at once.
  *
  * Masters: DS Media\DS Product Image Covers On Web\<Product name>.png
- * (1080 x 1080, never edited). The site serves a webp copy at
+ * (1080 x 1080, shot on the light template, never edited).
+ *
+ * THE DARK PLATE (Tom chose version B, 2026-10-09). The light chart ground is
+ * lifted out of each master and replaced with the plate #0E1116: house colours
+ * keep their hue, translucent zone fills stay translucent, dark text and black
+ * chalk turn light, light-tint chalk stays bright. Nothing on the chart is
+ * moved or added. B adds a hairline inner frame, gold corner marks and a soft
+ * edge falloff. The served files come from
+ * DS Product Image Covers On Web\Dark Plate Concepts 2026-10-09\B - Plate + Frame
+ * (batch 1009b). A NEW cover shot on the light template needs the same
+ * treatment before it goes in, or it will be the one grey tile on the shelf. The site serves a webp copy at
  * public/covers/sq/<batch>/<slug>.webp — a cover that is re-shot gets a NEW
  * batch folder (the site's assets are cached for a year under one name).
  *
@@ -44,132 +54,132 @@ export const SQUARE_COVERS: Record<string, Cover> = {
      Masters in DS Media\DS Product Image Covers On Web (two are named
      without spaces there: "DS AdaptivePriceLine.png", "DS SessionLevels.png"). */
   zones: {
-    src: "/covers/sq/1009/zones.webp",
+    src: "/covers/sq/1009b/zones.webp",
     w: 1080,
     h: 1080,
-    alt: "DS Zones on a light NinjaTrader chart: supply at 29289.00 APPROACHING, supply at 29271.75 BREAKING and demand at 29257.75 DEFENDED, each with its volume profile and label at the right edge; hand-drawn arrows mark the turn off demand.",
+    alt: "DS Zones on a dark NinjaTrader chart: supply at 29289.00 APPROACHING, supply at 29271.75 BREAKING and demand at 29257.75 DEFENDED, each with its volume profile and label at the right edge; hand-drawn arrows mark the turn off demand.",
   },
   iceberg: {
-    src: "/covers/sq/1009/iceberg.webp",
+    src: "/covers/sq/1009b/iceberg.webp",
     w: 1080,
     h: 1080,
-    alt: "DS Iceberg on a light NinjaTrader chart: an ICE OFFER at 30069.75 above the range and an ICE BID below it, with price rejected at each; hand-drawn arrows mark the repeated tests.",
+    alt: "DS Iceberg on a dark NinjaTrader chart: an ICE OFFER at 30069.75 above the range and an ICE BID below it, with price rejected at each; hand-drawn arrows mark the repeated tests.",
   },
   oracle: {
-    src: "/covers/sq/1009/oracle.webp",
+    src: "/covers/sq/1009b/oracle.webp",
     w: 1080,
     h: 1080,
-    alt: "DS Oracle on a light NinjaTrader chart: the Neural Line curving under price as the trend turns up, the trailing line and the Spectrum-colored candles; hand-drawn arrows follow the turn.",
+    alt: "DS Oracle on a dark NinjaTrader chart: the Neural Line curving under price as the trend turns up, the trailing line and the Spectrum-colored candles; hand-drawn arrows follow the turn.",
   },
   gex: {
-    src: "/covers/sq/1009/gex.webp",
+    src: "/covers/sq/1009b/gex.webp",
     w: 1080,
     h: 1080,
-    alt: "DS GEX on a light NinjaTrader chart: price turning at the PW 0DTE level 29200.16, the EM Low 29173.24 and the Gamma Flip 29142.95, each label circled by hand.",
+    alt: "DS GEX on a dark NinjaTrader chart: price turning at the PW 0DTE level 29200.16, the EM Low 29173.24 and the Gamma Flip 29142.95, each label circled by hand.",
   },
   flow: {
-    src: "/covers/sq/1009/flow.webp",
+    src: "/covers/sq/1009b/flow.webp",
     w: 1080,
     h: 1080,
-    alt: "DS Flow on a light NinjaTrader chart: buy and sell volume at every price, drawn as profiles along a rally from its base; hand-drawn arrows trace the move.",
+    alt: "DS Flow on a dark NinjaTrader chart: buy and sell volume at every price, drawn as profiles along a rally from its base; hand-drawn arrows trace the move.",
   },
   proliquidityhunter: {
-    src: "/covers/sq/1009/proliquidityhunter.webp",
+    src: "/covers/sq/1009b/proliquidityhunter.webp",
     w: 1080,
     h: 1080,
     alt: "DS ProLiquidityHunter on a dark NinjaTrader chart: price sweeping two resting pools and turning, with the liquidity map panel below; the sweeps are circled and marked by hand.",
   },
   proheikinashi: {
-    src: "/covers/sq/1009/proheikinashi.webp",
+    src: "/covers/sq/1009b/proheikinashi.webp",
     w: 1080,
     h: 1080,
-    alt: "DS ProHeikinAshi on a light NinjaTrader chart: an uptrend with its FLIP levels at the right edge and the Heikin-Ashi panel below, where FLIP 29066.75 with its odds is circled by hand.",
+    alt: "DS ProHeikinAshi on a dark NinjaTrader chart: an uptrend with its FLIP levels at the right edge and the Heikin-Ashi panel below, where FLIP 29066.75 with its odds is circled by hand.",
   },
   "adaptive-priceline": {
-    src: "/covers/sq/1009/adaptive-priceline.webp",
+    src: "/covers/sq/1009b/adaptive-priceline.webp",
     w: 1080,
     h: 1080,
-    alt: "DS Adaptive Price Line on a light NinjaTrader chart: the line from the live candle to the price axis, with its countdown tag on it, circled by hand.",
+    alt: "DS Adaptive Price Line on a dark NinjaTrader chart: the line from the live candle to the price axis, with its countdown tag on it, circled by hand.",
   },
   "chart-price": {
-    src: "/covers/sq/1009/chart-price.webp",
+    src: "/covers/sq/1009b/chart-price.webp",
     w: 1080,
     h: 1080,
-    alt: "DS Chart Price on a light NinjaTrader chart: the last price, 29518.75, in large red digits at the top of the chart, between two hand-drawn arrows.",
+    alt: "DS Chart Price on a dark NinjaTrader chart: the last price, 29518.75, in large red digits at the top of the chart, between two hand-drawn arrows.",
   },
   "ds-258": {
-    src: "/covers/sq/1009/ds-258.webp",
+    src: "/covers/sq/1009b/ds-258.webp",
     w: 1080,
     h: 1080,
-    alt: "DS 258 on a light NinjaTrader chart: price moving between the 00, 20, 50 and 80 levels, each in its own color; a hand-drawn arrow marks the bounce off a level.",
+    alt: "DS 258 on a dark NinjaTrader chart: price moving between the 00, 20, 50 and 80 levels, each in its own color; a hand-drawn arrow marks the bounce off a level.",
   },
   parallax: {
-    src: "/covers/sq/1009/parallax.webp",
+    src: "/covers/sq/1009b/parallax.webp",
     w: 1080,
     h: 1080,
-    alt: "DS Parallax on a light NinjaTrader chart: price above, and four higher-timeframe mini charts along the bottom of the panel; a hand-drawn arrow points to them.",
+    alt: "DS Parallax on a dark NinjaTrader chart: price above, and four higher-timeframe mini charts along the bottom of the panel; a hand-drawn arrow points to them.",
   },
   "session-levels": {
-    src: "/covers/sq/1009/session-levels.webp",
+    src: "/covers/sq/1009b/session-levels.webp",
     w: 1080,
     h: 1080,
-    alt: "DS Session Levels on a light NinjaTrader chart: the Asia, London and New York highs and lows carried forward across the day; hand-drawn arrows mark the reactions at them.",
+    alt: "DS Session Levels on a dark NinjaTrader chart: the Asia, London and New York highs and lows carried forward across the day; hand-drawn arrows mark the reactions at them.",
   },
   stochastics: {
-    src: "/covers/sq/1009/stochastics.webp",
+    src: "/covers/sq/1009b/stochastics.webp",
     w: 1080,
     h: 1080,
-    alt: "DS Stochastics on a light NinjaTrader chart: the four stochastic lanes in one panel under price, with the low and the high of the move circled by hand.",
+    alt: "DS Stochastics on a dark NinjaTrader chart: the four stochastic lanes in one panel under price, with the low and the high of the move circled by hand.",
   },
   squeeze: {
-    src: "/covers/sq/1009/squeeze.webp",
+    src: "/covers/sq/1009b/squeeze.webp",
     w: 1080,
     h: 1080,
-    alt: "DS Squeeze on a light NinjaTrader chart: a quiet compression and then the fire upward, the squeeze panel below; hand-drawn arrows mark the base and the move.",
+    alt: "DS Squeeze on a dark NinjaTrader chart: a quiet compression and then the fire upward, the squeeze panel below; hand-drawn arrows mark the base and the move.",
   },
   macd: {
-    src: "/covers/sq/1009/macd.webp",
+    src: "/covers/sq/1009b/macd.webp",
     w: 1080,
     h: 1080,
-    alt: "DS MACD on a light NinjaTrader chart: a divergence line along the lows, the panel confirming it, and the rally that followed; the confirmation is circled by hand.",
+    alt: "DS MACD on a dark NinjaTrader chart: a divergence line along the lows, the panel confirming it, and the rally that followed; the confirmation is circled by hand.",
   },
   asl: {
-    src: "/covers/sq/1009/asl.webp",
+    src: "/covers/sq/1009b/asl.webp",
     w: 1080,
     h: 1080,
-    alt: "DS ASL on a light NinjaTrader chart: the Asia, London and New York sessions, each with its volume profile, high, low and POC carried forward as levels; hand-drawn arrows mark the reactions.",
+    alt: "DS ASL on a dark NinjaTrader chart: the Asia, London and New York sessions, each with its volume profile, high, low and POC carried forward as levels; hand-drawn arrows mark the reactions.",
   },
   "bulk-replay-downloader": {
-    src: "/covers/sq/1009/bulk-replay-downloader.webp",
+    src: "/covers/sq/1009b/bulk-replay-downloader.webp",
     w: 1080,
     h: 1080,
     alt: "DS Bulk Replay Downloader in NinjaTrader 8: six futures instruments selected, a date range, and the per-file list showing finished, existing, downloading and queued Market Replay days.",
   },
   toolkit: {
-    src: "/covers/sq/1009/toolkit.webp",
+    src: "/covers/sq/1009b/toolkit.webp",
     w: 1080,
     h: 1080,
-    alt: "DS Toolkit on a light NinjaTrader chart: the DS rail with a switch for each indicator, the drawing tools and DS Chalk, with Toolkit, Chalk and NinjaTrader 8 written on the chart in chalk.",
+    alt: "DS Toolkit on a dark NinjaTrader chart: the DS rail with a switch for each indicator, the drawing tools and DS Chalk, with Toolkit, Chalk and NinjaTrader 8 written on the chart in chalk.",
   },
 
   /* ------------------------------------------- 2026-10-08, first three */
   vwap: {
-    src: "/covers/sq/1008/vwap.webp",
+    src: "/covers/sq/1009b/vwap.webp",
     w: 1080,
     h: 1080,
-    alt: "DS VWAP on a light NinjaTrader chart: a session falling away from its high, with the VWAP panel's value bands and the reach odds at its right edge below; the move is traced by a hand-drawn arrow.",
+    alt: "DS VWAP on a dark NinjaTrader chart: a session falling away from its high, with the VWAP panel's value bands and the reach odds at its right edge below; the move is traced by a hand-drawn arrow.",
   },
   prorsi: {
-    src: "/covers/sq/1008/prorsi.webp",
+    src: "/covers/sq/1009b/prorsi.webp",
     w: 1080,
     h: 1080,
-    alt: "DS ProRSI on a light NinjaTrader chart: RSI 92, RSI 87 and RSI 15 zones on price and the RSI panel below; the RSI cross and the candle it came on are circled by hand, with an arrow along the move that followed.",
+    alt: "DS ProRSI on a dark NinjaTrader chart: RSI 92, RSI 87 and RSI 15 zones on price and the RSI panel below; the RSI cross and the candle it came on are circled by hand, with an arrow along the move that followed.",
   },
   protrendrange: {
-    src: "/covers/sq/1008/protrendrange.webp",
+    src: "/covers/sq/1009b/protrendrange.webp",
     w: 1080,
     h: 1080,
-    alt: "DS ProTrendRange on a light NinjaTrader chart: an uptrend with the indicator's marks under two pullbacks and its trend panel below; a hand-drawn arrow follows the trend.",
+    alt: "DS ProTrendRange on a dark NinjaTrader chart: an uptrend with the indicator's marks under two pullbacks and its trend panel below; a hand-drawn arrow follows the trend.",
   },
 };
 
@@ -184,7 +194,7 @@ export const squareCoverFor = (slug: string): Cover | undefined => SQUARE_COVERS
  * content/pricing.ts; re-run it (into a new batch) when a cover, name or price
  * changes. A product without a cover keeps the site card.
  */
-export const OG_BATCH = "1009";
+export const OG_BATCH = "1009b";
 export const ogCardFor = (slug: string): string | undefined => (SQUARE_COVERS[slug] ? `/og/${OG_BATCH}/${slug}.png` : undefined);
 
 // A cover for a product that does not exist would never be seen: stop the build.

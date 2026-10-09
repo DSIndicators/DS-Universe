@@ -66,12 +66,12 @@ export default function FreeVaultPage() {
                   {VAULT_COPY.enter}
                   <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-y-0.5">↓</span>
                 </a>
-                <VaultSearchLink className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-mute transition-colors hover:text-vault-light">
+                <VaultSearchLink className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-mute transition-colors hover:text-vault-light">
                   {VAULT_COPY.enterSearch} <span className="ml-1 hidden border border-[rgba(201,165,94,0.3)] px-1 md:inline" aria-hidden="true">/</span>
                 </VaultSearchLink>
               </div>
             </Reveal>
-            <div className="relative mx-auto w-full max-w-[200px] sm:max-w-[280px] lg:col-span-5 lg:max-w-[340px]">
+            <div className="relative mx-auto w-full max-w-[200px] sm:max-w-[280px] lg:col-span-5 lg:max-w-[340px] 2xl:max-w-[420px]">
               <VaultDial className="block w-full text-vault" />
             </div>
           </div>
@@ -89,9 +89,9 @@ export default function FreeVaultPage() {
               <h2 id="vault-shelf-title" className="display-md text-ink text-balance">
                 {VAULT_COPY.shelfHeading}
               </h2>
-              <p className="mt-2.5 text-[15px] leading-snug text-slate text-pretty">{VAULT_COPY.shelfSub}</p>
+              <p className="mt-2.5 text-[length:calc(15px*var(--type))] leading-snug text-slate text-pretty">{VAULT_COPY.shelfSub}</p>
             </div>
-            <p className="flex items-baseline gap-3 font-mono text-[10.5px] uppercase tracking-[0.16em] text-vault">
+            <p className="flex items-baseline gap-3 font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-vault">
               <span className="block h-px w-8 self-center bg-vault" aria-hidden="true" />
               Free · permanently
             </p>
@@ -99,7 +99,7 @@ export default function FreeVaultPage() {
           <div className="mt-7">
             <VaultRoom />
           </div>
-          <p className="mt-12 max-w-3xl border-t border-[rgba(201,165,94,0.16)] pt-5 text-[12.5px] leading-relaxed text-mute">
+          <p className="mt-12 max-w-3xl border-t border-[rgba(201,165,94,0.16)] pt-5 text-[length:calc(12.5px*var(--type))] leading-relaxed text-mute">
             {VAULT_COPY.chartsNote} {DISCLOSURE.chart}{" "}
             <Link href="/disclosures" className="underline decoration-mute/50 underline-offset-4 hover:text-ink">
               Disclosures
@@ -114,10 +114,10 @@ export default function FreeVaultPage() {
           <Reveal className="lg:col-span-5">
             <p className="label">How it works</p>
             <h2 className="display-md mt-4 text-ink text-balance">A free product is licensed like a paid one.</h2>
-            <p className="mt-6 max-w-md text-[14px] leading-relaxed text-slate text-pretty">
+            <p className="mt-6 max-w-md text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">
               {open ? AFTER_CHECKOUT.short : "Every product is on the waitlist while the files are being attached. Joining costs nothing."}
             </p>
-            <p className="mt-6 text-[14px] leading-relaxed text-slate">
+            <p className="mt-6 text-[length:calc(14px*var(--type))] leading-relaxed text-slate">
               A question first?{" "}
               <AskButton className="text-ink underline decoration-vault/60 underline-offset-4 hover:decoration-vault-light">Ask it here</AskButton>, or write to{" "}
               <a href={`mailto:${SITE.email}`} className="text-ink underline decoration-vault/60 underline-offset-4 hover:decoration-vault-light">
@@ -131,10 +131,10 @@ export default function FreeVaultPage() {
               <ol className="space-y-7">
                 {AFTER_CHECKOUT.steps.map((s, i) => (
                   <li key={s.title} className="grid grid-cols-[28px_minmax(0,1fr)] gap-x-3 border-t border-line-strong pt-5">
-                    <span className="font-mono text-[12px] tabular-nums text-vault">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="font-mono text-[length:calc(12px*var(--type))] tabular-nums text-vault">{String(i + 1).padStart(2, "0")}</span>
                     <div>
-                      <p className="text-[14.5px] font-medium text-ink">{s.title}</p>
-                      <p className="mt-1.5 text-[14px] leading-relaxed text-slate text-pretty">{s.text}</p>
+                      <p className="text-[length:calc(14.5px*var(--type))] font-medium text-ink">{s.title}</p>
+                      <p className="mt-1.5 text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">{s.text}</p>
                     </div>
                   </li>
                 ))}
@@ -150,7 +150,7 @@ export default function FreeVaultPage() {
           <div className="max-w-xl">
             <p className="label">The store</p>
             <h2 className="display-md mt-4 text-ink text-balance">{VAULT_COPY.storeHeading}</h2>
-            <p className="mt-4 text-[14.5px] leading-relaxed text-slate text-pretty">{VAULT_COPY.storeText}</p>
+            <p className="mt-4 text-[length:calc(14.5px*var(--type))] leading-relaxed text-slate text-pretty">{VAULT_COPY.storeText}</p>
           </div>
           <Link href={STORE_PATH} className="btn-ghost group shrink-0">
             {VAULT_COPY.storeCta}
@@ -158,7 +158,7 @@ export default function FreeVaultPage() {
           </Link>
         </Reveal>
         <div className="wrap pb-16">
-          <p className="max-w-3xl text-[13px] leading-relaxed text-mute">{DISCLOSURE.short}</p>
+          <p className="max-w-3xl text-[length:calc(13px*var(--type))] leading-relaxed text-mute">{DISCLOSURE.short}</p>
         </div>
       </section>
     </div>

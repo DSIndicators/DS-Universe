@@ -46,7 +46,7 @@ export default function TrialPage() {
       <section className="hero-wash">
         <div className="wrap pb-14 pt-12 sm:pt-16 lg:pb-16 lg:pt-20">
           <Reveal>
-            <Link href="/products" className="group inline-flex items-center gap-2 text-[13px] text-slate hover:text-ink">
+            <Link href="/products" className="group inline-flex items-center gap-2 text-[length:calc(13px*var(--type))] text-slate hover:text-ink">
               <Arrow className="rotate-180 group-hover:-translate-x-0.5" />
               All products
             </Link>
@@ -85,10 +85,10 @@ export default function TrialPage() {
           <Reveal className="lg:col-span-5">
             <p className="label">Before you start</p>
             <h2 className="display-md mt-4 text-ink text-balance">What people ask first.</h2>
-            <p className="mt-6 text-[14px] leading-relaxed text-slate text-pretty">
+            <p className="mt-6 text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">
               Not ready to try a paid one? Everything in the Free Vault is free, permanently — no trial clock at all.
             </p>
-            <Link href="/free-vault" className="group mt-4 inline-flex items-center gap-2 text-[14px] text-ink">
+            <Link href="/free-vault" className="group mt-4 inline-flex items-center gap-2 text-[length:calc(14px*var(--type))] text-ink">
               Open the Free Vault
               <Arrow />
             </Link>
@@ -98,7 +98,7 @@ export default function TrialPage() {
               {faqs.map((f) => (
                 <li key={f.q} className="border-t border-line">
                   <details className="group">
-                    <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 text-[15px] leading-snug text-ink transition-colors hover:text-gold-deep [&::-webkit-details-marker]:hidden">
+                    <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 text-[length:calc(15px*var(--type))] leading-snug text-ink transition-colors hover:text-gold-deep [&::-webkit-details-marker]:hidden">
                       <span className="text-pretty">{f.q}</span>
                       <svg
                         viewBox="0 0 16 16"
@@ -112,12 +112,12 @@ export default function TrialPage() {
                         <path d="M8 2.5v11M2.5 8h11" />
                       </svg>
                     </summary>
-                    <p className="max-w-2xl pb-6 pr-10 text-[14px] leading-relaxed text-slate text-pretty">{f.a}</p>
+                    <p className="max-w-2xl pb-6 pr-10 text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">{f.a}</p>
                   </details>
                 </li>
               ))}
             </ul>
-            <p className="mt-8 max-w-xl text-[13px] leading-relaxed text-mute">{DISCLOSURE.short}</p>
+            <p className="mt-8 max-w-xl text-[length:calc(13px*var(--type))] leading-relaxed text-mute">{DISCLOSURE.short}</p>
           </Reveal>
         </div>
       </section>

@@ -25,7 +25,7 @@ export function PriceList({ products, buttonWidth = 124 }: { products: Product[]
     <>
     {/* Column heads, like a printed price list — from 640px, where the row
         is a true table row. */}
-    <div className="hidden grid-cols-[52px_minmax(0,1fr)_auto_auto] gap-x-6 pb-3 font-mono text-[10.5px] uppercase tracking-[0.14em] text-mute sm:grid" aria-hidden="true">
+    <div className="hidden grid-cols-[52px_minmax(0,1fr)_auto_auto] gap-x-6 pb-3 font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.14em] text-mute sm:grid" aria-hidden="true">
       <span />
       <span>Product</span>
       <span className="min-w-[84px] text-right">Price</span>
@@ -44,10 +44,10 @@ export function PriceList({ products, buttonWidth = 124 }: { products: Product[]
               <CoverArt slug={p.slug} sizes="52px" />
             </Link>
             <div className="min-w-0">
-              <Link href={productHref(p.slug)} className="font-display text-[15px] text-ink transition-colors hover:text-gold-deep">
+              <Link href={productHref(p.slug)} className="font-display text-[length:calc(15px*var(--type))] text-ink transition-colors hover:text-gold-deep">
                 {p.name}
               </Link>
-              <p className="mt-0.5 truncate text-[12.5px] text-slate">{p.category}</p>
+              <p className="mt-0.5 truncate text-[length:calc(12.5px*var(--type))] text-slate">{p.category}</p>
               {/* The 3-day free trial (content/trial.ts): a direct link, on
                   the rows that have one. The row's own price and buy button
                   are untouched. */}
@@ -56,7 +56,7 @@ export function PriceList({ products, buttonWidth = 124 }: { products: Product[]
                   href={trialHref(p.slug)}
                   target="_blank"
                   rel="noopener"
-                  className="mt-1.5 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-bull-text transition-colors hover:text-ink"
+                  className="mt-1.5 inline-flex items-center gap-2 font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.12em] text-bull-text transition-colors hover:text-ink"
                 >
                   <TrialMark />
                   {TRIAL.ctaTile}
@@ -65,7 +65,7 @@ export function PriceList({ products, buttonWidth = 124 }: { products: Product[]
               )}
               {/* A row that is had by buying DS Complete. */}
               {pr?.withComplete && (
-                <span className="mt-1.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-gold">
+                <span className="mt-1.5 flex items-center gap-2 font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.12em] text-gold">
                   <span className="h-[6px] w-[6px] shrink-0 rotate-45 border border-gold" aria-hidden="true" />
                   {WITH_BUNDLE.short}
                 </span>
@@ -76,14 +76,14 @@ export function PriceList({ products, buttonWidth = 124 }: { products: Product[]
             <div className="col-start-2 flex items-center justify-between gap-4 sm:contents">
               <div className="flex items-center gap-2.5 sm:justify-self-end">
                 {off > 0 && isPaid(pr) && (
-                  <s className="text-[13px] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(pr.list)}`}>
+                  <s className="text-[length:calc(13px*var(--type))] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(pr.list)}`}>
                     {money(pr.list)}
                   </s>
                 )}
                 <PriceFigure price={pr} size="md" className="sm:min-w-[84px] sm:text-right" />
               </div>
               <span className="contents sm:block sm:shrink-0" style={bw}>
-                <BuyButton slug={p.slug} variant="ghost" className="!h-10 !px-4 !text-[13px] sm:w-full" />
+                <BuyButton slug={p.slug} variant="ghost" className="!h-10 !px-4 !text-[length:calc(13px*var(--type))] sm:w-full" />
               </span>
             </div>
           </li>

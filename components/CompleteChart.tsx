@@ -574,10 +574,10 @@ export function CompleteChart({ className = "" }: { className?: string }) {
   return (
     <div ref={card} className={`border border-line bg-[rgba(14,17,21,0.72)] ${className}`}>
       <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
-        <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.12em] text-mute min-[400px]:tracking-[0.16em]">
+        <span className="whitespace-nowrap font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.12em] text-mute min-[400px]:tracking-[0.16em]">
           One chart <span className="text-slate">·</span> every tool in it
         </span>
-        <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-slate">
+        <span className="flex items-center gap-2 font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.16em] text-slate">
           <span className="h-1.5 w-1.5 rounded-full" style={{ background: ONLINE }} aria-hidden="true" />
           NT8
         </span>
@@ -595,7 +595,7 @@ export function CompleteChart({ className = "" }: { className?: string }) {
               type="button"
               aria-pressed={focus?.series === s}
               onClick={() => choose(focus?.series === s && !focus.slug ? null : { series: s, source: "tap" })}
-              className="h-8 min-w-0 flex-[1_1_auto] whitespace-nowrap rounded-[3px] border px-1 font-mono text-[8px] uppercase tracking-[0.02em] transition-colors duration-300 min-[360px]:text-[8.5px] min-[360px]:tracking-[0.05em] min-[400px]:text-[9px] min-[400px]:tracking-[0.1em]"
+              className="h-8 min-w-0 flex-[1_1_auto] whitespace-nowrap rounded-[3px] border px-1 font-mono text-[length:calc(8px*var(--type))] uppercase tracking-[0.02em] transition-colors duration-300 min-[360px]:text-[length:calc(8.5px*var(--type))] min-[360px]:tracking-[0.05em] min-[400px]:text-[length:calc(9px*var(--type))] min-[400px]:tracking-[0.1em]"
               style={{ borderColor: on ? "rgba(25,242,230,0.5)" : "#23272D", color: on ? TEAL : "#7C848D" }}
             >
               <span className="min-[440px]:hidden">{TAB_SHORT[s]}</span>
@@ -617,8 +617,8 @@ export function CompleteChart({ className = "" }: { className?: string }) {
 
       {/* desktops: what the pointer is on, in the product's own words */}
       <div className="hidden min-h-[40px] items-baseline gap-3 border-t border-line px-4 py-2.5 [@media(hover:hover)_and_(pointer:fine)]:flex" aria-live="polite">
-        <span className="shrink-0 font-mono text-[9.5px] uppercase tracking-[0.16em] text-[#565D66]">Illustration</span>
-        <span className="min-w-0 text-[12.5px] leading-snug text-slate">
+        <span className="shrink-0 font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.16em] text-[#565D66]">Illustration</span>
+        <span className="min-w-0 text-[length:calc(12.5px*var(--type))] leading-snug text-slate">
           {/* Each state is its own KEYED element, so React swaps elements and
               never a bare text node — a page translator replaces text nodes,
               and swapping one it had replaced is what crashed the site on
@@ -659,8 +659,8 @@ function TouchFoot({ focus, touring, pos, choose }: { focus: Focus; touring: boo
       <div className="flex items-center gap-2 px-3 pt-3">
         <StepButton label="Previous tool" onClick={() => choose(prev(focus))} flip />
         <div className="min-w-0 flex-1 text-center">
-          <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-mute">{top}</p>
-          <p className="mt-0.5 truncate text-[14px] leading-tight text-ink">{name}</p>
+          <p className="font-mono text-[length:calc(9px*var(--type))] uppercase tracking-[0.14em] text-mute">{top}</p>
+          <p className="mt-0.5 truncate text-[length:calc(14px*var(--type))] leading-tight text-ink">{name}</p>
         </div>
         <StepButton label="Next tool" onClick={() => choose(next(focus))} />
       </div>
@@ -672,8 +672,8 @@ function TouchFoot({ focus, touring, pos, choose }: { focus: Focus; touring: boo
 
       {/* fixed height: the card never jumps as the line changes */}
       <div className="flex min-h-[118px] flex-col px-4 pb-3.5 pt-2.5" aria-live={touring ? "off" : "polite"}>
-        <span className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-[#565D66]">Illustration</span>
-        <p className="mt-1 text-[12.5px] leading-snug text-slate text-pretty">
+        <span className="font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.16em] text-[#565D66]">Illustration</span>
+        <p className="mt-1 text-[length:calc(12.5px*var(--type))] leading-snug text-slate text-pretty">
           {!s ? (
             <span className="text-mute">Every tool in DS Complete, drawn on one chart. Tap a series, or step through them one by one.</span>
           ) : focus?.slug ? (
@@ -688,12 +688,12 @@ function TouchFoot({ focus, touring, pos, choose }: { focus: Focus; touring: boo
               <Link
                 href={productHref(focus.slug)}
                 onClick={() => choose({ ...focus, source: "tap" })}
-                className="inline-block py-1 text-[12.5px] text-ink underline decoration-line-strong underline-offset-4"
+                className="inline-block py-1 text-[length:calc(12.5px*var(--type))] text-ink underline decoration-line-strong underline-offset-4"
               >
                 View {NAME_OF[focus.slug]} →
               </Link>
             ) : HAS_PANEL.has(s) ? (
-              <a href={`#${s}`} onClick={() => choose({ ...focus, source: "tap" })} className="inline-block py-1 text-[12.5px] text-ink underline decoration-line-strong underline-offset-4">
+              <a href={`#${s}`} onClick={() => choose({ ...focus, source: "tap" })} className="inline-block py-1 text-[length:calc(12.5px*var(--type))] text-ink underline decoration-line-strong underline-offset-4">
                 Go to the {SERIES_NAME[s]} ↓
               </a>
             ) : (
@@ -705,7 +705,7 @@ function TouchFoot({ focus, touring, pos, choose }: { focus: Focus; touring: boo
                     key={it.slug}
                     href={productHref(it.slug)}
                     onClick={() => choose({ ...focus, source: "tap" })}
-                    className="inline-block py-1 text-[12.5px] text-ink underline decoration-line-strong underline-offset-4"
+                    className="inline-block py-1 text-[length:calc(12.5px*var(--type))] text-ink underline decoration-line-strong underline-offset-4"
                   >
                     View {NAME_OF[it.slug]} →
                   </Link>

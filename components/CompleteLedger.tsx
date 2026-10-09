@@ -77,7 +77,7 @@ export function CompleteLedger({ rows, label }: { rows: LedgerRow[]; label: stri
             onBlur={leave}
           >
             {r.href ? (
-              <a href={r.href} className="group flex items-baseline gap-3 text-[13.5px]">
+              <a href={r.href} className="group flex items-baseline gap-3 text-[length:calc(13.5px*var(--type))]">
                 <span className={`transition-colors duration-300 ${building || on ? "text-gold-deep" : "text-ink"} group-hover:text-gold-deep`}>{r.name}</span>
                 <span className="ml-auto tabular-nums text-slate">{r.price}</span>
                 <span
@@ -90,13 +90,13 @@ export function CompleteLedger({ rows, label }: { rows: LedgerRow[]; label: stri
             ) : (
               // No panel below and several products: the same row, as text.
               // The arrow's column is kept empty so the figures stay in line.
-              <p className="flex items-baseline gap-3 text-[13.5px]">
+              <p className="flex items-baseline gap-3 text-[length:calc(13.5px*var(--type))]">
                 <span className={`transition-colors duration-300 ${building || on ? "text-gold-deep" : "text-ink"}`}>{r.name}</span>
                 <span className="ml-auto tabular-nums text-slate">{r.price}</span>
                 <span className="w-3" aria-hidden="true" />
               </p>
             )}
-            <p className="mt-0.5 flex flex-wrap gap-x-2.5 font-mono text-[10px] uppercase tracking-[0.1em] text-mute">
+            <p className="mt-0.5 flex flex-wrap gap-x-2.5 font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.1em] text-mute">
               {r.products.map((p, i) => (
                 <span key={p.slug} className="whitespace-nowrap">
                   <Link
@@ -150,8 +150,8 @@ export function CompleteBundled({ label, note, items }: { label: string; note: s
   return (
     <div className="mt-6 max-w-xl border-y border-[rgba(205,166,86,0.28)]" role="group" aria-label={label}>
       <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 pb-1 pt-3">
-        <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-gold">{label}</span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-mute">{note}</span>
+        <span className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-gold">{label}</span>
+        <span className="font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.14em] text-mute">{note}</span>
       </p>
       <ul>
         {items.map((it, i) => {
@@ -173,7 +173,7 @@ export function CompleteBundled({ label, note, items }: { label: string; note: s
                   className={`relative top-[-1px] h-[7px] w-[7px] shrink-0 rotate-45 border border-gold transition-colors duration-300 ${on ? "bg-gold" : ""}`}
                   aria-hidden="true"
                 />
-                <span className="min-w-0 text-[13.5px] leading-snug text-slate text-pretty">
+                <span className="min-w-0 text-[length:calc(13.5px*var(--type))] leading-snug text-slate text-pretty">
                   <span className={`transition-colors duration-300 group-hover:text-gold-deep ${on ? "text-gold-deep" : "text-ink"}`}>{it.name}</span> — {it.line}.
                 </span>
                 <span

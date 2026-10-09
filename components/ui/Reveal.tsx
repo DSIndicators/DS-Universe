@@ -1,8 +1,20 @@
-"use client";
+import type { CSSProperties, ReactNode } from "react";
 
-import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
-
-/** Fades content in once, when it enters the viewport. Renders visible without JS. */
+/**
+ * Fades content in as it scrolls into view — in CSS alone (rebuilt
+ * 2026-10-09, Tom: "as lag free as possible").
+ *
+ * It used to be a client component: every block started at opacity 0 and an
+ * IntersectionObserver revealed it once the page's JavaScript had loaded. On
+ * a phone that meant the first screen's own text stayed invisible until
+ * hydration finished (measured: the store's opening paragraph painted at
+ * ~3.9 s on a throttled phone), and every Reveal on a page was one more piece
+ * to hydrate. Now the fade is a scroll-driven CSS animation (globals.css,
+ * `.reveal`): whatever is on screen at load is drawn at once, later blocks
+ * ease in as they arrive, and a browser without scroll-driven animations
+ * simply shows them. No JavaScript at all. `delay` staggers neighbours by
+ * starting their fade a little later in their entry.
+ */
 export function Reveal({
   children,
   className = "",
@@ -17,36 +29,10 @@ export function Reveal({
   /** For layout values that have to be computed, e.g. PackShelf's --row-max. */
   style?: CSSProperties;
 }) {
-  const ref = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (!("IntersectionObserver" in window)) {
-      el.classList.add("is-in");
-      return;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            el.style.transitionDelay = `${delay}ms`;
-            el.classList.add("is-in");
-            io.disconnect();
-          }
-        }
-      },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [delay]);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const Comp = Tag as any;
+  const s = delay ? ({ ...style, "--rd": delay } as CSSProperties) : style;
   return (
-    <Comp ref={ref} className={`reveal ${className}`} style={style}>
+    <Tag className={`reveal ${className}`} style={s}>
       {children}
-    </Comp>
+    </Tag>
   );
 }

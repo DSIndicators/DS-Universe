@@ -1,5 +1,7 @@
 "use client";
 
+import type React from "react";
+
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Chevron, Expand, Viewer, type ViewerSlide } from "@/components/Viewer";
@@ -146,9 +148,9 @@ export function Gallery({
   }, []);
 
   return (
-    <div role="region" aria-roledescription="carousel" aria-label={label}>
+    <div role="region" aria-roledescription="carousel" aria-label={label} className="gallery-wide" style={{ "--g-ratio": ratio } as React.CSSProperties}>
       {/* ------------------------------------------------------------ stage */}
-      <div ref={stage} className="group/stage relative overflow-hidden rounded-2xl border border-line shadow-monitor" style={{ background: ground }}>
+      <div ref={stage} className="g-stage group/stage relative overflow-hidden rounded-2xl border border-line shadow-monitor" style={{ background: ground }}>
         <div
           ref={track}
           onScroll={onScroll}
@@ -209,7 +211,7 @@ export function Gallery({
                     loading={priority && n === 0 ? undefined : "lazy"}
                     placeholder={s.blur ? "blur" : "empty"}
                     blurDataURL={s.blur}
-                    sizes="(min-width: 1280px) 1200px, (min-width: 1024px) 90vw, 100vw"
+                    sizes="(min-width: 1536px) min(1380px, 72vw), (min-width: 1024px) 90vw, 100vw"
                     className="object-contain"
                   />
                 )}
@@ -220,7 +222,7 @@ export function Gallery({
 
         {/* Enlarge — an icon on a phone (no hover there), the word from sm up,
             on a pointer screen only while the pointer is over the stage. */}
-        <span className="pointer-events-none absolute left-2.5 top-2.5 inline-flex h-7 min-w-7 items-center justify-center gap-1.5 rounded-full bg-ground/75 px-2 text-[12px] font-medium text-ink shadow-card ring-1 ring-white/15 backdrop-blur-sm transition-opacity duration-300 ease-silk sm:left-3 sm:top-3 sm:h-8 sm:px-3 lg:opacity-0 lg:group-hover/stage:opacity-100">
+        <span className="pointer-events-none absolute left-2.5 top-2.5 inline-flex h-7 min-w-7 items-center justify-center gap-1.5 rounded-full bg-ground/75 px-2 text-[length:calc(12px*var(--type))] font-medium text-ink shadow-card ring-1 ring-white/15 backdrop-blur-sm transition-opacity duration-300 ease-silk sm:left-3 sm:top-3 sm:h-8 sm:px-3 lg:opacity-0 lg:group-hover/stage:opacity-100">
           <Expand />
           <span className="hidden sm:inline">Enlarge</span>
         </span>
@@ -235,7 +237,7 @@ export function Gallery({
               if (!playing) setKick((k) => k + 1);
             }}
             aria-label={playing ? "Pause the recording" : "Play the recording"}
-            className="absolute bottom-2.5 left-2.5 inline-flex h-7 items-center gap-1.5 rounded-full bg-ground/75 px-2.5 text-[12px] font-medium text-ink shadow-card ring-1 ring-white/15 backdrop-blur-sm transition-colors hover:ring-white/30 sm:bottom-3 sm:left-3 sm:h-8 sm:px-3"
+            className="absolute bottom-2.5 left-2.5 inline-flex h-7 items-center gap-1.5 rounded-full bg-ground/75 px-2.5 text-[length:calc(12px*var(--type))] font-medium text-ink shadow-card ring-1 ring-white/15 backdrop-blur-sm transition-colors hover:ring-white/30 sm:bottom-3 sm:left-3 sm:h-8 sm:px-3"
           >
             {playing ? <PauseIcon /> : <PlayIcon />}
             <span>{playing ? "Pause" : "Play"}</span>
@@ -254,16 +256,16 @@ export function Gallery({
       {/* ------------------------------------------------------------ caption + position
           `relative` on purpose: the stage is positioned, so its deep shadow
           would otherwise paint OVER the caption's first line and dim it. */}
-      <div className="relative mt-3.5 flex items-start justify-between gap-5">
+      <div className="g-cap relative mt-3.5 flex items-start justify-between gap-5">
         <div className="grid min-w-0 flex-1" aria-live={moved ? "polite" : "off"}>
           {slides.map((s, n) => (
             <p
               key={s.src}
-              className={`[grid-area:1/1] text-[13.5px] leading-relaxed text-slate ${n === i ? "" : "invisible"}`}
+              className={`[grid-area:1/1] text-[length:calc(13.5px*var(--type))] leading-relaxed text-slate ${n === i ? "" : "invisible"}`}
               aria-hidden={n !== i}
             >
               {s.video && (
-                <span className="mr-2.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-gold">
+                <span className="mr-2.5 font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.14em] text-gold">
                   Recording{s.video.seconds ? ` · ${s.video.seconds} s` : ""}
                 </span>
               )}
@@ -300,7 +302,7 @@ export function Gallery({
           would run past the column (2026-09-30 mobile scan: DS Flow's six —
           a recording and five charts — ran 34px off a 768px tablet). */}
       {many && thumbs && (
-        <div className="relative mt-4 hidden gap-2.5 sm:flex" aria-label={`${label} — pick a picture`}>
+        <div className="g-thumbs relative mt-4 hidden gap-2.5 sm:flex" aria-label={`${label} — pick a picture`}>
           {slides.map((s, n) => (
             <button
               key={s.src}
@@ -324,7 +326,7 @@ export function Gallery({
         </div>
       )}
 
-      {footnote && <p className="relative mt-5 max-w-4xl text-[12.5px] leading-relaxed text-mute">{footnote}</p>}
+      {footnote && <p className="relative mt-5 max-w-4xl text-[length:calc(12.5px*var(--type))] leading-relaxed text-mute">{footnote}</p>}
 
       <Viewer
         open={open}

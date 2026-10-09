@@ -5,7 +5,6 @@ import { productHref } from "@/content/release";
 import {
   TRIAL,
   keepPrice,
-  startsWhen,
   trialHref,
   trialNames,
   trialProducts,
@@ -38,8 +37,7 @@ import { CoverArt } from "@/components/CoverArt";
  *   shelf cards          ProductCard     which cards carry it (a legend line)
  *   price list rows      PriceList       a direct link, row by row
  *   /products head       TrialStoreNote  the store's first screen
- *   product page head    TrialHead       the first action on the page
- *   product price card   TrialStrip      at the moment of deciding to pay
+ *   product page         ProductPage     the buy box: label, trial, buy
  *   "Test it first"      TrialTestNote   how to spend the three days well
  *   /trial               the whole thing, shareable as one URL
  */
@@ -61,7 +59,7 @@ export function TrialMark({ className = "" }: { className?: string }) {
 /** The mark and the phrase, in the instrument voice. */
 export function TrialLabel({ className = "", text = TRIAL.label }: { className?: string; text?: string }) {
   return (
-    <span className={`inline-flex items-center gap-2.5 font-mono text-[10.5px] uppercase tracking-[0.16em] text-bull-text ${className}`}>
+    <span className={`inline-flex items-center gap-2.5 font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-bull-text ${className}`}>
       <TrialMark />
       {text}
     </span>
@@ -110,7 +108,7 @@ export function TrialHeroNote({ className = "", style }: { className?: string; s
   return (
     <a href="#trial" className={`group block max-w-md border-t border-line pt-5 ${className}`} style={style}>
       <TrialLabel />
-      <span className="mt-2 block text-[13.5px] leading-relaxed text-slate text-pretty">
+      <span className="mt-2 block text-[length:calc(13.5px*var(--type))] leading-relaxed text-slate text-pretty">
         {trialNames()} — the full product on your own charts. No card, nothing charged when it ends.{" "}
         <span className="whitespace-nowrap text-ink underline decoration-bull/60 underline-offset-4 transition-colors group-hover:decoration-bull-text">
           How it works
@@ -142,7 +140,7 @@ export function TrialBand({ className = "" }: { className?: string }) {
             <h2 id="trial-title" className="display-lg mt-4 text-ink text-balance">
               Run it on your own charts for three days.
             </h2>
-            <p className="mt-4 max-w-xl text-[14.5px] leading-relaxed text-slate text-pretty">
+            <p className="mt-4 max-w-xl text-[length:calc(14.5px*var(--type))] leading-relaxed text-slate text-pretty">
               {trialNames()} each come with a {TRIAL.label}: the full product, not a demo, on your instrument
               and your timeframe — and no card asked for.
             </p>
@@ -161,8 +159,8 @@ export function TrialTerms({ className = "", slug }: { className?: string; slug?
     <dl className={`border-t border-line ${className}`} aria-label="Trial terms">
       {trialTerms(slug).map((t) => (
         <div key={t.k} className="grid grid-cols-[104px_minmax(0,1fr)] gap-x-4 border-b border-line py-2.5">
-          <dt className="pt-[3px] font-mono text-[10px] uppercase tracking-[0.14em] text-mute">{t.k}</dt>
-          <dd className="text-[13.5px] leading-snug text-ink text-pretty">{t.v}</dd>
+          <dt className="pt-[3px] font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.14em] text-mute">{t.k}</dt>
+          <dd className="text-[length:calc(13.5px*var(--type))] leading-snug text-ink text-pretty">{t.v}</dd>
         </div>
       ))}
     </dl>
@@ -193,25 +191,25 @@ function TrialTile({ p }: { p: Product }) {
   return (
     <div className="group grid min-w-0 grid-cols-[92px_minmax(0,1fr)] items-center gap-x-5 sm:block">
       <Link href={productHref(p.slug)} className="pcard pcard-store relative block" tabIndex={-1} aria-hidden="true">
-        <CoverArt slug={p.slug} sizes="(min-width: 1024px) 220px, (min-width: 640px) 30vw, 92px" />
+        <CoverArt slug={p.slug} sizes="(min-width: 1024px) min(320px, 17vw), (min-width: 640px) 30vw, 92px" />
       </Link>
       <div className="min-w-0 sm:mt-2 sm:px-0.5">
-        <Link href={productHref(p.slug)} className="block truncate font-display text-[15px] leading-tight text-ink transition-colors duration-300 hover:text-gold-deep">
+        <Link href={productHref(p.slug)} className="block truncate font-display text-[length:calc(15px*var(--type))] leading-tight text-ink transition-colors duration-300 hover:text-gold-deep">
           {p.name}
         </Link>
-        <span className="mt-1 block truncate text-[12px] text-mute">{p.category}</span>
+        <span className="mt-1 block truncate text-[length:calc(12px*var(--type))] text-mute">{p.category}</span>
         <div className="mt-3 border-t border-line pt-3">
           <a
             href={trialHrefOrThrow(p.slug)}
             target="_blank"
             rel="noopener"
-            className="btn-primary !h-9 w-full !gap-1.5 !px-3 !text-[13px]"
+            className="btn-primary !h-9 w-full !gap-1.5 !px-3 !text-[length:calc(13px*var(--type))]"
             aria-label={`${TRIAL.cta} — ${p.name}, ${TRIAL.label}`}
           >
             {TRIAL.cta}
             <External />
           </a>
-          <p className="mt-2 text-[12px] leading-snug text-mute">
+          <p className="mt-2 text-[length:calc(12px*var(--type))] leading-snug text-mute">
             No card{keep ? <> · <span className="whitespace-nowrap">then <span className="tabular-nums">{keep}</span> to keep</span></> : null}
           </p>
         </div>
@@ -232,10 +230,10 @@ export function TrialSteps({ className = "" }: { className?: string }) {
     <ol className={`grid content-start gap-6 sm:grid-cols-3 lg:grid-cols-1 lg:gap-5 ${className}`} aria-label="How the trial works">
       {trialSteps().map((s, i) => (
         <li key={s.title} className="grid grid-cols-[28px_minmax(0,1fr)] gap-x-3 border-t border-line-strong pt-4">
-          <span className="font-mono text-[12px] tabular-nums text-bull-text">{String(i + 1).padStart(2, "0")}</span>
+          <span className="font-mono text-[length:calc(12px*var(--type))] tabular-nums text-bull-text">{String(i + 1).padStart(2, "0")}</span>
           <div>
-            <p className="text-[14px] font-medium text-ink">{s.title}</p>
-            <p className="mt-1.5 text-[13.5px] leading-relaxed text-slate text-pretty">{s.text}</p>
+            <p className="text-[length:calc(14px*var(--type))] font-medium text-ink">{s.title}</p>
+            <p className="mt-1.5 text-[length:calc(13.5px*var(--type))] leading-relaxed text-slate text-pretty">{s.text}</p>
           </div>
         </li>
       ))}
@@ -253,7 +251,7 @@ export function TrialStoreNote({ className = "" }: { className?: string }) {
   return (
     <Link href="/trial" className={`group flex items-start gap-3 ${className}`}>
       <TrialMark className="mt-[5px] text-bull-text" />
-      <span className="text-[14px] leading-relaxed text-slate text-pretty">
+      <span className="text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">
         <span className="text-ink">{TRIAL.label}</span> on {trialNames()} — no card.{" "}
         <span className="whitespace-nowrap text-ink underline decoration-bull/60 underline-offset-4 transition-colors group-hover:decoration-bull-text">
           How it works
@@ -267,49 +265,6 @@ export function TrialStoreNote({ className = "" }: { className?: string }) {
 /* Product pages                                                               */
 /* -------------------------------------------------------------------------- */
 
-/** Under the product's name and purpose: the first action on the page. */
-export function TrialHead({ slug, className = "" }: { slug: string; className?: string }) {
-  if (!trialHref(slug)) return null;
-  const keep = keepPrice(slug);
-  return (
-    <div className={className}>
-      <TrialLabel />
-      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
-        <TrialButton slug={slug} />
-        <p className="max-w-[20rem] text-[13px] leading-snug text-slate text-pretty">
-          No card. The three days start {startsWhen()}.
-          {keep ? <> <span className="tabular-nums text-ink">{keep}</span> to keep it.</> : null}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Across the top of the price card — the same place DS Complete carries its
- * Founders strip, so the site says "an offer on this" in one way. The card's
- * own padding is undone so the strip runs edge to edge.
- */
-export function TrialStrip({ slug }: { slug: string }) {
-  const href = trialHref(slug);
-  if (!href) return null;
-  return (
-    <div className="trial-strip -mx-7 -mt-7 mb-7 flex flex-wrap items-center gap-x-4 gap-y-2 border-b px-7 py-3.5 sm:-mx-8 sm:-mt-8 sm:mb-8 sm:px-8">
-      <TrialLabel />
-      <span className="text-[13px] text-slate">No card · nothing charged when it ends</span>
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener"
-        className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink underline decoration-bull/70 underline-offset-4 transition-colors hover:decoration-bull-text sm:ml-auto"
-      >
-        {TRIAL.cta}
-        <External />
-      </a>
-    </div>
-  );
-}
-
 /**
  * Inside "Test it on your own charts first": the trial is exactly the time to
  * do what that section recommends, with the product itself. Market Replay is
@@ -321,7 +276,7 @@ export function TrialTestNote({ slug, name }: { slug: string; name: string }) {
   return (
     <div className="mt-10 max-w-md border-t border-line-strong pt-6">
       <TrialLabel />
-      <p className="mt-3 text-[14px] leading-relaxed text-slate text-pretty">
+      <p className="mt-3 text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">
         {name} itself is free for three days — time to replay sessions you remember and trade it forward on the
         simulator before you pay anything. Replay runs a past session at any speed, so the three days hold far more
         than three sessions.

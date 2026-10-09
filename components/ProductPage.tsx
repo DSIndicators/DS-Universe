@@ -1,27 +1,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 import { Arrow } from "@/components/ui/Arrow";
 import { Gallery } from "@/components/Gallery";
-import { ListingDetail } from "@/components/ListingDetail";
+import { ProductMedia, type MediaItem } from "@/components/ProductMedia";
+import { BuyBar } from "@/components/BuyBar";
 import { TestFirst } from "@/components/TestFirst";
 import { ProductCard } from "@/components/ProductCard";
-import { CoverArt } from "@/components/CoverArt";
 import { ogCardFor, squareCoverFor } from "@/content/covers";
 import { BuyButton, CtaNote } from "@/components/BuyButton";
-import { PriceBlock } from "@/components/Price";
-import { TrialHead, TrialStrip } from "@/components/Trial";
-import { trialHref } from "@/content/trial";
-import { ExclusiveHead, ExclusiveStrip, completeBuyLabel } from "@/components/Exclusive";
+import { PriceTag } from "@/components/Price";
+import { TrialButton, TrialLabel } from "@/components/Trial";
+import { keepPrice, startsWhen, trialHref } from "@/content/trial";
+import { ExclusiveLabel, completeBuyLabel } from "@/components/Exclusive";
 import { VaultLabel } from "@/components/Vault";
 import { Markets } from "@/components/Markets";
 import { BY_SLUG, KIND_LABEL, VAULT } from "@/content/products";
 import { COMPLETE_PRODUCTS, COMPLETE_SHELVES, STORE_PATH, VAULT_PATH, productHref, seriesMates } from "@/content/release";
-import { BOARD_GROUND, shotsFor } from "@/content/shots";
-import { CHART_GROUND, CHART_H, CHART_W, chartsFor } from "@/content/charts";
+import { shotsFor } from "@/content/shots";
+import { CHART_H, CHART_W, chartsFor } from "@/content/charts";
 import { showcaseFor } from "@/content/showcase";
-import { marketsFor } from "@/content/markets";
+import { marketsFor, HOME_MARKETS } from "@/content/markets";
 import { listingCopyFor } from "@/content/listing-copy";
+import { pointersFor } from "@/content/pointers";
 import { APART, COMPLETE, FOUNDERS, WITH_BUNDLE, bundledFor, money, priceFor, seriesInfo } from "@/content/pricing";
 import { VAULT_COPY } from "@/content/vault";
 import { DISCLOSURE, SITE } from "@/content/site";
@@ -68,69 +70,62 @@ export function productMetadata(slug: string): Metadata {
   };
 }
 
+/**
+ * THE PAGE, AS A STORE'S PRODUCT PAGE (rebuilt 2026-10-09). Tom: "transform
+ * it into a product looking page, ours looks like a journal. move our videos
+ * to the bottom, tight pointer informations from the master worksheet that
+ * will grab the users attention … we must provide services they NEED."
+ *
+ * Top to bottom:
+ *   1. THE BUY STAGE — the pictures on the left (ProductMedia: charts, the
+ *      annotated boards, the box art; no recording), and beside them a buy box
+ *      that stays in view while they are browsed: the name, the sheet's one
+ *      line for it (pointers.ts, NT8 "Cover Line"), what it is, the price and
+ *      the button (or the trial, or DS Complete), what you get, and the specs.
+ *      Under the pictures, "Why you need it" — the sheet's "How It Helps".
+ *   2. THE POINTERS — the listing's own heading and lede as a statement, and
+ *      its four points as a numbered grid (Whop Listings).
+ *   3. BEFORE YOU BUY — where it runs, what it reads (Markets tab), and the
+ *      listing's closing lines (no repaint, what it is not).
+ *   4. Test it first (unchanged).
+ *   5. IN MOTION — the recording, last, as asked.
+ *   6. More from the same shelf.
+ * Once the buy box has scrolled away, a slim bar keeps the price and the
+ * button at the foot of the window (BuyBar).
+ *
+ * Both routes render it: /products/<slug> (the store, plus DS ASL and DS
+ * Toolkit, which come free with DS Complete) and /free-vault/<slug> (the
+ * vault), so a free page and a paid page cannot drift apart. What differs is
+ * said by the product's own data, as before: a vault product carries the
+ * vault's label, its free terms and the note that it is NOT part of DS
+ * Complete; a paid one offers DS Complete; DS ASL and DS Toolkit are had by
+ * buying DS Complete.
+ */
 export function ProductPage({ slug }: { slug: string }) {
   const p = BY_SLUG[slug];
   const inVault = p.series === VAULT;
-  /** Where this page came from, and goes back to. */
-  const home = inVault ? { href: VAULT_PATH, label: VAULT_COPY.label } : { href: STORE_PATH, label: "All products" };
+  const home = inVault ? { href: VAULT_PATH, label: VAULT_COPY.label } : { href: STORE_PATH, label: "Products" };
 
   const price = priceFor(p.slug);
   const series = seriesInfo(p.series);
   const shots = shotsFor(p.slug);
   const charts = chartsFor(p.slug);
-  const listingCopy = listingCopyFor(p.slug);
+  const copy = listingCopyFor(p.slug);
   const showcase = showcaseFor(p.slug);
   const markets = marketsFor(p.slug);
+  const sheet = pointersFor(p.slug);
+  const cover = squareCoverFor(p.slug);
+  const trial = trialHref(p.slug);
+  const keep = keepPrice(p.slug);
+  const bundled = bundledFor(p.slug);
 
-  // ON THE CHART leads the page — the product as it looks on a real chart
-  // (Tom, 2026-09-21). The annotated product-guide boards follow the body, as
-  // the reading. A product with no chart of its own (the data utility) leads
-  // with its boards instead.
-  // THE SHOWCASE RECORDING leads that first gallery (2026-09-28): the product
-  // moving on a chart, then the stills.
-  const showcaseSlide = showcase
-    ? {
-        src: showcase.src,
-        w: showcase.w,
-        h: showcase.h,
-        blur: showcase.blur,
-        title: showcase.caption,
-        alt: `${p.name} — a screen recording of the software running`,
-        video: { src: showcase.src, srcSmall: showcase.srcSmall, poster: showcase.poster, seconds: showcase.seconds },
-      }
-    : null;
-  const stillSlides = charts.map((c) => ({
-    src: c.src,
-    w: CHART_W,
-    h: CHART_H,
-    blur: c.blur,
-    title: c.caption,
-    alt: `${p.name} on a NinjaTrader 8 chart — ${c.caption}`,
-  }));
-  const chartSlides = showcaseSlide && stillSlides.length ? [showcaseSlide, ...stillSlides] : stillSlides;
-  const guideSlides = shots.map((b) => ({
-    src: b.src,
-    w: b.w,
-    h: b.h,
-    blur: b.blur,
-    title: b.caption,
-    alt: `${p.name} product guide — ${b.caption}`,
-  }));
-  const boardRatio = shots[0] ? shots[0].w / shots[0].h : 1;
-  // A product with no chart of its own leads with its boards — and with its
-  // recording in front of them, when it has one (it is made in the boards' shape).
-  const leadsWithGuide = chartSlides.length === 0;
-  const boardSlides = leadsWithGuide && showcaseSlide ? [showcaseSlide, ...guideSlides] : guideSlides;
-  // The risk line travels with the FIRST pictures on the page — once, not per gallery.
-  const riskLine = (
-    <>
-      {showcase ? DISCLOSURE.showcase : DISCLOSURE.chart}{" "}
-      <Link href="/disclosures" className="whitespace-nowrap text-slate underline decoration-line underline-offset-4 hover:decoration-gold">
-        Risk disclosures
-      </Link>
-      .
-    </>
-  );
+  // THE PICTURES: the charts first, then the annotated boards, then the box
+  // art. The recording is kept for the foot of the page.
+  const media: MediaItem[] = [
+    ...charts.map((c) => ({ src: c.src, w: CHART_W, h: CHART_H, blur: c.blur, caption: c.caption, alt: `${p.name} on a NinjaTrader 8 chart — ${c.caption}`, kind: "chart" as const })),
+    ...shots.map((b) => ({ src: b.src, w: b.w, h: b.h, blur: b.blur, caption: b.caption, alt: `${p.name} product guide — ${b.caption}`, kind: "board" as const })),
+    ...(cover ? [{ src: cover.src, w: cover.w, h: cover.h, caption: `${p.name} · ${p.category}`, alt: cover.alt, kind: "cover" as const }] : []),
+  ];
 
   // "More like this" = the rest of the same series. A series of one (the data
   // utility) points at the flagship shelf instead, so no page ends in a dead
@@ -138,23 +133,18 @@ export function ProductPage({ slug }: { slug: string }) {
   // that comes free with DS Complete points at the rest of DS Complete: the
   // other one that comes with it first, then the bundle in the ledger's order.
   const mates = seriesMates(p.slug);
-  const bundled = bundledFor(p.slug);
   const moreShelf = bundled
     ? { name: COMPLETE.name, products: [...mates, ...COMPLETE_PRODUCTS.filter((x) => x.slug !== p.slug && !mates.some((m) => m.slug === x.slug))] }
     : mates.length
       ? { name: series.name, products: mates }
       : { name: COMPLETE_SHELVES[0].info.name, products: COMPLETE_SHELVES[0].products };
   const more = moreShelf.products.slice(0, 5);
-  // The head leaves room under it for the gallery that overlaps it; a product
-  // with no pictures yet (a new one) closes its head at the ordinary depth.
-  const hasLead = chartSlides.length > 0 || boardSlides.length > 0;
 
   // STRUCTURED DATA (2026-10-09): schema.org Product for search engines — the
   // name, what it is, its square cover and the one offer it is sold by. Only
   // facts the page already states: no rating, no review count. A product that
   // is not sold on its own (DS ASL, DS Toolkit) has no offer, so none is
   // printed; nor is one for a product without its cover yet.
-  const cover = squareCoverFor(p.slug);
   const offer = price && !price.withComplete ? (price.free ? "0.00" : price.now.toFixed(2)) : null;
   const ld =
     cover && offer
@@ -177,192 +167,302 @@ export function ProductPage({ slug }: { slug: string }) {
         }
       : null;
 
+  /** The words beside the license row and under the box: how it is owned. */
+  const license = price?.withComplete ? "Inside the DS Complete archive · updates included" : price?.free ? "Free, permanently · not a trial" : "One payment · yours to keep · updates included";
+  const buyLabel = price?.withComplete ? completeBuyLabel() : undefined;
+  const points = copy?.points ?? p.hooks;
+  const odd = points.length % 2 === 1;
+
   return (
     <>
       {ld && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />}
-      {/* ---------------------------------------------------------------- head */}
+
+      {/* ======================================================= 1. the buy stage */}
       <section className="hero-wash">
-        <div className="wrap pt-10 sm:pt-14 lg:pt-16">
-          <Reveal>
-            <Link href={home.href} className="group inline-flex items-center gap-2 text-[13px] text-slate hover:text-ink">
-              <Arrow className="rotate-180 group-hover:-translate-x-0.5" />
+        <div className="wrap pb-20 pt-8 sm:pt-10 lg:pb-28 lg:pt-12">
+          {/* where this page sits */}
+          <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[length:calc(13px*var(--type))] text-mute">
+            <Link href={home.href} className="text-slate transition-colors hover:text-ink">
               {home.label}
             </Link>
-          </Reveal>
-          <div className={`grid gap-10 pt-10 lg:grid-cols-12 lg:items-end ${hasLead ? "pb-28 lg:pb-36" : "pb-12 lg:pb-16"}`}>
-            <Reveal className="lg:col-span-7">
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                {inVault ? (
-                  // The vault's own label, in its own voice — not the store's gold chip.
-                  <Link href={VAULT_PATH} className="transition-opacity hover:opacity-80">
-                    <VaultLabel />
-                  </Link>
-                ) : (
-                  // A series with no panel in the store (free with DS Complete) goes to DS Complete, where it is.
-                  <Link href={`${STORE_PATH}#${price?.withComplete ? "complete" : p.series}`} className="chip-gold hover:bg-gold-soft/70">
-                    {series.name}
-                  </Link>
-                )}
-                <span className={`label ${inVault ? "border-l border-line-strong pl-3" : "pl-1"}`}>{p.category}</span>
-              </div>
-              <h1 className="display-xl mt-5 text-ink">{p.name}</h1>
-              <p className="lede mt-6 max-w-2xl text-pretty">{p.purpose}</p>
-              {/* The 3-day free trial, where the product has one (2026-09-29):
-                  the page's first action. Nothing renders for the others. */}
-              <TrialHead slug={p.slug} className="mt-9" />
-              {/* Free with DS Complete (DS ASL, DS Toolkit): how it is had. */}
-              <ExclusiveHead slug={p.slug} className="mt-9" />
-              {/* THE BUY LINE (2026-10-09): every other product shows its price
-                  and its button in the first screen, as a store's product page
-                  does — before, they waited at the price card below the
-                  gallery. A trial product leads with its trial (above); a
-                  product free with DS Complete with how it is had. */}
-              {price && !price.withComplete && !trialHref(p.slug) && (
-                <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
-                  <span className={`font-display text-[30px] font-[300] leading-none tabular-nums ${price.free ? "text-bull-text" : "text-ink"}`}>{price.free ? "Free" : money(price.now)}</span>
-                  <BuyButton slug={p.slug} />
-                  <span className="text-[13px] leading-snug text-slate">{price.free ? "Permanently · not a trial" : "One payment · yours to keep"}</span>
+            {!inVault && (
+              <>
+                <span aria-hidden="true">/</span>
+                <Link href={`${STORE_PATH}#${price?.withComplete ? "complete" : p.series}`} className="text-slate transition-colors hover:text-ink">
+                  {price?.withComplete ? COMPLETE.name : series.name}
+                </Link>
+              </>
+            )}
+            <span aria-hidden="true">/</span>
+            <span className="text-ink" aria-current="page">
+              {p.name}
+            </span>
+          </nav>
+
+          <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-x-12 lg:gap-y-14 2xl:gap-x-16">
+            {/* ------------------------------------------------- the pictures */}
+            <div className="min-w-0 lg:col-span-7 lg:row-start-1">
+              <ProductMedia
+                items={media}
+                label={`${p.name}: pictures`}
+                priority
+                footnote={
+                  <>
+                    {DISCLOSURE.chart}{" "}
+                    <Link href="/disclosures" className="whitespace-nowrap text-slate underline decoration-line underline-offset-4 hover:decoration-gold">
+                      Risk disclosures
+                    </Link>
+                    .
+                  </>
+                }
+              />
+            </div>
+
+            {/* -------------------------------------------------- the buy box */}
+            <aside className="lg:col-span-5 lg:row-span-2 lg:row-start-1" aria-label={`Buy ${p.name}`}>
+              <div className="lg:sticky lg:top-[108px]">
+                <div className="overflow-hidden rounded-[12px] border border-line bg-[rgba(13,16,20,0.78)] backdrop-blur-[2px]">
+                  <div className="px-6 pb-7 pt-6 sm:px-8 sm:pt-7">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                      {inVault ? (
+                        <Link href={VAULT_PATH} className="transition-opacity hover:opacity-80">
+                          <VaultLabel />
+                        </Link>
+                      ) : price?.withComplete ? (
+                        <ExclusiveLabel />
+                      ) : (
+                        <Link href={`${STORE_PATH}#${p.series}`} className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-gold transition-colors hover:text-gold-deep">
+                          {series.name}
+                        </Link>
+                      )}
+                      {p.category.toLowerCase() !== (price?.withComplete ? "" : inVault ? "" : series.name.toLowerCase()) && (
+                        <span className="label min-[400px]:border-l min-[400px]:border-line-strong min-[400px]:pl-3">{p.category}</span>
+                      )}
+                    </div>
+                    <h1 className="display-lg mt-5 text-ink">{p.name}</h1>
+                    {sheet.line && (
+                      <p className="mt-3 font-display text-[length:calc(21px*var(--type))] font-normal leading-snug tracking-[-0.012em] text-ink text-balance 2xl:text-[length:calc(23px*var(--type))]">
+                        {sheet.line}
+                      </p>
+                    )}
+                    <p className="mt-4 text-[length:calc(14.5px*var(--type))] leading-relaxed text-slate text-pretty">{p.purpose}</p>
+                  </div>
+
+                  {/* price and the way to own it */}
+                  <div id="buy" className="scroll-mt-[120px] border-t border-line px-6 py-7 sm:px-8">
+                    <PriceTag price={price} size="lg" />
+                    {trial ? (
+                      <div className="mt-7">
+                        <TrialLabel />
+                        <div className="mt-3.5 flex flex-wrap items-center gap-3">
+                          <TrialButton slug={p.slug} />
+                          <BuyButton slug={p.slug} variant="ghost" />
+                        </div>
+                        <p className="mt-3.5 text-[length:calc(13px*var(--type))] leading-snug text-slate text-pretty">
+                          No card. The three days start {startsWhen()}.
+                          {keep ? (
+                            <>
+                              {" "}
+                              <span className="tabular-nums text-ink">{keep}</span> to keep it.
+                            </>
+                          ) : null}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="mt-7 flex flex-wrap items-center gap-3">
+                        <BuyButton slug={p.slug} label={buyLabel} />
+                        <Link href="/contact" className="btn-ghost">
+                          Ask a question
+                        </Link>
+                      </div>
+                    )}
+                    <CtaNote className="mt-3.5" slug={p.slug} />
+                  </div>
+
+                  {/* what you get */}
+                  <div className="border-t border-line px-6 py-6 sm:px-8">
+                    <p className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-mute">What you get</p>
+                    <ul className="mt-3.5 space-y-2.5" aria-label="Highlights">
+                      {p.hooks.map((h) => (
+                        <li key={h} className="flex items-start gap-3 text-[length:calc(14px*var(--type))] leading-snug text-ink">
+                          <Check />
+                          {h}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* the specs */}
+                  <dl className="grid grid-cols-[7.5rem_minmax(0,1fr)] gap-x-4 gap-y-3 border-t border-line px-6 py-6 text-[length:calc(13.5px*var(--type))] sm:px-8">
+                    <Spec label="Platform" value={`${SITE.platform} · ${SITE.minBuild} or newer`} />
+                    <Spec label="Type" value={KIND_LABEL[p.kind].singular} />
+                    {markets && <Spec label="Runs on" value={markets.headline} />}
+                    {markets?.builtOn && <Spec label="Built on" value={HOME_MARKETS.join(" · ")} />}
+                    <Spec label="License" value={license} />
+                  </dl>
+
+                  {/* the one other way to have it */}
+                  <p className="border-t border-line bg-white/[0.015] px-6 py-5 text-[length:calc(13px*var(--type))] leading-relaxed text-slate sm:px-8">
+                    {bundled ? (
+                      bundled.note
+                    ) : inVault ? (
+                      <>
+                        {VAULT_COPY.pageNote}{" "}
+                        <Link href={VAULT_PATH} className="whitespace-nowrap text-ink underline decoration-bull/60 underline-offset-4 hover:decoration-bull-text">
+                          {VAULT_COPY.pageLink}
+                        </Link>
+                        {p.slug === "session-levels" && (
+                          <>
+                            {" "}
+                            · {ASL.name} adds each session&rsquo;s volume profile and POC, and {WITH_BUNDLE.line}:{" "}
+                            <Link href={productHref(ASL.slug)} className="whitespace-nowrap text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
+                              {ASL.name}
+                            </Link>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        Or take the whole paid lineup —{" "}
+                        <Link href="/products#complete" className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
+                          {COMPLETE.name}
+                        </Link>
+                        {FOUNDERS.active
+                          ? `, every paid DS Universe product in one license — a ${money(APART)} value, ${money(COMPLETE.now)} in the ${FOUNDERS.name}.`
+                          : `, every paid DS Universe product in one license, for ${money(COMPLETE.now)}.`}
+                      </>
+                    )}
+                  </p>
                 </div>
-              )}
-            </Reveal>
-            <Reveal className="lg:col-span-5 lg:justify-self-end" delay={100}>
-              <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1" aria-label="Highlights">
-                {p.hooks.map((h) => (
-                  <li key={h} className="flex items-center gap-3 rounded-lg border border-line bg-surface/80 px-4 py-3 text-[14px] text-ink">
-                    <span className="block h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
-                    {h}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+              </div>
+            </aside>
+
+            {/* ------------------------------------------- why you need it */}
+            <div className="min-w-0 lg:col-span-7 lg:row-start-2">
+              <div className="border-t border-line pt-8">
+                <p className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-gold">Why you need it</p>
+                <p className="mt-4 max-w-[62ch] text-[length:calc(17px*var(--type))] leading-[1.6] text-ink text-pretty 2xl:text-[length:calc(18px*var(--type))]">{p.helps}</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ------------------------------------------------------ on the chart */}
-      {chartSlides.length > 0 ? (
-        <section className="wrap -mt-16 lg:-mt-24" aria-label={`${p.name} on the chart`}>
-          <Reveal>
-            <p className="label mb-4">On the chart</p>
-            <Gallery slides={chartSlides} ratio={CHART_W / CHART_H} ground={CHART_GROUND} label={`${p.name} on the chart`} priority footnote={riskLine} />
-          </Reveal>
-        </section>
-      ) : (
-        boardSlides.length > 0 && (
-          <section className="wrap -mt-16 lg:-mt-24" aria-label={`${p.name} product guide`}>
-            <Reveal>
-              <p className="label mb-4">{showcase ? "In action" : "Product guide"}</p>
-              <Gallery slides={boardSlides} ratio={boardRatio} ground={BOARD_GROUND} label={`${p.name} ${showcase ? "in action" : "product guide"}`} mode="read" priority footnote={riskLine} />
-            </Reveal>
-          </section>
-        )
-      )}
-
-      {/* ---------------------------------------------------------------- body */}
-      <section className="wrap grid gap-12 py-20 lg:grid-cols-12 lg:py-28">
-        <Reveal className="lg:col-span-4">
-          {/* The product's square cover, small, above the facts — the same
-              picture its card carries on every shelf (content/covers.ts). */}
-          <CoverArt slug={p.slug} sizes="(min-width: 1024px) 300px, 280px" className="w-full max-w-[280px] border border-line lg:max-w-[300px]" />
-          <dl className="mt-10 space-y-6 border-t border-line pt-8">
-            <Fact label="Type" value={KIND_LABEL[p.kind].singular} />
-            <Fact label="Series" value={series.name} />
-            <Fact label="Category" value={p.category} />
-            <Fact label="Platform" value={`${SITE.platform} · ${SITE.minBuild} or newer`} />
-            {/* Where it runs (2026-10-01): the instruments it is built on and
-                the markets it runs on, from what the product actually reads. */}
-            {markets && <Markets markets={markets} />}
-          </dl>
-        </Reveal>
-
-        <Reveal className="lg:col-span-7 lg:col-start-6" delay={80}>
-          <p className="label">How it helps</p>
-          <p className="display-sm mt-5 leading-[1.45] text-ink text-pretty">{p.helps}</p>
-
-          {/* ------------------------------------------------ price and buy */}
-          <div id="buy" className="mt-10 scroll-mt-[120px] overflow-hidden rounded-2xl border border-line bg-surface p-7 shadow-card sm:p-8">
-            {/* The trial, across the top of the card — at the moment of deciding to pay. */}
-            <TrialStrip slug={p.slug} />
-            {/* Free with DS Complete, in the same place. */}
-            <ExclusiveStrip slug={p.slug} />
-            <PriceBlock price={price} size="lg" />
-            <div className="mt-7 flex flex-wrap items-center gap-3">
-              {/* DS ASL and DS Toolkit are had by buying DS Complete: the button
-                  says so, and what it costs, so the checkout it opens holds no
-                  surprise. */}
-              <BuyButton slug={p.slug} label={price?.withComplete ? completeBuyLabel() : undefined} />
-              <Link href="/contact" className="btn-ghost">
-                Ask a question
-              </Link>
-            </div>
-            <CtaNote className="mt-3.5" slug={p.slug} />
-            {/* Said once, where the decision is being made. A PAID product
-                offers the one bundle. A FREE product says the opposite, in the
-                sheet's own words: it is its own download and not part of DS
-                Complete (2026-10-05 — paid and free are kept apart). */}
-            <p className="mt-6 border-t border-line pt-5 text-[13.5px] leading-relaxed text-slate">
-              {bundled ? (
-                bundled.note
-              ) : inVault ? (
-                <>
-                  {VAULT_COPY.pageNote}{" "}
-                  <Link href={VAULT_PATH} className="whitespace-nowrap text-ink underline decoration-bull/60 underline-offset-4 hover:decoration-bull-text">
-                    {VAULT_COPY.pageLink}
-                  </Link>
-                  {/* The free session levels and the tool that adds their volume. */}
-                  {p.slug === "session-levels" && (
-                    <>
-                      {" "}
-                      · {ASL.name} adds each session&rsquo;s volume profile and POC, and {WITH_BUNDLE.line}:{" "}
-                      <Link href={productHref(ASL.slug)} className="whitespace-nowrap text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
-                        {ASL.name}
-                      </Link>
-                    </>
-                  )}
-                </>
-              ) : (
-                <>
-                  Or take the whole paid lineup —{" "}
-                  <Link href="/products#complete" className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
-                    {COMPLETE.name}
-                  </Link>
-                  {FOUNDERS.active
-                    ? `, every paid DS Universe product in one license — a ${money(APART)} value, ${money(COMPLETE.now)} in the ${FOUNDERS.name}.`
-                    : `, every paid DS Universe product in one license, for ${money(COMPLETE.now)}.`}
-                </>
-              )}
+      {/* ========================================================= 2. the pointers */}
+      <section className="border-y border-line bg-mist" aria-labelledby="pointers-title">
+        <div className="wrap grid gap-12 py-20 lg:grid-cols-12 lg:gap-10 lg:py-24 2xl:py-28">
+          <Reveal className="lg:col-span-5">
+            <p id="pointers-title" className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-gold">
+              {copy?.heading ?? "What you get"}
             </p>
-          </div>
-
-          <p className="mt-8 max-w-xl text-[14px] leading-relaxed text-slate">{DISCLOSURE.short}</p>
-        </Reveal>
+            <p className="display-md mt-5 max-w-[24ch] text-ink text-balance">{copy?.lede ?? p.purpose}</p>
+          </Reveal>
+          <Reveal className="lg:col-span-7" delay={80}>
+            <ol className="grid border-l border-t border-line sm:grid-cols-2">
+              {points.map((pt, i) => (
+                <li
+                  key={pt}
+                  className={`flex flex-col border-b border-r border-line bg-ground/40 p-6 sm:p-7 ${odd && i === points.length - 1 ? "sm:col-span-2" : ""}`}
+                >
+                  <span className="font-mono text-[length:calc(11px*var(--type))] tracking-[0.14em] text-gold">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="mt-4 text-[length:calc(15.5px*var(--type))] leading-[1.5] text-ink text-pretty">{pt}</span>
+                </li>
+              ))}
+            </ol>
+          </Reveal>
+        </div>
       </section>
 
-      {/* ------------------------------------------------------- product guide */}
-      {chartSlides.length > 0 && boardSlides.length > 0 && (
-        <section className="border-t border-line bg-wash" aria-label={`${p.name} product guide`}>
-          <div className="wrap py-20 lg:py-28">
-            <Reveal className="max-w-2xl">
-              <p className="label">Product guide</p>
-              <h2 className="display-md mt-3 text-ink text-balance">Every mark on the chart, explained</h2>
-              <p className="body mt-4 text-pretty">
-                The annotated boards: a chart, with what each part of {p.name} shows laid out beside it. Open any board to read it at full size.
+      {/* ======================================================== 3. before you buy */}
+      <section aria-labelledby="before-title">
+        <div className="wrap py-20 lg:py-24">
+          <Reveal className="max-w-2xl">
+            <p className="label">Before you buy</p>
+            <h2 id="before-title" className="display-md mt-3 text-ink text-balance">
+              What it needs, where it runs, and what it is not.
+            </h2>
+          </Reveal>
+          <Reveal className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8 lg:gap-12" delay={80}>
+            <div className="border-t border-line-strong pt-6">
+              <p className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-mute">Where it runs</p>
+              {markets ? (
+                <dl className="mt-4">
+                  <Markets markets={markets} />
+                </dl>
+              ) : (
+                <p className="mt-4 text-[length:calc(14.5px*var(--type))] text-ink">{SITE.platform}</p>
+              )}
+            </div>
+            <div className="border-t border-line-strong pt-6">
+              <p className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-mute">What it reads</p>
+              <p className="mt-4 text-[length:calc(14.5px*var(--type))] leading-relaxed text-ink text-pretty">{sheet.reads ?? "The chart's own bars."}</p>
+              <p className="mt-4 text-[length:calc(13px*var(--type))] leading-relaxed text-slate">
+                {SITE.platform} · {SITE.minBuild} or newer. Everything runs on your machine, on your own data feed.
               </p>
+            </div>
+            <div className="border-t border-line-strong pt-6">
+              <p className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-mute">Good to know</p>
+              <div className="mt-4 space-y-3">
+                {(copy?.close ?? []).map((c) => (
+                  <p key={c} className="text-[length:calc(14.5px*var(--type))] leading-relaxed text-ink text-pretty">
+                    {c}
+                  </p>
+                ))}
+              </div>
+              <p className="mt-5 text-[length:calc(12.5px*var(--type))] leading-relaxed text-mute">{DISCLOSURE.short}</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ======================================================= 4. test it first */}
+      <TestFirst productName={p.name} slug={p.slug} />
+
+      {/* ========================================================== 5. in motion */}
+      {showcase && (
+        <section className="border-t border-line" aria-labelledby="motion-title">
+          <div className="wrap py-20 lg:py-24">
+            <Reveal className="flex flex-wrap items-end justify-between gap-6">
+              <div className="max-w-2xl">
+                <p className="label">In motion</p>
+                <h2 id="motion-title" className="display-md mt-3 text-ink text-balance">
+                  See {p.name} run
+                </h2>
+              </div>
+              <span className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-mute">Recording · {showcase.seconds} s</span>
             </Reveal>
             <Reveal className="mt-10" delay={80}>
-              <Gallery slides={boardSlides} ratio={boardRatio} ground={BOARD_GROUND} label={`${p.name} product guide`} mode="read" />
+              <Gallery
+                slides={[
+                  {
+                    src: showcase.src,
+                    w: showcase.w,
+                    h: showcase.h,
+                    blur: showcase.blur,
+                    title: showcase.caption,
+                    alt: `${p.name} — a screen recording of the software running`,
+                    video: { src: showcase.src, srcSmall: showcase.srcSmall, poster: showcase.poster, seconds: showcase.seconds },
+                  },
+                ]}
+                ratio={showcase.w / showcase.h}
+                ground="#040404"
+                label={`${p.name} in motion`}
+                footnote={
+                  <>
+                    {DISCLOSURE.showcase}{" "}
+                    <Link href="/disclosures" className="whitespace-nowrap text-slate underline decoration-line underline-offset-4 hover:decoration-gold">
+                      Risk disclosures
+                    </Link>
+                    .
+                  </>
+                }
+              />
             </Reveal>
           </div>
         </section>
       )}
 
-      {/* ------------------------------------------------------------ in detail */}
-      {listingCopy && <ListingDetail copy={listingCopy} />}
-
-      {/* ----------------------------------------------------- test it yourself */}
-      <TestFirst productName={p.name} slug={p.slug} />
-
-      {/* ---------------------------------------------------------------- more */}
+      {/* ================================================================ 6. more */}
       <section className="border-t border-line">
         <div className="wrap py-20 lg:py-24">
           <Reveal className="flex flex-wrap items-end justify-between gap-6">
@@ -370,25 +470,66 @@ export function ProductPage({ slug }: { slug: string }) {
               <p className="label">{inVault ? "More in the vault" : bundled ? "Also in the bundle" : mates.length ? "From the same series" : "From the lineup"}</p>
               <h2 className="display-md mt-3 text-ink">{moreShelf.name}</h2>
             </div>
-            <Link href={home.href} className="group hidden items-center gap-2 text-[14px] text-ink sm:inline-flex">
+            <Link href={home.href} className="group hidden items-center gap-2 text-[length:calc(14px*var(--type))] text-ink sm:inline-flex">
               {inVault ? "The whole vault" : "Every product"}
               <Arrow />
             </Link>
           </Reveal>
-          {/* Up to five cards on a desktop row (1280px+). Narrower grids show
-              only as many as close a full row — three in the tablet's three
-              columns — so no card is left alone on a last row; a phone lists
-              up to four as rows (moreCell). The marketplace card, as on every
-              shelf (components/ProductCard.tsx). */}
           <Reveal className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-5 xl:grid-cols-5">
-            {more.map((m, i) => (
-              <div key={m.slug} className={`flex ${moreCell(i, more.length)}`}>
+            {more.map((m) => (
+              <div key={m.slug} className={`flex ${moreCell(more.indexOf(m), more.length)}`}>
                 <ProductCard slug={m.slug} tone={inVault ? "vault" : "store"} hooks={1} sizes={MORE_SIZES} className="w-full" />
               </div>
             ))}
           </Reveal>
         </div>
       </section>
+
+      {/* ------------------------------------------------------- the buy bar */}
+      <BuyBar watch="buy">
+        {cover && (
+          <span className="relative hidden h-10 w-10 shrink-0 overflow-hidden rounded-[4px] border border-line sm:block">
+            <Image src={cover.src} alt="" fill sizes="40px" className="object-cover" />
+          </span>
+        )}
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-[length:calc(15px*var(--type))] text-ink">{p.name}</span>
+          {sheet.line && <span className="hidden truncate text-[length:calc(12.5px*var(--type))] text-mute md:block">{sheet.line}</span>}
+        </span>
+        <span
+          className={`shrink-0 font-display font-[350] tabular-nums text-ink ${
+            price?.withComplete ? "hidden text-[length:calc(15px*var(--type))] md:block" : "text-[length:calc(16px*var(--type))] sm:text-[length:calc(20px*var(--type))]"
+          }`}
+        >
+          {price?.free ? "Free" : price?.withComplete ? WITH_BUNDLE.label : price ? money(price.now) : null}
+        </span>
+        <span className="flex shrink-0 items-center gap-2.5">
+          {trial ? (
+            <TrialButton slug={p.slug} className="!h-10" />
+          ) : (
+            /* DS ASL / DS Toolkit: the price is in the label on wider screens; a phone gets the short form. */
+            <BuyButton slug={p.slug} label={price?.withComplete ? (onWaitlist() ? undefined : `Get ${COMPLETE.name}`) : buyLabel} className="!h-10" />
+          )}
+          {trial && <BuyButton slug={p.slug} variant="ghost" className="!hidden !h-10 lg:!inline-flex" />}
+        </span>
+      </BuyBar>
+    </>
+  );
+}
+
+function Check() {
+  return (
+    <svg viewBox="0 0 16 16" className="mt-[3px] h-3.5 w-3.5 shrink-0 text-bull-text" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M3 8.5l3.2 3L13 4.5" />
+    </svg>
+  );
+}
+
+function Spec({ label, value }: { label: string; value: string }) {
+  return (
+    <>
+      <dt className="text-mute">{label}</dt>
+      <dd className="text-ink">{value}</dd>
     </>
   );
 }
@@ -410,13 +551,4 @@ function moreCell(i: number, n: number) {
 }
 
 /** The "more" cards' rendered widths: five across from 1280px, three from 640px, a row on a phone. */
-const MORE_SIZES = "(min-width: 1280px) 210px, (min-width: 640px) 30vw, 104px";
-
-function Fact({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <dt className="text-[12.5px] text-mute">{label}</dt>
-      <dd className="mt-1 text-[14.5px] text-ink">{value}</dd>
-    </div>
-  );
-}
+const MORE_SIZES = "(min-width: 1280px) min(320px, 17vw), (min-width: 640px) 30vw, 104px";

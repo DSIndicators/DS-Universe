@@ -29,15 +29,15 @@ export default function ContactPage() {
         >
           {SITE.email}
         </a>
-        <p className="mt-6 text-[13px] text-mute">{SITE.city} · replies during US market hours, usually the same day.</p>
+        <p className="mt-6 text-[length:calc(13px*var(--type))] text-mute">{SITE.city} · replies during US market hours, usually the same day.</p>
         <AskButton className="btn-ghost mt-8">Or ask from this page</AskButton>
       </Reveal>
       <Reveal className="lg:col-span-5 lg:col-start-8" delay={100}>
         <ul className="divide-y divide-line border-y border-line">
           {ROUTES.map((r) => (
             <li key={r.label} className="py-6">
-              <p className="text-[14.5px] text-ink">{r.label}</p>
-              <p className="mt-1.5 text-[14px] leading-relaxed text-slate">{r.text}</p>
+              <p className="text-[length:calc(14.5px*var(--type))] text-ink">{r.label}</p>
+              <p className="mt-1.5 text-[length:calc(14px*var(--type))] leading-relaxed text-slate">{r.text}</p>
             </li>
           ))}
         </ul>

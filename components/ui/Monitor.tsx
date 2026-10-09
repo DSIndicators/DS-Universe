@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { MONITOR, isClip, type ScreenFrame } from "@/content/site";
 import { Viewer } from "@/components/Viewer";
 import { BY_SLUG } from "@/content/products";
@@ -84,7 +84,23 @@ const FADE = 1200; // ms crossfade
 const PUSH = 1.03; // push-in over the hold — pictures only
 const EASE = "cubic-bezier(0.2,0.7,0.2,1)";
 
-export function HeroScreen({ priority = false, monitorClassName = "" }: { priority?: boolean; monitorClassName?: string }) {
+export function HeroScreen({
+  priority = false,
+  monitorClassName = "",
+  rootClassName = "",
+  infoClassName = "",
+  infoFooter,
+}: {
+  priority?: boolean;
+  monitorClassName?: string;
+  /** Classes for the root. The home page makes it `xl:contents`, so the
+   *  monitor and its info block become cells of the hero's own grid. */
+  rootClassName?: string;
+  /** Classes for the info block: the controls, the caption and `infoFooter`. */
+  infoClassName?: string;
+  /** Rendered last in the info block (the home page's screen disclosure). */
+  infoFooter?: ReactNode;
+}) {
   const frames = MONITOR.frames;
   const count = frames.length;
   const [i, setI] = useState(0);
@@ -247,8 +263,23 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
     setMoved(true);
   }, []);
 
+  /* A frame's progress fill, shared by the segments and the frame index: a
+     clip by its own currentTime, a picture by the hold's CSS animation. */
+  const fill = (n: number, f: ScreenFrame): { key: string; style: CSSProperties } => {
+    // Drawn with transform: scaleX, never width — a width animation lays the
+    // page out again on every frame of a 7-second hold (2026-10-09).
+    const base: CSSProperties = { width: "100%", transformOrigin: "0 50%" };
+    if (n < i) return { key: "past", style: { ...base, opacity: 0.45 } };
+    if (n > i) return { key: "next", style: { ...base, transform: "scaleX(0)" } };
+    if (isClip(f)) return { key: "clip", style: { ...base, transform: `scaleX(${clipAt.toFixed(3)})`, transition: "transform 280ms linear" } };
+    return {
+      key: `on-${i}-${tick}-${stillRunning ? "r" : "s"}`,
+      style: stillRunning ? { ...base, transform: "scaleX(0)", animation: `fill ${HOLD}ms linear forwards` } : base,
+    };
+  };
+
   return (
-    <div>
+    <div className={rootClassName}>
       {/* ------------------------------------------------------------ monitor */}
       <div
         className={`relative ${monitorClassName}`}
@@ -360,7 +391,7 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
                       loading={n === eager ? undefined : "lazy"}
                       placeholder="blur"
                       blurDataURL={f.blur}
-                      sizes="(min-width: 1024px) 60vw, 100vw"
+                      sizes="(min-width: 1536px) 62vw, (min-width: 1024px) 75vw, 100vw"
                       className="object-cover"
                       onLoad={() => loaded.current.add(n)}
                     />
@@ -374,7 +405,7 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
                 page, so a right-hand pill would be off screen. A quiet icon on
                 phones (always shown — there is no hover), the word from sm up,
                 and on desktop only while the pointer is on the screen. */}
-            <span className="pointer-events-none absolute left-2 top-2 inline-flex h-7 min-w-7 items-center justify-center gap-1.5 rounded-full bg-ground/75 px-2 text-[12px] font-medium text-ink shadow-card ring-1 ring-white/15 backdrop-blur-sm transition-opacity duration-300 ease-silk sm:left-3 sm:top-3 sm:h-8 sm:px-3 lg:opacity-0 lg:group-hover/screen:opacity-100 lg:group-focus-visible/screen:opacity-100">
+            <span className="pointer-events-none absolute left-2 top-2 inline-flex h-7 min-w-7 items-center justify-center gap-1.5 rounded-full bg-ground/75 px-2 text-[length:calc(12px*var(--type))] font-medium text-ink shadow-card ring-1 ring-white/15 backdrop-blur-sm transition-opacity duration-300 ease-silk sm:left-3 sm:top-3 sm:h-8 sm:px-3 lg:opacity-0 lg:group-hover/screen:opacity-100 lg:group-focus-visible/screen:opacity-100">
               <Expand />
               <span className="hidden sm:inline">Enlarge</span>
             </span>
@@ -389,6 +420,24 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
         <div className="mx-auto h-[6px] w-[34%] rounded-full bg-black/60 blur-[2px]" />
       </div>
 
+      <div className={infoClassName}>
+      {/* THE FRAME INDEX (from 1280px, 2026-10-09). Beside the chart reader,
+          under the monitor's right half, the rotation is listed whole: every
+          frame by number and title, a recording marked with its length, the
+          one on screen opened to show the tools on it, its progress filling
+          the rule beneath it. Below 1280px the compact controls and the one
+          caption below stand in for it. */}
+      <FrameIndex
+        className="hidden xl:block"
+        frames={frames}
+        i={i}
+        paused={paused}
+        moved={moved}
+        onPause={togglePause}
+        onGo={go}
+        fill={fill}
+      />
+      <div className="xl:hidden">
       {/* ------------------------------------------------------------ controls
           One row that never changes shape: Pause / Play on the left, the
           segments on the right. */}
@@ -397,13 +446,13 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
           type="button"
           onClick={togglePause}
           aria-label={paused ? "Play the chart pictures" : "Pause the chart pictures"}
-          className="-ml-2.5 inline-flex h-8 items-center gap-2 rounded-full px-2.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-mute outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-gold"
+          className="-ml-2.5 inline-flex h-8 items-center gap-2 rounded-full px-2.5 font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.14em] text-mute outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-gold"
         >
           {paused ? <PlayIcon /> : <PauseIcon />}
           <span className="w-[3.2em] text-left" aria-hidden="true">{paused ? "Play" : "Pause"}</span>
         </button>
 
-        {/* Seven segments fit a 320px phone: 18px with 4px gaps below sm (150px), 24px + 6px from sm up. */}
+        {/* Seven 24px segments (a full touch target each, 2026-10-09) fit a 320px phone beside Pause: 192px with 4px gaps below sm, 6px from sm up. */}
         <div className="flex shrink-0 items-center gap-1 sm:gap-1.5" role="group" aria-label="Chart pictures">
           {frames.map((f, n) => (
             <button
@@ -412,39 +461,17 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
               onClick={() => go(n)}
               aria-label={`${isClip(f) ? "Recording" : "Picture"} ${n + 1} of ${count}: ${f.title}`}
               aria-current={n === i}
-              className="group relative h-6 w-[18px] outline-none focus-visible:ring-2 focus-visible:ring-gold sm:w-6"
+              className="group relative h-6 w-6 outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               <span className="absolute inset-x-0 top-1/2 block h-[3px] -translate-y-1/2 overflow-hidden rounded-full bg-line-strong/70 transition-colors group-hover:bg-line-strong">
-                {isClip(f) ? (
-                  /* The clip's segment is filled from the video's own
-                     currentTime, not a CSS animation: it then tells the truth
-                     if the file stalls, and it freezes exactly where the
-                     recording froze when Pause is pressed. */
-                  <span
-                    className="block h-full rounded-full bg-gold"
-                    style={
-                      n < i
-                        ? { width: "100%", opacity: 0.45 }
-                        : n === i
-                          ? { width: `${Math.round(clipAt * 100)}%`, transition: "width 280ms linear" }
-                          : { width: "0%" }
-                    }
-                  />
-                ) : (
-                  <span
-                    key={n === i ? `on-${i}-${tick}-${stillRunning ? "r" : "s"}` : "off"}
-                    className="block h-full rounded-full bg-gold"
-                    style={
-                      n < i
-                        ? { width: "100%", opacity: 0.45 }
-                        : n === i
-                          ? stillRunning
-                            ? { width: "0%", animation: `fill ${HOLD}ms linear forwards` }
-                            : { width: "100%" }
-                          : { width: "0%" }
-                    }
-                  />
-                )}
+                {/* The clip's segment is filled from the video's own
+                    currentTime, not a CSS animation: it then tells the truth
+                    if the file stalls, and it freezes exactly where the
+                    recording froze when Pause is pressed. */}
+                {(() => {
+                  const fl = fill(n, f);
+                  return <span key={fl.key} className="block h-full rounded-full bg-gold" style={fl.style} />;
+                })()}
               </span>
             </button>
           ))}
@@ -460,10 +487,13 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
             key={f.src}
             className={`[grid-area:1/1] ${n === i ? "animate-[rise_0.6s_cubic-bezier(0.2,0.7,0.2,1)_both]" : "invisible"}`}
           >
-            <p className="text-[14px] leading-snug text-ink">{f.title}</p>
+            <p className="text-[length:calc(14px*var(--type))] leading-snug text-ink">{f.title}</p>
             <Tools frame={f} className="mt-1.5" />
           </div>
         ))}
+      </div>
+      </div>
+      {infoFooter}
       </div>
 
       {/* ------------------------------------------------------ enlarged view
@@ -492,12 +522,89 @@ export function HeroScreen({ priority = false, monitorClassName = "" }: { priori
   );
 }
 
+/** m:ss for a recording's length. */
+const clock = (sec: number) => `${Math.floor(sec / 60)}:${String(Math.round(sec % 60)).padStart(2, "0")}`;
+
+function FrameIndex({
+  className = "",
+  frames,
+  i,
+  paused,
+  moved,
+  onPause,
+  onGo,
+  fill,
+}: {
+  className?: string;
+  frames: ScreenFrame[];
+  i: number;
+  paused: boolean;
+  moved: boolean;
+  onPause: () => void;
+  onGo: (n: number) => void;
+  fill: (n: number, f: ScreenFrame) => { key: string; style: CSSProperties };
+}) {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return (
+    <div className={className}>
+      <div className="flex items-center justify-between border-b border-line pb-3">
+        <button
+          type="button"
+          onClick={onPause}
+          aria-label={paused ? "Play the chart pictures" : "Pause the chart pictures"}
+          className="-ml-2.5 inline-flex h-8 items-center gap-2 rounded-full px-2.5 font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.14em] text-mute outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-gold"
+        >
+          {paused ? <PlayIcon /> : <PauseIcon />}
+          <span className="w-[3.2em] text-left" aria-hidden="true">{paused ? "Play" : "Pause"}</span>
+        </button>
+        <span className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-mute">
+          On the screen <span className="ml-2 text-ink">{pad(i + 1)}</span>
+          <span className="text-mute/70"> / {pad(frames.length)}</span>
+        </span>
+      </div>
+      <ol role="group" aria-label="Chart pictures" aria-live={moved ? "polite" : "off"}>
+        {frames.map((f, n) => {
+          const on = n === i;
+          const fl = fill(n, f);
+          return (
+            <li key={f.src} className="relative">
+              <button
+                type="button"
+                onClick={() => onGo(n)}
+                aria-current={on}
+                aria-label={`${isClip(f) ? "Recording" : "Picture"} ${n + 1} of ${frames.length}: ${f.title}`}
+                className="group grid w-full grid-cols-[2.4rem_minmax(0,1fr)_auto] items-baseline gap-x-2 pb-2.5 pt-3 text-left outline-none focus-visible:ring-1 focus-visible:ring-gold"
+              >
+                <span className={`font-mono text-[length:calc(10.5px*var(--type))] tracking-[0.12em] transition-colors ${on ? "text-gold" : "text-mute/70"}`}>
+                  {pad(n + 1)}
+                </span>
+                <span
+                  className={`text-[length:calc(13.5px*var(--type))] leading-snug transition-colors duration-300 text-pretty ${on ? "text-ink" : "text-mute group-hover:text-slate"}`}
+                >
+                  {f.title}
+                </span>
+                <span className={`font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.14em] ${on ? "text-slate" : "text-mute/60"}`}>
+                  {isClip(f) ? `Rec ${clock(f.seconds)}` : "Still"}
+                </span>
+              </button>
+              {on && <Tools frame={f} className="-mt-0.5 mb-3 pl-[calc(2.4rem+0.5rem)]" />}
+              <span className="absolute inset-x-0 bottom-0 block h-px overflow-hidden bg-line" aria-hidden="true">
+                <span key={fl.key} className={`block h-full bg-gold ${n < i ? "!opacity-0" : ""}`} style={fl.style} />
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
+}
+
 /** "On screen" + the tools on a frame, each linked to its page. */
 function Tools({ frame, className = "" }: { frame: ScreenFrame; className?: string }) {
   const tools = frame.tools.map((s) => BY_SLUG[s]).filter(Boolean);
   return (
-    <p className={`text-[12.5px] leading-relaxed text-slate ${className}`}>
-      <span className="mr-2.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-mute">On screen</span>
+    <p className={`text-[length:calc(12.5px*var(--type))] leading-relaxed text-slate ${className}`}>
+      <span className="mr-2.5 font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.14em] text-mute">On screen</span>
       {tools.map((p, k) => (
         <Fragment key={p.slug}>
           {/* A break opportunity between names, never inside one ("DS / Oracle").

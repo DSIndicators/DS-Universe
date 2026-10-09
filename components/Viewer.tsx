@@ -203,14 +203,14 @@ export function Viewer({
           {/* ------------------------------------------------ header (not on a phone on its side) */}
           <div className={`flex shrink-0 flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b border-line px-4 py-2.5 sm:px-5 [@media(max-height:500px)]:hidden`}>
             <div className="min-w-0">
-              <p className="text-[14px] font-medium leading-snug text-ink">{slide.title}</p>
+              <p className="text-[length:calc(14px*var(--type))] font-medium leading-snug text-ink">{slide.title}</p>
               {slide.sub && <div className="mt-0.5">{slide.sub}</div>}
             </div>
             <div className="flex shrink-0 items-center gap-1">
               {many && (
                 <>
                   <Step dir="prev" onClick={() => go(index - 1)} />
-                  <span className="w-14 text-center text-[12.5px] tabular-nums text-mute" aria-live="polite">
+                  <span className="w-14 text-center text-[length:calc(12.5px*var(--type))] tabular-nums text-mute" aria-live="polite">
                     {index + 1} / {count}
                   </span>
                   <Step dir="next" onClick={() => go(index + 1)} />
@@ -220,7 +220,7 @@ export function Viewer({
                 ref={closeBtn}
                 type="button"
                 onClick={close}
-                className="ml-2 inline-flex h-9 items-center rounded-md border border-line-strong bg-surface px-3.5 text-[13px] text-ink transition-colors hover:border-ink/60"
+                className="ml-2 inline-flex h-9 items-center rounded-md border border-line-strong bg-surface px-3.5 text-[length:calc(13px*var(--type))] text-ink transition-colors hover:border-ink/60"
               >
                 Close
               </button>
@@ -321,7 +321,7 @@ export function Viewer({
 
             {/* portrait phones only: the chart gets ~2.5x larger turned sideways */}
             {mode === "fit" && (
-              <p className="pointer-events-none absolute inset-x-0 bottom-4 hidden text-center text-[12px] text-slate [@media(orientation:portrait)_and_(max-width:767px)]:block">
+              <p className="pointer-events-none absolute inset-x-0 bottom-4 hidden text-center text-[length:calc(12px*var(--type))] text-slate [@media(orientation:portrait)_and_(max-width:767px)]:block">
                 Turn your phone sideways for a larger chart.
               </p>
             )}
@@ -342,7 +342,7 @@ export function Viewer({
                 <>
                   <Float dir="prev" onClick={() => go(index - 1)} className="left-2 top-1/2 -translate-y-1/2" />
                   <Float dir="next" onClick={() => go(index + 1)} className="right-2 top-1/2 -translate-y-1/2" />
-                  <span className="absolute bottom-2 right-2 rounded-full bg-ground/75 px-2.5 py-1 text-[12px] tabular-nums text-slate ring-1 ring-white/10 backdrop-blur-sm">
+                  <span className="absolute bottom-2 right-2 rounded-full bg-ground/75 px-2.5 py-1 text-[length:calc(12px*var(--type))] tabular-nums text-slate ring-1 ring-white/10 backdrop-blur-sm">
                     {index + 1} / {count}
                   </span>
                 </>

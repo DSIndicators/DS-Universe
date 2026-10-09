@@ -41,7 +41,7 @@ const SORTS: { id: Sort; label: string }[] = [
 ];
 
 /** The card's rendered widths: three beside the sidebar, three on a tablet, two from 640px, a row on a phone. */
-const CARD_SIZES = "(min-width: 1024px) 240px, (min-width: 768px) 30vw, (min-width: 640px) 45vw, 104px";
+const CARD_SIZES = "(min-width: 1024px) min(440px, 24vw), (min-width: 768px) 30vw, (min-width: 640px) 45vw, 104px";
 
 /* ================================================================= SEARCH */
 
@@ -179,7 +179,7 @@ export function VaultRoom() {
           onBlur={() => window.setTimeout(() => setOpen(false), 120)}
           onKeyDown={onKeyDown}
           placeholder="Search EMA, VWAP…"
-          className="h-12 min-w-0 flex-1 bg-transparent text-[14.5px] text-ink placeholder:text-mute focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+          className="h-12 min-w-0 flex-1 bg-transparent text-[length:calc(14.5px*var(--type))] text-ink placeholder:text-mute focus:outline-none [&::-webkit-search-cancel-button]:hidden"
           role="combobox"
           aria-expanded={open && sugg.length > 0}
           aria-controls="vault-sugg"
@@ -187,11 +187,11 @@ export function VaultRoom() {
           aria-activedescendant={active >= 0 && sugg[active] ? `vault-sugg-${sugg[active].id}` : undefined}
         />
         {q ? (
-          <button type="button" onClick={() => setQ("")} className="shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-mute transition-colors hover:text-vault-light" aria-label="Clear the search text">
+          <button type="button" onClick={() => setQ("")} className="shrink-0 font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.16em] text-mute transition-colors hover:text-vault-light" aria-label="Clear the search text">
             ×
           </button>
         ) : (
-          <kbd className="hidden shrink-0 border border-[rgba(201,165,94,0.3)] px-1.5 py-0.5 font-mono text-[10.5px] text-mute md:inline-block" aria-hidden="true">
+          <kbd className="hidden shrink-0 border border-[rgba(201,165,94,0.3)] px-1.5 py-0.5 font-mono text-[length:calc(10.5px*var(--type))] text-mute md:inline-block" aria-hidden="true">
             /
           </kbd>
         )}
@@ -209,13 +209,13 @@ export function VaultRoom() {
                 takeSuggestion(k);
               }}
               onMouseEnter={() => setActive(i)}
-              className={`flex cursor-pointer items-baseline justify-between gap-4 px-4 py-2.5 text-[13.5px] ${i === active ? "bg-[rgba(201,165,94,0.09)] text-ink" : "text-slate"}`}
+              className={`flex cursor-pointer items-baseline justify-between gap-4 px-4 py-2.5 text-[length:calc(13.5px*var(--type))] ${i === active ? "bg-[rgba(201,165,94,0.09)] text-ink" : "text-slate"}`}
             >
               <span>
                 <Emph text={k.label} q={q} />
-                <span className="ml-3 text-[11.5px] text-mute">{KEY_GROUPS.find((g) => g.id === k.group)?.label}</span>
+                <span className="ml-3 text-[length:calc(11.5px*var(--type))] text-mute">{KEY_GROUPS.find((g) => g.id === k.group)?.label}</span>
               </span>
-              <span className="font-mono text-[10.5px] tabular-nums text-mute">{countWith(k.id)}</span>
+              <span className="font-mono text-[length:calc(10.5px*var(--type))] tabular-nums text-mute">{countWith(k.id)}</span>
             </li>
           ))}
         </ul>
@@ -240,7 +240,7 @@ export function VaultRoom() {
         <div className="mt-8 hidden space-y-7 lg:block">
           {KEY_GROUPS.map((g) => (
             <fieldset key={g.id}>
-              <legend className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-vault">{g.label}</legend>
+              <legend className="font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.2em] text-vault">{g.label}</legend>
               <div className="mt-2 border-t border-[rgba(201,165,94,0.16)] pt-1.5">
                 {VAULT_KEYS.filter((k) => k.group === g.id).map((k) => {
                   const { on, n, dead } = keyState(k);
@@ -271,7 +271,7 @@ export function VaultRoom() {
         <div className="mt-5 space-y-4 lg:hidden">
           {KEY_GROUPS.map((g) => (
             <div key={g.id}>
-              <p className="font-mono text-[9.5px] uppercase tracking-[0.2em] text-mute">{g.label}</p>
+              <p className="font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.2em] text-mute">{g.label}</p>
               <div className="vault-keys -mx-5 mt-2 flex gap-1.5 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
                 {VAULT_KEYS.filter((k) => k.group === g.id).map((k) => {
                   const { on, n, dead } = keyState(k);
@@ -300,7 +300,7 @@ export function VaultRoom() {
       <div className="min-w-0">
         <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-[rgba(201,165,94,0.16)] pb-4">
           <div className="flex min-w-0 flex-wrap items-center gap-2" aria-live="polite">
-            <p className="mr-2 text-[13.5px] text-ink">
+            <p className="mr-2 text-[length:calc(13.5px*var(--type))] text-ink">
               <span className="font-display tabular-nums">{shown.length}</span>{" "}
               <span className="text-slate">
                 {shown.length === 1 ? "product" : "products"}
@@ -324,17 +324,17 @@ export function VaultRoom() {
               </button>
             )}
             {searching && (
-              <button type="button" onClick={clearAll} className="ml-1 font-mono text-[10px] uppercase tracking-[0.16em] text-mute transition-colors hover:text-vault-light">
+              <button type="button" onClick={clearAll} className="ml-1 font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.16em] text-mute transition-colors hover:text-vault-light">
                 Clear all
               </button>
             )}
           </div>
-          <label className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-mute">
+          <label className="flex items-center gap-2 font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.16em] text-mute">
             Sort
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as Sort)}
-              className="vault-sort border border-[rgba(201,165,94,0.25)] bg-ground px-2.5 py-1.5 font-sans text-[12.5px] normal-case tracking-normal text-ink focus:border-vault focus:outline-none"
+              className="vault-sort border border-[rgba(201,165,94,0.25)] bg-ground px-2.5 py-1.5 font-sans text-[length:calc(12.5px*var(--type))] normal-case tracking-normal text-ink focus:border-vault focus:outline-none"
             >
               {SORTS.map((o) => (
                 <option key={o.id} value={o.id}>
@@ -347,7 +347,7 @@ export function VaultRoom() {
 
         {/* A quality the whole vault shares (UNIVERSALS): said once, plainly. */}
         {notes.map((n) => (
-          <p key={n} className="mt-5 border-l border-vault pl-4 text-[13.5px] leading-relaxed text-slate">
+          <p key={n} className="mt-5 border-l border-vault pl-4 text-[length:calc(13.5px*var(--type))] leading-relaxed text-slate">
             {n}
           </p>
         ))}
@@ -376,15 +376,15 @@ export function VaultRoom() {
             <p className="display-sm text-ink">Nothing in the vault computes “{q.trim()}”.</p>
             {store.length > 0 ? (
               <>
-                <p className="mt-2 text-[14px] text-slate">It is in the store:</p>
+                <p className="mt-2 text-[length:calc(14px*var(--type))] text-slate">It is in the store:</p>
                 <ul className="mt-5 max-w-xl border-t border-line">
                   {store.map((h) => {
                     const sp = STORE_SIDE.find((p) => p.slug === h.slug)!;
                     return (
                       <li key={h.slug} className="border-b border-line">
-                        <Link href={productHref(h.slug)} className="group flex items-baseline gap-3 py-3 text-[14px]">
+                        <Link href={productHref(h.slug)} className="group flex items-baseline gap-3 py-3 text-[length:calc(14px*var(--type))]">
                           <span className="text-ink transition-colors group-hover:text-gold-deep">{sp.name}</span>
-                          <span className="ml-auto truncate text-[12.5px] text-mute">{sp.category}</span>
+                          <span className="ml-auto truncate text-[length:calc(12.5px*var(--type))] text-mute">{sp.category}</span>
                           <span className="text-mute transition-transform group-hover:translate-x-0.5" aria-hidden="true">
                             →
                           </span>
@@ -395,9 +395,9 @@ export function VaultRoom() {
                 </ul>
               </>
             ) : (
-              <p className="mt-2 text-[14px] text-slate">Try a feature in the list — or a word like momentum, levels or alerts.</p>
+              <p className="mt-2 text-[length:calc(14px*var(--type))] text-slate">Try a feature in the list — or a word like momentum, levels or alerts.</p>
             )}
-            <button type="button" onClick={clearAll} className="mt-6 font-mono text-[10.5px] uppercase tracking-[0.16em] text-vault hover:text-vault-light">
+            <button type="button" onClick={clearAll} className="mt-6 font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-vault hover:text-vault-light">
               Show everything in the vault
             </button>
           </div>

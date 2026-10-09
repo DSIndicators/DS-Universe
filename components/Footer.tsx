@@ -12,19 +12,19 @@ export function Footer() {
           <div className="max-w-sm">
             <div className="flex items-center gap-3">
               <Badge size={28} className="ring-1 ring-white/15" />
-              <span className="font-display text-[15px] font-medium text-ink">{SITE.name}</span>
+              <span className="font-display text-[length:calc(15px*var(--type))] font-medium text-ink">{SITE.name}</span>
             </div>
-            <p className="mt-4 text-[14px] leading-relaxed text-slate">{SITE.tagline}. {SITE.city}.</p>
+            <p className="mt-4 text-[length:calc(14px*var(--type))] leading-relaxed text-slate">{SITE.tagline}. {SITE.city}.</p>
             <a
               href={`mailto:${SITE.email}`}
-              className="mt-3 inline-block text-[14px] text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-gold"
+              className="mt-3 inline-block text-[length:calc(14px*var(--type))] text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-gold"
             >
               {SITE.email}
             </a>
           </div>
 
           <nav className="flex gap-12" aria-label="Footer">
-            <ul className="space-y-3 text-[14px]">
+            <ul className="space-y-3 text-[length:calc(14px*var(--type))]">
               {NAV.map((n) => (
                 <li key={n.href}>
                   <Link href={n.href} className={`transition-colors hover:text-ink ${n.vault ? "text-bull-text" : "text-slate"}`}>
@@ -33,7 +33,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-            <ul className="space-y-3 text-[14px]">
+            <ul className="space-y-3 text-[length:calc(14px*var(--type))]">
               <li>
                 <Link href="/products" className="text-slate transition-colors hover:text-ink">
                   {cta("Get access", "See what's coming")}
@@ -64,19 +64,19 @@ export function Footer() {
             — the single most flagged thing in a vendor review. They now match
             the footer's own primary text at 15px, in the same colour as body
             copy, with normal leading. Do not shrink them again. */}
-        <div className="hairline mt-12 space-y-4 pt-8">
+        <div className="hairline mt-12 pt-8 [&>p+p]:mt-4 xl:columns-2 xl:gap-x-16 xl:[&>p+p]:mt-0 xl:[&>p]:mb-4 xl:[&>p]:break-inside-avoid">
           <p className="label">Disclosures</p>
-          <p className="max-w-4xl text-[14px] leading-relaxed text-slate">{DISCLOSURE.short}</p>
-          <p className="max-w-4xl text-[14px] leading-relaxed text-slate">
+          <p className="max-w-4xl text-[length:calc(14px*var(--type))] leading-relaxed text-slate xl:max-w-none">{DISCLOSURE.short}</p>
+          <p className="max-w-4xl text-[length:calc(14px*var(--type))] leading-relaxed text-slate xl:max-w-none">
             <strong className="font-medium text-ink">Risk disclosure.</strong> {DISCLOSURE.risk}
           </p>
-          <p className="max-w-4xl text-[14px] leading-relaxed text-slate">
+          <p className="max-w-4xl text-[length:calc(14px*var(--type))] leading-relaxed text-slate xl:max-w-none">
             <strong className="font-medium text-ink">Hypothetical performance disclosure.</strong>{" "}
             {DISCLOSURE.hypothetical}
           </p>
-          <p className="max-w-4xl text-[14px] leading-relaxed text-slate">{DISCLOSURE.long}</p>
-          <p className="max-w-4xl text-[14px] leading-relaxed text-slate">{DISCLOSURE.trademark}</p>
-          <p className="pt-2 text-[12.5px] text-mute">
+          <p className="max-w-4xl text-[length:calc(14px*var(--type))] leading-relaxed text-slate xl:max-w-none">{DISCLOSURE.long}</p>
+          <p className="max-w-4xl text-[length:calc(14px*var(--type))] leading-relaxed text-slate xl:max-w-none">{DISCLOSURE.trademark}</p>
+          <p className="pt-2 text-[length:calc(12.5px*var(--type))] text-mute">
             © {year} {SITE.name}. An independent software developer. Kinetick® is a registered
             trademark of its owner.
           </p>

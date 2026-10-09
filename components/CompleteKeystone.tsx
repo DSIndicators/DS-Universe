@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { BuyButton, CtaNote } from "@/components/BuyButton";
+import { Defer } from "@/components/ui/Defer";
 import { CompleteChart } from "@/components/CompleteChart";
 import { CompleteBundled, CompleteLedger, type LedgerRow } from "@/components/CompleteLedger";
 import { CompleteStage, type Series } from "@/components/CompleteStage";
@@ -104,10 +105,10 @@ export function CompleteKeystone() {
               <span className="absolute inset-0 rounded-full bg-gold opacity-60 motion-safe:animate-ping" />
               <span className="relative h-1.5 w-1.5 rounded-full bg-gold" />
             </span>
-            <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-gold">{FOUNDERS.name}</span>
+            <span className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.18em] text-gold">{FOUNDERS.name}</span>
             <span className="hidden h-3 w-px bg-[rgba(205,166,86,0.35)] sm:block" aria-hidden="true" />
-            <span className="w-full text-[13.5px] text-ink text-balance sm:w-auto">{FOUNDERS.strip}</span>
-            <span className="ml-auto hidden font-mono text-[10px] uppercase tracking-[0.14em] text-gold-deep/80 md:block">
+            <span className="w-full text-[length:calc(13.5px*var(--type))] text-ink text-balance sm:w-auto">{FOUNDERS.strip}</span>
+            <span className="ml-auto hidden font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.14em] text-gold-deep/80 md:block">
               Can end at any time
             </span>
           </div>
@@ -118,37 +119,41 @@ export function CompleteKeystone() {
             {/* On phones the chart runs to the panel's edges: every pixel of
                 width goes to the drawing. */}
             <div className={`-mx-6 sm:mx-0 lg:col-span-6 ${FOUNDERS.active ? "-mt-6 sm:mt-0" : ""}`}>
-              <CompleteChart className={`border-x-0 sm:rounded-[10px] sm:border-x ${FOUNDERS.active ? "border-t-0 sm:border-t" : ""}`} />
+              {/* Mounted once it is within a screen of the viewport (ui/Defer): it
+                  is far down the page and the heaviest drawing on it. */}
+              <Defer near className="aspect-[3/4] w-full sm:aspect-[4/5]">
+                <CompleteChart className={`border-x-0 sm:rounded-[10px] sm:border-x ${FOUNDERS.active ? "border-t-0 sm:border-t" : ""}`} />
+              </Defer>
             </div>
 
             {/* ----------------------------------------------- the offer */}
             <div className="lg:col-span-6">
-              <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-gold">
+              <p className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-gold">
                 <span className="whitespace-nowrap">The paid lineup ·</span> <span className="whitespace-nowrap">one purchase</span>
               </p>
               <h3 id="complete-title" className="display-lg mt-3.5 text-ink">
                 {COMPLETE.name}
               </h3>
-              <p className="mt-4 max-w-xl text-[14.5px] leading-relaxed text-slate text-pretty">{COMPLETE.lede}</p>
+              <p className="mt-4 max-w-xl text-[length:calc(14.5px*var(--type))] leading-relaxed text-slate text-pretty">{COMPLETE.lede}</p>
 
               {FOUNDERS.active && (
-                <p className="mt-7 font-mono text-[10.5px] uppercase tracking-[0.16em] text-gold">Founders price</p>
+                <p className="mt-7 font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-gold">Founders price</p>
               )}
               <div className={`${FOUNDERS.active ? "mt-2.5" : "mt-7"} flex flex-wrap items-baseline gap-x-3.5 gap-y-2`}>
                 <span className="font-display text-[clamp(2.25rem,4vw,3rem)] font-[350] leading-none tracking-[-0.03em] text-ink tabular-nums">
                   {money(COMPLETE.now)}
                 </span>
-                <s className="text-[15px] tabular-nums text-mute decoration-mute/70" aria-label={`${money(APART)} bought separately`}>
+                <s className="text-[length:calc(15px*var(--type))] tabular-nums text-mute decoration-mute/70" aria-label={`${money(APART)} bought separately`}>
                   {money(APART)}
                 </s>
-                <span className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-gold">{COMPLETE_PCT}% off</span>
+                <span className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.14em] text-gold">{COMPLETE_PCT}% off</span>
               </div>
               {/* The value, said in words as well as struck through: the real sum
                   of the paid products' own prices (APART, computed). */}
-              <p className="mt-3.5 text-[14.5px] leading-snug text-slate">
+              <p className="mt-3.5 text-[length:calc(14.5px*var(--type))] leading-snug text-slate">
                 A <span className="font-medium text-ink tabular-nums">{money(APART)}</span> value — every paid product, bought one at a time.
               </p>
-              <p className="mt-1.5 text-[12.5px] text-mute">One payment · Yours to keep · Updates included</p>
+              <p className="mt-1.5 text-[length:calc(12.5px*var(--type))] text-mute">One payment · Yours to keep · Updates included</p>
 
               {/* FREE WITH DS COMPLETE (content/pricing.ts BUNDLED): said once,
                   in the panel, between the value and the ledger — the
@@ -173,7 +178,7 @@ export function CompleteKeystone() {
               <CtaNote className="mt-4" slug={COMPLETE.key} />
               {/* Paid and free are kept apart (2026-10-05): the sheet's own
                   sentence, and the way to the vault. */}
-              <p className="mt-5 max-w-md border-t border-line pt-4 text-[12.5px] leading-relaxed text-mute text-pretty">
+              <p className="mt-5 max-w-md border-t border-line pt-4 text-[length:calc(12.5px*var(--type))] leading-relaxed text-mute text-pretty">
                 {COMPLETE.apart}{" "}
                 <Link href={VAULT_PATH} className="whitespace-nowrap text-slate underline decoration-bull/60 underline-offset-4 transition-colors hover:text-ink">
                   Free Vault

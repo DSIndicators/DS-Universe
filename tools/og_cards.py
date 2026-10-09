@@ -21,7 +21,7 @@ batch folder (one-year asset cache); content/covers.ts OG_BATCH names it.
 import io, json, os, re, sys, tempfile
 from PIL import Image, ImageDraw, ImageFont
 
-BATCH = "1009"
+BATCH = "1009b"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 W, H = 1200, 630
 GROUND = (8, 10, 13)

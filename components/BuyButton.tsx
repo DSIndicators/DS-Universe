@@ -37,7 +37,7 @@ export function BuyButton({
     return (
       <span
         data-pending={slug}
-        className={`inline-flex h-10 cursor-default select-none items-center justify-center rounded-md border border-dashed border-line-strong px-5 text-[13.5px] font-medium text-mute ${className}`}
+        className={`inline-flex h-10 cursor-default select-none items-center justify-center rounded-md border border-dashed border-line-strong px-5 text-[length:calc(13.5px*var(--type))] font-medium text-mute ${className}`}
       >
         {PENDING_NOTE.label}
       </span>
@@ -76,18 +76,18 @@ export function CtaNote({
   const muted = tone === "dark" ? "text-white/55" : "text-mute";
   if (onWaitlist()) {
     return (
-      <p className={`text-[12.5px] leading-relaxed ${muted} ${className}`}>
+      <p className={`text-[length:calc(12.5px*var(--type))] leading-relaxed ${muted} ${className}`}>
         Nothing is charged and no card is asked for — you are told {opensWhen()}.
       </p>
     );
   }
   if (slug && isPending(slug)) {
-    return <p className={`max-w-md text-[12.5px] leading-relaxed ${muted} ${className}`}>{PENDING_NOTE.text}</p>;
+    return <p className={`max-w-md text-[length:calc(12.5px*var(--type))] leading-relaxed ${muted} ${className}`}>{PENDING_NOTE.text}</p>;
   }
   const key = slug ? purchaseKey(slug) : undefined;
   const l = key ? listingFor(key) : undefined;
   return (
-    <p className={`max-w-md text-[12.5px] leading-relaxed ${muted} ${className}`}>
+    <p className={`max-w-md text-[length:calc(12.5px*var(--type))] leading-relaxed ${muted} ${className}`}>
       {AFTER_CHECKOUT.short}
       {l && (
         <>

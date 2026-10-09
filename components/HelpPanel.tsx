@@ -323,7 +323,7 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
 
   // 16px wherever there is no mouse: below that iOS zooms the page on focus.
   const box =
-    "block w-full rounded-md border border-line-strong bg-ground px-3 py-2.5 text-[16px] leading-snug text-ink placeholder:text-mute/70 focus:border-gold/70 focus:outline-none read-only:opacity-70 [@media(pointer:fine)]:text-[14px]";
+    "block w-full rounded-md border border-line-strong bg-ground px-3 py-2.5 text-[length:calc(16px*var(--type))] leading-snug text-ink placeholder:text-mute/70 focus:border-gold/70 focus:outline-none read-only:opacity-70 [@media(pointer:fine)]:text-[length:calc(14px*var(--type))]";
   const field = `mt-1.5 ${box}`;
   const sending = status === "sending";
   const over = message.length > ASK_LIMITS.message;
@@ -343,7 +343,7 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
         <span className="help-marker-edge block h-full transition-colors duration-200 group-hover:bg-gold group-focus-visible:bg-gold">
           <span className="help-marker-face flex h-full items-center gap-2 pl-[22px] pr-3.5">
             <span className="block h-[5px] w-[5px] bg-gold" aria-hidden="true" />
-            <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-ink">{open ? HELP.markerOpen : HELP.marker}</span>
+            <span className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-ink">{open ? HELP.markerOpen : HELP.marker}</span>
           </span>
         </span>
       </button>
@@ -369,8 +369,8 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
         <div className="flex h-[52px] shrink-0 items-center justify-between pl-4 pr-2">
           <div className="flex items-center gap-2.5">
             <Badge size={22} className="ring-1 ring-white/15" />
-            <span className="text-[14px] font-medium tracking-[-0.01em] text-ink">{HELP.title}</span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-mute">{HELP.marker}</span>
+            <span className="text-[length:calc(14px*var(--type))] font-medium tracking-[-0.01em] text-ink">{HELP.title}</span>
+            <span className="font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.16em] text-mute">{HELP.marker}</span>
           </div>
           <button type="button" onClick={hide} aria-label="Close help" className="grid h-9 w-9 place-items-center rounded-md text-mute outline-none transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-gold">
             <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
@@ -391,7 +391,7 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
               aria-controls={`${id}-pane-${t}`}
               tabIndex={tab === t ? 0 : -1}
               onClick={() => setTab(t)}
-              className={`-mb-px border-b-2 pb-2.5 pt-1 font-mono text-[10.5px] uppercase tracking-[0.16em] transition-colors ${
+              className={`-mb-px border-b-2 pb-2.5 pt-1 font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] transition-colors ${
                 tab === t ? "border-gold text-ink" : "border-transparent text-mute hover:text-ink"
               }`}
             >
@@ -404,9 +404,9 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
         <div id={`${id}-pane-answers`} role="tabpanel" aria-labelledby={`${id}-tab-answers`} hidden={tab !== "answers"} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-4 pt-4">
           {product && (
             <div className="mb-5 border-b border-line pb-5">
-              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-mute">{HELP.answers.onThisPage}</p>
-              <p className="mt-1.5 text-[14.5px] font-medium text-ink">{product.name}</p>
-              <dl className="mt-3 grid grid-cols-[76px_minmax(0,1fr)] gap-x-3 gap-y-2 text-[13px] leading-snug">
+              <p className="font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.16em] text-mute">{HELP.answers.onThisPage}</p>
+              <p className="mt-1.5 text-[length:calc(14.5px*var(--type))] font-medium text-ink">{product.name}</p>
+              <dl className="mt-3 grid grid-cols-[76px_minmax(0,1fr)] gap-x-3 gap-y-2 text-[length:calc(13px*var(--type))] leading-snug">
                 {product.price && (
                   <>
                     <dt className="text-mute">Price</dt>
@@ -453,13 +453,13 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
               {hits.map((f) => (
                 <li key={f.q} className="border-t border-line">
                   <details className="group">
-                    <summary className="flex cursor-pointer list-none items-start justify-between gap-4 py-3.5 text-[14px] leading-snug text-ink transition-colors hover:text-gold-deep [&::-webkit-details-marker]:hidden">
+                    <summary className="flex cursor-pointer list-none items-start justify-between gap-4 py-3.5 text-[length:calc(14px*var(--type))] leading-snug text-ink transition-colors hover:text-gold-deep [&::-webkit-details-marker]:hidden">
                       <span className="text-pretty">{f.q}</span>
                       <svg viewBox="0 0 16 16" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-mute transition-transform duration-300 ease-silk group-open:rotate-45" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
                         <path d="M8 2.5v11M2.5 8h11" />
                       </svg>
                     </summary>
-                    <p className="pb-4 pr-6 text-[13px] leading-relaxed text-slate text-pretty">
+                    <p className="pb-4 pr-6 text-[length:calc(13px*var(--type))] leading-relaxed text-slate text-pretty">
                       {f.a}
                       {f.link && (
                         <>
@@ -476,7 +476,7 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
               ))}
             </ul>
           ) : (
-            <p className="mt-5 text-[13.5px] leading-relaxed text-slate" role="status">
+            <p className="mt-5 text-[length:calc(13.5px*var(--type))] leading-relaxed text-slate" role="status">
               {HELP.answers.none}{" "}
               <button type="button" onClick={askInstead} className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
                 {HELP.answers.askInstead}
@@ -486,7 +486,7 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
           )}
 
           {hits.length > 0 && (
-            <p className="mt-5 text-[13.5px] text-slate">
+            <p className="mt-5 text-[length:calc(13.5px*var(--type))] text-slate">
               {HELP.answers.notHere}{" "}
               <button type="button" onClick={askInstead} className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
                 {HELP.answers.notHereCta}
@@ -501,12 +501,12 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
           {status === "sent" && sent ? (
             <div ref={sentBox} tabIndex={-1} className="outline-none">
               {/* Their own words, as sent — a record, not a pretend conversation. */}
-              <p className="whitespace-pre-wrap break-words border-l-2 border-gold pl-3.5 text-[13.5px] leading-relaxed text-ink">{sent.message}</p>
-              <p className="mt-5 text-[14px] text-ink">
+              <p className="whitespace-pre-wrap break-words border-l-2 border-gold pl-3.5 text-[length:calc(13.5px*var(--type))] leading-relaxed text-ink">{sent.message}</p>
+              <p className="mt-5 text-[length:calc(14px*var(--type))] text-ink">
                 <span className="mr-1.5 font-medium">{HELP.ask.sent}</span>
                 <span className="break-words text-slate">{HELP.ask.sentBody(sent.email)}</span>
               </p>
-              <p className="mt-2 text-[13px] leading-relaxed text-slate">{HELP.ask.lede}</p>
+              <p className="mt-2 text-[length:calc(13px*var(--type))] leading-relaxed text-slate">{HELP.ask.lede}</p>
               <button
                 type="button"
                 onClick={() => {
@@ -521,12 +521,12 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
             </div>
           ) : (
             <form onSubmit={send} noValidate>
-              <p className="text-[13.5px] leading-relaxed text-slate text-pretty">{HELP.ask.lede}</p>
+              <p className="text-[length:calc(13.5px*var(--type))] leading-relaxed text-slate text-pretty">{HELP.ask.lede}</p>
 
               {about && (
-                <p className="mt-4 flex items-center justify-between gap-3 border-y border-line py-2.5 text-[13px] text-slate">
+                <p className="mt-4 flex items-center justify-between gap-3 border-y border-line py-2.5 text-[length:calc(13px*var(--type))] text-slate">
                   <span className="min-w-0 truncate">
-                    <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.16em] text-mute">{HELP.ask.about}</span>
+                    <span className="mr-2 font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.16em] text-mute">{HELP.ask.about}</span>
                     <span className="text-ink">{products[about].name}</span>
                   </span>
                   <button
@@ -543,7 +543,7 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
                 </p>
               )}
 
-              <label htmlFor={`${id}-email`} className="mt-4 block text-[12.5px] text-mute">
+              <label htmlFor={`${id}-email`} className="mt-4 block text-[length:calc(12.5px*var(--type))] text-mute">
                 {HELP.ask.email}
               </label>
               <input
@@ -566,12 +566,12 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
                 className={field}
               />
               {errors.email && (
-                <p id={`${id}-email-err`} role="alert" className="mt-1.5 text-[12.5px] text-gold-deep">
+                <p id={`${id}-email-err`} role="alert" className="mt-1.5 text-[length:calc(12.5px*var(--type))] text-gold-deep">
                   {errors.email}
                 </p>
               )}
 
-              <label htmlFor={`${id}-message`} className="mt-4 block text-[12.5px] text-mute">
+              <label htmlFor={`${id}-message`} className="mt-4 block text-[length:calc(12.5px*var(--type))] text-mute">
                 {HELP.ask.message}
               </label>
               <textarea
@@ -593,7 +593,7 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
                 aria-describedby={`${id}-message-note`}
                 className={`${field} resize-none`}
               />
-              <p id={`${id}-message-note`} className="mt-1.5 flex justify-between gap-3 text-[12.5px]">
+              <p id={`${id}-message-note`} className="mt-1.5 flex justify-between gap-3 text-[length:calc(12.5px*var(--type))]">
                 <span role={errors.message || over ? "alert" : undefined} className="text-gold-deep">
                   {errors.message || (over ? HELP.ask.tooLong : "")}
                 </span>
@@ -620,13 +620,13 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
 
               {(status === "fallback" || status === "rate") && (
                 <div role="alert" className="mt-4 border-l-2 border-gold pl-3.5">
-                  <p className="text-[13.5px] font-medium text-ink">{status === "rate" ? HELP.ask.tooMany : HELP.ask.fallbackTitle}</p>
-                  {status === "fallback" && <p className="mt-1 text-[13px] leading-relaxed text-slate">{HELP.ask.fallbackBody}</p>}
+                  <p className="text-[length:calc(13.5px*var(--type))] font-medium text-ink">{status === "rate" ? HELP.ask.tooMany : HELP.ask.fallbackTitle}</p>
+                  {status === "fallback" && <p className="mt-1 text-[length:calc(13px*var(--type))] leading-relaxed text-slate">{HELP.ask.fallbackBody}</p>}
                   <div className="mt-3 flex flex-wrap items-center gap-2">
-                    <a href={mailto} className="btn-ghost h-9 px-3.5 text-[13px]">
+                    <a href={mailto} className="btn-ghost h-9 px-3.5 text-[length:calc(13px*var(--type))]">
                       {HELP.ask.openMail}
                     </a>
-                    <button type="button" onClick={copy} className="btn-ghost h-9 px-3.5 text-[13px]">
+                    <button type="button" onClick={copy} className="btn-ghost h-9 px-3.5 text-[length:calc(13px*var(--type))]">
                       <span aria-live="polite">{copied ? HELP.ask.copied : HELP.ask.copy}</span>
                     </button>
                   </div>
@@ -638,7 +638,7 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
                   {sending ? HELP.ask.sending : status === "fallback" ? HELP.ask.retry : HELP.ask.send}
                 </button>
               </div>
-              <p className="mt-4 text-[12.5px] leading-relaxed text-mute">
+              <p className="mt-4 text-[length:calc(12.5px*var(--type))] leading-relaxed text-mute">
                 {HELP.ask.privacy} {HELP.ask.direct}{" "}
                 <a href={`mailto:${supportEmail}`} className="whitespace-nowrap text-slate underline decoration-line-strong underline-offset-4 hover:decoration-gold">
                   {supportEmail}

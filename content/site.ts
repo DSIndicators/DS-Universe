@@ -312,7 +312,9 @@ export const CATALOGUE = {
  * Since 2026-09-30 the last four frames were all session views; since
  * 2026-10-02 the one between the two DS Flow session pictures is
  * zones-iceberg-rsi-v1, which has no session marks on it at all, so the two
- * no longer sit side by side.
+ * no longer sit side by side. (2026-10-09: that last frame is now
+ * gex-sessions-rsi-v1, the new showcase; it carries session profiles again,
+ * but it closes the loop, after the light zones picture, not beside a Flow one.)
  *
  * `ground` is the charts' own black (#040404, sampled): the screen and the
  * enlarged view are painted with it, so a picture that is still loading, or a
@@ -358,6 +360,18 @@ export type ScreenClip = {
 
 export type ScreenFrame = ScreenStill | ScreenClip;
 
+/**
+ * CRISPER SCREEN (2026-10-09, Tom: "make the monitors fit more elegantly and
+ * have bigger crispier displays"). The monitor now shows the two recordings at
+ * up to ~1250px wide on a 1.25x–2x screen, past what a 1080p file at CRF 23
+ * holds sharply (the price labels and volume rows went soft). Both were
+ * re-made from the 8K originals in DS Media\03 Website\Homepage Sources at
+ * 2560x1440, CRF 20 (preset slow), with the same framing as before:
+ *   flow-hunter-v2.mp4   -ss 0.5, crop=7054:3716:0:292 (the chart window),
+ *                        scale=2560:-2, pad to 1440 in black, fps 30   9.3 MB
+ *   live-levels-v2.mp4   scale=2560:1440, fps 30                         5.3 MB
+ *   posters: frame 0, libwebp q88. The phone files (-sm, 720p) are unchanged.
+ */
 export const isClip = (f: ScreenFrame): f is ScreenClip => f.kind === "clip";
 
 export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
@@ -374,9 +388,9 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
       // "NEW YORK POC", "LONDON LOW" on session profiles = DS ASL; "ICE OFFER
       // 29941.25" = DS Iceberg. DS Oracle and DS Zones are loaded, not claimed.
       kind: "clip",
-      src: "/covers/screen/flow-hunter-v1.mp4",
+      src: "/covers/screen/flow-hunter-v2.mp4",
       srcSmall: "/covers/screen/flow-hunter-v1-sm.mp4",
-      poster: "/covers/screen/flow-hunter-v1-poster.webp",
+      poster: "/covers/screen/flow-hunter-v2-poster.webp",
       seconds: 30,
       title: "A session playing out, with its liquidity pools mapped beneath",
       tools: ["flow", "proliquidityhunter", "asl", "iceberg"],
@@ -387,9 +401,9 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
       // volume inside the candles over the liquidity map, this one is levels.
       // 60s; the screen gives it its file half-way through the first clip.
       kind: "clip",
-      src: "/covers/screen/live-levels-v1.mp4",
+      src: "/covers/screen/live-levels-v2.mp4",
       srcSmall: "/covers/screen/live-levels-v1-sm.mp4",
-      poster: "/covers/screen/live-levels-v1-poster.webp",
+      poster: "/covers/screen/live-levels-v2-poster.webp",
       seconds: 60,
       title: "Levels forming as a New York session trades",
       tools: ["asl", "zones", "iceberg"],
@@ -434,20 +448,22 @@ export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
       blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDpDjI+Ygil3cc4BprdKavWmB//2Q==",
     },
     {
-      // ← "Homepage image 4 replacement.png" (Master Product Folder,
-      // 2026-10-02) replaces sessions-zones-v1.webp, which showed DS Zones as
-      // it looked before Build 10-01. 1920x1080 native, the same 16:9, never
-      // enlarged; LOSSLESS webp — pixel-identical to the PNG, and on a chart
-      // this black only 11 KB more than q88. Attributed by its labels: the
-      // "DEMAND 29490.50 APPROACHING / KEY 8.69K ×3.5 / SELL 67% ABSORBED"
-      // card on its band, with a diamond on each test = DS Zones;
-      // "ICE BID 29449.50 5× 1.22K" on its keel iceberg = DS Iceberg;
-      // "RSI 62.9 / 75.4 / 45.1 / 31.9 / 38.4" on price and the "DS ProRSI"
-      // panel = DS ProRSI. The candle colouring is not claimed.
-      src: "/covers/screen/zones-iceberg-rsi-v1.webp",
-      title: "A live demand zone, an iceberg bid and RSI levels on one chart",
-      tools: ["zones", "iceberg", "prorsi"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkMAds0mPaloNAj//Z",
+      // ← DS_20261009_043034.png (Homepage Sources, 2026-10-09: "replace the
+      // last outdated RSI picture with the new ds showcase picture"). It takes
+      // the place of zones-iceberg-rsi-v1.webp, which showed DS ProRSI's old
+      // levels. 1920x1079 native: one row of the chart's own black added at
+      // the foot to make 1920x1080, never enlarged; LOSSLESS webp. Attributed
+      // by its labels: "G+ 30930.83", "CW 0DTE / EM High 30890.92", "Max Pain
+      // 30711.32", "Gamma Flip 30646.58" and the "08:30 NDX …" strike tags =
+      // DS GEX; "NEW YORK HIGH / POC / LOW", "LONDON HIGH", "ASIA HIGH" with
+      // their session profiles = DS ASL; "ICE BID 30691.00 3× 176" on its keel
+      // = DS Iceberg; the "RSI 78" zone flag on price and the "DS ProRSI"
+      // panel (ZONES HELD / BROKE, RSI 57 BEARISH) = DS ProRSI. The candle
+      // colouring is not claimed.
+      src: "/covers/screen/gex-sessions-rsi-v1.webp",
+      title: "Dealer gamma levels, session profiles, an iceberg bid and an RSI zone on one chart",
+      tools: ["gex", "asl", "iceberg", "prorsi"],
+      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDyRxGsaqsZZ/4m6VGQ2R8mPwpx601vvCiwj//Z",
     },
   ],
   ground: "#040404",

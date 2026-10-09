@@ -47,7 +47,7 @@ export function PriceFigure({
   className?: string;
 }) {
   if (!price) return null;
-  const type = size === "md" ? "text-[14.5px]" : "text-[13.5px]";
+  const type = size === "md" ? "text-[length:calc(14.5px*var(--type))]" : "text-[length:calc(13.5px*var(--type))]";
   // "Free with DS Complete" (content/pricing.ts WITH_BUNDLE) is the one figure
   // that is words — the site's one label for a product that comes with the
   // bundle, never shortened to "Free". It may take two lines on a narrow tile
@@ -88,7 +88,7 @@ export function PriceTag({
   return (
     <div className={`flex flex-col ${end} ${className}`}>
       <span className="block h-px w-8 bg-gold" aria-hidden="true" />
-      <span className="mt-3 font-mono text-[10.5px] uppercase tracking-[0.16em] text-gold-deep">Price</span>
+      <span className="mt-3 font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-gold-deep">Price</span>
       <span className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <span className={`font-display ${big} font-[350] leading-none tracking-[-0.03em] text-ink tabular-nums`}>
           {isPaid(price) ? money(price.now) : "Free"}
@@ -96,20 +96,15 @@ export function PriceTag({
         {/* Not sold on its own: the condition is set beside the figure, as
             "each" is, so the two read as the site's one label for it — "Free
             with DS Complete" (WITH_BUNDLE.label; checked below). */}
-        {price.withComplete && <span className="text-[14.5px] text-slate">{WITH_REST}</span>}
-        {each && isPaid(price) && <span className="text-[14.5px] text-slate">each</span>}
+        {price.withComplete && <span className="text-[length:calc(14.5px*var(--type))] text-slate">{WITH_REST}</span>}
+        {each && isPaid(price) && <span className="text-[length:calc(14.5px*var(--type))] text-slate">each</span>}
         {off > 0 && isPaid(price) && (
-          <s className="text-[15px] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(price.list)}`}>
+          <s className="text-[length:calc(15px*var(--type))] tabular-nums text-mute decoration-mute/70" aria-label={`list price ${money(price.list)}`}>
             {money(price.list)}
           </s>
         )}
       </span>
-      <span className="mt-3 text-[12.5px] text-slate">{price.free ? TERMS_FREE : price.withComplete ? TERMS_WITH : TERMS_PAID}</span>
+      <span className="mt-3 text-[length:calc(12.5px*var(--type))] text-slate">{price.free ? TERMS_FREE : price.withComplete ? TERMS_WITH : TERMS_PAID}</span>
     </div>
   );
-}
-
-/** Product page — the tag at its large size. */
-export function PriceBlock({ price, className = "" }: { price: Price | undefined; size?: "md" | "lg"; className?: string }) {
-  return <PriceTag price={price} size="lg" className={className} />;
 }

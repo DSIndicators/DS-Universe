@@ -40,16 +40,16 @@ export function Markets({ markets }: { markets: MarketsData }) {
 
   return (
     <div id="markets" className="scroll-mt-[120px]">
-      <dt className="flex items-baseline justify-between gap-4 text-[12.5px] text-mute">
+      <dt className="flex items-baseline justify-between gap-4 text-[length:calc(12.5px*var(--type))] text-mute">
         Markets
         {markets.builtOn && (
-          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-mute">
+          <span className="font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.14em] text-mute">
             Built on <span className="text-slate">{HOME_MARKETS.join(" · ")}</span>
           </span>
         )}
       </dt>
       <dd className="mt-1">
-        <p className="text-[14.5px] text-ink">{markets.headline}</p>
+        <p className="text-[length:calc(14.5px*var(--type))] text-ink">{markets.headline}</p>
 
         {cells.length > 0 && (
           <ul className={`mt-4 grid ${cols} gap-x-2.5`}>
@@ -63,20 +63,20 @@ export function Markets({ markets }: { markets: MarketsData }) {
                 <span
                   className={
                     c.on
-                      ? "mt-2 block font-mono text-[10px] uppercase leading-tight tracking-[0.12em] text-ink"
-                      : "mt-2 block font-mono text-[10px] uppercase leading-tight tracking-[0.12em] text-mute line-through decoration-line-strong"
+                      ? "mt-2 block font-mono text-[length:calc(10px*var(--type))] uppercase leading-tight tracking-[0.12em] text-ink"
+                      : "mt-2 block font-mono text-[length:calc(10px*var(--type))] uppercase leading-tight tracking-[0.12em] text-mute line-through decoration-line-strong"
                   }
                 >
                   {c.label}
                   <span className="sr-only">{c.on ? " — runs on it" : " — not supported"}</span>
                 </span>
-                {c.sub && <span className="mt-1 block font-mono text-[11.5px] leading-tight text-slate">{c.sub}</span>}
+                {c.sub && <span className="mt-1 block font-mono text-[length:calc(11.5px*var(--type))] leading-tight text-slate">{c.sub}</span>}
               </li>
             ))}
           </ul>
         )}
 
-        <p className="mt-4 text-[13px] leading-relaxed text-slate text-pretty">{markets.note}</p>
+        <p className="mt-4 text-[length:calc(13px*var(--type))] leading-relaxed text-slate text-pretty">{markets.note}</p>
       </dd>
     </div>
   );

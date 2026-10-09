@@ -53,7 +53,10 @@ export function Marketplace({
               label={i === 0 ? "Inside DS Complete" : "Included"}
               isNew={shelf.info.key === NEW_SERIES}
             />
-            <Shelf shelf={shelf} priority={i === 0} views={views} />
+            {/* No shelf is preloaded (2026-10-09): every one sits below the
+                first screen, under DS Complete, and a preload there only
+                competed with the first screen's own text and pictures. */}
+            <Shelf shelf={shelf} views={views} />
           </Fragment>
         ))}
       </div>
@@ -61,7 +64,7 @@ export function Marketplace({
           the risk and hypothetical-performance disclosures beside them
           (NinjaTrader vendor guidelines rev 2.11.2025, p.2): the lineup always
           closes on DISCLOSURE.chart. */}
-      <p className="mt-10 max-w-3xl text-[12.5px] leading-relaxed text-mute">
+      <p className="mt-10 max-w-3xl text-[length:calc(12.5px*var(--type))] leading-relaxed text-mute">
         {CHARTS_NOTE} {DISCLOSURE.chart}{" "}
         <Link href="/disclosures" className="underline decoration-mute/50 underline-offset-4 hover:text-ink">
           Disclosures
@@ -81,7 +84,7 @@ function Thread({ label, isNew = false }: { label: string; isNew?: boolean }) {
     <div className="relative z-10 h-12 lg:h-14" aria-hidden="true">
       <span className="thread absolute inset-y-0 left-6 w-px sm:left-8 lg:left-10" />
       <span className="absolute -bottom-[4px] left-6 -ml-[3.5px] h-[8px] w-[8px] rotate-45 border border-gold bg-ground sm:left-8 lg:left-10" />
-      <span className="absolute left-10 top-1/2 -translate-y-1/2 font-mono text-[9.5px] uppercase tracking-[0.16em] text-gold-deep/80 sm:left-12 lg:left-14">
+      <span className="absolute left-10 top-1/2 -translate-y-1/2 font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.16em] text-gold-deep/80 sm:left-12 lg:left-14">
         {/* A new series (content/release.ts NEW_SERIES) says so on its thread
             — the word in full gold, then the usual label. */}
         {isNew && (

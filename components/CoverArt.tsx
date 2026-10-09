@@ -35,7 +35,7 @@ export function CoverArt({
   const cover = squareCoverFor(slug);
   if (cover) {
     return (
-      <div className={`cover-art relative aspect-square overflow-hidden bg-[#E2E2E2] ${className}`}>
+      <div className={`cover-art relative aspect-square overflow-hidden bg-[#0E1116] ${className}`}>
         <Image src={cover.src} alt={cover.alt} fill sizes={sizes} priority={priority} quality={92} className="cover-img object-cover" />
       </div>
     );

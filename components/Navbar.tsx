@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { cta } from "@/content/launch";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/Badge";
 import { VaultMark } from "@/components/Vault";
 import { NAV, POWERED_BY, SITE } from "@/content/site";
@@ -14,11 +14,26 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const thread = useRef<HTMLSpanElement>(null);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    let raf = 0;
+    const draw = () => {
+      raf = 0;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      thread.current?.style.setProperty("--p", String(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0));
+    };
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      if (!raf) raf = requestAnimationFrame(draw);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   useEffect(() => setOpen(false), [pathname]);
@@ -29,11 +44,13 @@ export function Navbar() {
         scrolled ? "border-b border-line bg-ground/80 backdrop-blur-md" : "bg-transparent"
       }`}
     >
+      {/* how far down the page: the gold thread on the header's edge (app/globals.css, THE SCROLL THREAD) */}
+      <span ref={thread} className={`scroll-thread ${scrolled ? "opacity-100" : "opacity-0"}`} aria-hidden="true" />
       <div className="wrap flex h-[76px] items-center justify-between">
         <div className="flex min-w-0 items-center gap-1.5 min-[360px]:gap-2.5 sm:gap-4">
           <Link href="/" className="group flex shrink-0 items-center gap-1.5 min-[360px]:gap-2.5 sm:gap-3" aria-label={`${SITE.name} — home`}>
             <Badge size={34} className="ring-1 ring-white/15 transition-transform duration-500 ease-silk group-hover:scale-105 max-[359px]:!h-7 max-[359px]:!w-7" />
-            <span className="whitespace-nowrap font-display text-[14.5px] font-medium tracking-[-0.01em] text-ink min-[360px]:text-[15px] sm:text-[17px]">
+            <span className="whitespace-nowrap font-display text-[length:calc(14.5px*var(--type))] font-medium tracking-[-0.01em] text-ink min-[360px]:text-[length:calc(15px*var(--type))] sm:text-[length:calc(17px*var(--type))]">
               {SITE.name}
             </span>
           </Link>
@@ -71,7 +88,7 @@ export function Navbar() {
                   key={n.href}
                   href={n.href}
                   aria-current={active ? "page" : undefined}
-                  className={`vault-tab inline-flex h-9 items-center gap-2 whitespace-nowrap font-mono text-[11.5px] uppercase tracking-[0.14em] transition-colors duration-200 ${
+                  className={`vault-tab inline-flex h-9 items-center gap-2 whitespace-nowrap font-mono text-[length:calc(11.5px*var(--type))] uppercase tracking-[0.14em] transition-colors duration-200 ${
                     active ? "text-[#7FE3DF]" : "text-bull-text hover:text-[#7FE3DF]"
                   }`}
                 >
@@ -83,7 +100,7 @@ export function Navbar() {
               <Link
                 key={n.href}
                 href={n.href}
-                className={`text-[14px] transition-colors duration-200 ${
+                className={`text-[length:calc(14px*var(--type))] transition-colors duration-200 ${
                   active ? "text-ink" : "text-slate hover:text-ink"
                 }`}
               >
@@ -137,14 +154,14 @@ export function Navbar() {
               <Link
                 key={n.href}
                 href={n.href}
-                className="my-1.5 flex items-center gap-2.5 border-y border-[rgba(0,153,153,0.34)] py-3.5 font-mono text-[12.5px] uppercase tracking-[0.14em] text-bull-text"
+                className="my-1.5 flex items-center gap-2.5 border-y border-[rgba(0,153,153,0.34)] py-3.5 font-mono text-[length:calc(12.5px*var(--type))] uppercase tracking-[0.14em] text-bull-text"
               >
                 <VaultMark />
                 {n.label}
-                <span className="ml-auto font-sans text-[12.5px] normal-case tracking-normal text-mute">Free downloads</span>
+                <span className="ml-auto font-sans text-[length:calc(12.5px*var(--type))] normal-case tracking-normal text-mute">Free downloads</span>
               </Link>
             ) : (
-              <Link key={n.href} href={n.href} className="py-3.5 text-[15px] text-ink">
+              <Link key={n.href} href={n.href} className="py-3.5 text-[length:calc(15px*var(--type))] text-ink">
                 {n.label}
               </Link>
             ),

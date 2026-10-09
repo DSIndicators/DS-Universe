@@ -76,9 +76,9 @@ import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode 
  * nothing moves or cycles, and the tabs still switch it.
  */
 
-type Kind = "zones" | "iceberg" | "gex" | "flow" | "oracle";
+export type Kind = "zones" | "iceberg" | "gex" | "flow" | "oracle";
 
-type Route = {
+export type Route = {
   kind: Kind;
   tag: string;
   question: string;
@@ -94,7 +94,7 @@ type Route = {
   range: [number, number];
 };
 
-const ROUTES: Route[] = [
+export const ROUTES: Route[] = [
   {
     kind: "zones",
     tag: "LEVELS",
@@ -161,17 +161,17 @@ const ROUTES: Route[] = [
 ];
 
 // House palette (tailwind.config.ts / the DsSignature theme).
-const TEAL = "#19F2E6";
-const ONLINE = "#2EE884"; // status green: the NT8 light reads "online"
-const VIOLET = "#B45CFF";
-const BULL = "#009999";
-const BEAR = "#A33DFF";
-const S_BULL = "#00FFFF";
-const S_BEAR = "#FF00FF";
-const NEUTRAL = "#555555";
-const LINE = "#2C3139";
-const INK = "#ECEEF1"; // the products' text ink: Zones' diamonds, the rule's tick, the POC tick
-const GREY = "#3A4049";
+export const TEAL = "#19F2E6";
+export const ONLINE = "#2EE884"; // status green: the NT8 light reads "online"
+export const VIOLET = "#B45CFF";
+export const BULL = "#009999";
+export const BEAR = "#A33DFF";
+export const S_BULL = "#00FFFF";
+export const S_BEAR = "#FF00FF";
+export const NEUTRAL = "#555555";
+export const LINE = "#2C3139";
+export const INK = "#ECEEF1"; // the products' text ink: Zones' diamonds, the rule's tick, the POC tick
+export const GREY = "#3A4049";
 
 // Timeline, in 120 ms ticks. The stages light at 0/4/8/12; the read replays
 // one candle per tick from 12; the route holds, then the next one starts.
@@ -181,9 +181,9 @@ const N = 18;
 const ROUTE_TICKS = LIT[3] + N + 22; // ≈ 6.2 s a route
 const DONE = ROUTE_TICKS;
 
-type Candle = { o: number; h: number; l: number; c: number };
+export type Candle = { o: number; h: number; l: number; c: number };
 
-function candlesOf(r: Route): Candle[] {
+export function candlesOf(r: Route): Candle[] {
   return r.closes.map((c, i) => {
     const o = i === 0 ? c + 3 : r.closes[i - 1];
     const w = 1.6 + ((i * 7) % 5) * 0.7;
@@ -195,13 +195,13 @@ function candlesOf(r: Route): Candle[] {
 
 // --- the reads, computed from what has been revealed -----------------------
 
-const ZONE = { lo: 30, hi: 40 };
-type ZoneState = "FRESH" | "APPROACHING" | "TESTING" | "DEFENDED" | "BREAKING";
+export const ZONE = { lo: 30, hi: 40 };
+export type ZoneState = "FRESH" | "APPROACHING" | "TESTING" | "DEFENDED" | "BREAKING";
 /** The bars that traded into the zone: `held` = rejected back out above the
  *  roof (a filled diamond); otherwise the bar closed inside (a hollow one). */
-const zoneTests = (cs: Candle[]) =>
+export const zoneTests = (cs: Candle[]) =>
   cs.map((c, i) => ({ i, c, held: c.c > ZONE.hi })).filter(({ c }) => c.l <= ZONE.hi);
-function zoneRead(cs: Candle[]): { state: ZoneState; defended: number } {
+export function zoneRead(cs: Candle[]): { state: ZoneState; defended: number } {
   // DEFENDED counts closed bars that traded in and still closed on the zone's
   // own side of its far edge — back out of it, or still inside it.
   const defended = zoneTests(cs).filter(({ c }) => c.c >= ZONE.lo).length;
@@ -222,7 +222,7 @@ const ZONE_BASE = [
   { v: 36.25, buy: 1.2, sell: 1.6 },
   { v: 38.75, buy: 0.7, sell: 1.0 },
 ];
-function zoneProfile(cs: Candle[]) {
+export function zoneProfile(cs: Candle[]) {
   const rows = ZONE_BASE.map((r) => ({ ...r }));
   for (const c of cs)
     for (const r of rows)
@@ -235,23 +235,23 @@ function zoneProfile(cs: Candle[]) {
 
 // An ICE OFFER: a ceiling. A test is a bar whose wick reaches the band while
 // its body stays well below it — a rejection.
-const ICE = { lo: 61.5, hi: 64, level: 62.75 };
-const iceHits = (cs: Candle[]) =>
+export const ICE = { lo: 61.5, hi: 64, level: 62.75 };
+export const iceHits = (cs: Candle[]) =>
   cs.map((c, i) => ({ c, i })).filter(({ c }) => c.h >= ICE.lo && Math.max(c.o, c.c) < ICE.lo - 4);
 
-const GEX = [
+export const GEX = [
   { v: 82, label: "CALL WALL", color: TEAL },
   { v: 55, label: "GAMMA FLIP", color: "#A3ABB3" },
   { v: 24, label: "PUT WALL", color: VIOLET },
 ];
-const EM = { lo: 31, hi: 75 };
+export const EM = { lo: 31, hi: 75 };
 
-function neural(cs: Candle[]) {
+export function neural(cs: Candle[]) {
   let e = 47;
   return cs.map((c) => (e = e + 0.28 * (c.c - e)));
 }
 
-function spectrum(cs: Candle[], i: number) {
+export function spectrum(cs: Candle[], i: number) {
   const s = cs[i].c - cs[Math.max(0, i - 3)].c;
   if (s > 8) return S_BULL;
   if (s > 2) return BULL;
@@ -322,13 +322,13 @@ export function QuestionRouter({ className = "" }: { className?: string }) {
     >
       {/* head */}
       <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
-        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-mute">
+        <span className="font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.16em] text-mute">
           Ask <span className="text-slate">→</span> Chart <span className="text-slate">→</span> Read
         </span>
         {/* The NT8 light: a status-green "online" light, glowing and pulsing.
             (Tom, 2026-09-28: NinjaTrader's orange read as red, i.e. offline —
             "change it to green for online instead".) */}
-        <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-slate">
+        <span className="flex items-center gap-2 font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.16em] text-slate">
           <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
             <span className="absolute inset-0 rounded-full opacity-60 motion-safe:animate-ping" style={{ background: ONLINE }} />
             <span
@@ -357,7 +357,7 @@ export function QuestionRouter({ className = "" }: { className?: string }) {
                   onMouseEnter={() => pick(i)}
                   onFocus={() => pick(i)}
                   onClick={() => pick(i)}
-                  className="h-6 rounded-[3px] border font-mono text-[8.5px] tracking-[0.06em] min-[400px]:text-[9px] min-[400px]:tracking-[0.12em] transition-colors duration-300 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-slate"
+                  className="h-6 rounded-[3px] border font-mono text-[length:calc(8.5px*var(--type))] tracking-[0.06em] min-[400px]:text-[length:calc(9px*var(--type))] min-[400px]:tracking-[0.12em] transition-colors duration-300 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-slate"
                   style={{
                     borderColor: on ? c : LINE,
                     color: on ? c : "#7C848D",
@@ -369,7 +369,7 @@ export function QuestionRouter({ className = "" }: { className?: string }) {
               );
             })}
           </div>
-          <p className="mt-2.5 text-[14px] leading-tight text-ink" aria-live="polite">
+          <p className="mt-2.5 text-[length:calc(14px*var(--type))] leading-tight text-ink" aria-live="polite">
             {r.question}
           </p>
         </div>
@@ -381,7 +381,7 @@ export function QuestionRouter({ className = "" }: { className?: string }) {
             className="relative overflow-hidden rounded-[5px] border border-line bg-[#0B0E12] transition-opacity duration-500"
             style={{ opacity: lit[1] ? 1 : 0.45 }}
           >
-            <span className="block px-2 pt-1.5 font-mono text-[8.5px] leading-none tracking-[0.14em] text-mute">
+            <span className="block px-2 pt-1.5 font-mono text-[length:calc(8.5px*var(--type))] leading-none tracking-[0.14em] text-mute">
               NT8 · EMPTY CHART
             </span>
             <svg viewBox="0 0 360 44" className="block w-full" aria-hidden="true">
@@ -396,7 +396,7 @@ export function QuestionRouter({ className = "" }: { className?: string }) {
         <div className="pb-3.5 transition-opacity duration-500" style={{ opacity: lit[2] ? 1 : 0.45 }}>
           {/* Name and title never break inside themselves; on a narrow phone
               the title moves to its own line whole. */}
-          <p className="flex min-h-[2.6em] flex-wrap content-start items-baseline gap-x-2 gap-y-0.5 text-[15px] leading-tight min-[360px]:min-h-0">
+          <p className="flex min-h-[2.6em] flex-wrap content-start items-baseline gap-x-2 gap-y-0.5 text-[length:calc(15px*var(--type))] leading-tight min-[360px]:min-h-0">
             <Link
               href={`/products/${r.slug}`}
               className="whitespace-nowrap text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
@@ -409,7 +409,7 @@ export function QuestionRouter({ className = "" }: { className?: string }) {
           </p>
           {/* Two lines kept for it on a phone so the panel does not jump
               height from one question to the next; one line from 400px. */}
-          <p className="mt-1 min-h-[2.6em] text-[12px] leading-[1.3] text-slate text-pretty min-[400px]:min-h-0 min-[400px]:truncate">
+          <p className="mt-1 min-h-[2.6em] text-[length:calc(12px*var(--type))] leading-[1.3] text-slate text-pretty min-[400px]:min-h-0 min-[400px]:truncate">
             {r.line}
           </p>
         </div>
@@ -527,7 +527,7 @@ function Candles({
  * below. Drawn at `s` times its unit size (the product scales it with the
  * volume the level has absorbed).
  */
-function Keel({ x, y, s, c }: { x: number; y: number; s: number; c: string }) {
+export function Keel({ x, y, s, c }: { x: number; y: number; s: number; c: string }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
       <path d="M -3.8 0.6 L 3.8 0.6 L 2.4 3.6 L 0.9 7.4 L 0 8.6 L -1.1 6 L -2.6 3.4 Z" fill={c} fillOpacity="0.45" />

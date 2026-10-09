@@ -69,7 +69,7 @@ const config: Config = {
         sans: ["var(--font-sans)", "var(--font-inter)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
       },
-      maxWidth: { wrap: "1200px" },
+      maxWidth: { wrap: "calc(var(--canvas) + 2 * var(--gutter))" }, // the wide body: app/globals.css :root
       letterSpacing: { tightest: "-0.035em" },
       boxShadow: {
         // On dark a shadow is a deepening, not a grey smudge: black, larger,

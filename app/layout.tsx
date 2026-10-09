@@ -95,7 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             spending a click for nothing. The page itself is still in the nav
             for anyone who wants to read about the platform first. */}
         <div className="border-b border-white/[0.06] bg-[#050607]">
-          <div className="wrap flex h-14 items-center justify-center gap-5 text-[12.5px] text-white/85">
+          <div className="wrap flex h-14 items-center justify-center gap-5 text-[length:calc(12.5px*var(--type))] text-white/85">
             <a
               href={NT_LINKS.logo}
               target="_blank"
@@ -109,6 +109,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 width={2376}
                 height={300}
                 priority
+                sizes="150px"
                 className="h-[18px] w-auto"
               />
             </a>

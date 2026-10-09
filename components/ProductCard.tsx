@@ -76,7 +76,8 @@ export function ProductCard({
   const figure = !price ? null : price.free ? "Free" : price.withComplete ? WITH_BUNDLE.label : money(price.now);
   const lines = why?.length ? null : p.hooks.slice(0, hooks);
 
-  const row = phoneRow ? "max-sm:grid max-sm:grid-cols-[104px_minmax(0,1fr)] max-sm:gap-x-4 max-sm:p-3" : "";
+  // Under 360px the cover narrows so the words and the button keep their room.
+  const row = phoneRow ? "max-sm:grid max-sm:grid-cols-[104px_minmax(0,1fr)] max-sm:gap-x-4 max-sm:p-3 max-[359px]:grid-cols-[80px_minmax(0,1fr)] max-[359px]:gap-x-3" : "";
 
   return (
     <article className={`pcard pcard-${tone} group relative flex min-w-0 flex-col ${row} ${className}`}>
@@ -85,13 +86,13 @@ export function ProductCard({
       </div>
 
       <div className={`flex min-w-0 flex-1 flex-col p-4 ${phoneRow ? "max-sm:p-0" : ""}`}>
-        <h3 className="pcard-name font-display text-[16.5px] font-[500] leading-tight tracking-[-0.012em] text-ink">{p.name}</h3>
-        <p className="mt-1 truncate text-[12px] leading-tight text-mute">{p.category}</p>
+        <h3 className="pcard-name font-display text-[length:calc(16.5px*var(--type))] font-[500] leading-tight tracking-[-0.012em] text-ink">{p.name}</h3>
+        <p className="mt-1 truncate text-[length:calc(12px*var(--type))] leading-tight text-mute">{p.category}</p>
 
         {lines && lines.length > 0 && (
           <ul className="mt-3 space-y-1.5">
             {lines.map((h, i) => (
-              <li key={h} className={`flex gap-2 text-[12.5px] leading-snug text-slate ${i > 0 && phoneRow ? "max-sm:hidden" : ""}`}>
+              <li key={h} className={`flex gap-2 text-[length:calc(12.5px*var(--type))] leading-snug text-slate ${i > 0 && phoneRow ? "max-sm:hidden" : ""}`}>
                 <svg viewBox="0 0 10 10" width="10" height="10" className="pcard-tick mt-[3px] shrink-0" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true">
                   <path d="M1.5 5.2 4 7.6 8.6 2.4" strokeLinecap="square" />
                 </svg>
@@ -103,8 +104,8 @@ export function ProductCard({
         {why && why.length > 0 && (
           <ul className="mt-3 space-y-1.5">
             {why.slice(0, 3).map((w) => (
-              <li key={w.id} className="text-[12.5px] leading-snug">
-                <span className="pcard-tick mr-2 font-mono text-[9.5px] uppercase tracking-[0.14em]">{w.label}</span>
+              <li key={w.id} className="text-[length:calc(12.5px*var(--type))] leading-snug">
+                <span className="pcard-tick mr-2 font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.14em]">{w.label}</span>
                 <span className="text-slate text-pretty">{w.note}</span>
               </li>
             ))}
@@ -114,28 +115,28 @@ export function ProductCard({
         {/* One legend line where a card has one: the trial, the bundle, or a
             listing that is not open yet. */}
         {trial && (
-          <p className="mt-3 flex items-center gap-2 font-mono text-[9.5px] uppercase tracking-[0.12em] text-bull-text">
+          <p className="mt-3 flex items-center gap-2 font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.12em] text-bull-text">
             <TrialMark />
             {TRIAL.label}
           </p>
         )}
         {exclusive && (
-          <p className="mt-3 flex items-center gap-2 font-mono text-[9.5px] uppercase tracking-[0.12em] text-gold">
+          <p className="mt-3 flex items-center gap-2 font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.12em] text-gold">
             <span className="h-[6px] w-[6px] shrink-0 rotate-45 border border-gold" aria-hidden="true" />
             {WITH_BUNDLE.short}
           </p>
         )}
         {pending && (
-          <p className="mt-3 flex items-center gap-2 font-mono text-[9.5px] uppercase tracking-[0.12em] text-mute">
+          <p className="mt-3 flex items-center gap-2 font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.12em] text-mute">
             <span className="h-px w-3 shrink-0 bg-line-strong" aria-hidden="true" />
             {PENDING_NOTE.label}
           </p>
         )}
 
         <div className="mt-auto pt-4">
-          <div className="flex items-center justify-between gap-3 border-t border-line pt-3 sm:flex-col sm:items-stretch">
+          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-t border-line pt-3 sm:flex-col sm:flex-nowrap sm:items-stretch">
             {figure && (
-              <span className={`pcard-price font-display tabular-nums ${exclusive ? "text-[13.5px] leading-snug" : "text-[18px] leading-none"} ${price?.free ? "pcard-free" : "text-ink"}`}>
+              <span className={`pcard-price font-display tabular-nums ${exclusive ? "text-[length:calc(13.5px*var(--type))] leading-snug" : "text-[length:calc(18px*var(--type))] leading-none"} ${price?.free ? "pcard-free" : "text-ink"}`}>
                 {figure}
               </span>
             )}

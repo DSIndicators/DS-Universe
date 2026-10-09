@@ -17,13 +17,42 @@
        browser that does not know "only". */
     color-scheme: dark;
     color-scheme: only dark;
+
+    /* THE WIDE BODY (2026-10-09). Tom: "our website is just constricted to the
+       middle which makes it feel cluttered and cheap". The page used to be a
+       fixed 1200px column (1120px of content) whatever the screen; it is now a
+       fluid CANVAS that grows with the window up to 1680px of content, inside
+       a gutter that grows with it. What keeps it elegant at width is not the
+       stretch but what is held back: running text keeps its reading measure
+       (max-w-* on every paragraph), the type scale grows in proportion
+       (.display-*), and pictures, shelves and charts take the room.
+         --canvas  the widest the content gets
+         --gutter  the side margin of the canvas, 24px on a phone → 80px
+         --edge    where the content starts, from the window's edge
+       .wrap uses the first two; full-bleed pieces (.bleed-r, the vault rail,
+       the canvas rails) use --edge. */
+    --canvas: 1680px;
+    --gutter: clamp(24px, 4.2vw, 80px);
+    --edge: max(var(--gutter), calc((100vw - var(--canvas)) / 2));
+
+    /* THE TYPE STEP (2026-10-09, Tom: "we can raise the fonts a little").
+       Every fixed text size on the site is written as Npx × --type, so on a
+       wide screen the whole page's small type — labels, captions, body, the
+       instrument mono — rises together by one step, in proportion, instead of
+       staying laptop-sized inside a wider canvas. Headings already scale. */
+    --type: 1;
   }
+  @media (min-width: 1536px) { :root { --type: 1.06; } }
+  @media (min-width: 1880px) { :root { --type: 1.1; } }
   html {
+    /* clip, never hidden: nothing may scroll the page sideways (a full-bleed
+       piece measured in vw counts the scrollbar), and clip keeps sticky. */
+    overflow-x: clip;
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply bg-ground font-sans text-[15px] leading-[1.6] text-ink;
+    @apply bg-ground font-sans text-[length:calc(15px*var(--type))] leading-[1.6] text-ink;
     letter-spacing: -0.005em;
     font-feature-settings: "cv11", "ss01", "kern";
     text-rendering: optimizeLegibility;
@@ -56,7 +85,8 @@
 
 @layer components {
   .wrap {
-    @apply mx-auto w-full max-w-wrap px-6 sm:px-8 lg:px-10;
+    @apply mx-auto w-full max-w-wrap;
+    padding-inline: var(--gutter);
   }
 
   /* Type scale — display is light and tight, the way the reference sets it. */
@@ -64,27 +94,30 @@
      tight: Inter Tight at a mid weight (never the 300 hairline, which bleeds
      on a dark ground) with negative tracking that grows with the size. The
      reference (quanttechnology.com) sets 30px heads at 450 and 14.5px body. */
+  /* WIDE BODY: each size keeps the proportion to the window it had at ~1300px
+     (where the sharp scale was approved) and grows on wider screens instead of
+     stopping, so headlines never shrink into the wider canvas. */
   .display-xl {
-    @apply font-display font-[380] tracking-[-0.038em] text-[clamp(2.4rem,4.4vw,3.6rem)] leading-[1.02];
+    @apply font-display font-[380] tracking-[-0.038em] text-[clamp(2.4rem,calc(1rem+3.4vw),4.6rem)] leading-[1.02];
   }
   .display-lg {
-    @apply font-display font-[400] tracking-[-0.032em] text-[clamp(1.85rem,3vw,2.5rem)] leading-[1.06];
+    @apply font-display font-[400] tracking-[-0.032em] text-[clamp(1.85rem,calc(0.8rem+2.2vw),3.2rem)] leading-[1.06];
   }
   .display-md {
-    @apply font-display font-[420] tracking-[-0.024em] text-[clamp(1.4rem,2.1vw,1.85rem)] leading-[1.12];
+    @apply font-display font-[420] tracking-[-0.024em] text-[clamp(1.4rem,calc(0.7rem+1.4vw),2.3rem)] leading-[1.12];
   }
   .display-sm {
     @apply font-display font-[500] tracking-[-0.012em] text-[1.0625rem] leading-[1.3];
   }
   .lede {
-    @apply text-[clamp(1rem,1.1vw,1.125rem)] leading-[1.6] text-slate;
+    @apply text-[clamp(1rem,calc(0.75rem+0.45vw),1.25rem)] leading-[1.6] text-slate;
   }
   .body {
-    @apply text-[15px] leading-[1.7] text-slate;
+    @apply text-[length:calc(15px*var(--type))] leading-[1.7] text-slate;
   }
   /* Labels speak in the instrument voice: mono, small, spaced. */
   .label {
-    @apply font-mono text-[10.5px] font-normal uppercase tracking-[0.16em] text-mute;
+    @apply font-mono text-[length:calc(10.5px*var(--type))] font-normal uppercase tracking-[0.16em] text-mute;
   }
   .hairline {
     @apply border-t border-line;
@@ -96,7 +129,7 @@
      brightens it and adds the faintest gold bloom rather than a grey shadow,
      which cannot be seen on a dark ground. */
   .btn {
-    @apply inline-flex h-10 items-center justify-center gap-2 rounded-md px-5 text-[13.5px] font-medium tracking-[-0.005em] transition-all duration-200 ease-silk;
+    @apply inline-flex h-10 items-center justify-center gap-2 rounded-md px-5 text-[length:calc(13.5px*var(--type))] font-medium tracking-[-0.005em] transition-all duration-200 ease-silk;
   }
   .btn-primary {
     @apply btn bg-ivory text-ground hover:bg-white hover:shadow-[0_0_0_1px_rgba(205,166,86,0.35),0_10px_30px_-12px_rgba(205,166,86,0.45)];
@@ -107,10 +140,10 @@
 
   /* Chip — categories, hooks. */
   .chip {
-    @apply inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-[12.5px] text-slate;
+    @apply inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-[length:calc(12.5px*var(--type))] text-slate;
   }
   .chip-gold {
-    @apply inline-flex items-center gap-2 rounded-full bg-gold-soft px-3 py-1 text-[12px] font-medium text-gold-deep;
+    @apply inline-flex items-center gap-2 rounded-full bg-gold-soft px-3 py-1 text-[length:calc(12px*var(--type))] font-medium text-gold-deep;
   }
 
   /* The hero wash — graphite lifting into a barely-there gold, as if the
@@ -197,17 +230,6 @@
 }
 
 @layer utilities {
-  .reveal {
-    opacity: 0;
-    transform: translateY(14px);
-    transition:
-      opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
-      transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-  .reveal.is-in {
-    opacity: 1;
-    transform: none;
-  }
   .text-balance {
     text-wrap: balance;
   }
@@ -224,22 +246,44 @@
   }
 }
 
-/* Hero entrance — CSS only, so the first paint is already moving. */
+/* Hero entrance — CSS only, so the first paint is already moving. It starts
+   at 1% opacity, not 0: a browser counts a fully transparent element as not
+   yet painted, which held back the hero's measured first paint of its text. */
 @keyframes rise {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0.01; transform: translateY(16px); }
   to { opacity: 1; transform: none; }
 }
 @keyframes rise-monitor {
-  from { opacity: 0; transform: translateY(28px) scale(0.985); }
+  from { opacity: 0.01; transform: translateY(28px) scale(0.985); }
   to { opacity: 1; transform: none; }
 }
 .rise { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 .rise-monitor { animation: rise-monitor 1.3s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both; }
 
+/* REVEAL (components/ui/Reveal.tsx): a scroll-driven fade, no JavaScript.
+   What is on screen at load is already past its entry and drawn whole; a
+   block further down eases in over the first 30% of its entry into view,
+   `--rd` (its delay in ms) starting it a little later. Browsers without
+   scroll-driven animations, and anyone who asks for less motion, see every
+   block as it is. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--rd, 0) * 0.02%) entry calc(30% + var(--rd, 0) * 0.02%);
+    }
+  }
+}
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
 /* The hero screen's progress segment. */
 @keyframes fill {
-  from { width: 0%; }
-  to { width: 100%; }
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 /* ------------------------------------------------------------------
@@ -358,15 +402,24 @@ body::after {
   background: linear-gradient(90deg, rgba(205, 166, 86, 0.11) 0%, rgba(205, 166, 86, 0.035) 55%, rgba(205, 166, 86, 0) 100%);
 }
 /* The gold thread that joins it to every series panel below
-   (Marketplace.tsx). Its dashes run downward, slowly. */
+   (Marketplace.tsx). Its dashes run downward, slowly. The dashes are a layer
+   one dash taller than the thread, slid by a transform — moved by the
+   compositor, so the running thread costs the page no repaint (2026-10-09). */
 .thread {
+  overflow: hidden;
+}
+.thread::before {
+  content: "";
+  position: absolute;
+  inset: -8px 0 0 0;
   background-image: repeating-linear-gradient(to bottom, rgba(221, 186, 110, 0.75) 0 4px, transparent 4px 8px);
   background-size: 1px 8px;
   animation: thread 1.6s linear infinite;
+  will-change: transform;
 }
-@keyframes thread { to { background-position: 0 8px; } }
+@keyframes thread { to { transform: translateY(8px); } }
 @media (prefers-reduced-motion: reduce) {
-  .thread { animation: none; }
+  .thread::before { animation: none; }
 }
 
 /* A candle tick: the small bull / bear mark that heads a principle. */
@@ -424,12 +477,6 @@ body::after {
   background: rgba(9, 12, 14, 0.9);
   border-color: rgba(0, 153, 153, 0.3);
   box-shadow: inset 0 1px 0 rgba(67, 205, 200, 0.16);
-}
-/* Across the top of a product page's price card. Flat tint, a teal
-   hairline under it. */
-.trial-strip {
-  border-color: rgba(0, 153, 153, 0.3);
-  background: rgba(0, 153, 153, 0.075);
 }
 
 /* ------------------------------------------------------------------
@@ -522,17 +569,14 @@ body::after {
     radial-gradient(60% 70% at 50% 0%, rgba(214, 178, 108, 0.06) 0%, rgba(214, 178, 108, 0) 70%),
     rgba(16, 14, 10, 0.5);
 }
-/* The drawer's rail: its first frame lines up with the page's gutter at every
-   width (.wrap: 24 / 32 / 40px inside a 1200px column), and so does the snap. */
+/* The drawer's rail: its first frame lines up with the content's edge at every
+   width (--edge, the wide body's canvas), and so does the snap. */
 .vault-rail {
-  --gutter: max(24px, calc((100vw - 1200px) / 2 + 24px));
-  padding-inline: var(--gutter);
-  scroll-padding-inline: var(--gutter);
+  padding-inline: var(--edge);
+  scroll-padding-inline: var(--edge);
   scrollbar-width: none;
 }
 .vault-rail::-webkit-scrollbar { display: none; }
-@media (min-width: 640px) { .vault-rail { --gutter: max(32px, calc((100vw - 1200px) / 2 + 32px)); } }
-@media (min-width: 1024px) { .vault-rail { --gutter: max(40px, calc((100vw - 1200px) / 2 + 40px)); } }
 .vault-rail-key {
   display: inline-flex;
   width: 36px;
@@ -541,7 +585,7 @@ body::after {
   justify-content: center;
   border: 1px solid rgba(201, 165, 94, 0.35);
   color: #e6cf9c;
-  font-size: 14px;
+  font-size: calc(14px * var(--type));
   transition: border-color 200ms, opacity 200ms;
 }
 .vault-rail-key:hover:not(:disabled) { border-color: #c9a55e; }
@@ -627,7 +671,7 @@ html:has(.vault-room) .vault-tab[aria-current="page"] {
   border: 1px solid rgba(201, 165, 94, 0.55);
   background: rgba(201, 165, 94, 0.06);
   color: #e6cf9c;
-  font-size: 13.5px;
+  font-size: calc(13.5px * var(--type));
   font-weight: 500;
   letter-spacing: -0.005em;
   transition: border-color 200ms, background-color 200ms, color 200ms;
@@ -663,7 +707,9 @@ html:has(.vault-room) .vault-tab[aria-current="page"] {
 }
 .vault-dial-bezel { animation: vault-bezel 2.4s cubic-bezier(0.16, 0.84, 0.2, 1) 0.25s both; }
 .vault-dial-wheel { animation: vault-wheel 2.4s cubic-bezier(0.16, 0.84, 0.2, 1) 0.25s both; }
-.vault-dial-rose { animation: vault-rose 240s linear infinite; }
+/* 1,440 steps over the four minutes: a quarter of a degree six times a
+   second — no visible tick, a tenth of the frames a smooth spin repaints. */
+.vault-dial-rose { animation: vault-rose 240s steps(1440) infinite; }
 @keyframes vault-bezel { from { transform: rotate(-120deg); } to { transform: rotate(0deg); } }
 @keyframes vault-wheel { from { transform: rotate(72deg); } to { transform: rotate(0deg); } }
 @keyframes vault-rose { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -717,7 +763,7 @@ html:has(.vault-room) .vault-tab[aria-current="page"] {
   border: 1px solid rgba(201, 165, 94, 0.2);
   background: rgba(255, 255, 255, 0.012);
   color: #a3abb3;
-  font-size: 12.5px;
+  font-size: calc(12.5px * var(--type));
   line-height: 1.2;
   transition: border-color 160ms, color 160ms, background-color 160ms;
 }
@@ -743,7 +789,7 @@ html:has(.vault-room) .vault-tab[aria-current="page"] {
 }
 .vault-key-n {
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 10px;
+  font-size: calc(10px * var(--type));
   color: #7c848d;
   font-variant-numeric: tabular-nums;
 }
@@ -789,11 +835,14 @@ html:has(.vault-room) .vault-tab[aria-current="page"] {
   border: 1px solid rgb(var(--pc) / 0.55);
   border-radius: 2px;
   padding: 0 14px;
-  font-size: 12.5px;
+  font-size: calc(12.5px * var(--type));
   font-weight: 500;
   letter-spacing: 0.01em;
   color: rgb(var(--pc-light));
   transition: background-color 250ms, color 250ms, border-color 250ms;
+}
+@media (max-width: 359px) {
+  .pcard-btn { padding: 0 10px; }
 }
 .pcard-btn:hover,
 .pcard-btn:focus-visible { background: rgb(var(--pc)); border-color: rgb(var(--pc)); color: #080a0d; outline: none; }
@@ -813,7 +862,7 @@ html:has(.vault-room) .vault-tab[aria-current="page"] {
   gap: 10px;
   padding: 6px 0;
   text-align: left;
-  font-size: 13px;
+  font-size: calc(13px * var(--type));
   color: #a3abb3;
   transition: color 200ms;
 }
@@ -824,5 +873,190 @@ html:has(.vault-room) .vault-tab[aria-current="page"] {
 .vault-facet[aria-pressed="true"] .vault-facet-box::after { content: ""; width: 6px; height: 3px; border-left: 1.4px solid #080a0d; border-bottom: 1.4px solid #080a0d; transform: translateY(-1px) rotate(-45deg); }
 .vault-facet:disabled { color: #4a5058; cursor: default; }
 .vault-facet:disabled .vault-facet-box { border-color: rgba(201, 165, 94, 0.15); }
-.vault-facet-n { font-family: var(--font-mono), ui-monospace, monospace; font-size: 10.5px; color: #7c848d; font-variant-numeric: tabular-nums; }
+.vault-facet-n { font-family: var(--font-mono), ui-monospace, monospace; font-size: calc(10.5px * var(--type)); color: #7c848d; font-variant-numeric: tabular-nums; }
 .vault-facet:focus-visible { outline: 1px solid rgba(201, 165, 94, 0.8); outline-offset: 2px; }
+
+/* ------------------------------------------------------------------
+   THE WIDE BODY — breakouts (2026-10-09). A piece inside .wrap that runs
+   past the canvas to the window's edge: the content edge on one side, the
+   window on the other. Uses --edge so it lines up at every width.
+   ------------------------------------------------------------------ */
+.bleed-r { margin-right: calc(-1 * var(--edge)); }
+.bleed-l { margin-left: calc(-1 * var(--edge)); }
+
+/* ------------------------------------------------------------------
+   THE SCROLL THREAD (components/Navbar.tsx, 2026-10-09). How far down the
+   page you are, drawn ON the header's bottom edge — the one line the eye
+   already rests on — rather than as rails cut through the page (Tom: the
+   margin rails "just cutting through the page … feel 2D and not thought
+   out"). Gold, filling left to right, a bead of light at its head.
+   ------------------------------------------------------------------ */
+.scroll-thread {
+  --p: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(205, 166, 86, 0) 0%, rgba(205, 166, 86, 0.55) 22%, rgba(230, 207, 156, 0.95) 100%);
+  transform-origin: left center;
+  transform: scaleX(var(--p));
+  transition: opacity 300ms ease;
+}
+.scroll-thread::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -1.5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #f1dfb4;
+  box-shadow: 0 0 6px 1px rgba(230, 207, 156, 0.55);
+  transform: scaleX(calc(1 / max(var(--p), 0.001)));
+}
+
+/* ------------------------------------------------------------------
+   THE WIDE GALLERY (components/Gallery.tsx, 2026-10-09). A chart is never
+   taller than the window: on a desktop the stage is capped by the window's
+   height, and from 1536px the caption, the picture rail and the footnote
+   move into a column beside the stage instead of under it.
+   ------------------------------------------------------------------ */
+.gallery-wide { --g-stage: calc((100svh - 190px) * var(--g-ratio, 1.7778)); }
+@media (min-width: 1024px) and (max-width: 1535px) {
+  .gallery-wide { max-width: max(640px, var(--g-stage)); }
+}
+@media (min-width: 1536px) {
+  .gallery-wide {
+    display: grid;
+    grid-template-columns: minmax(0, min(calc(100% - 300px), var(--g-stage))) minmax(260px, 1fr);
+    column-gap: 32px;
+    align-items: start;
+    align-content: start;
+  }
+  .gallery-wide > * { grid-column: 2; }
+  .gallery-wide > .g-stage { grid-column: 1; grid-row: 1 / span 6; }
+  .gallery-wide > .g-cap { margin-top: 0; flex-direction: column-reverse; gap: 10px; }
+  .gallery-wide > .g-cap > [aria-hidden] { padding-top: 0; margin-left: -2px; }
+  .gallery-wide > .g-thumbs { flex-wrap: wrap; }
+  .gallery-wide > .g-thumbs > * { flex: 0 1 calc(50% - 5px); }
+}
+
+/* ------------------------------------------------------------------
+   THE DEPOSIT WALL (components/Vault.tsx VaultBand, 2026-10-09). The home
+   page's Free Vault band as a wall of safe-deposit boxes: brushed-dark box
+   faces in brass hairline frames, an engraved plate, a window onto each
+   tool's chart, a handle at the foot. Pointing at a box draws it a few
+   pixels out of the wall and lengthens its handle.
+   ------------------------------------------------------------------ */
+.deposit-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(201, 165, 94, 0.24);
+  background:
+    linear-gradient(180deg, rgba(230, 207, 156, 0.035) 0%, rgba(230, 207, 156, 0) 38%),
+    linear-gradient(180deg, #15130f 0%, #0d0c0a 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(230, 207, 156, 0.09),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.7),
+    0 1px 0 rgba(0, 0, 0, 0.6);
+  transition: transform 420ms cubic-bezier(0.2, 0.7, 0.2, 1), border-color 300ms, box-shadow 420ms;
+}
+.deposit-box::after {
+  /* the handle */
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 26px;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(180deg, #e6cf9c, #8a6f3c);
+  opacity: 0.55;
+  transform: translateX(-50%);
+  transition: width 420ms cubic-bezier(0.2, 0.7, 0.2, 1), opacity 300ms;
+}
+a.deposit-box:hover,
+a.deposit-box:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(201, 165, 94, 0.62);
+  box-shadow:
+    inset 0 1px 0 rgba(230, 207, 156, 0.16),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.7),
+    0 22px 40px -22px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(201, 165, 94, 0.08);
+}
+a.deposit-box:hover::after,
+a.deposit-box:focus-visible::after { width: 52px; opacity: 0.95; }
+.deposit-plate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px 10px;
+  border-bottom: 1px solid rgba(201, 165, 94, 0.14);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: calc(10.5px * var(--type));
+  letter-spacing: 0.16em;
+  color: #c9a55e;
+}
+.deposit-window {
+  position: relative;
+  display: block;
+  margin: 12px 14px 0;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid rgba(201, 165, 94, 0.16);
+  background: #0e1116;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+.deposit-window img { transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+a.deposit-box:hover .deposit-window img { transform: scale(1.035); }
+.deposit-body { display: block; flex: 1 1 auto; padding: 14px 14px 0; }
+.deposit-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 14px 0;
+  padding: 11px 0 20px;
+  border-top: 1px solid rgba(201, 165, 94, 0.14);
+}
+.deposit-box-empty {
+  min-height: 100%;
+  align-items: center;
+  justify-content: center;
+  color: rgba(201, 165, 94, 0.32);
+  background:
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 4px),
+    linear-gradient(180deg, #121110 0%, #0b0a09 100%);
+}
+/* On a phone a box lies on its side: the window left, the words right. */
+@media (max-width: 639px) {
+  .deposit-box { display: grid; grid-template-columns: 112px minmax(0, 1fr); grid-template-rows: auto 1fr auto; }
+  .deposit-plate { grid-column: 1 / -1; }
+  .deposit-window { grid-row: 2 / span 2; margin: 12px 0 14px 14px; aspect-ratio: 1; }
+  .deposit-body { padding-top: 12px; }
+  .deposit-foot { margin-top: 10px; padding-bottom: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  a.deposit-box:hover, a.deposit-box:focus-visible { transform: none; }
+  a.deposit-box:hover .deposit-window img { transform: none; }
+}
+
+/* The wide chart reader's step rule (components/ChartReader.tsx): the
+   vertical reader's travelling dashes, laid on their side. */
+.cr-dash {
+  background-image: repeating-linear-gradient(to right, var(--qr) 0 3px, transparent 3px 7px);
+  background-size: 7px 1px;
+  animation: cr-dash 0.7s linear infinite;
+}
+@keyframes cr-dash { to { background-position: 7px 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .cr-dash { animation: none; background: var(--qr); }
+}
+
+/* The product page's buy bar (components/BuyBar.tsx): while it shows, the Help
+   tab stands on it instead of behind it. */
+.help-marker { transition: bottom 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
+html[data-buybar="on"] .help-marker { bottom: calc(env(safe-area-inset-bottom) + 84px); }

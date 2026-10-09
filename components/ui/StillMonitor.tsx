@@ -61,7 +61,7 @@ export function StillMonitor({
               blurDataURL={blur}
               className="object-cover"
             />
-            <span className="pointer-events-none absolute bottom-2.5 right-2.5 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-white/80 opacity-0 transition-opacity duration-300 group-hover/screen:opacity-100 group-focus-visible/screen:opacity-100">
+            <span className="pointer-events-none absolute bottom-2.5 right-2.5 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-2.5 py-1 text-[length:calc(11px*var(--type))] font-medium uppercase tracking-[0.12em] text-white/80 opacity-0 transition-opacity duration-300 group-hover/screen:opacity-100 group-focus-visible/screen:opacity-100">
               <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                 <path d="M9.5 2.5h4v4M13.5 2.5 9 7M6.5 13.5h-4v-4M2.5 13.5 7 9" strokeLinecap="round" strokeLinejoin="round" />
               </svg>

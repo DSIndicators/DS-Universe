@@ -118,12 +118,12 @@ export function StoreBar({ items }: { items: StoreBarItem[] }) {
                   data-id={it.id}
                   href={`#${it.id}`}
                   aria-current={on ? "location" : undefined}
-                  className={`relative inline-flex shrink-0 items-center gap-2 whitespace-nowrap text-[13px] outline-offset-[-3px] transition-colors duration-200 ${
+                  className={`relative inline-flex shrink-0 items-center gap-2 whitespace-nowrap text-[length:calc(13px*var(--type))] outline-offset-[-3px] transition-colors duration-200 ${
                     on ? "text-ink" : "text-slate hover:text-ink"
                   }`}
                 >
                   {it.label}
-                  {it.price && <span className={`text-[12.5px] tabular-nums ${on ? "text-gold-deep" : "text-mute"}`}>{it.price}</span>}
+                  {it.price && <span className={`text-[length:calc(12.5px*var(--type))] tabular-nums ${on ? "text-gold-deep" : "text-mute"}`}>{it.price}</span>}
                   <span
                     className={`absolute inset-x-0 bottom-0 h-[2px] bg-gold transition-opacity duration-200 ${on ? "opacity-100" : "opacity-0"}`}
                     aria-hidden="true"
@@ -163,7 +163,7 @@ function ViewButton({
       type="button"
       onClick={onClick}
       aria-pressed={on}
-      className={`inline-flex h-full items-center gap-1.5 rounded-[4px] px-2.5 text-[12.5px] transition-colors duration-200 sm:px-3 ${
+      className={`inline-flex h-full items-center gap-1.5 rounded-[4px] px-2.5 text-[length:calc(12.5px*var(--type))] transition-colors duration-200 sm:px-3 ${
         on ? "bg-raised text-ink shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]" : "text-mute hover:text-ink"
       }`}
     >

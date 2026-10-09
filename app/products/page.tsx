@@ -131,11 +131,11 @@ export default function ProductsPage() {
                 {offer.map((o, i) => (
                   <li key={o.href}>
                     <a href={o.href} className={`group flex h-full flex-col py-4 ${i === 0 ? "pr-3 sm:pr-5" : "px-3 sm:px-5"}`}>
-                      <span className="font-mono text-[9.5px] uppercase tracking-[0.1em] min-[360px]:whitespace-nowrap text-gold-deep sm:text-[10.5px] sm:tracking-[0.14em]">{o.label}</span>
+                      <span className="font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.1em] min-[360px]:whitespace-nowrap text-gold-deep sm:text-[length:calc(10.5px*var(--type))] sm:tracking-[0.14em]">{o.label}</span>
                       <span className="mt-2.5 font-display text-[clamp(1.05rem,3.6vw,1.5rem)] font-[400] leading-none tracking-[-0.025em] text-ink tabular-nums transition-colors group-hover:text-gold-deep">
                         {o.price}
                       </span>
-                      <span className="mt-2 text-[12px] leading-snug text-mute sm:text-[12.5px]">{o.note}</span>
+                      <span className="mt-2 text-[length:calc(12px*var(--type))] leading-snug text-mute sm:text-[length:calc(12.5px*var(--type))]">{o.note}</span>
                     </a>
                   </li>
                 ))}
@@ -145,7 +145,7 @@ export default function ProductsPage() {
                   (2026-09-29) — the tiles below carry its legend. */}
               <TrialStoreNote className="mt-6 max-w-xl" />
 
-              <p className="mt-6 text-[14px] text-slate">
+              <p className="mt-6 text-[length:calc(14px*var(--type))] text-slate">
                 <a href="#faq" className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
                   Questions before you buy
                 </a>
@@ -165,8 +165,8 @@ export default function ProductsPage() {
                 sub={PRODUCTS_SCREEN.sub}
                 priority
               />
-              <p className="mt-5 text-[13.5px] leading-relaxed text-slate text-pretty">{PRODUCTS_SCREEN.caption}</p>
-              <p className="mt-2 text-[12.5px] leading-relaxed text-mute text-pretty">{DISCLOSURE.chart}</p>
+              <p className="mt-5 text-[length:calc(13.5px*var(--type))] leading-relaxed text-slate text-pretty">{PRODUCTS_SCREEN.caption}</p>
+              <p className="mt-2 text-[length:calc(12.5px*var(--type))] leading-relaxed text-mute text-pretty">{DISCLOSURE.chart}</p>
             </Reveal>
           </div>
 

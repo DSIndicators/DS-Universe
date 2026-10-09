@@ -35,7 +35,7 @@ export function BeforeYouBuy() {
           {TERMS.map((t, i) => (
             <Reveal key={t.title} delay={i * 80} className="border-t border-line-strong pt-5">
               <h3 className="display-sm text-ink">{t.title}</h3>
-              <p className="mt-2.5 text-[14px] leading-relaxed text-slate text-pretty">
+              <p className="mt-2.5 text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">
                 {t.text}
                 {t.link && (
                   <>
@@ -59,10 +59,10 @@ export function BeforeYouBuy() {
             <ol className="mt-10 space-y-7">
               {AFTER_CHECKOUT.steps.map((s, i) => (
                 <li key={s.title} className="grid grid-cols-[28px_minmax(0,1fr)] gap-x-3 border-t border-line-strong pt-5">
-                  <span className="font-display text-[14px] tabular-nums text-gold-deep">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="font-display text-[length:calc(14px*var(--type))] tabular-nums text-gold-deep">{String(i + 1).padStart(2, "0")}</span>
                   <div>
-                    <p className="text-[14.5px] font-medium text-ink">{s.title}</p>
-                    <p className="mt-1.5 text-[14px] leading-relaxed text-slate text-pretty">{s.text}</p>
+                    <p className="text-[length:calc(14.5px*var(--type))] font-medium text-ink">{s.title}</p>
+                    <p className="mt-1.5 text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">{s.text}</p>
                   </div>
                 </li>
               ))}
@@ -75,7 +75,7 @@ export function BeforeYouBuy() {
             {FAQ.map((f) => (
               <li key={f.q} className="border-t border-line">
                 <details className="group">
-                  <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 text-[15px] leading-snug text-ink transition-colors hover:text-gold-deep [&::-webkit-details-marker]:hidden">
+                  <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 text-[length:calc(15px*var(--type))] leading-snug text-ink transition-colors hover:text-gold-deep [&::-webkit-details-marker]:hidden">
                     <span className="text-pretty">{f.q}</span>
                     <svg
                       viewBox="0 0 16 16"
@@ -89,7 +89,7 @@ export function BeforeYouBuy() {
                       <path d="M8 2.5v11M2.5 8h11" />
                     </svg>
                   </summary>
-                  <p className="max-w-2xl pb-6 pr-10 text-[14px] leading-relaxed text-slate text-pretty">
+                  <p className="max-w-2xl pb-6 pr-10 text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">
                     {f.a}
                     {f.link && (
                       <>
@@ -105,7 +105,7 @@ export function BeforeYouBuy() {
               </li>
             ))}
           </ul>
-          <p className="mt-8 text-[14px] leading-relaxed text-slate">
+          <p className="mt-8 text-[length:calc(14px*var(--type))] leading-relaxed text-slate">
             Still a question?{" "}
             <AskButton className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">Ask it here</AskButton>, or write to{" "}
             <a href={`mailto:${SITE.email}`} className="text-ink underline decoration-gold/60 underline-offset-4 hover:decoration-gold">
