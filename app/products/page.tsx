@@ -114,7 +114,7 @@ export default function ProductsPage() {
       <section className="hero-wash">
         <div className="wrap pb-14 pt-12 sm:pt-16 lg:pb-20 lg:pt-20">
           <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
-            <Reveal className="lg:col-span-6">
+            <Reveal className="lg:col-span-6 xl:col-span-5">
               <p className="label">Products &amp; pricing</p>
               <h1 className="display-xl mt-5 text-ink text-balance">Every tool, one question each.</h1>
               <p className="lede mt-6 max-w-xl text-pretty">
@@ -154,7 +154,7 @@ export default function ProductsPage() {
               <WaitlistNote className="mt-7 max-w-md" />
             </Reveal>
 
-            <Reveal className="lg:col-span-6" delay={120}>
+            <Reveal className="lg:col-span-6 xl:col-span-7" delay={120}>
               <StillMonitor
                 src={PRODUCTS_SCREEN.src}
                 w={PRODUCTS_SCREEN.w}

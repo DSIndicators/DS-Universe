@@ -55,7 +55,7 @@ export function StillMonitor({
               alt={alt}
               fill
               priority={priority}
-              sizes="(min-width: 1024px) 620px, 92vw"
+              sizes="(min-width: 1680px) 940px, (min-width: 1280px) 56vw, (min-width: 1024px) 46vw, 92vw"
               quality={92}
               placeholder={blur ? "blur" : "empty"}
               blurDataURL={blur}
