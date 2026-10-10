@@ -1,0 +1,43 @@
+{
+ "slug": "macd",
+ "id": "b",
+ "built": "2026-10-10T02:05:17.468Z",
+ "score": 75.69999999999999,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 101332",
+  "windowBars": 79,
+  "warmupBars": 190
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 29,
+   "at": "11:37",
+   "title": "RISK HIGH",
+   "text": "The rally takes MACD-V to 155, past +150 into the shaded risk band: the ribbon turns RISK HIGH. A leg beyond +50 is what a later cross needs to count as a setup."
+  },
+  {
+   "bar": 39,
+   "at": "11:47",
+   "title": "BEAR SETUP",
+   "text": "Out of a leg that took MACD-V to 170, the MACD crosses below its signal and the histogram grows on the next bar: the BEAR SETUP, marked M at the high."
+  },
+  {
+   "bar": 56,
+   "at": "12:04",
+   "title": "CENTERLINE DOWN",
+   "text": "MACD-V goes back through zero downward (now -1): the fast EMA has crossed the slow one, graded by the leg it left, which reached beyond ±50."
+  },
+  {
+   "bar": 70,
+   "at": "12:18",
+   "title": "REVERSING",
+   "text": "MACD-V passes -50 (now -55) with the histogram still below zero: the ribbon reads REVERSING."
+  }
+ ],
+ "note": "fin 68.3 best 83.8 adverse 4.3 deepest 170 ext 170"
+}

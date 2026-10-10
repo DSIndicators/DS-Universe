@@ -1,0 +1,37 @@
+{
+ "slug": "stochastics",
+ "id": "a",
+ "built": "2026-10-10T02:11:50.913Z",
+ "score": 92.55,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 88",
+  "windowBars": 71,
+  "warmupBars": 190
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 29,
+   "at": "11:56",
+   "title": "QUAD OVERSOLD",
+   "text": "All four lanes' %D (9 · 3, 14 · 3, 40 · 4, 60 · 10) close at or below 20 on the same bar. The panel arms long until the 60 · 10 crosses back through 50, or for 100 bars."
+  },
+  {
+   "bar": 39,
+   "at": "12:06",
+   "title": "ROTATION",
+   "text": "Armed long since the quad, the 9 · 3 %D closes back above 20 (28) and rises again on this close (30). One ROTATION per arm."
+  },
+  {
+   "bar": 56,
+   "at": "12:23",
+   "title": "LATCH RELEASED",
+   "text": "The slow 60 · 10 %D closes back above 50 (51.2): the long arm is released. The latch reads not armed until the next quad."
+  }
+ ],
+ "note": "follow 83.3 best 88.0 adverse 1.0 ROTATION lines 0 release 56"
+}

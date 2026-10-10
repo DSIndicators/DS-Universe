@@ -1,0 +1,37 @@
+{
+ "slug": "proliquidityhunter",
+ "id": "b",
+ "built": "2026-10-10T02:17:16.526Z",
+ "score": 85.12639821029083,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 100026",
+  "windowBars": 100,
+  "warmupBars": 481
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 30,
+   "at": "12:06",
+   "title": "SELL-SIDE POOL · MAJOR",
+   "text": "Price reverses three average ranges off the low at 26,603.00, and the tool maps a sell-side pool there, ranked MAJOR (its top rank for how long an extreme stood). Odds of a trade there within 60 bars: 64%."
+  },
+  {
+   "bar": 46,
+   "at": "12:22",
+   "title": "POOL TURNS HOT",
+   "text": "Price works back toward the low. The pool now reads 63% to be reached within 60 bars: 40.50 pts away against a one-hour reach of ±58.77. It turns HOT."
+  },
+  {
+   "bar": 75,
+   "at": "12:51",
+   "title": "RUN ▼ · MAJOR",
+   "text": "A bar trades through 26,603.00 and the next close holds below it: RUN, the other verdict. The band ends on a quiet stop, a dot on the strip, no chevron."
+  }
+ ],
+ "note": "SELL-SIDE 26,603.00 · RUN · far 1.59 reach (±53.64) · end 1.27 · verdicts 1 · hot 1"
+}

@@ -9,3 +9,4 @@ tsconfig.tsbuildinfo
 _to_delete/
 .env
 .env.*
+__pycache__/

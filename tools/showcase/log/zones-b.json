@@ -1,0 +1,37 @@
+{
+ "slug": "zones",
+ "id": "b",
+ "built": "2026-10-10T02:24:14.402Z",
+ "score": 94,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 100146",
+  "windowBars": 84,
+  "warmupBars": 240
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 13,
+   "at": "12:14",
+   "title": "NEW SUPPLY ZONE",
+   "text": "Three bearish bars in a row on at least average volume: the tool draws a supply zone 26,530.25–26,539.00 on the last bullish candle before the move. Action edge 26,530.25."
+  },
+  {
+   "bar": 39,
+   "at": "12:40",
+   "title": "SUPPLY DEFENDED",
+   "text": "Price trades into the supply zone at 26,530.25 and closes back below it, short of the far edge 26,539.00: a filled diamond, and the zone's conviction rises. Aggressive buying was 76% of the volume inside the zone on this bar."
+  },
+  {
+   "bar": 64,
+   "at": "13:05",
+   "title": "SUPPLY DEFENDED 2×",
+   "text": "The second return to the supply zone: price closes back below it, short of the far edge 26,539.00, and another filled diamond prints. Aggressive buying was 61% of the volume inside the zone on this bar."
+  }
+ ],
+ "note": "supply 26,530.25–26,539.00 · defenses 2 (76/61%) · others 0 · max zones 2"
+}

@@ -1,0 +1,37 @@
+{
+ "slug": "stochastics",
+ "id": "b",
+ "built": "2026-10-10T02:12:41.176Z",
+ "score": 96.55,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 100689",
+  "windowBars": 74,
+  "warmupBars": 190
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 28,
+   "at": "11:38",
+   "title": "QUAD OVERBOUGHT",
+   "text": "All four lanes' %D (9 · 3, 14 · 3, 40 · 4, 60 · 10) close at or above 80 on the same bar. The panel arms short until the 60 · 10 crosses back through 50, or for 100 bars."
+  },
+  {
+   "bar": 43,
+   "at": "11:53",
+   "title": "PRIME ROTATION",
+   "text": "Armed short since the quad, the 9 · 3 %D closes back below 80 (70) and falls again on this close (51). A bearish divergence was born in the lanes while the panel was armed, so it is PRIME."
+  },
+  {
+   "bar": 60,
+   "at": "12:10",
+   "title": "LATCH RELEASED",
+   "text": "The slow 60 · 10 %D closes back below 50 (46.4): the short arm is released. The latch reads not armed until the next quad."
+  }
+ ],
+ "note": "follow 73.8 best 76.5 adverse 4.0 PRIME ROTATION lines 0 release 60"
+}

@@ -1,0 +1,55 @@
+{
+ "slug": "asl",
+ "id": "a",
+ "built": "2026-10-10T02:18:58.735Z",
+ "score": 256.625,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 77",
+  "windowBars": 239,
+  "warmupBars": 24
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 107,
+   "at": "03:00",
+   "title": "ASIA CLOSED",
+   "text": "Asia closes: ASIA HIGH 26,117.00 and ASIA LOW 25,893.75 are final, with the POC at 25,984.25, the busiest 1-point level of its profile. The levels carry forward dotted until Asia opens again."
+  },
+  {
+   "bar": 128,
+   "at": "04:45",
+   "title": "AT THE ASIA POC",
+   "text": "London trades back to the ASIA POC 25,984.25 for the first time since Asia closed, and the bar closes back above it at 25,990.25. Its carried line fades from here."
+  },
+  {
+   "bar": 149,
+   "at": "06:30",
+   "title": "ASIA HIGH TAKEN",
+   "text": "A close at 26,133.25, above the ASIA HIGH 26,117.00. From this bar the rest of its dotted line fades; it stays on the chart until Asia opens again."
+  },
+  {
+   "bar": 185,
+   "at": "09:30",
+   "title": "LONDON CLOSED",
+   "text": "London closes: LONDON HIGH 26,199.25 and LONDON LOW 25,984.25 are final, with the POC at 26,168.75. The levels carry forward dotted until London opens again."
+  },
+  {
+   "bar": 197,
+   "at": "10:30",
+   "title": "AT THE LONDON POC",
+   "text": "New York trades back to the LONDON POC 26,168.75 for the first time since London closed, and the bar closes back above it at 26,177.00. Its carried line fades from here."
+  },
+  {
+   "bar": 211,
+   "at": "11:40",
+   "title": "LONDON HIGH TAKEN",
+   "text": "A close at 26,213.25, above the LONDON HIGH 26,199.25. From this bar the rest of its dotted line fades; it stays on the chart until London opens again."
+  }
+ ],
+ "note": "follow 165.5 · Asia 25893.75–26117 POC 25984.25 · London 25984.25–26199.25 POC 26168.75 · [0:ASIA OPENS, 107:ASIA CLOSED, 108:LONDON OPENS, 128:AT THE ASIA POC, 149:ASIA HIGH TAKEN, 185:LONDON CLOSED, 186:NEW YORK OPENS, 197:AT THE LONDON POC, 211:LONDON HIGH TAKEN]"
+}

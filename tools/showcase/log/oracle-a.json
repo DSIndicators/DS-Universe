@@ -1,0 +1,49 @@
+{
+ "slug": "oracle",
+ "id": "a",
+ "built": "2026-10-10T02:17:52.434Z",
+ "score": 139,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 287",
+  "windowBars": 139,
+  "warmupBars": 1159
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 24,
+   "at": "11:39",
+   "title": "UNCONFIRMED",
+   "text": "The SuperTrend flips up (line 26,476.58), where a plain SuperTrend would signal. 23% of the vote sits in a settled uptrend, under the 90% threshold, so no card prints. Flips 1 · confirmed 0."
+  },
+  {
+   "bar": 34,
+   "at": "11:49",
+   "title": "UNCONFIRMED",
+   "text": "The SuperTrend flips back down (line 26,527.64): a plain SuperTrend would have signalled up, then down again. The vote never confirmed the flip up, so no card and no trend line were drawn. Flips 2 · confirmed 0."
+  },
+  {
+   "bar": 86,
+   "at": "12:41",
+   "title": "UNCONFIRMED",
+   "text": "The SuperTrend flips up (line 26,480.39), where a plain SuperTrend would signal. 59% of the vote sits in a settled uptrend, under the 90% threshold, so no card prints. Flips 3 · confirmed 0."
+  },
+  {
+   "bar": 98,
+   "at": "12:53",
+   "title": "BUYERS",
+   "text": "The SuperTrend, up since 12:41, now has 91% of the vote among the 10 most similar past states in a settled uptrend — over the 90% threshold. The Neural Line agrees, so BUYERS prints: flip 3, the first confirmed."
+  },
+  {
+   "bar": 116,
+   "at": "13:11",
+   "title": "STRONG UP",
+   "text": "All four Spectrum SuperTrends point up and the bar ignites, so the candle brightens to strong up (cyan). The trend line and the Neural Line hold the long side."
+  }
+ ],
+ "note": "follow 81.75 adverse 7.25 flips-before 3 events 2 strong 7"
+}

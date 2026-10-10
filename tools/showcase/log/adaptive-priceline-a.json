@@ -1,0 +1,18 @@
+{
+ "slug": "adaptive-priceline",
+ "id": "a",
+ "built": "2026-10-10T02:18:40.047Z",
+ "score": 45.458513708513706,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 14",
+  "windowBars": 77,
+  "warmupBars": 36
+ },
+ "edits": [],
+ "chapters": [],
+ "note": "span 90.00 net 69.25 dd 23.00 at 0.81 avg 12.22"
+}

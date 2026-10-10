@@ -1,0 +1,37 @@
+{
+ "slug": "proheikinashi",
+ "id": "b",
+ "built": "2026-10-10T02:21:05.497Z",
+ "score": 93.8119658119658,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 100239",
+  "windowBars": 105,
+  "warmupBars": 216
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 43,
+   "at": "12:20",
+   "title": "5m CLOSED DOWN",
+   "text": "The 5-minute candle closes DOWN after an UP one: the middle timeframe turns first, a notch on the 5m lane. The 15m lane still reads UP. 5m FLIP rail: 26,562.25."
+  },
+  {
+   "bar": 68,
+   "at": "12:45",
+   "title": "15m CLOSED DOWN",
+   "text": "The 15-minute Heikin-Ashi candle closes DOWN after an UP one: the slow timeframe turns. The A mark goes over the high; the 15m FLIP rail steps to 26,532.00."
+  },
+  {
+   "bar": 83,
+   "at": "13:00",
+   "title": "FIRM",
+   "text": "The chart's candle closes 2.1u past its flip level, two units or more: the tier reads FIRM and the panel candle takes the strong colour. 5m and 15m both read DOWN: 3 OF 3 DOWN."
+  }
+ ],
+ "note": "lead@43 turn@68 · best 97.50 (9.0 ATR) · firm 9 · chart flips after the turn 5"
+}

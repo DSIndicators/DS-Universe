@@ -1,0 +1,43 @@
+{
+ "slug": "session-levels",
+ "id": "a",
+ "built": "2026-10-10T02:18:48.937Z",
+ "score": 245.125,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 95",
+  "windowBars": 231,
+  "warmupBars": 24
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 107,
+   "at": "03:00",
+   "title": "ASIA HIGH & LOW",
+   "text": "Asia closes: ASIA HIGH 26107.75 and ASIA LOW 25909.00 are final. They carry forward as dotted lines until Asia opens again."
+  },
+  {
+   "bar": 139,
+   "at": "05:40",
+   "title": "ASIA HIGH TAKEN",
+   "text": "The first bar to reach the ASIA HIGH 26107.75 closes at 26123.00, above it: the level is taken and the rest of its dotted line fades. A wick would not count; it takes a close."
+  },
+  {
+   "bar": 185,
+   "at": "09:30",
+   "title": "LONDON HIGH & LOW",
+   "text": "London closes: LONDON HIGH 26207.50 and LONDON LOW 25977.25 are final. They carry forward as dotted lines until London opens again."
+  },
+  {
+   "bar": 201,
+   "at": "10:50",
+   "title": "LONDON HIGH TAKEN",
+   "text": "The first bar to reach the LONDON HIGH 26207.50 closes at 26224.00, above it: the level is taken and the rest of its dotted line fades. A wick would not count; it takes a close."
+  }
+ ],
+ "note": "follow 185.3 · end 110.3 · Asia 25909.00–26107.75 · London 25977.25–26207.50 · [139:ASIA HIGH TAKEN, 201:LONDON HIGH TAKEN]"
+}

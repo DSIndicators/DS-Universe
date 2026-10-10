@@ -1,0 +1,43 @@
+{
+ "slug": "parallax",
+ "id": "a",
+ "built": "2026-10-10T02:19:17.864Z",
+ "score": 150,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 35",
+  "windowBars": 126,
+  "warmupBars": 5310
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 30,
+   "at": "11:01",
+   "title": "BUY-SIDE POOL",
+   "text": "The push leaves a high at 26,142.25 that no bar since has traded above: DS Parallax marks buy-side liquidity there on the 15m panel, where buy stops rest above an unswept high."
+  },
+  {
+   "bar": 79,
+   "at": "11:50",
+   "title": "BUY-SIDE SWEPT",
+   "text": "Price runs the buy-side pool at 26,142.25 on the 15m panel and the bar closes back below it at 26,138.50, so DS Parallax ghosts the level: a dashed trace ending in an x at the sweep."
+  },
+  {
+   "bar": 90,
+   "at": "12:01",
+   "title": "BUY-SIDE POOL",
+   "text": "The sweep's own high, 26,160.50, is now the nearest unswept high: the 15m panel marks it as the next buy-side pool, above the ghost of the one just run."
+  },
+  {
+   "bar": 105,
+   "at": "12:16",
+   "title": "SELL-SIDE POOL",
+   "text": "The move away from the sweep leaves a low at 26,022.00 that no bar since has traded below: the 15m panel marks sell-side liquidity there, where sell stops rest below an unswept low."
+  }
+ ],
+ "note": "away 120.3 · sweep depth 18.25 · [30:BUY-SIDE POOL 26,142.25 (15m), 79:BUY-SIDE SWEPT 26,142.25 (15m), 90:BUY-SIDE POOL 26,160.50 (15m), 105:SELL-SIDE POOL 26,022.00 (15m)]"
+}

@@ -1,0 +1,37 @@
+{
+ "slug": "iceberg",
+ "id": "b",
+ "built": "2026-10-10T02:16:59.349Z",
+ "score": 129.80771401693318,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 100263",
+  "windowBars": 110,
+  "warmupBars": 90
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 36,
+   "at": "12:28",
+   "title": "ICE OFFER",
+   "text": "2 upper-wick test bars on at least average volume within half an ATR, 2 closed rejected. No footprint volume in the band yet, so the bar engine alone confirms 26,510.75."
+  },
+  {
+   "bar": 59,
+   "at": "12:51",
+   "title": "TESTING",
+   "text": "Back at 26,510.75: a long upper wick on 1.7× average volume, closed down, a rejection. Test 3×."
+  },
+  {
+   "bar": 89,
+   "at": "13:21",
+   "title": "TESTING",
+   "text": "Back at 26,510.75: a long upper wick on 1.2× average volume, closed down, a rejection. Test 4×."
+  }
+ ],
+ "note": "level 26510.625 bear · returns 2 · away 7.3/7.7 ATR · return 4.6 ATR"
+}

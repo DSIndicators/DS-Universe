@@ -1,0 +1,37 @@
+{
+ "slug": "zones",
+ "id": "a",
+ "built": "2026-10-10T02:23:46.719Z",
+ "score": 94,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 847",
+  "windowBars": 84,
+  "warmupBars": 240
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 12,
+   "at": "12:13",
+   "title": "NEW DEMAND ZONE",
+   "text": "Three bullish bars in a row on at least average volume: the tool draws a demand zone 26,464.25–26,473.00 on the last bearish candle before the move. Action edge 26,473.00."
+  },
+  {
+   "bar": 40,
+   "at": "12:41",
+   "title": "DEMAND DEFENDED",
+   "text": "Price trades into the demand zone at 26,473.00 and closes back above it, short of the far edge 26,464.25: a filled diamond, and the zone's conviction rises. Aggressive selling was 52% of the volume inside the zone on this bar."
+  },
+  {
+   "bar": 63,
+   "at": "13:04",
+   "title": "DEMAND DEFENDED 2×",
+   "text": "The second return to the demand zone: price closes back above it, short of the far edge 26,464.25, and another filled diamond prints. Aggressive selling was 72% of the volume inside the zone on this bar."
+  }
+ ],
+ "note": "demand 26,464.25–26,473.00 · defenses 2 (52/72%) · others 0 · max zones 1"
+}

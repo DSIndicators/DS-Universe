@@ -1,0 +1,43 @@
+{
+ "slug": "ds-258",
+ "id": "b",
+ "built": "2026-10-10T02:18:36.118Z",
+ "score": 94.05,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 100109",
+  "windowBars": 92,
+  "warmupBars": 40
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 11,
+   "at": "11:42",
+   "title": "TURNED AT THE 00",
+   "text": "The bar reached 26,600, the gold 00 that starts the block, and closed back below it, 7.25 points clear."
+  },
+  {
+   "bar": 31,
+   "at": "12:02",
+   "title": "BELOW THE 50",
+   "text": "The bar closed below 26,550, the platinum 50 at the middle of the block. Next on the map below: 26,520, the 20."
+  },
+  {
+   "bar": 64,
+   "at": "12:35",
+   "title": "BELOW THE 00",
+   "text": "The bar closed below 26,500, the gold 00 that starts a new block. Next on the map below: 26,480, the 80."
+  },
+  {
+   "bar": 76,
+   "at": "12:47",
+   "title": "TURNED AT THE 00",
+   "text": "Back at 26,500, the gold 00 it closed below 12 bars earlier: the bar reaches it and closes back below it, 8.25 points clear."
+  }
+ ],
+ "note": "00 26,600 · net 113.50 · wide 0"
+}

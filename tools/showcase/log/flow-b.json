@@ -1,0 +1,37 @@
+{
+ "slug": "flow",
+ "id": "b",
+ "built": "2026-10-10T02:17:31.496Z",
+ "score": 135.08298657718123,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 100110",
+  "windowBars": 81,
+  "warmupBars": 150
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 19,
+   "at": "12:10",
+   "title": "FIGHT NODE",
+   "text": "A FIGHT node at 26,640.00–26,641.17: 188 contracts, 3.7σ above the group's average row, 123 bought against 65 sold. Both sides committed at one price."
+  },
+  {
+   "bar": 44,
+   "at": "12:35",
+   "title": "SELL ▼",
+   "text": "The group runs over 26,691.75, the high of the three groups before it, and closes back below. Delta flips +197 → −267; the POC (26,670.89–26,672.04) sits in the bottom 35%, where sellers out-traded buyers."
+  },
+  {
+   "bar": 54,
+   "at": "12:45",
+   "title": "FIGHT NODE",
+   "text": "A FIGHT node at 26,664.71–26,665.84: 894 contracts, 3.3σ above the group's average row, 424 bought against 470 sold. Both sides committed at one price."
+  }
+ ],
+ "note": "follow 7.2/7.3 bar-ranges (11.50 pts) · leg in 8.9 · adverse 0.3 · flip 197 · fights 1/2/4 · tallest 37%"
+}

@@ -1,0 +1,31 @@
+{
+ "slug": "chart-price",
+ "id": "a",
+ "built": "2026-10-10T01:56:46.934Z",
+ "score": 13.524999999999999,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 5440",
+  "windowBars": 62,
+  "warmupBars": 110
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 9,
+   "at": "11:45",
+   "title": "DOWN TINT",
+   "text": "The readout closed a third straight minute with a down tint at 26468.75: its last 14 price changes travelled 14 ticks and netted 14 down, an efficiency of 1.00."
+  },
+  {
+   "bar": 42,
+   "at": "12:18",
+   "title": "AMBER",
+   "text": "The readout closed a third straight minute amber at 26422.75: its last 14 price changes travelled 14 ticks for a net 0, an efficiency of 0.00, under the 0.35 floor."
+  }
+ ],
+ "note": "run 81.75 · stall 20.75 · agree 12 disagree 9 amber 7 wide 1"
+}

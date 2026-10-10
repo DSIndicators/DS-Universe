@@ -1,0 +1,43 @@
+{
+ "slug": "protrendrange",
+ "id": "a",
+ "built": "2026-10-10T02:20:34.505Z",
+ "score": 185.9676067301359,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 68",
+  "windowBars": 105,
+  "warmupBars": 228
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 39,
+   "at": "12:14",
+   "title": "TREND UP STARTED",
+   "text": "The TREND reading (50 bars) reached one sigma up: it reads 84 on the 0–100 scale (84 is one sigma). The trend stays on until the reading crosses back through 50."
+  },
+  {
+   "bar": 52,
+   "at": "12:27",
+   "title": "PULLBACK ▲",
+   "text": "SWING (10 bars) turns against the trend, 38 on the 0–100 scale, and the pocket starts to fill. TREND (50 bars) still reads 88, so the trend stays on."
+  },
+  {
+   "bar": 63,
+   "at": "12:38",
+   "title": "RESUME LONG · PRIME",
+   "text": "The pullback is over: SWING crossed back through 50 and this close held at or above the one before. PRIME: the trend reads one sigma or better and the leg reached two sigma. HOLD 26,528.25, the pullback's low."
+  },
+  {
+   "bar": 83,
+   "at": "12:58",
+   "title": "RESUME LONG · PRIME",
+   "text": "The pullback is over: SWING crossed back through 50 and this close held at or above the one before. PRIME: the trend reads one sigma or better and the leg reached two sigma. HOLD 26,584.00, the pullback's low."
+  }
+ ],
+ "note": "TREND UP STARTED · RESUME LONG · PRIME, RESUME LONG · PRIME · move 142.50 (13.0 ATR) · rooms 2.2/1.8 ATR"
+}

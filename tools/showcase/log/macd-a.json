@@ -1,0 +1,37 @@
+{
+ "slug": "macd",
+ "id": "a",
+ "built": "2026-10-10T02:05:00.996Z",
+ "score": 75.55,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 1066",
+  "windowBars": 78,
+  "warmupBars": 190
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 32,
+   "at": "11:53",
+   "title": "RISK LOW",
+   "text": "The drop takes MACD-V to -153, past -150 into the shaded risk band: the ribbon turns RISK LOW. A leg beyond -50 is what a later cross needs to count as a setup."
+  },
+  {
+   "bar": 40,
+   "at": "12:01",
+   "title": "BULL SETUP",
+   "text": "Out of a leg that took MACD-V to -168, the MACD crosses above its signal and the histogram grows on the next bar: the BULL SETUP, marked M at the low."
+  },
+  {
+   "bar": 56,
+   "at": "12:17",
+   "title": "CENTERLINE UP",
+   "text": "MACD-V goes back through zero upward (now 4): the fast EMA has crossed the slow one, graded by the leg it left, which reached beyond ±50."
+  }
+ ],
+ "note": "fin 74.5 best 85.3 adverse 0.0 deepest 168 ext -168"
+}

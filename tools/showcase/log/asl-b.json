@@ -1,0 +1,55 @@
+{
+ "slug": "asl",
+ "id": "b",
+ "built": "2026-10-10T02:19:01.185Z",
+ "score": 245,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 100079",
+  "windowBars": 238,
+  "warmupBars": 24
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 107,
+   "at": "03:00",
+   "title": "ASIA CLOSED",
+   "text": "Asia closes: ASIA HIGH 26,128.00 and ASIA LOW 25,986.00 are final, with the POC at 26,074.00, the busiest 1-point level of its profile. The levels carry forward dotted until Asia opens again."
+  },
+  {
+   "bar": 125,
+   "at": "04:30",
+   "title": "AT THE ASIA POC",
+   "text": "London trades back to the ASIA POC 26,074.00 for the first time since Asia closed, and the bar closes back below it at 26,065.00. Its carried line fades from here."
+  },
+  {
+   "bar": 147,
+   "at": "06:20",
+   "title": "ASIA LOW TAKEN",
+   "text": "A close at 25,971.25, below the ASIA LOW 25,986.00. From this bar the rest of its dotted line fades; it stays on the chart until Asia opens again."
+  },
+  {
+   "bar": 185,
+   "at": "09:30",
+   "title": "LONDON CLOSED",
+   "text": "London closes: LONDON HIGH 26,074.25 and LONDON LOW 25,896.00 are final, with the POC at 25,929.75. The levels carry forward dotted until London opens again."
+  },
+  {
+   "bar": 199,
+   "at": "10:40",
+   "title": "AT THE LONDON POC",
+   "text": "New York trades back to the LONDON POC 25,929.75 for the first time since London closed, and the bar closes back below it at 25,924.25. Its carried line fades from here."
+  },
+  {
+   "bar": 212,
+   "at": "11:45",
+   "title": "LONDON LOW TAKEN",
+   "text": "A close at 25,880.25, below the LONDON LOW 25,896.00. From this bar the rest of its dotted line fades; it stays on the chart until London opens again."
+  }
+ ],
+ "note": "follow 156.8 · Asia 25986–26128 POC 26074 · London 25896–26074.25 POC 25929.75 · [0:ASIA OPENS, 107:ASIA CLOSED, 108:LONDON OPENS, 125:AT THE ASIA POC, 147:ASIA LOW TAKEN, 185:LONDON CLOSED, 186:NEW YORK OPENS, 199:AT THE LONDON POC, 212:LONDON LOW TAKEN]"
+}

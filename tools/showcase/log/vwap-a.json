@@ -1,0 +1,43 @@
+{
+ "slug": "vwap",
+ "id": "a",
+ "built": "2026-10-10T02:19:40.078Z",
+ "score": 180.9,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 51",
+  "windowBars": 109,
+  "warmupBars": 930
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 0,
+   "at": "09:31",
+   "title": "FORMING",
+   "text": "The cash open starts a fresh session VWAP at 26,014.75. It raises no state and no event for its first 15 bars while the anchor forms."
+  },
+  {
+   "bar": 22,
+   "at": "09:53",
+   "title": "EXTENDED",
+   "text": "A second close beyond the session's 90% edge (26,071.00) confirms it: 26,074.50 is +53.50 from the session VWAP, 2.1σ. The RETURN chip reads 86% over 60 bars · HOT."
+  },
+  {
+   "bar": 54,
+   "at": "10:25",
+   "title": "BACK IN VALUE",
+   "text": "The close 26,121.00 came back inside the session's 50% core (26,125.25), which ends the extension above. The session VWAP stands at 26,065.25."
+  },
+  {
+   "bar": 77,
+   "at": "10:48",
+   "title": "AT VWAP",
+   "text": "The first bar since the extension above to trade at the session VWAP 26,072.25 (low 26,070.50). The tool rings it on the SESSION strip and clears the extension."
+  }
+ ],
+ "note": "peak 130.0 resume 91.5 odds 86 stretched 1 [0:FORMING, 22:EXTENDED, 22:STRETCHED, 54:BACK IN VALUE, 77:AT VWAP]"
+}

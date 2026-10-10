@@ -1,0 +1,55 @@
+{
+ "slug": "session-levels",
+ "id": "b",
+ "built": "2026-10-10T02:18:51.908Z",
+ "score": 180.875,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 100136",
+  "windowBars": 238,
+  "warmupBars": 24
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 107,
+   "at": "03:00",
+   "title": "ASIA HIGH & LOW",
+   "text": "Asia closes: ASIA HIGH 26029.00 and ASIA LOW 25858.75 are final. They carry forward as dotted lines until Asia opens again."
+  },
+  {
+   "bar": 134,
+   "at": "05:15",
+   "title": "AT THE ASIA HIGH",
+   "text": "The bar reaches up to the ASIA HIGH 26029.00 (within 2 ticks) and closes at 26020.25, still below it: no close through, so the level stands."
+  },
+  {
+   "bar": 185,
+   "at": "09:30",
+   "title": "LONDON HIGH & LOW",
+   "text": "London closes: LONDON HIGH 26028.50 and LONDON LOW 25921.75 are final. They carry forward as dotted lines until London opens again."
+  },
+  {
+   "bar": 194,
+   "at": "10:15",
+   "title": "AT THE LONDON HIGH",
+   "text": "The bar reaches up to the LONDON HIGH 26028.50 (within 2 ticks) and closes at 26017.00, still below it: no close through, so the level stands. The same line capped London at the ASIA HIGH."
+  },
+  {
+   "bar": 203,
+   "at": "11:00",
+   "title": "LONDON LOW TAKEN",
+   "text": "The first bar to reach the LONDON LOW 25921.75 closes at 25904.00, below it: the level is taken and the rest of its dotted line fades. A wick would not count; it takes a close."
+  },
+  {
+   "bar": 214,
+   "at": "11:55",
+   "title": "ASIA LOW TAKEN",
+   "text": "The first bar to reach the ASIA LOW 25858.75 closes at 25843.75, below it: the level is taken and the rest of its dotted line fades. A wick would not count; it takes a close."
+  }
+ ],
+ "note": "follow 126.5 · end 88.8 · Asia 25858.75–26029.00 · London 25921.75–26028.50 · [134:AT THE ASIA HIGH, 194:AT THE LONDON HIGH, 203:LONDON LOW TAKEN, 214:ASIA LOW TAKEN]"
+}

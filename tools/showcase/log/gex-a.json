@@ -1,0 +1,43 @@
+{
+ "slug": "gex",
+ "id": "a",
+ "built": "2026-10-10T02:18:19.280Z",
+ "score": 191.75,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 138",
+  "windowBars": 88,
+  "warmupBars": 170
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 12,
+   "at": "11:28",
+   "title": "AT THE CALL WALL",
+   "text": "The bar rose to Call Wall 26517.50 and closed back below it at 26514.50. Call Wall is the strike with the largest positive net gamma."
+  },
+  {
+   "bar": 33,
+   "at": "11:49",
+   "title": "AT THE GAMMA FLIP",
+   "text": "The bar fell to Gamma Flip 26448.50 and closed back above it at 26450.75. Gamma Flip is the net-gamma sign change nearest spot. Its caption reads price above: positive gamma, where by convention hedging works against moves."
+  },
+  {
+   "bar": 52,
+   "at": "12:08",
+   "title": "AT THE CALL WALL",
+   "text": "Second test: the bar rose to Call Wall 26517.50 and closed back below it at 26515.75."
+  },
+  {
+   "bar": 69,
+   "at": "12:25",
+   "title": "AT THE GAMMA FLIP",
+   "text": "Second test: the bar fell to Gamma Flip 26448.50 and closed back above it at 26451.75."
+  }
+ ],
+ "note": "range 26448.50–26517.50 (69.00 pts) · tests 4 · poke 0.25 · wide 0"
+}

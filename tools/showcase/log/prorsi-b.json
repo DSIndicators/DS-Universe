@@ -1,0 +1,37 @@
+{
+ "slug": "prorsi",
+ "id": "b",
+ "built": "2026-10-10T02:19:57.459Z",
+ "score": 16.324773413897283,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 100401",
+  "windowBars": 117,
+  "warmupBars": 190
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 34,
+   "at": "12:04",
+   "title": "BEAR TURN · RESISTANCE ZONE",
+   "text": "The RSI crossed below its signal and held on the close, inside an overbought episode (RSI peak 77). New resistance zone 26,555.25 – 26,562.50 at the swing high, 1.4× normal volume (1 pip)."
+  },
+  {
+   "bar": 67,
+   "at": "12:37",
+   "title": "ZONE HELD",
+   "text": "Price has left the resistance zone again by two ATRs without a close through its far edge (26,562.50). Record: 1 held, 0 broke."
+  },
+  {
+   "bar": 91,
+   "at": "13:01",
+   "title": "ZONE HELD",
+   "text": "Price has left the resistance zone again by two ATRs without a close through its far edge (26,562.50). Record: 2 held, 0 broke."
+  }
+ ],
+ "note": "resistance 26,555.25–26,562.50 · deep 77 · held 2 · reinf 0 · refused crosses 9 · follow 32.3 · RSI peak 25.3"
+}

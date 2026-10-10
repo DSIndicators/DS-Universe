@@ -1,0 +1,37 @@
+{
+ "slug": "squeeze",
+ "id": "b",
+ "built": "2026-10-10T02:20:25.403Z",
+ "score": 38.566237104797516,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 100146",
+  "windowBars": 67,
+  "warmupBars": 229
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 6,
+   "at": "11:57",
+   "title": "QUIET",
+   "text": "No squeeze and ADX 18: price swings around its mean, the setting where the reversion play looks for a stretch to the band."
+  },
+  {
+   "bar": 53,
+   "at": "12:44",
+   "title": "REVERSION SHORT",
+   "text": "No squeeze on and ADX 17, under 30. RSI 72 as price reaches the upper band, and the bar closes back inside at 26,505.25: REVERSION SHORT. Target the mean 26,486.00, stop 26,524.50."
+  },
+  {
+   "bar": 62,
+   "at": "12:53",
+   "title": "HIT THE MEAN",
+   "text": "Price reaches the mean 26,492.00, 13 pts from the setup close (the rail follows the EMA), before the 1R stop: HIT THE MEAN, and the rail comes off."
+  }
+ ],
+ "note": "REVERSION SHORT reward 13.25 (1.4 ATR) risk 19.25 heat 0.50 bars 9"
+}

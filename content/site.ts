@@ -162,6 +162,14 @@ export const DISCLOSURE = {
    */
   showcase:
     "The recording and chart pictures above show the software running; they are not a performance record. Futures trading carries substantial risk of loss and is not suitable for every investor, and hypothetical or simulated results have inherent limitations that may differ materially from live trading.",
+  /**
+   * Under DS Replay (2026-10-09, v4): what the visitor is driving, and the two
+   * disclosures the vendor guidelines require beside any chart in motion. The
+   * examples are composed scenarios (tools/showcase/design.ts): the pattern is
+   * written for the example, every candle is a recorded one; the line says so.
+   */
+  replay:
+    "DS Replay examples are illustrative: each scenario is composed for the example from recorded one-minute futures candles, to show the conditions a tool is built for, and is not a recording of a trading session. The tool drawing on it runs its shipped rules unchanged. They show how the software reads price; they are not a performance record, no trade is taken or shown, and live markets often behave differently. Futures trading carries substantial risk of loss and is not suitable for every investor, and hypothetical or simulated results have inherent limitations that may differ materially from live trading.",
   trademark:
     "NinjaTrader® is a registered trademark of NinjaTrader Group, LLC. No NinjaTrader company has any affiliation with the owner, developer, or provider of the products or services described herein, or any interest, ownership or otherwise, in any such product or service, or endorses, recommends or approves any such product or service.",
 };

@@ -1,0 +1,43 @@
+{
+ "slug": "protrendrange",
+ "id": "b",
+ "built": "2026-10-10T02:20:47.959Z",
+ "score": 132.70142180094786,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 100182",
+  "windowBars": 109,
+  "warmupBars": 257
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 39,
+   "at": "12:30",
+   "title": "RANGING",
+   "text": "The TREND reading crossed back through 50, so the trend is off and the market is RANGING between 26,426.50 and 26,478.50 (the leg's extreme and the far side since)."
+  },
+  {
+   "bar": 50,
+   "at": "12:41",
+   "title": "RANGING",
+   "text": "Price works inside the RANGE rails, 26,426.50 to 26,478.50, comes back to the range low and turns inside again. No trend is on, so no resume can be stamped."
+  },
+  {
+   "bar": 69,
+   "at": "13:00",
+   "title": "TREND DOWN STARTED",
+   "text": "The bar that closes below RANGE LOW 26,426.50 takes the TREND reading (50 bars) past one sigma down: it reads 14 on the 0–100 scale. The rails come off, and the trend stays on until the reading crosses back through 50."
+  },
+  {
+   "bar": 90,
+   "at": "13:21",
+   "title": "RESUME SHORT",
+   "text": "The pullback is over: SWING crossed back through 50 and this close held at or below the one before. STANDARD: the trend reads one sigma or better. HOLD 26,398.50, the pullback's high."
+  }
+ ],
+ "note": "TREND UP ENDED -> TREND DOWN STARTED · rails 26426.5-26478.5 (6.6 ATR) · touches 0/20 · RESUME SHORT · move 12.6 ATR"
+}

@@ -1,0 +1,43 @@
+{
+ "slug": "prorsi",
+ "id": "a",
+ "built": "2026-10-10T02:19:52.557Z",
+ "score": 31.492076069730587,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 182",
+  "windowBars": 120,
+  "warmupBars": 190
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 28,
+   "at": "11:53",
+   "title": "BULL TURN · SUPPORT ZONE",
+   "text": "The RSI crossed above its signal and held on the close, inside an oversold episode (deepest RSI 13). New support zone 26,366.50 – 26,386.50 at the swing low, 2.2× normal volume (2 pips)."
+  },
+  {
+   "bar": 41,
+   "at": "12:06",
+   "title": "ZONE HELD",
+   "text": "Price has left the support zone again by two ATRs without a close through its far edge (26,366.50). Record: 1 held, 0 broke."
+  },
+  {
+   "bar": 64,
+   "at": "12:29",
+   "title": "ZONE HELD",
+   "text": "Price has left the support zone again by two ATRs without a close through its far edge (26,366.50). Record: 2 held, 0 broke."
+  },
+  {
+   "bar": 96,
+   "at": "13:01",
+   "title": "ZONE HELD",
+   "text": "Price has left the support zone again by two ATRs without a close through its far edge (26,366.50). Record: 3 held, 0 broke."
+  }
+ ],
+ "note": "support 26,366.50–26,386.50 · deep 13 · held 3 · reinf 0 · refused crosses 11 · follow 26.8 · RSI peak 77.8"
+}

@@ -1,0 +1,43 @@
+{
+ "slug": "squeeze",
+ "id": "a",
+ "built": "2026-10-10T02:20:16.441Z",
+ "score": 128.28434723171566,
+ "source": {
+  "days": [],
+  "contract": "designed",
+  "from": "designed",
+  "to": "",
+  "session": "seed 81",
+  "windowBars": 69,
+  "warmupBars": 291
+ },
+ "edits": [],
+ "chapters": [
+  {
+   "bar": 16,
+   "at": "12:04",
+   "title": "SQUEEZE",
+   "text": "Compression fell to 1.35 ATR, inside the 1.5 ATR squeeze channel: the squeeze is on, and the coil appears on the centerline. A release can fire only after 6 squeeze bars."
+  },
+  {
+   "bar": 27,
+   "at": "12:15",
+   "title": "EARLY LONG",
+   "text": "12 bars into the squeeze the A wave hooks back up while the B and C waves hold above zero: the early entry, once per squeeze, on the ribbon before any fire."
+  },
+  {
+   "bar": 43,
+   "at": "12:31",
+   "title": "FIRED LONG · GOOD",
+   "text": "The 27-bar squeeze releases: compression 1.86 ATR clears the 1.65 release line with momentum 119 growing up. GOOD (ADX 30 not quiet, C wave on its side, B wave on its side), so the chevron prints at the low."
+  },
+  {
+   "bar": 58,
+   "at": "12:46",
+   "title": "QUIET",
+   "text": "The long run ends after 15 bars, 53 pts from the fire bar's close: momentum faded toward zero for two bars in a row. The fire chevron stays where it printed."
+  }
+ ],
+ "note": "FIRED LONG · GOOD · squeeze 27 bars · mfe 66.50 (8.6 ATR) · follow 54.75 · adverse 0.00 · atr 7.70 · early · run end"
+}

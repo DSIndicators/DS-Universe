@@ -6,6 +6,9 @@ import { Arrow } from "@/components/ui/Arrow";
 import { Gallery } from "@/components/Gallery";
 import { ProductMedia, type MediaItem } from "@/components/ProductMedia";
 import { BuyBar } from "@/components/BuyBar";
+import { ProductReplay } from "@/components/ProductReplay";
+import { Defer } from "@/components/ui/Defer";
+import { hasReplay } from "@/content/engine";
 import { TestFirst } from "@/components/TestFirst";
 import { ProductCard } from "@/components/ProductCard";
 import { ogCardFor, squareCoverFor } from "@/content/covers";
@@ -88,7 +91,10 @@ export function productMetadata(slug: string): Metadata {
  *   3. BEFORE YOU BUY — where it runs, what it reads (Markets tab), and the
  *      listing's closing lines (no repaint, what it is not).
  *   4. Test it first (unchanged).
- *   5. IN MOTION — the recording, last, as asked.
+ *   5. SEE IT WORK — DS Replay (2026-10-09, v4): the product's shipped rules
+ *      drawn on a composed scenario (real candles) the visitor drives like a chart
+ *      (components/engine, content/engine.ts, tools/showcase). Products without a chart (DS Bulk Replay
+ *      Downloader, DS Toolkit) keep their recording here, "In motion".
  *   6. More from the same shelf.
  * Once the buy box has scrolled away, a slim bar keeps the price and the
  * button at the foot of the window (BuyBar).
@@ -418,8 +424,38 @@ export function ProductPage({ slug }: { slug: string }) {
       {/* ======================================================= 4. test it first */}
       <TestFirst productName={p.name} slug={p.slug} />
 
-      {/* ========================================================== 5. in motion */}
-      {showcase && (
+      {/* ===================================================== 5. on real NQ */}
+      {hasReplay(p.slug) ? (
+        <section className="border-t border-line" aria-labelledby="replay-title">
+          <div className="wrap py-20 lg:py-24">
+            <Reveal className="grid gap-6 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-7">
+                <p className="label">See it work</p>
+                <h2 id="replay-title" className="display-md mt-3 text-ink text-balance">
+                  {p.name}, moment by moment
+                </h2>
+              </div>
+              <p className="max-w-[56ch] text-[length:calc(15px*var(--type))] leading-relaxed text-slate text-pretty lg:col-span-5">
+                The conditions {p.name} is built for, drawn by its shipped rules. Scroll and scale it like a chart, replay it bar by bar, jump
+                between its moments, or switch the chart to light.
+              </p>
+            </Reveal>
+            <div className="mt-10">
+              <Defer near className="min-h-[640px] sm:min-h-[720px] lg:min-h-[800px]">
+                <ProductReplay slug={p.slug} name={p.name} />
+              </Defer>
+            </div>
+            <p className="mt-5 max-w-[110ch] text-[length:calc(12.5px*var(--type))] leading-relaxed text-mute">
+              {DISCLOSURE.replay}{" "}
+              <Link href="/disclosures" className="whitespace-nowrap text-slate underline decoration-line underline-offset-4 hover:decoration-gold">
+                Risk disclosures
+              </Link>
+              .
+            </p>
+          </div>
+        </section>
+      ) : (
+        showcase && (
         <section className="border-t border-line" aria-labelledby="motion-title">
           <div className="wrap py-20 lg:py-24">
             <Reveal className="flex flex-wrap items-end justify-between gap-6">
@@ -460,6 +496,7 @@ export function ProductPage({ slug }: { slug: string }) {
             </Reveal>
           </div>
         </section>
+      )
       )}
 
       {/* ================================================================ 6. more */}
