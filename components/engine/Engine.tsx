@@ -477,7 +477,7 @@ export function Engine({ load, examples, productName }: Props) {
         }
       } else if (dr?.kind === "time") {
         own();
-        const bw = Math.max(1.2, Math.min(48, dr.bw * Math.exp((x - dr.x) * 0.008)));
+        const bw = Math.max(1.2, Math.min(48, dr.bw * Math.exp((dr.x - x) * 0.008))); // drag left = wider bars, right = more bars (Tom, 2026-10-10)
         st.current.view.bw = bw;
         st.current.view.right = clampRight(dr.right);
         syncMoved();
