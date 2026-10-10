@@ -57,16 +57,20 @@ export const cta = (whenOpen: string, whenWaiting = "Join the waitlist") =>
  * the same way the READMEs and the Whop FAQ say it (Tom, 2026-09-24: licenses
  * are granted by a person, from the NinjaTrader email asked at checkout).
  * Deliberately no promised turnaround time: none has been set.
+ *
+ * FREE VAULT (2026-10-10): the free builds carry no license check, so the free
+ * checkouts no longer ask for the NinjaTrader email and nothing is switched on.
+ * AFTER_CHECKOUT is the paid path; AFTER_CHECKOUT_FREE is the Free Vault's.
  */
 export const AFTER_CHECKOUT = {
   /** One line under a buy button. */
   short:
-    "At checkout, enter the email on your NinjaTrader account. The files are yours at once; the license is switched on by hand, so allow a short wait.",
+    "At checkout, enter the email on your NinjaTrader account. The files are yours at once; the license is switched on by hand, so allow a short wait. Free Vault products need no license.",
   /** The three steps — "Before you buy" at the foot of /products. */
   steps: [
     {
       title: "Check out on Whop",
-      text: "Checkout asks for the email on your NinjaTrader account — not your Whop email. Free products go through the same checkout, at no charge.",
+      text: "Checkout asks for the email on your NinjaTrader account — not your Whop email. Free Vault products have their own free checkout and need no license.",
     },
     {
       title: "Download and import",
@@ -75,6 +79,26 @@ export const AFTER_CHECKOUT = {
     {
       title: "Switched on by hand",
       text: "A person activates the license on that NinjaTrader account. It is not instant — once it is on, restart NinjaTrader and the product draws.",
+    },
+  ],
+} as const;
+
+/** The Free Vault's path: no license, nothing to switch on (2026-10-10). */
+export const AFTER_CHECKOUT_FREE = {
+  /** One line under a free product's button. */
+  short: "Free checkout on Whop, then download and import. There is no license to switch on: it draws as soon as NinjaTrader restarts.",
+  steps: [
+    {
+      title: "Get it free on Whop",
+      text: "Each free product has its own free checkout. Nothing is charged and no card is asked for.",
+    },
+    {
+      title: "Download and import",
+      text: "The archive and its guides are in your Whop account straight away. In NinjaTrader 8.1.8.1 or newer: Tools → Import → NinjaScript Add-On, then restart.",
+    },
+    {
+      title: "It draws",
+      text: "There is no license and nothing to activate: add it to a chart and it is there, on any computer you use NinjaTrader on.",
     },
   ],
 } as const;

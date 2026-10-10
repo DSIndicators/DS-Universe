@@ -12,6 +12,9 @@
  *              by the product name and price its checkout shows — never by
  *              position. All sixteen: one-time payment (or Free), and every one
  *              asks the required "NinjaTrader account email" question.
+ *              FREE VAULT, 2026-10-10: the free builds carry no license check,
+ *              so the question comes off the nine free checkouts (Tom removes
+ *              it in Whop); the paid checkouts keep it.
  *
  * Every buy button on the site goes to `checkout` (buyHref). The listing stays
  * reachable as a quiet "See it on Whop" link beside the main button.

@@ -6,7 +6,7 @@ import { AskButton } from "@/components/AskButton";
 import { VaultLabel, VaultPlaque } from "@/components/Vault";
 import { VaultDial } from "@/components/VaultDial";
 import { VaultRoom, VaultSearchLink } from "@/components/VaultRoom";
-import { AFTER_CHECKOUT, onWaitlist } from "@/content/launch";
+import { AFTER_CHECKOUT_FREE, onWaitlist } from "@/content/launch";
 import { STORE_PATH, VAULT_PATH } from "@/content/release";
 import { DISCLOSURE, SITE } from "@/content/site";
 import { VAULT_COPY } from "@/content/vault";
@@ -113,9 +113,9 @@ export default function FreeVaultPage() {
         <div className="wrap grid gap-14 py-20 lg:grid-cols-12 lg:gap-8 lg:py-24">
           <Reveal className="lg:col-span-5">
             <p className="label">How it works</p>
-            <h2 className="display-md mt-4 text-ink text-balance">A free product is licensed like a paid one.</h2>
+            <h2 className="display-md mt-4 text-ink text-balance">Free, with nothing to switch on.</h2>
             <p className="mt-6 max-w-md text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">
-              {open ? AFTER_CHECKOUT.short : "Every product is on the waitlist while the files are being attached. Joining costs nothing."}
+              {open ? AFTER_CHECKOUT_FREE.short : "Every product is on the waitlist while the files are being attached. Joining costs nothing."}
             </p>
             <p className="mt-6 text-[length:calc(14px*var(--type))] leading-relaxed text-slate">
               A question first?{" "}
@@ -129,7 +129,7 @@ export default function FreeVaultPage() {
           {open && (
             <Reveal className="lg:col-span-6 lg:col-start-7" delay={80}>
               <ol className="space-y-7">
-                {AFTER_CHECKOUT.steps.map((s, i) => (
+                {AFTER_CHECKOUT_FREE.steps.map((s, i) => (
                   <li key={s.title} className="grid grid-cols-[28px_minmax(0,1fr)] gap-x-3 border-t border-line-strong pt-5">
                     <span className="font-mono text-[length:calc(12px*var(--type))] tabular-nums text-vault">{String(i + 1).padStart(2, "0")}</span>
                     <div>

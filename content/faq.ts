@@ -80,11 +80,11 @@ export const FAQ: Faq[] = [
       ]
     : []),
   // The Free Vault (2026-10-05): free, each its own download, never part of
-  // DS Complete — the sheet's own words — and licensed like everything else.
+  // DS Complete — the sheet's own words — and, since 2026-10-10, no license at all.
   // (DS Toolkit is not one of them: it comes free with DS Complete.)
   {
     q: "Are the free ones really free?",
-    a: "Yes, permanently. Not a trial and not a stripped build: the same product, through the same checkout, at no charge. They live in the Free Vault, each as its own download, and none of them is part of DS Complete. A free product is licensed like a paid one: checkout asks for your NinjaTrader account email, and the license is switched on by hand.",
+    a: "Yes, permanently. Not a trial and not a stripped build: the same product, through the same checkout, at no charge. They live in the Free Vault, each as its own download, and none of them is part of DS Complete. A free product needs no license: there is nothing to switch on, and it draws as soon as you import it.",
     link: { href: VAULT_PATH, label: "Open the Free Vault" },
   },
   // FREE WITH DS COMPLETE (content/pricing.ts BUNDLED): the products that are

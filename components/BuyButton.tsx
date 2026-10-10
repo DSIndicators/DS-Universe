@@ -1,4 +1,5 @@
-import { AFTER_CHECKOUT, onWaitlist, opensWhen } from "@/content/launch";
+import { AFTER_CHECKOUT, AFTER_CHECKOUT_FREE, onWaitlist, opensWhen } from "@/content/launch";
+import { priceFor } from "@/content/pricing";
 import { PENDING_NOTE, buyHref, buyLabel, isPending, listingFor, purchaseKey } from "@/content/whop";
 
 /**
@@ -60,8 +61,9 @@ export function BuyButton({
 }
 
 /**
- * One line under a buy button. Open: what happens after checkout (the
- * NinjaTrader email, the files at once, the license by hand) and, given a
+ * One line under a buy button. Open: what happens after checkout (paid: the
+ * NinjaTrader email, the files at once, the license by hand; Free Vault: no
+ * license at all, since 2026-10-10) and, given a
  * slug, a quiet link to the product's Whop listing. Waitlist: the old promise.
  */
 export function CtaNote({
@@ -88,7 +90,7 @@ export function CtaNote({
   const l = key ? listingFor(key) : undefined;
   return (
     <p className={`max-w-md text-[length:calc(12.5px*var(--type))] leading-relaxed ${muted} ${className}`}>
-      {AFTER_CHECKOUT.short}
+      {slug && priceFor(slug)?.free ? AFTER_CHECKOUT_FREE.short : AFTER_CHECKOUT.short}
       {l && (
         <>
           {" "}

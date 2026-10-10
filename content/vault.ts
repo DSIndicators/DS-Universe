@@ -21,9 +21,9 @@
  *   · "free permanently — not a trial, not a stripped build" (the store FAQ);
  *   · "each is its own download and runs beside it" / "none is part of DS
  *     Complete" (the sheet, Read Me and DS Complete's description);
- *   · the license: "At checkout, enter the email on your NinjaTrader account
- *     … the license is switched on by hand" (content/launch.ts AFTER_CHECKOUT,
- *     the same words the READMEs and the Whop FAQ use).
+ *   · the license: none since 2026-10-10 — the free builds carry no license
+ *     check (content/launch.ts AFTER_CHECKOUT_FREE, the same words the READMEs
+ *     and the Whop FAQ use).
  * No product count (the lineup changes), no outcome, no superlative.
  *
  * DS TOOLKIT IS NOT IN THE VAULT (2026-10-05, later the same day): it comes
@@ -37,12 +37,12 @@ export const VAULT_COPY = {
   /** The page's headline. */
   title: "The Free Vault.",
   /** One or two plain sentences: what it is, and how a free license works. */
-  lede: "Free indicators and tools for NinjaTrader 8 — free permanently, not a trial and not a stripped build. Each one is its own download from its own free listing on Whop; checkout asks for the email on your NinjaTrader account, and the license is switched on by hand to that account.",
+  lede: "Free indicators and tools for NinjaTrader 8 — free permanently, not a trial and not a stripped build. Each one is its own download from its own free listing on Whop, with no license to switch on: import it and it draws.",
   /** The facts, as a spec sheet beside the headline. */
   facts: [
     { k: "Price", v: "Free, permanently. Not a trial." },
     { k: "Download", v: "Each product is its own download, with its own guide." },
-    { k: "License", v: "Switched on by hand, to the NinjaTrader account email you give at checkout." },
+    { k: "License", v: "None needed. Import it and it draws, on any computer you use NinjaTrader on." },
     { k: "DS Complete", v: "Not part of it. A free product runs beside it." },
   ],
   /** The home page band. */

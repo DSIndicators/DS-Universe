@@ -174,7 +174,7 @@ export function ProductPage({ slug }: { slug: string }) {
       : null;
 
   /** The words beside the license row and under the box: how it is owned. */
-  const license = price?.withComplete ? "Inside the DS Complete archive · updates included" : price?.free ? "Free, permanently · not a trial" : "One payment · yours to keep · updates included";
+  const license = price?.withComplete ? "Inside the DS Complete archive · updates included" : price?.free ? "Free, permanently · no license needed" : "One payment · yours to keep · updates included";
   const buyLabel = price?.withComplete ? completeBuyLabel() : undefined;
   const points = copy?.points ?? p.hooks;
   const odd = points.length % 2 === 1;
