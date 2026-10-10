@@ -489,6 +489,13 @@ body::after {
    ------------------------------------------------------------------ */
 .help-marker {
   filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+  transition: transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.2s ease;
+}
+/* stepping aside for an interactive chart passing under it (HelpPanel.tsx) */
+.help-marker[data-yield] {
+  transform: translateX(110%);
+  opacity: 0;
+  pointer-events: none;
 }
 .help-marker-edge {
   background: #3a4049;

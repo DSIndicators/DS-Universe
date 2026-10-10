@@ -63,7 +63,26 @@ export type PaintState = {
   marks?: { i: number; tone: string }[];
   /** bar size label, e.g. "1 min" */
   tfLabel?: string;
+  /** the auto price / pane scales as last painted, eased toward their targets (see YEase) */
+  ys?: YEase;
+  /** device pixels per CSS px (candles snap to device pixels, so a moving chart slides smoothly) */
+  px?: number;
 };
+
+/**
+ * EASED AUTO-SCALE (2026-10-10, mobile pass). Where the whole example cannot sit
+ * on one stage (a phone: the camera rides the newest bar), the auto price scale
+ * follows the bars in view, and a scale that snaps to each new bar makes the
+ * chart jump several times a second. Every auto scale now glides to its new
+ * range (~90 ms time constant) instead. `cur` holds what was last painted, so a
+ * hit-test between paints (geometry without `adv`) sees exactly what is on screen.
+ * The study's own panes (MACD, stochastics, …) rescale with the bars on every
+ * camera, the home stage included, so they glide too. The home stage's price
+ * scale is constant, so it never moves. A visitor's own price range (a dragged
+ * price axis) is never eased.
+ */
+export type YEase = { cur: Record<string, [number, number]>; t: number };
+export const newYEase = (): YEase => ({ cur: {}, t: 0 });
 
 export type Geometry = {
   W: number; H: number; plotRight: number;
@@ -75,6 +94,8 @@ export type Geometry = {
   i0: number; i1: number; bw: number; right: number;
   x: (i: number) => number;
   iAt: (x: number) => number;
+  /** an eased scale is still travelling to its target: paint again next frame */
+  settling: boolean;
 };
 
 function niceStep(range: number, px: number, minPx: number, tick: number) {
@@ -123,11 +144,15 @@ function homeExtent(st: PaintState): [number, number] {
   return r;
 }
 
-export function geometry(st: PaintState, W: number, H: number): Geometry {
+/** `adv` (a paint's timestamp) advances the eased scales; without it the last painted scales are reused. */
+export function geometry(st: PaintState, W: number, H: number, adv?: number): Geometry {
   const { s, def, view, k, live } = st;
   const plotRight = W - AXIS_W;
   const start = s.replayFrom, end = s.n - 1;
   const lastIdx = live ? live.i : k;
+  // the camera's newest bar, CONTINUOUS while a bar forms (k + its fraction), so a camera riding
+  // the newest bar glides with the replay instead of stepping one bar width at every new bar
+  const edge = live ? live.i - 1 + live.frac : k;
   // HOME: the whole example on one stage when every bar can have >= 1.6 px;
   // on a narrow screen it starts at the first bar and rides the newest one.
   let bw: number, right: number, stage = false;
@@ -136,15 +161,16 @@ export function geometry(st: PaintState, W: number, H: number): Geometry {
     const runway = (b: number) => (plotRight < 520 ? Math.min(padPx(def, plotRight, b), plotRight * 0.22) : padPx(def, plotRight, b));
     const fitBw = (plotRight - runway(6)) / (end - start + 1);
     if (fitBw >= HOME_MIN_BW) { stage = true; bw = fitBw; right = end + runway(bw) / bw; }
-    else { bw = view.bw; right = Math.max(start - 0.5 + plotRight / bw, lastIdx + padBars(def, plotRight, bw)); }
+    else { bw = view.bw; right = Math.max(start - 0.5 + plotRight / bw, edge + padBars(def, plotRight, bw)); }
   } else {
     bw = view.bw;
     // following the newest bar: while the bars so far do not fill the plot they grow from its left
     // edge (no empty left half during a replay); once they fill it the chart rides the newest bar
-    right = view.follow ? followRight(def, start, lastIdx, plotRight, bw) : view.right;
+    right = view.follow ? followRight(def, start, edge, plotRight, bw) : view.right;
   }
   const count = plotRight / bw;
-  const i1 = Math.min(Math.floor(right), lastIdx);
+  // a fractional right edge leaves the next bar partly on screen: include it (the plot clips it)
+  const i1 = Math.min(Math.ceil(right), lastIdx);
   const i0 = Math.max(start, Math.floor(right - count));
   const x = (i: number) => plotRight - (right - i) * bw - bw / 2;
   const iAt = (px: number) => Math.round(right - (plotRight - px - bw / 2) / bw);
@@ -163,11 +189,14 @@ export function geometry(st: PaintState, W: number, H: number): Geometry {
 
   // scales
   const iEnd = Math.min(i1, lastIdx);
+  const ys = st.ys;
+  let settling = false;
   for (const pv of panes) {
     let lo = Infinity, hi = -Infinity;
-    if (pv.id === "price" && view.yAuto === false && view.yLo !== undefined && view.yHi !== undefined && view.yHi > view.yLo) {
+    const own = pv.id === "price" && view.yAuto === false && view.yLo !== undefined && view.yHi !== undefined && view.yHi > view.yLo;
+    if (own) {
       // the visitor's own price range (they dragged the price axis or the chart)
-      lo = view.yLo; hi = view.yHi;
+      lo = view.yLo!; hi = view.yHi!;
     } else if (pv.id === "price") {
       if (stage) {
         // home: one scale for the whole example, so nothing jumps as it plays
@@ -194,12 +223,26 @@ export function geometry(st: PaintState, W: number, H: number): Geometry {
       lo -= span * 0.08; hi += span * 0.08;
     }
     if (!isFinite(lo) || !isFinite(hi) || hi <= lo) { lo = 0; hi = 1; }
+    if (ys) {
+      const prev = ys.cur[pv.id];
+      if (prev && !own) {
+        if (adv !== undefined) {
+          const a = 1 - Math.exp(-Math.min(64, Math.max(0, adv - ys.t)) / 90);
+          let nlo = prev[0] + (lo - prev[0]) * a, nhi = prev[1] + (hi - prev[1]) * a;
+          const tol = (hi - lo) * 0.0015;
+          if (Math.abs(nlo - lo) <= tol && Math.abs(nhi - hi) <= tol) { nlo = lo; nhi = hi; } else settling = true;
+          lo = nlo; hi = nhi;
+        } else { lo = prev[0]; hi = prev[1]; }
+      }
+      if (adv !== undefined) ys.cur[pv.id] = [lo, hi];
+    }
     pv.lo = lo; pv.hi = hi;
     const t = pv.top + 6, b = pv.bottom - 6;
     pv.y = (v: number) => b - ((v - lo) / (hi - lo)) * (b - t);
     pv.v = (y: number) => lo + ((b - y) / (b - t)) * (hi - lo);
   }
-  return { W, H, plotRight, panes, i0, i1, bw, right, x, iAt, stage, xStart: x(start) - bw / 2 };
+  if (ys && adv !== undefined) ys.t = adv;
+  return { W, H, plotRight, panes, i0, i1, bw, right, x, iAt, stage, xStart: x(start) - bw / 2, settling };
 }
 
 export function makeDraw(ctx: CanvasRenderingContext2D, st: PaintState, g: Geometry): Draw {
@@ -300,7 +343,7 @@ export function makeDraw(ctx: CanvasRenderingContext2D, st: PaintState, g: Geome
 
 export function paint(ctx: CanvasRenderingContext2D, st: PaintState, W: number, H: number): Geometry {
   const { s, th, run, k, live } = st;
-  const g = geometry(st, W, H);
+  const g = geometry(st, W, H, st.now);
   const d = makeDraw(ctx, st, g) as Draw & { _tags: { pv: PaneView; y: number; text: string; color: string; ink: string }[] };
 
   ctx.fillStyle = th.bg; ctx.fillRect(0, 0, W, H);
@@ -314,16 +357,33 @@ export function paint(ctx: CanvasRenderingContext2D, st: PaintState, W: number, 
   const pv = g.panes[0];
   ctx.save(); ctx.beginPath(); ctx.rect(clipL, 0, g.plotRight - clipL, H - TIME_H); ctx.clip();
   const bodyW = Math.max(1, Math.min(g.bw * 0.66, g.bw - 1));
+  // snap to DEVICE pixels (CSS px on a 1x screen, as before): on a 2x/3x phone a chart that slides
+  // moves in half/third-pixel steps and every edge stays crisp
+  const dp = Math.max(1, st.px ?? 1), snap = (v: number) => Math.round(v * dp) / dp;
+  // On a 2x/3x screen the candle is built in DEVICE pixels: a wick of one device pixel while the
+  // bars are packed (under 8 device px apart — a phone holding a whole example on one stage), a body
+  // centred on it with a device pixel of air to the next bar, so dense candles still read as
+  // candles, not hairlines. On a 1x screen nothing changes.
+  const pitch = g.bw * dp;
+  const wickD = dp > 1 && pitch < 8 ? 1 : Math.round(dp);
+  let bodyD = Math.max(wickD, Math.min(Math.round(pitch * 0.66), Math.floor(pitch) - 1));
+  if ((bodyD - wickD) % 2) bodyD -= 1;
   const drawCandle = (i: number, o: number, h: number, l: number, c: number) => {
     const over = run.candle?.(i) ?? null;
     const col = over ? toneColor(th, over) : c > o ? th.up : c < o ? th.down : th.neutral;
-    const x = Math.round(g.x(i));
     const yh = pv.y(h), yl = pv.y(l), yo = pv.y(o), yc = pv.y(c);
     ctx.fillStyle = col;
-    ctx.fillRect(x, Math.round(yh), 1, Math.max(1, Math.round(yl - yh)));
-    const top = Math.round(Math.min(yo, yc)), bh = Math.max(1, Math.round(Math.abs(yc - yo)));
-    if (bodyW <= 2) ctx.fillRect(x - Math.floor(bodyW / 2), top, Math.max(1, Math.round(bodyW)), bh);
-    else ctx.fillRect(Math.round(x - bodyW / 2 + 0.5), top, Math.round(bodyW), bh);
+    const top = snap(Math.min(yo, yc)), bh = Math.max(1 / dp, snap(Math.abs(yc - yo)));
+    if (dp === 1) {
+      const x = Math.round(g.x(i));
+      ctx.fillRect(x, Math.round(yh), 1, Math.max(1, Math.round(yl - yh)));
+      if (bodyW <= 2) ctx.fillRect(x - Math.floor(bodyW / 2), top, Math.max(1, Math.round(bodyW)), Math.max(1, bh));
+      else ctx.fillRect(Math.round(x - bodyW / 2 + 0.5), top, Math.round(bodyW), Math.max(1, bh));
+      return;
+    }
+    const bl = Math.round(g.x(i) * dp - bodyD / 2), wl = bl + (bodyD - wickD) / 2;
+    ctx.fillRect(wl / dp, snap(yh), wickD / dp, Math.max(1 / dp, snap(yl - yh)));
+    ctx.fillRect(bl / dp, top, bodyD / dp, bh);
   };
   if (run.under) { try { run.under(d); } catch (e) { console.error(`[DS Replay] ${st.def.slug} under`, e); } }
   for (let i = g.i0; i <= Math.min(g.i1, k); i++) drawCandle(i, s.o[i], s.h[i], s.l[i], s.c[i]);

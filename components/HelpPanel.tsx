@@ -101,6 +101,46 @@ export function HelpPanel({ faq, products, email: supportEmail, platform }: { fa
   const about = slug && cleared !== slug ? slug : null;
   const product = slug ? products[slug] : null;
 
+  /* --------------------------------------------------------- stepping aside
+     On a phone the marker floats over the page at the right edge, and over an
+     interactive chart it sits on the chart's own controls (DS Replay's speed
+     switch and rail, 2026-10-10 mobile pass). Anything marked data-help-yield
+     makes it step aside while it passes under the marker's spot; it returns
+     the moment the page moves on. The spot is computed from the marker's
+     resting place (its CSS bottom), never from where it is drawn, so sliding
+     it away cannot flip the test. Phones only: from 640px it sits in the
+     margin, clear of the content. */
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const m = marker.current;
+      if (!m) return;
+      let over = false;
+      if (mq.matches) {
+        const bottom = parseFloat(getComputedStyle(m).bottom) || 0;
+        const zb = window.innerHeight - bottom, zt = zb - m.offsetHeight, zl = window.innerWidth - m.offsetWidth;
+        for (const el of document.querySelectorAll<HTMLElement>("[data-help-yield]")) {
+          const r = el.getBoundingClientRect();
+          if (r.top < zb && r.bottom > zt && r.right > zl) { over = true; break; }
+        }
+      }
+      if (over) m.dataset.yield = ""; else delete m.dataset.yield;
+    };
+    const ask = () => { if (!raf) raf = requestAnimationFrame(check); };
+    ask();
+    window.addEventListener("scroll", ask, { passive: true });
+    window.addEventListener("resize", ask);
+    mq.addEventListener("change", ask);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", ask);
+      window.removeEventListener("resize", ask);
+      mq.removeEventListener("change", ask);
+    };
+  }, [pathname]);
+
   /* ------------------------------------------------------------- the draft */
   useEffect(() => {
     try {

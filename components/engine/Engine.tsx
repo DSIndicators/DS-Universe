@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LiveBar, ReadItem, Session, StudyDef, StudyRun, Theme, Tone } from "./types";
 import { DARK, LIGHT, toneColor } from "./theme";
 import { formingAt, loadExample, type ExampleMeta } from "./data";
-import { followRight, geometry, padBars, paint, paintRail, type Hover, type View } from "./render";
+import { followRight, geometry, newYEase, padBars, paint, paintRail, type Hover, type View } from "./render";
 import { hhmm } from "./ta";
 
 /**
@@ -84,9 +84,15 @@ export function Engine({ load, examples, productName }: Props) {
     hover: null as Hover,
     focus: null as { i: number; price?: number; at: number } | null,
     size: { w: 0, h: 0, rw: 0, rh: 0 },
+    /** the eased auto scales (render.ts YEase) */
+    ys: newYEase(),
   });
+  /** the last values handed to React, so a pointer stream never queues identical updates */
+  const shown = useRef({ hoverI: null as number | null, moved: false, cursor: "crosshair" });
+  const playingRef = useRef(false);
   const fonts = useRef({ mono: "monospace", sans: "sans-serif" });
   const playing = wantPlay && onScreen && tabVisible;
+  playingRef.current = playing;
 
   // ---- study + example
   useEffect(() => {
@@ -114,9 +120,9 @@ export function Engine({ load, examples, productName }: Props) {
   useEffect(() => {
     if (!s || !run) return;
     const cur = st.current;
-    cur.k = s.n - 1; cur.frac = 0; cur.focus = null;
+    cur.k = s.n - 1; cur.frac = 0; cur.focus = null; cur.ys = newYEase();
     cur.view = { home: true, right: 0, bw: cur.size.w > 900 ? 7 : 5, follow: true, yAuto: true };
-    setK(s.n - 1); setWantPlay(false); setStory("overview"); setMoved(false);
+    setK(s.n - 1); setWantPlay(false); setStory("overview"); shown.current.moved = false; setMoved(false);
   }, [s, run]);
 
   useEffect(() => {
@@ -155,24 +161,32 @@ export function Engine({ load, examples, productName }: Props) {
   }, [s]);
 
   const tfLabel = meta ? (meta.tf >= 60 ? `${meta.tf / 60} hour` : `${meta.tf} min`) : "1 min";
-  const paintState = useCallback((now: number) => ({ s: s!, def: def!, run: run!, th, k: st.current.k, live: liveBar(), view: st.current.view, hover: st.current.hover, layers, focus: st.current.focus, fonts: fonts.current, now, marks, tfLabel }), [s, def, run, th, liveBar, layers, marks, tfLabel]);
+  const paintState = useCallback((now: number) => ({ s: s!, def: def!, run: run!, th, k: st.current.k, live: liveBar(), view: st.current.view, hover: st.current.hover, layers, focus: st.current.focus, fonts: fonts.current, now, marks, tfLabel, ys: st.current.ys, px: Math.min(2, typeof window === "undefined" ? 1 : window.devicePixelRatio || 1) }), [s, def, run, th, liveBar, layers, marks, tfLabel]);
   const geo = useCallback(() => geometry(paintState(0), st.current.size.w, st.current.size.h), [paintState]);
 
-  const repaint = useCallback(() => {
+  /** one paint per animation frame at most: `ts` is the frame's timestamp when a frame loop paints */
+  const paintRaf = useRef(0);
+  const frameTs = useRef(-1);
+  const repaintRef = useRef<(ts?: number) => void>(() => {});
+  const repaint = useCallback((ts?: number) => {
     const c = cv.current, r = rail.current;
     if (!c || !s || !run || !def) return;
     const { w, h, rw, rh } = st.current.size;
     if (!w || !h) return;
+    if (ts !== undefined) frameTs.current = ts;
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const ctx = c.getContext("2d")!;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    paint(ctx, paintState(performance.now()), w, h);
+    const g = paint(ctx, paintState(performance.now()), w, h);
+    // an eased scale still travelling: paint the next frame too (skipped if a frame loop already painted it)
+    if (g.settling && !paintRaf.current) paintRaf.current = requestAnimationFrame((t) => { paintRaf.current = 0; if (t !== frameTs.current) repaintRef.current(t); });
     if (r && rw) {
       const rc = r.getContext("2d")!;
       rc.setTransform(dpr, 0, 0, dpr, 0, 0);
       paintRail(rc, { s, th: DARK, k: st.current.k, frac: st.current.frac, hoverI: railHover?.i ?? null, marks }, rw, rh);
     }
   }, [s, run, def, paintState, railHover, marks]);
+  repaintRef.current = repaint;
 
   useEffect(() => {
     const ro = new ResizeObserver(() => {
@@ -199,7 +213,8 @@ export function Engine({ load, examples, productName }: Props) {
     return () => ro.disconnect();
   }, [repaint]);
 
-  useEffect(() => { repaint(); }, [repaint, k]);
+  // a new bar while playing is painted by the clock itself (no second paint in the same frame)
+  useEffect(() => { if (!playingRef.current) repaint(); }, [repaint, k]);
 
   // ---- the clock (Market Replay: the bar forms along its recorded path, then closes)
   useEffect(() => {
@@ -215,7 +230,7 @@ export function Engine({ load, examples, productName }: Props) {
         if (cur.k >= s.n - 1) { cur.k = s.n - 1; cur.frac = 0; break; }
       }
       if (stepped) setK(cur.k);
-      repaint();
+      repaint(now);
       if (cur.k >= s.n - 1) { setWantPlay(false); return; }
       raf = requestAnimationFrame(tick);
     };
@@ -226,7 +241,7 @@ export function Engine({ load, examples, productName }: Props) {
   useEffect(() => {
     const f = st.current.focus; if (!f || playing) return;
     let raf = 0;
-    const loop = () => { repaint(); if (performance.now() - f.at < 2300) raf = requestAnimationFrame(loop); };
+    const loop = (t: number) => { repaint(t); if (performance.now() - f.at < 2300) raf = requestAnimationFrame(loop); };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
   });
@@ -275,14 +290,18 @@ export function Engine({ load, examples, productName }: Props) {
   const toEnd = () => { pause(); setStory("overview"); seek(1e9); };
 
   // ---- the camera (NinjaTrader conventions)
-  const syncMoved = () => { const v = st.current.view; setMoved(!v.home || v.yAuto === false); };
+  const syncMoved = () => { const v = st.current.view; const m = !v.home || v.yAuto === false; if (m !== shown.current.moved) { shown.current.moved = m; setMoved(m); } };
+  /** the newest bar as the camera sees it: continuous while a bar forms (render.ts geometry `edge`) */
+  const camEdge = () => { const lb = liveBar(); return lb ? lb.i - 1 + lb.frac : st.current.k; };
+  const setHover = (i: number | null) => { if (i !== shown.current.hoverI) { shown.current.hoverI = i; setHoverI(i); } };
+  const setCur = (c: string) => { if (c !== shown.current.cursor) { shown.current.cursor = c; setCursor(c); } };
   /** leave the home view: freeze its geometry as the visitor's own camera */
   const own = () => {
     const v = st.current.view;
     if (!v.home) return;
     const g = geo();
     v.home = false; v.bw = g.bw; v.right = g.right;
-    const last = liveBar()?.i ?? st.current.k;
+    const last = camEdge();
     v.follow = g.right >= followRight(def!, s!.replayFrom, last, g.plotRight, g.bw) - 0.5;
   };
   // ---- camera motion: how a real chart moves under the hand
@@ -293,13 +312,12 @@ export function Engine({ load, examples, productName }: Props) {
   //  · resting at the newest bar re-arms "follow", so a replay keeps riding the edge;
   //  · a mouse-wheel notch eases to its target instead of jumping; trackpads stay 1:1.
   const motion = useRef({ raf: 0, vel: 0, target: NaN, samples: [] as { t: number; r: number }[], spring: null as null | { from: number; to: number; t0: number } });
-  const paintRaf = useRef(0);
   /** coalesce repaints to one per frame (pointer events can fire several times a frame) */
-  const requestPaint = () => { if (!paintRaf.current) paintRaf.current = requestAnimationFrame(() => { paintRaf.current = 0; repaint(); }); };
+  const requestPaint = () => { if (!paintRaf.current) paintRaf.current = requestAnimationFrame((t) => { paintRaf.current = 0; if (t !== frameTs.current) repaint(t); }); };
   const bounds = () => {
     const g = geo(), v = st.current.view;
     const count = g.plotRight / v.bw;
-    const last = liveBar()?.i ?? st.current.k;
+    const last = camEdge();
     // right: the newest bar plus the tool's runway (or, while the bars do not fill the plot, the first bar at
     // the left edge); left: the first bar may travel no further than 65% across
     const hi = followRight(def!, s!.replayFrom, last, g.plotRight, v.bw);
@@ -353,10 +371,10 @@ export function Engine({ load, examples, productName }: Props) {
         m.raf = 0;
         v.follow = v.right >= hi - 0.5;
         if (v.follow) v.right = hi;
-        repaint();
+        repaint(now);
         return;
       }
-      repaint();
+      repaint(now);
       m.raf = requestAnimationFrame(frameFn);
     };
     m.raf = requestAnimationFrame(frameFn);
@@ -389,7 +407,7 @@ export function Engine({ load, examples, productName }: Props) {
     stopMotion();
     const v = st.current.view;
     st.current.view = { home: true, right: 0, bw: st.current.size.w > 900 ? 7 : 5, follow: true, yAuto: true };
-    void v; setMoved(false); repaint();
+    void v; shown.current.moved = false; setMoved(false); repaint();
   };
   const autoPrice = () => { const v = st.current.view; v.yAuto = true; v.yLo = v.yHi = undefined; syncMoved(); repaint(); };
 
@@ -435,7 +453,7 @@ export function Engine({ load, examples, productName }: Props) {
       if (pts.current.size === 2) {
         const [a, b] = [...pts.current.values()];
         own();
-        pinch.current = { d: Math.max(20, Math.abs(a.x - b.x)), bw: st.current.view.bw, mid: (a.x + b.x) / 2 };
+        pinch.current = { d: Math.max(20, Math.hypot(a.x - b.x, a.y - b.y)), bw: st.current.view.bw, mid: (a.x + b.x) / 2 };
         drag.current = null;
       } else if (zone === "plot") {
         drag.current = { kind: "plot", x, y, right: g.right, lo: g.panes[0].lo, hi: g.panes[0].hi, moved: false };
@@ -450,7 +468,7 @@ export function Engine({ load, examples, productName }: Props) {
       const p = pinch.current;
       if (p && pts.current.size >= 2) {
         const [a, b] = [...pts.current.values()];
-        const d = Math.max(20, Math.abs(a.x - b.x));
+        const d = Math.max(20, Math.hypot(a.x - b.x, a.y - b.y));
         const bw = Math.max(1.2, Math.min(48, p.bw * (d / p.d)));
         zoomAt(bw / st.current.view.bw, p.mid);
         return;
@@ -459,7 +477,7 @@ export function Engine({ load, examples, productName }: Props) {
       if (dr?.kind === "plot") {
         if (!dr.moved && Math.abs(x - dr.x) < 3 && Math.abs(y - dr.y) < 3) { /* a click, not a drag yet */ }
         else {
-          if (!dr.moved) { own(); dr.moved = true; setCursor("grabbing"); st.current.hover = null; setHoverI(null); }
+          if (!dr.moved) { own(); dr.moved = true; setCur("grabbing"); st.current.hover = null; setHover(null); }
           const bw = st.current.view.bw;
           // 1:1 with the hand, a rubber band past either end; the raw position feeds the release speed
           const raw = dr.right - (x - dr.x) / bw;
@@ -499,14 +517,14 @@ export function Engine({ load, examples, productName }: Props) {
         runMotion();
       }
       drag.current = null;
-      setCursor(zone === "price" ? "ns-resize" : zone === "time" ? "ew-resize" : "crosshair");
+      setCur(zone === "price" ? "ns-resize" : zone === "time" ? "ew-resize" : "crosshair");
     }
 
-    if (e.type === "pointermove" && !drag.current) setCursor(zone === "price" ? "ns-resize" : zone === "time" ? "ew-resize" : "crosshair");
+    if (e.type === "pointermove" && !drag.current && e.pointerType !== "touch") setCur(zone === "price" ? "ns-resize" : zone === "time" ? "ew-resize" : "crosshair");
     const dragging = !!drag.current && drag.current.kind !== "plot" ? true : drag.current?.kind === "plot" && drag.current.moved;
     st.current.hover = e.type === "pointerleave" || e.pointerType === "touch" || dragging ? null : { x, y };
-    if (!st.current.hover || zone !== "plot") setHoverI(null);
-    else { const g2 = geo(); setHoverI(Math.max(g2.i0, Math.min(g2.iAt(x), st.current.k))); }
+    if (!st.current.hover || zone !== "plot") setHover(null);
+    else { const g2 = geo(); setHover(Math.max(g2.i0, Math.min(g2.iAt(x), st.current.k))); }
     requestPaint();
   };
   const onDouble = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -579,6 +597,7 @@ export function Engine({ load, examples, productName }: Props) {
   return (
     <div
       ref={frame}
+      data-help-yield
       className="ds-replay overflow-hidden rounded-[12px] border border-line bg-[#05070A] shadow-monitor outline-none focus-visible:ring-1 focus-visible:ring-gold/60 [&:fullscreen]:overflow-auto"
       tabIndex={0}
       role="region"
@@ -660,7 +679,7 @@ export function Engine({ load, examples, productName }: Props) {
               <Ctl label="Back to the first bar (Home)" onClick={() => step(-1e9)}><IconStart /></Ctl>
               <Ctl label="Previous moment (Shift + ←)" onClick={prevMoment}><IconPrevEv /></Ctl>
               <Ctl label="One bar back (←)" onClick={() => step(-1)}><IconStepB /></Ctl>
-              <button type="button" onClick={toggle} className="mx-1 inline-flex h-9 min-w-[104px] items-center justify-center gap-2 border border-line-strong bg-white/[0.03] px-3 font-mono text-[length:calc(11.5px*var(--type))] uppercase tracking-[0.12em] text-ink transition-colors hover:border-gold/70"
+              <button type="button" onClick={toggle} className="mx-1 inline-flex h-9 min-w-[88px] items-center sm:min-w-[104px] justify-center gap-2 border border-line-strong bg-white/[0.03] px-3 font-mono text-[length:calc(11.5px*var(--type))] uppercase tracking-[0.12em] text-ink transition-colors hover:border-gold/70"
                 aria-label={wantPlay ? "Pause (Space)" : atEnd ? "Replay the example (Space)" : "Play (Space)"}>
                 {wantPlay ? <IconPause /> : atEnd ? <IconReplay /> : <IconPlay />}
                 {wantPlay ? "Pause" : atEnd ? "Replay" : "Play"}
@@ -789,7 +808,7 @@ function Num({ n, tone, on }: { n: number; tone: Tone | string; on: boolean }) {
 }
 function Ctl({ label, onClick, children }: { label: string; onClick: () => void; children: React.ReactNode }) {
   return (
-    <button type="button" onClick={onClick} aria-label={label} title={label} className="inline-flex h-9 w-9 items-center justify-center text-slate transition-colors hover:text-ink">
+    <button type="button" onClick={onClick} aria-label={label} title={label} className="inline-flex h-9 w-8 items-center justify-center text-slate transition-colors hover:text-ink sm:w-9">
       {children}
     </button>
   );
