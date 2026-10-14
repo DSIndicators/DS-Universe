@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { BuyButton, CtaNote } from "@/components/BuyButton";
+import { TrialButton, TrialCompleteNote } from "@/components/Trial";
 import { Defer } from "@/components/ui/Defer";
 import { CompleteChart } from "@/components/CompleteChart";
 import { CompleteBundled, CompleteLedger, type LedgerRow } from "@/components/CompleteLedger";
@@ -172,10 +173,15 @@ export function CompleteKeystone() {
               {/* The ledger: each series' subtotal, and the chart's key. */}
               <CompleteLedger rows={rows} label={`What is inside ${COMPLETE.name}`} />
 
+              {/* Buy, and beside it the 7-day free trial (2026-10-13): the
+                  same archive for a week, no card. The trial is the ghost
+                  button — the founders price stays the one gold action. */}
               <div className="mt-7 flex flex-wrap items-center gap-3">
                 <BuyButton slug={COMPLETE.key} label={FOUNDERS.active && !onWaitlist() ? FOUNDERS.cta : undefined} />
+                <TrialButton variant="ghost" />
               </div>
               <CtaNote className="mt-4" slug={COMPLETE.key} />
+              <TrialCompleteNote className="mt-4" />
               {/* Paid and free are kept apart (2026-10-05): the sheet's own
                   sentence, and the way to the vault. */}
               <p className="mt-5 max-w-md border-t border-line pt-4 text-[length:calc(12.5px*var(--type))] leading-relaxed text-mute text-pretty">

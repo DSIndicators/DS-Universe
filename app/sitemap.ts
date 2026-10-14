@@ -2,15 +2,15 @@ import type { MetadataRoute } from "next";
 import { PRODUCTS } from "@/content/products";
 import { VAULT_PATH, isReleased, productHref } from "@/content/release";
 import { SITE } from "@/content/site";
-import { trialProducts } from "@/content/trial";
+import { trialOn } from "@/content/trial";
 import { squareCoverFor } from "@/content/covers";
 
 /** Only pages that actually exist: unreleased products 404, so they stay out.
  *  A product's address is productHref() — /free-vault/<slug> for a free one. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  // /trial exists only while the 3-day free trial is on (content/trial.ts).
-  const fixed = ["", "/products", VAULT_PATH, ...(trialProducts().length ? ["/trial"] : []), "/ninjatrader", "/about", "/contact", "/terms", "/disclosures"];
+  // /trial exists only while the DS Complete 7-day free trial is on (content/trial.ts).
+  const fixed = ["", "/products", VAULT_PATH, ...(trialOn() ? ["/trial"] : []), "/ninjatrader", "/about", "/contact", "/terms", "/disclosures"];
   return [
     ...fixed.map((path) => ({
       url: `${SITE.url}${path}`,

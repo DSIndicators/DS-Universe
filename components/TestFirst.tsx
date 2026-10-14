@@ -80,8 +80,8 @@ export function TestFirst({ productName, slug }: { productName: string; slug?: s
                 About the simulator
               </a>
             </div>
-            {/* A product with a 3-day free trial (2026-09-29): the trial is
-                exactly the time to do what this section recommends. */}
+            {/* A product inside the DS Complete 7-day trial (2026-10-13): the
+                trial week is exactly the time to do what this section recommends. */}
             {slug && <TrialTestNote slug={slug} name={productName} />}
           </div>
 

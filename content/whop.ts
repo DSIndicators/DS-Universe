@@ -21,19 +21,21 @@
  * Whop gave some listing paths a random suffix ("-8f", "-fb") — use exactly
  * what Whop gives you, do not tidy.
  *
- * A THIRD LINK FOR THREE PRODUCTS — the 3-day free trial (Tom, 2026-09-29).
- *   trial    — a second plan on the SAME Whop product: "3-Day Free Trial",
- *              Free, one-time, Whop access for 3 days, the same required
- *              "NinjaTrader account email" question. Found by reading each
- *              listing's own default plan off whop.com (the trial is now the
- *              listing's main button) and then rendering every checkout:
- *                DS Oracle  plan_zZ1CGRY29Dz7n
- *                DS Flow    plan_5wUpmsoJ0Rj3I
- *                DS ProRSI  plan_OgE67QZlTofd9
- *              Each reads "<product> · Free · 3 day access — no payment
- *              required", and each product's $79.99 checkout still works.
- * The trial's own words and switch live in content/trial.ts. A product with
- * no `trial` here shows no trial anywhere on the site.
+ * THE TRIAL — ONE, AND IT IS DS COMPLETE'S (Tom, 2026-10-11; site 2026-10-13).
+ *   trial        — the checkout of the $0 "DS Complete Free Trial" listing,
+ *                  a Whop product of its own (Whop trials work only on
+ *                  recurring plans; DS Complete is one-time). It hands over
+ *                  the DS Complete archive; NinjaTrader runs the 7 days on
+ *                  each tool's ID. Only `complete` may carry a trial: single
+ *                  products are sold with none, and the build refuses one.
+ *   trialListing — that listing's own page on Whop.
+ *   Both go in COMPLETE_TRIAL below. Until they do, the site shows no trial
+ *   and a production build stops (content/trial.ts).
+ *   The 3-day trial of 2026-09-29 is RETIRED: its three plans — DS Oracle
+ *   plan_zZ1CGRY29Dz7n, DS Flow plan_5wUpmsoJ0Rj3I, DS ProRSI
+ *   plan_OgE67QZlTofd9 — are refused anywhere in WHOP (RETIRED_PLANS), and
+ *   Tom archives them on Whop once this build is live.
+ * The trial's own words and switch live in content/trial.ts.
  *
  * DS SESSION LEVELS (2026-09-30).
  *   plan_LhYBx2nIIXwck — supplied by Tom; opened on Tom's PC (headless Edge):
@@ -91,28 +93,40 @@ export type WhopListing = {
   product: string;
   /** Direct checkout link for the product's plan. */
   checkout?: string;
-  /** Direct checkout for the product's free-trial plan, where it has one. */
+  /** Direct checkout for the free trial — DS Complete only (see above). */
   trial?: string;
+  /** The free trial's own listing page on Whop — DS Complete only. */
+  trialListing?: string;
 };
 
 export const STORE = "https://whop.com/dsuniverse";
 const CHECKOUT = "https://whop.com/checkout";
-const L = (path: string, plan: string, trialPlan?: string): WhopListing => ({
+const L = (path: string, plan: string): WhopListing => ({
   product: `${STORE}/${path}/`,
   checkout: `${CHECKOUT}/${plan}`,
-  ...(trialPlan ? { trial: `${CHECKOUT}/${trialPlan}` } : {}),
 });
+
+/**
+ * THE DS COMPLETE FREE TRIAL LISTING. TOM: paste its two parts here when it
+ * exists on Whop — the plan from its checkout link (whop.com/checkout/plan_…)
+ * and the listing path from its page (whop.com/dsuniverse/<path>/). Empty =
+ * no trial on the site.
+ */
+const COMPLETE_TRIAL = { plan: "", path: "" };
+const completeTrial = (): Pick<WhopListing, "trial" | "trialListing"> =>
+  COMPLETE_TRIAL.plan
+    ? { trial: `${CHECKOUT}/${COMPLETE_TRIAL.plan}`, ...(COMPLETE_TRIAL.path ? { trialListing: `${STORE}/${COMPLETE_TRIAL.path}/` } : {}) }
+    : {};
 
 export const WHOP: Record<string, WhopListing> = {
   // ---- flagship indicators ($79.99, checkout verified 2026-09-25) ----
   zones: L("ds-zones-living-supply-demand-structure-ninjatrader-8", "plan_ocxhFcbIMnpbi"),
   iceberg: L("ds-iceberg-hidden-absorption-refill-detection-ninjatrader-8", "plan_FMGkrNvXKFMzC"),
-  // third argument = the 3-day free-trial plan (verified 2026-09-29)
-  oracle: L("ds-oracle-ai-confirmed-supertrend-neural-line-ninjatrader-8", "plan_ujtfTI9XElO8g", "plan_zZ1CGRY29Dz7n"),
+  oracle: L("ds-oracle-ai-confirmed-supertrend-neural-line-ninjatrader-8", "plan_ujtfTI9XElO8g"),
   gex: L("ds-gex-dealer-gamma-levels-fetched-live-ninjatrader-8-fb", "plan_Wos2cSDhY5RZp"),
-  flow: L("ds-flow-volume-by-price-footprint-ninjatrader-8", "plan_G6CrISw6dNHR6", "plan_5wUpmsoJ0Rj3I"),
+  flow: L("ds-flow-volume-by-price-footprint-ninjatrader-8", "plan_G6CrISw6dNHR6"),
   // ---- Pro Series ($79.99, checkout verified 2026-09-25) ----
-  prorsi: L("ds-prorsi-rsi-crossovers-as-price-levels-ninjatrader-8", "plan_BBivBWLYNMJhb", "plan_OgE67QZlTofd9"),
+  prorsi: L("ds-prorsi-rsi-crossovers-as-price-levels-ninjatrader-8", "plan_BBivBWLYNMJhb"),
   // 2026-10-05 — new Pro panels; listing and plan from Tom, each checkout
   // opened and read: the product's name, $79.99, one-time. No trial plan.
   proliquidityhunter: L("ds-proliquidityhunter-liquidity-map-with-measured-reach-odds-ninjatrader-8", "plan_yFqtNooVPvdNm"),
@@ -137,8 +151,8 @@ export const WHOP: Record<string, WhopListing> = {
   squeeze: L("ds-squeeze-squeeze-waves-reversion-ninjatrader-8", "plan_mCyNCv0gGgsPw"),
   macd: L("ds-macd-volatility-normalized-macd-cross-price-ninjatrader-8", "plan_rwOCbeDmfIVmz"),
   vwap: L("ds-vwap-live-session-vwap-with-measured-bands-ninjatrader-8", "plan_eC8XsRW9rz7OU"),
-  // ---- the bundle ($374.95, checkout verified 2026-09-25) ----
-  complete: L("ds-complete-all-15-ds-universe-products-one-license-ninjatrader-8", "plan_eVl3N0rb9CZQ2"),
+  // ---- the bundle ($374.95, checkout verified 2026-09-25) + its free trial ----
+  complete: { ...L("ds-complete-all-15-ds-universe-products-one-license-ninjatrader-8", "plan_eVl3N0rb9CZQ2"), ...completeTrial() },
 };
 
 /**
@@ -179,7 +193,10 @@ const RETIRED_PAID_PLANS: readonly string[] = ["plan_ACebJTJOzyeH9", "plan_sQ0Jx
  *     free with DS Complete and is not offered on its own, so a link to its
  *     old free checkout would hand out what is no longer given away.
  */
-const RETIRED_PLANS: readonly string[] = [...RETIRED_PAID_PLANS, "plan_Ywx5wxsyuCStx"];
+/** The 3-day free-trial plans of 2026-09-29 (DS Oracle, DS Flow, DS ProRSI),
+ *  replaced by the DS Complete trial on 2026-10-13. */
+const RETIRED_TRIAL_PLANS: readonly string[] = ["plan_zZ1CGRY29Dz7n", "plan_5wUpmsoJ0Rj3I", "plan_OgE67QZlTofd9"];
+const RETIRED_PLANS: readonly string[] = [...RETIRED_PAID_PLANS, ...RETIRED_TRIAL_PLANS, "plan_Ywx5wxsyuCStx"];
 const RETIRED_LISTINGS: readonly string[] = [
   "ds-toolkit-one-rail-for-every-indicator-tool-ninjatrader-8",
   "ds-prostochastics-quad-rotation-stochastics-ninjatrader-8",
@@ -202,11 +219,15 @@ const LIVE_BUILD = process.env.NODE_ENV === "production" && process.env.DS_PREVI
     throw new Error("content/whop.ts: a trial link repeats another checkout plan.");
   }
   for (const [slug, w] of Object.entries(WHOP)) {
+    // One trial, DS Complete's. A single product never carries one of its own.
+    if (slug !== "complete" && (w.trial || w.trialListing)) {
+      throw new Error(`content/whop.ts: "${slug}" has a trial link, but single products are sold with no trial — only DS Complete has one.`);
+    }
     if (slug !== "complete" && !PRICES[slug]) throw new Error(`content/whop.ts: "${slug}" has a listing but is not in the catalogue.`);
     if (PRICES[slug]?.free && RETIRED_PAID_PLANS.some((plan) => w.checkout?.endsWith(`/${plan}`))) {
       throw new Error(`content/whop.ts: "${slug}" is free, but its checkout is a retired PAID plan. Make a new free plan on Whop.`);
     }
-    const links = [w.checkout, w.trial, w.product].filter((x): x is string => !!x);
+    const links = [w.checkout, w.trial, w.trialListing, w.product].filter((x): x is string => !!x);
     const dead = [
       ...RETIRED_PLANS.filter((plan) => links.some((x) => x.endsWith(`/${plan}`))),
       ...RETIRED_LISTINGS.filter((path) => links.some((x) => x.includes(`/${path}`))),

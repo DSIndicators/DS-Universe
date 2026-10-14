@@ -24,9 +24,9 @@
  */
 
 import { SITE } from "./site";
-import { BUNDLED, BUNDLED_NAMES, WITH_BUNDLE, bundledFor } from "./pricing";
+import { BUNDLED, BUNDLED_NAMES, COMPLETE, WITH_BUNDLE, bundledFor } from "./pricing";
 import { VAULT_PATH, productHref } from "./release";
-import { TRIAL, keepPrice, startsWhen, trialNames, trialProducts } from "./trial";
+import { TRIAL, keepPrice, startsWhen, trialOn } from "./trial";
 import { HOME_MARKETS, tapeOnlySlugs } from "./markets";
 import { BY_SLUG } from "./products";
 
@@ -67,14 +67,14 @@ export const FAQ: Faq[] = [
     q: "Is this a subscription?",
     a: "No. Each paid product is one payment and yours to keep — no monthly fee, nothing to renew — and every later version is included. The products in the Free Vault are free.",
   },
-  // The 3-day free trial (2026-09-29, content/trial.ts) — present only while
-  // the trial is on. Every condition in one answer: length, start, cost, end,
-  // limit, keeping it, and the one extra step if the buyer moves to DS Complete.
-  ...(trialProducts().length
+  // The DS Complete 7-day free trial (2026-10-13, content/trial.ts) — present
+  // only while the trial is on. Every condition in one answer: what it covers,
+  // length, start, cost, end, limit, keeping it, and that singles have none.
+  ...(trialOn()
     ? [
         {
-          q: "Can I try one before I buy?",
-          a: `Yes. ${trialNames()} each have a ${TRIAL.label}. Check out free on Whop with your NinjaTrader account email, import it, and the ${TRIAL.days} days start ${startsWhen()}. No card is asked for and nothing is charged when it ends — it simply stops running. One trial per product, per NinjaTrader account. To keep it, buy it${keepPrice() ? ` for ${keepPrice()}` : ""}: the license goes on the same account, with nothing to reinstall. Moving to DS Complete instead? Remove the trial product and restart NinjaTrader first, as with any single DS product.`,
+          q: "Can I try them before I buy?",
+          a: `Yes, through ${COMPLETE.name}'s ${TRIAL.label}. Check out free on Whop and you get the same ${COMPLETE.name} archive buyers get, with every tool in it. Each tool's ${TRIAL.days} days start ${startsWhen()}, so you can take them one at a time. No card is asked for and nothing is charged when it ends: that tool simply stops drawing. One trial per product, per NinjaTrader account. To keep everything, buy ${COMPLETE.name} for ${keepPrice()} and the license goes on the same account, with nothing to reinstall. To keep only some tools, buy those one by one and swap the ${COMPLETE.name} archive for their own. Single products have no separate trial; the ${COMPLETE.name} trial covers each of them.`,
           link: { href: "/trial", label: "How the trial works" },
         },
       ]
@@ -114,7 +114,7 @@ export const FAQ: Faq[] = [
   },
   {
     q: "Can I get a refund?",
-    a: "Because the software is delivered digitally, sales are final once the files have been issued, except where a refund is required by law. The Free Vault and the charts on every product page are there so you can judge first.",
+    a: `Because the software is delivered digitally, sales are final once the files have been issued, except where a refund is required by law. ${trialOn() ? `The ${COMPLETE.name} ${TRIAL.label}, the Free Vault` : "The Free Vault"} and the charts on every product page are there so you can judge first.`,
     link: { href: "/terms#section-13", label: "Terms, section 13" },
   },
 ];

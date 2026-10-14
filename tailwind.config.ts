@@ -48,7 +48,7 @@ const config: Config = {
         // teal and bear violet. On the site they are HINTS only — ambient
         // light, a candle-coloured tick, one word — never fills or buttons.
         // `text` (2026-09-29) is bull teal lifted to be READ as small type on
-        // the ground — the 3-day free trial's colour (content/trial.ts). Gold
+        // the ground — the free trial's colour (content/trial.ts). Gold
         // means money on this site; teal means "on your chart, free, now".
         // #43CDC8 measures 10.2:1 on the ground, 9.4:1 on a surface and 8.7:1 on
         // the trial strip (WCAG AA needs 4.5).

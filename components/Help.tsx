@@ -3,7 +3,7 @@ import { marketsFor } from "@/content/markets";
 import { WITH_BUNDLE, isPaid, money, priceFor } from "@/content/pricing";
 import { PRODUCTS } from "@/content/products";
 import { SITE } from "@/content/site";
-import { TRIAL, hasTrial } from "@/content/trial";
+import { TRIAL, inTrial } from "@/content/trial";
 import { HelpPanel, type HelpProduct } from "@/components/HelpPanel";
 
 /**
@@ -27,7 +27,8 @@ export function Help() {
           name: p.name,
           price: price?.free ? "Free" : price?.withComplete ? `${WITH_BUNDLE.label} · ${WITH_BUNDLE.short.toLowerCase()}` : isPaid(price) ? `${money(price.now)}, one payment` : "",
           runs: marketsFor(p.slug)?.headline ?? "",
-          trial: hasTrial(p.slug) ? TRIAL.label : "",
+          // Inside the DS Complete trial: every paid product, DS ASL and DS Toolkit.
+          trial: inTrial(p.slug) ? TRIAL.inShort : "",
         },
       ];
     }),

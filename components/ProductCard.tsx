@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { CoverArt } from "@/components/CoverArt";
-import { TrialMark } from "@/components/Trial";
 import { WITH_BUNDLE, money, priceFor } from "@/content/pricing";
 import { productHref, resolveProduct } from "@/content/release";
-import { TRIAL, trialHref } from "@/content/trial";
 import { PENDING_NOTE, buyHref, buyLabel, isPending, listingFor, purchaseKey } from "@/content/whop";
 
 /**
@@ -23,7 +21,7 @@ import { PENDING_NOTE, buyHref, buyLabel, isPending, listingFor, purchaseKey } f
  *     order: its name, what kind of tool it is, what it does for you (the
  *     product's own hooks, never a caption of the picture), its price;
  *   · the ACTION on the card, always visible, not only on hover — "Get it
- *     free" / "Buy now" / "Try 3 days free" — straight to its Whop checkout;
+ *     free" / "Buy now" / "Get DS Complete" — straight to its Whop checkout;
  *   · one hit area for everything that goes to the product page (the whole
  *     card, with one synchronised hover), and the button kept apart as the
  *     only element that goes somewhere else (Baymard: 76% of sites leave
@@ -70,7 +68,6 @@ export function ProductCard({
   if (!p) return null;
   const price = priceFor(slug);
   const listing = listingFor(purchaseKey(slug));
-  const trial = trialHref(slug);
   const exclusive = !!price?.withComplete;
   const pending = isPending(slug);
   const figure = !price ? null : price.free ? "Free" : price.withComplete ? WITH_BUNDLE.label : money(price.now);
@@ -112,14 +109,10 @@ export function ProductCard({
           </ul>
         )}
 
-        {/* One legend line where a card has one: the trial, the bundle, or a
-            listing that is not open yet. */}
-        {trial && (
-          <p className="mt-3 flex items-center gap-2 font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.12em] text-bull-text">
-            <TrialMark />
-            {TRIAL.label}
-          </p>
-        )}
+        {/* One legend line where a card has one: the bundle, or a listing
+            that is not open yet. (No trial line: single products have no
+            trial of their own since 2026-10-13 — the DS Complete trial is
+            offered once, in its band and on /trial, not on every tile.) */}
         {exclusive && (
           <p className="mt-3 flex items-center gap-2 font-mono text-[length:calc(9.5px*var(--type))] uppercase tracking-[0.12em] text-gold">
             <span className="h-[6px] w-[6px] shrink-0 rotate-45 border border-gold" aria-hidden="true" />
@@ -141,8 +134,8 @@ export function ProductCard({
               </span>
             )}
             {listing && !pending && (
-              <a href={trial ?? buyHref(listing)} target="_blank" rel="noopener" className="pcard-btn">
-                {trial ? TRIAL.ctaTile : buyLabel(slug)}
+              <a href={buyHref(listing)} target="_blank" rel="noopener" className="pcard-btn">
+                {buyLabel(slug)}
                 <span className="sr-only">{` — ${p.name}, opens Whop in a new tab`}</span>
               </a>
             )}
@@ -152,7 +145,7 @@ export function ProductCard({
 
       {/* Everything but the button goes to our product page. */}
       <Link href={productHref(p.slug)} className="pcard-link absolute inset-0 z-10">
-        <span className="sr-only">{`${p.name} — ${p.category}${trial ? ` — ${TRIAL.label}` : ""}${exclusive ? ` — ${WITH_BUNDLE.line}` : ""}. Details.`}</span>
+        <span className="sr-only">{`${p.name} — ${p.category}${exclusive ? ` — ${WITH_BUNDLE.line}` : ""}. Details.`}</span>
       </Link>
     </article>
   );

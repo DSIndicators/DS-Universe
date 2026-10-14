@@ -10,7 +10,7 @@ import { Marketplace } from "@/components/Marketplace";
 import { TrialBand, TrialHeroNote } from "@/components/Trial";
 import { VaultBand, VaultHeroNote } from "@/components/Vault";
 import { VaultDial } from "@/components/VaultDial";
-import { trialProducts } from "@/content/trial";
+import { trialOn } from "@/content/trial";
 import { NT_ASSETS, NT_LINKS } from "@/content/ninjatrader";
 import { ABOUT, CLOSING, DISCLOSURE, FACTS, HERO, PRINCIPLES, SITE } from "@/content/site";
 
@@ -84,9 +84,10 @@ export default function HomePage() {
             </div>
             {/* Said once, at the top of the site, before anyone reaches a price. */}
             <WaitlistNote className="rise mt-7 max-w-md" />
-            {/* The 3-day free trial (2026-09-29): that it exists, whose it is,
-                and its condition — one link down to the band. No price: the
-                hero still carries none. Renders nothing when the trial is off. */}
+            {/* The DS Complete 7-day free trial (2026-10-13): that it exists,
+                what it covers and its condition — one link down to the band.
+                No price: the hero still carries none. Renders nothing when the
+                trial is off. */}
             <TrialHeroNote className="rise mt-8" style={{ animationDelay: "320ms" }} />
             {/* The Free Vault (2026-10-05): built like the trial note, one
                 link to its page. No price — the hero carries none. */}
@@ -177,11 +178,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ------------------------------------------------- 3-day free trial */}
-      {/* The offer in full, directly before the lineup it belongs to (2026-09-29,
+      {/* ------------------------------------------- DS Complete 7-day trial */}
+      {/* The offer in full, directly before the lineup it belongs to (2026-10-13,
           components/Trial.tsx). A visitor meets "try it" before "buy it"; the
           lineup — DS Complete first — follows straight on. */}
-      {trialProducts().length > 0 && (
+      {trialOn() && (
         <div className="wrap pt-24 lg:pt-32">
           <TrialBand />
         </div>

@@ -2,9 +2,14 @@
  * The listing copy — the same words a buyer reads on Whop, on our own page.
  *
  * GENERATED from the "Whop Listings" tab of "DS Universe - Master Product &
- * Pricing Sheet" (updated 2026-10-05), split the way every entry is: the "✦"
- * line is the hook, the next paragraph the lede, "◆" the heading, the four "▸"
- * lines the points, and what follows the closing paragraphs. Do not hand-edit:
+ * Pricing Sheet" (updated 2026-10-05; regenerated 2026-10-13 for the 10-11
+ * README corrections), split the way every entry is: the "✦" line is the
+ * hook, the next paragraph the lede, "◆" the heading, its three to five "▸"
+ * lines the points, a second "◆" block (where a listing has one, such as
+ * "On your price chart") in `more`, and what follows the closing paragraphs.
+ * The paid listings' "Free to try: 7 days in the DS Complete trial." line is
+ * left out: the product page says that itself, from content/trial.ts, and
+ * only while the trial is on. Do not hand-edit:
  * change the sheet and regenerate, so the store and the site never drift apart.
  * The trailing disclaimer each listing carries is dropped on purpose — the
  * footer renders the full risk, hypothetical performance and trademark
@@ -29,8 +34,10 @@ export type ListingCopy = {
   lede: string;
   /** The listing's own section heading. */
   heading: string;
-  /** Four points, always. */
+  /** Three to five points. */
   points: string[];
+  /** Further "◆" blocks after the first, each with its own heading and points. */
+  more?: { heading: string; points: string[] }[];
   /** The closing paragraphs — usually what it does not do. */
   close: string[];
 };
@@ -38,7 +45,7 @@ export type ListingCopy = {
 export const LISTING: Record<string, ListingCopy> = {
     "zones": {
         "hook": "Most zone tools draw a box and leave it. This one tracks what price does to it.",
-        "lede": "Swing pivots, volume supply/demand and real order flow merge into one ranked map — and only the strongest few are drawn.",
+        "lede": "Swing pivots and volume-backed supply/demand merge into one ranked map, the real order flow inside each zone is read live — and only the strongest few are drawn.",
         "heading": "Every zone is alive",
         "points": [
             "FRESH → APPROACHING → TESTING → DEFENDED / BREAKING, read from the live tape",
@@ -56,23 +63,24 @@ export const LISTING: Record<string, ListingCopy> = {
         "heading": "Two engines, working independently",
         "points": [
             "A wick-rejection and volume test confirmed only when repeated tests cluster at one price",
-            "A volume-at-price footprint refined by the true bid/ask on every trade",
+            "A volume-at-price footprint, refined by the bid/ask of each live trade",
             "Levels both engines agree on are drawn in cyan or magenta",
             "Each level shows its traded volume and test count"
         ],
         "close": [
-            "Drawn as a self-updating runway zone, built entirely from closed bars — it does not repaint."
+            "Each level is a fine line with an iceberg in the runway, sized by the volume it absorbed. Decided on closed bars — it does not repaint."
         ]
     },
     "oracle": {
         "hook": "A SuperTrend that only speaks when the evidence agrees.",
-        "lede": "A plain SuperTrend flips constantly, and most of those flips are noise. Every flip here is matched against the chart's own history and put to a weighted vote before it is promoted to a confirmed signal.",
+        "lede": "A plain SuperTrend flips constantly, and many of those flips are noise. Every flip here is matched against the chart's own history and put to a weighted vote before it is promoted to a confirmed signal.",
         "heading": "What sits on the chart",
         "points": [
             "The Neural Line — one decision boundary through price: above it long, below it short",
             "Five-state Spectrum candles, from strong down to strong up",
             "A flip only counts once the vote across similar historical states agrees",
-            "An ATR flip buffer, so chop cannot strobe the side back and forth"
+            "An ATR flip buffer, so chop cannot strobe the side back and forth",
+            "BUYERS / SELLERS cards on confirmed flips — off by default, one click away"
         ],
         "close": [
             "The engine never invents a signal of its own — it only filters the SuperTrend's. Default Close Bar anchoring: it does not repaint."
@@ -83,24 +91,25 @@ export const LISTING: Record<string, ListingCopy> = {
         "lede": "Put it on NQ, ES or gold and it fetches the delayed option chain, works out every level in the background, and draws them.",
         "heading": "On the chart",
         "points": [
-            "Call Wall and Put Wall, plus 0DTE walls for today's expiry",
+            "Call Wall and Put Wall, plus live 0DTE walls from today's own volume",
             "Gamma Flip — solved by recomputing gamma across a grid of spot prices, not guessed",
-            "HGEX, Max Pain, ranked G+ / G- strikes",
-            "An Expected Move band and an ATR grid off the session open"
+            "Max Pain and ranked G+ / G- strikes",
+            "An Expected Move band, with the session open and ATR grid one click away"
         ],
         "close": [
-            "The map is captured at two fixed times a day and then held still — a manual levels override is included too."
+            "Every level but the 0DTE walls is captured at two fixed times a day and then held still — a manual levels override is included too."
         ]
     },
     "flow": {
         "hook": "A candle tells you where the market went. This tells you where it did business — and who was pressing.",
-        "lede": "Each group of candles is x-rayed into a volume-by-price profile: one row per price, split into buy and sell, the longest row the fairest price.",
+        "lede": "Each group of candles is x-rayed into a volume-by-price profile: one row per slice of the range, split into buy and sell, the longest row the fairest price.",
         "heading": "What the rows tell you",
         "points": [
             "Statistically heavy rows flagged as acceptance shelves — the magnets and reaction zones",
             "Buy% vs Sell% in a summary box for absorption and exhaustion",
-            "A glass candle that dims on below-average volume, so a hollow move is obvious",
-            "Built from one extra lower-timeframe series — no tick-history download needed"
+            "Yellow FIGHT nodes where both sides committed, and reversal arrows on closed groups",
+            "A glass candle that dims when its group trades under 1.1× its expected volume, so a hollow move is obvious",
+            "History from one lower-timeframe series, live profiles from the trades themselves — no tick-history download"
         ],
         "close": [
             "Detail scales cleanly with zoom, and DS Toolkit can show or hide the whole overlay from the toolbar."
@@ -142,13 +151,23 @@ export const LISTING: Record<string, ListingCopy> = {
         "lede": "DS ProHeikinAshi leaves your candlestick chart alone and draws the Heikin-Ashi candle in a panel under it, with the one thing a Heikin-Ashi chart cannot show: the price at which its color flips.",
         "heading": "What the panel reads",
         "points": [
-            "FLIP LEVEL — the price the next bar's average must finish beyond for the color to change, drawn on your price chart as a rail",
+            "FLIP LEVEL — the price the next bar's average must finish beyond for the color to change",
             "CUSHION — how far the close stands clear of it, in the chart's own unit: FLIP PENDING, HOLDING or FIRM",
             "FLIP ODDS — how often a candle with this cushion flipped on the next bar, from a measured table that then learns your chart",
-            "Two higher-timeframe candles as lanes, built from the chart's own bars with no second data series"
+            "Two higher-timeframe candles as lanes"
+        ],
+        "more": [
+            {
+                "heading": "On your price chart",
+                "points": [
+                    "THE HINGE — each timeframe's level, and a flag at the axis with the close that turns its candle, to the tick",
+                    "STAIRS — a step at every earlier higher-timeframe open",
+                    "TURN MARK — a chevron on the bar that closes the slow candle in a new color"
+                ]
+            }
         ],
         "close": [
-            "No length, threshold or sensitivity to tune. A Heikin-Ashi color describes the last few bars — measured, it did not say where price went next, and the panel is not a forecast. What can be measured is when the color ends.",
+            "No length, threshold or sensitivity to tune. A Heikin-Ashi color describes the last few bars — measured, it did not say where price went next, and the panel is not a forecast.",
             "Closed-bar decisions throughout — it does not repaint."
         ]
     },
@@ -158,12 +177,21 @@ export const LISTING: Record<string, ListingCopy> = {
         "heading": "What the panel reads",
         "points": [
             "TREND latches on at one sigma and stays on until the close crosses its own average — a state, not a line that flickers",
-            "PULLBACK fills as a pocket in the trend's own color; RANGING steps the panel back to neutral and draws the range's two rails on price",
-            "RESUME — one per leg, confirmed on the next close, graded PRIME, STANDARD or MINOR",
-            "Every resume is drawn on price as a shelf at its HOLD level: the pullback's own extreme, the price that says it did not hold"
+            "PULLBACK fills as a pocket in the trend's own color; RANGING leaves the ribbon bare",
+            "RESUME — one per leg, confirmed on the next close, graded PRIME, STANDARD or MINOR"
+        ],
+        "more": [
+            {
+                "heading": "On your price chart",
+                "points": [
+                    "SHELF — each PRIME and STANDARD resume at its HOLD level: the pullback's own extreme, the price that says it did not hold",
+                    "TIDE GAUGE — each trend at the close that ends it; a frame around each range",
+                    "GATES — beside the axis, every close that changes the state on the forming bar, to the tick"
+                ]
+            }
         ],
         "close": [
-            "One sigma is one sigma on every instrument, timeframe and bar type, so there is no threshold to tune. It reads the state of the market and marks a precisely defined event — it is not a forecast. The panel's Y-axis locks, so a chart drag can never push the reading off its own scale.",
+            "One sigma is one sigma on every instrument, timeframe and bar type, so there is no threshold to tune. It is not a forecast.",
             "Closed-bar decisions throughout — it does not repaint."
         ]
     },
@@ -174,7 +202,7 @@ export const LISTING: Record<string, ListingCopy> = {
         "points": [
             "Add instruments, tick the ones you want, set a start and end date",
             "Files land in NinjaTrader's own replay folder — Playback finds them automatically",
-            "Days you already have are skipped; a truncated file is re-fetched, not trusted",
+            "Days already on disk are skipped; an interrupted overwrite puts the original back",
             "An older start date beyond NinjaTrader's ~90-day window is moved forward automatically"
         ],
         "close": [
@@ -198,11 +226,11 @@ export const LISTING: Record<string, ListingCopy> = {
     },
     "adaptive-priceline": {
         "hook": "NinjaTrader's price line drifts off the candle the moment you scroll, zoom or change your margin.",
-        "lede": "This one re-derives its geometry on every render frame — anchored to the live candle, running to the axis marker, exactly where it belongs no matter what you do to the chart.",
+        "lede": "This one re-derives its geometry on every render frame — anchored to the right-most candle on screen, running to the axis marker, exactly where it belongs no matter what you do to the chart.",
         "heading": "The details",
         "points": [
             "A bar-close countdown riding the line, timezone-proof and correct across DST",
-            "Counts down on Heiken-Ashi and Volumetric charts too",
+            "Counts down on time-based Heiken-Ashi and Volumetric charts too",
             "Glow, rounded caps and an anchor bead seated on the candle, painted behind the bars",
             "Zero per-frame allocations, so it never lags"
         ],
@@ -222,18 +250,18 @@ export const LISTING: Record<string, ListingCopy> = {
             "Realtime only — never fires on history, chart load or while you scroll back"
         ],
         "close": [
-            "Tick-driven with no forced repaints, so it adds nothing to the chart you already run."
+            "By default it forces no extra chart redraws, so it adds no work to the chart you already run."
         ]
     },
     "ds-258": {
         "hook": "The four prices inside every Nasdaq hundred-point block, always on the chart.",
-        "lede": "29,000 · 29,020 · 29,050 · 29,080 · 29,100 — the 00, 20, 50 and 80 keep doing the work. This lays a line on every one in view, quietly behind your candles until price stops on it.",
+        "lede": "29,000 · 29,020 · 29,050 · 29,080 · 29,100 — the 00, 20, 50 and 80 of every block. This lays a line on every one in view, quietly behind your candles.",
         "heading": "Built to stay out of the way",
         "points": [
             "Every 00/20/50/80 level in view, each in its own color",
             "Quiet by default — clear at a glance, never a wall",
             "De-clutters automatically as you zoom out",
-            "Nothing to calculate, nothing to configure"
+            "Nothing to calculate, nothing to set up on NQ or MNQ"
         ],
         "close": [
             "Add it to an NQ or MNQ chart and the map is simply there."
@@ -246,7 +274,7 @@ export const LISTING: Record<string, ListingCopy> = {
         "points": [
             "BSL — buy stops resting above an unswept swing high",
             "SSL — sell stops resting below an unswept swing low",
-            "Line weight is the touch count — more tests, more stops sitting beyond it",
+            "Line weight is the touch count — each test tends to leave more stops beyond it",
             "Only live pools are drawn, so what you see still exists"
         ],
         "close": [
@@ -289,11 +317,11 @@ export const LISTING: Record<string, ListingCopy> = {
         "points": [
             "ROTATION — the fastest lane turns back out of its extreme",
             "PRIME — that rotation carries a same-direction divergence with it",
-            "PULLBACK — the slow lane holds a trend while the fast lane dips and turns",
             "Confluence count shows how many lanes agree, lane by lane"
         ],
         "close": [
-            "Divergence runs independently on every lane from confirmed pivots, marked on the panel and on the price chart. The panel's Y-axis locks, so a chart drag can never misalign the four lanes.",
+            "With no quad armed, PULLBACK marks the fast lane dipping and turning while the slow lane holds a trend.",
+            "Divergence runs independently on every lane from confirmed pivots, marked on the panel and, once two lanes agree, as a line on the price chart. The panel's Y-axis locks, so a chart drag can never misalign the four lanes.",
             "Closed-bar decisions throughout — it does not repaint.",
             "Free — add it to a chart and all four lanes are there."
         ]
@@ -306,7 +334,7 @@ export const LISTING: Record<string, ListingCopy> = {
             "ADX and two wave horizons produce PRIME down to BARE, or AGAINST FLOW",
             "EARLY marks the fastest wave hooking toward the others before the fire prints",
             "TTM momentum drawn as a line, normalized by ATR, over a tier-colored centerline",
-            "A reversion setup arms — with a defined target and 1:1 risk — only when there is no squeeze and no running fire"
+            "A reversion setup arms — stop fixed at birth, target the mean — only when there is no squeeze and no running fire"
         ],
         "close": [
             "Two playbooks that never compete for your attention on the same bar. The panel's Y-axis locks, so a chart drag can never distort the read.",
@@ -315,13 +343,14 @@ export const LISTING: Record<string, ListingCopy> = {
         ]
     },
     "macd": {
-        "hook": "By the time a MACD cross prints, the bar that made it has already closed. This solves the price it will happen at first.",
+        "hook": "By the time a MACD cross prints, the bar that made it has already closed. This solves the close that would make it, before the bar ends.",
         "lede": "The close that crosses the signal line is worked out in closed form from the prior bar — exact on the Classic and PPO scales, within one bar's change in ATR on the default MACD-V scale — and shown as a rail on your price chart, a header chip and a panel target.",
         "heading": "What makes the panel itself different",
         "points": [
             "MACD-V scale by default — real fixed zones on every instrument, not a self-rescaling axis",
-            "A six-state ribbon: RISK, RALLYING, RETRACING, RANGING, REBOUNDING, REVERSING",
-            "Four early layers — histogram slope-flip, pre-cross alarm, zero-line cross, ranging suppression",
+            "A seven-state ribbon: RISK HIGH, RALLYING, RETRACING, RANGING, REBOUNDING, REVERSING, RISK LOW",
+            "A SETUP mark on price only when a cross leaves an extreme and holds for a bar",
+            "Histogram turns, an ARMED cross alert, centerline crosses, and faint grading inside the ranging band",
             "Divergence with a PENDING → CONFIRMED / BROKEN / EXPIRED lifecycle, not a static mark"
         ],
         "close": [
@@ -337,8 +366,8 @@ export const LISTING: Record<string, ListingCopy> = {
         "points": [
             "A live VWAP on a volume clock — it forgets by contracts traded, not by minutes",
             "Bands that hold half and nine in ten closes, learned from your own chart",
-            "The session VWAP with its own measured edges, the same line on every intraday chart",
-            "Reach contours and return odds in the margin, with the track record on screen"
+            "The session VWAP with its own measured edges, the same line on minute, tick and Renko charts",
+            "Reach contours in the margin and return odds in the panel, with the track record on screen"
         ],
         "close": [
             "It measures where price stands and what a move would take. It does not claim that a stretch reverts or that it continues. Closed-bar decisions throughout — it does not repaint.",

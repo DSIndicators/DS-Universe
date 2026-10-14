@@ -4,40 +4,41 @@ import { notFound } from "next/navigation";
 import { Reveal } from "@/components/ui/Reveal";
 import { Arrow } from "@/components/ui/Arrow";
 import { TestFirst } from "@/components/TestFirst";
-import { TrialGrid, TrialLabel, TrialTerms } from "@/components/Trial";
+import { TrialBody, TrialButton, TrialLabel, TrialTerms } from "@/components/Trial";
 import { FAQ } from "@/content/faq";
+import { COMPLETE } from "@/content/pricing";
 import { DISCLOSURE } from "@/content/site";
-import { TRIAL, trialNames, trialProducts } from "@/content/trial";
+import { TRIAL, trialOn } from "@/content/trial";
 
 export const metadata: Metadata = {
-  title: "3-day free trial",
-  // Names from the data, never typed — the trial list can change.
-  description: `Run ${trialNames()} on your own NinjaTrader 8 charts for three days, free — the full product, no card, nothing charged when it ends.`,
+  title: TRIAL.label,
+  // No product count is typed — the lineup changes.
+  description: `Every paid DS Universe tool on your own NinjaTrader 8 charts for ${TRIAL.days} days, free, inside ${COMPLETE.name} — the same archive buyers get, no card, nothing charged when it ends.`,
   alternates: { canonical: "/trial" },
 };
 
 /**
- * /trial — THE 3-DAY FREE TRIAL ON ONE PAGE (2026-09-29).
+ * /trial — THE DS COMPLETE 7-DAY FREE TRIAL ON ONE PAGE (2026-10-13; the same
+ * address carried the 3-day trial from 2026-09-29).
  *
  * WHY A PAGE OF ITS OWN. The home band and the product pages carry the trial
  * where visitors already are; this is the address to hand to people who are
- * not on the site yet — a NinjaTrader Ecosystem listing, a post, a reply.
- * dsuniverse.net/trial opens straight onto the offer, its terms, the three
- * products and how it works, with nothing to scroll past. It is not in the
- * menu (the menu stays as it was); home, the store, the FAQ and the sitemap
- * link it.
+ * not on the site yet — a NinjaTrader Ecosystem listing, a short video's
+ * "link in bio", a reply. dsuniverse.net/trial opens straight onto the offer,
+ * its terms, what runs and how it works, with nothing to scroll past. It is
+ * not in the menu (the menu stays as it was); home, the store, the DS Complete
+ * panel, every paid product page, the FAQ and the sitemap link it.
  *
  * Every word comes from content/trial.ts and every link from content/whop.ts.
  * With the trial off the page 404s, like an unreleased product.
  */
 export default function TrialPage() {
-  const ps = trialProducts();
-  if (!ps.length) notFound();
+  if (!trialOn()) notFound();
 
   // The questions a trial-taker asks next, in the store FAQ's own words. The
   // trial's own question is left out: this page is its answer.
   const faqs = FAQ.filter((f) =>
-    ["What do DS Universe products run on?", "Is this a subscription?", "Can I use it on more than one computer?", "Do these place trades for me?"].includes(f.q),
+    ["What do DS Universe products run on?", "Is this a subscription?", "Can I use it on more than one computer?", "Is anything cut down in DS Complete?", "Do these place trades for me?"].includes(f.q),
   );
 
   return (
@@ -54,11 +55,14 @@ export default function TrialPage() {
           <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-10">
             <Reveal className="lg:col-span-7">
               <TrialLabel />
-              <h1 className="display-xl mt-5 text-ink text-balance">Three days on your own charts.</h1>
+              <h1 className="display-xl mt-5 text-ink text-balance">A week with every paid tool.</h1>
               <p className="lede mt-6 max-w-xl text-pretty">
-                {trialNames()} each come with a {TRIAL.label}: the full product, not a demo, on your instrument
-                and your timeframe — and no card asked for.
+                {COMPLETE.name} comes with a {TRIAL.label}: the same archive buyers get, every tool at full strength, on
+                your instrument and your timeframe. Each tool gets its own {TRIAL.days} days, and no card is asked for.
               </p>
+              {/* The way in on the first screen too: this is the page a "link in
+                  bio" lands on, and on a phone the panel's button is far below. */}
+              <TrialButton className="mt-8" />
             </Reveal>
             <Reveal className="lg:col-span-5" delay={100}>
               <TrialTerms />
@@ -68,15 +72,15 @@ export default function TrialPage() {
       </section>
 
       {/* ------------------------------------------------ products and steps */}
-      <section className="wrap pb-20 lg:pb-28" aria-label="The trial products">
+      <section className="wrap pb-20 lg:pb-28" aria-label="What runs during the trial">
         <Reveal className="trial-panel relative overflow-hidden rounded-xl border p-6 sm:p-8 lg:p-10">
-          <TrialGrid products={ps} />
+          <TrialBody ownerNote />
         </Reveal>
       </section>
 
-      {/* ------------------------------------------ how to spend three days */}
+      {/* ------------------------------------------- how to spend the week */}
       {/* The product pages' own "Test it first" section, product-neutral: the
-          three days are best spent on Market Replay and the simulator. */}
+          week is best spent on Market Replay and the simulator. */}
       <TestFirst productName="it" />
 
       {/* --------------------------------------------------------- questions */}
@@ -86,7 +90,7 @@ export default function TrialPage() {
             <p className="label">Before you start</p>
             <h2 className="display-md mt-4 text-ink text-balance">What people ask first.</h2>
             <p className="mt-6 text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">
-              Not ready to try a paid one? Everything in the Free Vault is free, permanently — no trial clock at all.
+              Not ready for the paid tools? Everything in the Free Vault is free, permanently — no trial clock at all.
             </p>
             <Link href="/free-vault" className="group mt-4 inline-flex items-center gap-2 text-[length:calc(14px*var(--type))] text-ink">
               Open the Free Vault

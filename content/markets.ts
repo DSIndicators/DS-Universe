@@ -2,7 +2,8 @@
  * MARKETS — which instruments each product is built on and runs on.
  *
  * GENERATED from the "Markets" tab of "DS Universe - Master Product & Pricing
- * Sheet" (added 2026-10-01; regenerated 2026-10-05 for the new lineup). Do not hand-edit the entries: change the sheet's
+ * Sheet" (added 2026-10-01; regenerated 2026-10-05 for the new lineup and
+ * 2026-10-13 for the 10-11 corrections). Do not hand-edit the entries: change the sheet's
  * source and regenerate, so the site and the sheet keep saying the same thing.
  *
  * WHY IT EXISTS (Tom, 2026-10-01): a buyer's first question is "does it work
@@ -92,7 +93,7 @@ export const MARKETS: Record<string, Markets> = {
   },
   "gex": {
     headline: "Nasdaq-100, S&P 500 and gold",
-    note: "It computes its levels from the NDX, SPX and GLD option chains and draws them on these futures, on NDX and SPX index charts and on spot gold. Any other symbol, ETFs included, draws nothing.",
+    note: "It computes its levels from the NDX, SPX and GLD option chains and draws them on these futures, on NDX and SPX index charts, on spot gold and on the matching CFD tickers. On Auto, any other symbol, ETFs included, draws nothing.",
     builtOn: false,
     named: [
       { label: "Nasdaq-100", symbols: "NQ · MNQ" },
@@ -197,7 +198,7 @@ export const MARKETS: Record<string, Markets> = {
   },
   "vwap": {
     headline: "Any market NinjaTrader charts",
-    note: "Both VWAPs are weighted by bar volume and built on one-minute bars, so they are the same lines on every intraday chart of an instrument. Where a feed reports no volume they become time-weighted averages, and the panel says so.",
+    note: "Both VWAPs are weighted by bar volume and built on one-minute bars, so minute, tick, range and Renko charts of an instrument show the same lines. Where a feed reports no volume they become time-weighted averages, and the panel says so.",
     builtOn: true,
     classes: { futures: true, stocks: true, forex: true, crypto: true },
   },

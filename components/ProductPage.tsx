@@ -14,8 +14,8 @@ import { ProductCard } from "@/components/ProductCard";
 import { ogCardFor, squareCoverFor } from "@/content/covers";
 import { BuyButton, CtaNote } from "@/components/BuyButton";
 import { PriceTag } from "@/components/Price";
-import { TrialButton, TrialLabel } from "@/components/Trial";
-import { keepPrice, startsWhen, trialHref } from "@/content/trial";
+import { TrialButton, TrialBuyNote } from "@/components/Trial";
+import { inTrial } from "@/content/trial";
 import { ExclusiveLabel, completeBuyLabel } from "@/components/Exclusive";
 import { VaultLabel } from "@/components/Vault";
 import { Markets } from "@/components/Markets";
@@ -84,7 +84,8 @@ export function productMetadata(slug: string): Metadata {
  *      annotated boards, the box art; no recording), and beside them a buy box
  *      that stays in view while they are browsed: the name, the sheet's one
  *      line for it (pointers.ts, NT8 "Cover Line"), what it is, the price and
- *      the button (or the trial, or DS Complete), what you get, and the specs.
+ *      the button (DS Complete's for DS ASL and DS Toolkit), the line that it is
+ *      free for 7 days inside the DS Complete trial, what you get, and the specs.
  *      Under the pictures, "Why you need it" — the sheet's "How It Helps".
  *   2. THE POINTERS — the listing's own heading and lede as a statement, and
  *      its four points as a numbered grid (Whop Listings).
@@ -121,8 +122,8 @@ export function ProductPage({ slug }: { slug: string }) {
   const markets = marketsFor(p.slug);
   const sheet = pointersFor(p.slug);
   const cover = squareCoverFor(p.slug);
-  const trial = trialHref(p.slug);
-  const keep = keepPrice(p.slug);
+  // Inside the DS Complete 7-day trial (content/trial.ts) — never a trial of its own.
+  const trial = inTrial(p.slug);
   const bundled = bundledFor(p.slug);
 
   // THE PICTURES: the charts first, then the annotated boards, then the box
@@ -177,7 +178,6 @@ export function ProductPage({ slug }: { slug: string }) {
   const license = price?.withComplete ? "Inside the DS Complete archive · updates included" : price?.free ? "Free, permanently · no license needed" : "One payment · yours to keep · updates included";
   const buyLabel = price?.withComplete ? completeBuyLabel() : undefined;
   const points = copy?.points ?? p.hooks;
-  const odd = points.length % 2 === 1;
 
   return (
     <>
@@ -257,32 +257,17 @@ export function ProductPage({ slug }: { slug: string }) {
                   {/* price and the way to own it */}
                   <div id="buy" className="scroll-mt-[120px] border-t border-line px-6 py-7 sm:px-8">
                     <PriceTag price={price} size="lg" />
-                    {trial ? (
-                      <div className="mt-7">
-                        <TrialLabel />
-                        <div className="mt-3.5 flex flex-wrap items-center gap-3">
-                          <TrialButton slug={p.slug} />
-                          <BuyButton slug={p.slug} variant="ghost" />
-                        </div>
-                        <p className="mt-3.5 text-[length:calc(13px*var(--type))] leading-snug text-slate text-pretty">
-                          No card. The three days start {startsWhen()}.
-                          {keep ? (
-                            <>
-                              {" "}
-                              <span className="tabular-nums text-ink">{keep}</span> to keep it.
-                            </>
-                          ) : null}
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="mt-7 flex flex-wrap items-center gap-3">
-                        <BuyButton slug={p.slug} label={buyLabel} />
-                        <Link href="/contact" className="btn-ghost">
-                          Ask a question
-                        </Link>
-                      </div>
-                    )}
+                    <div className="mt-7 flex flex-wrap items-center gap-3">
+                      <BuyButton slug={p.slug} label={buyLabel} />
+                      <Link href="/contact" className="btn-ghost">
+                        Ask a question
+                      </Link>
+                    </div>
                     <CtaNote className="mt-3.5" slug={p.slug} />
+                    {/* No trial of its own: free for 7 days inside the DS
+                        Complete trial (2026-10-13). Renders nothing when the
+                        trial is off or the product is not in DS Complete. */}
+                    <TrialBuyNote slug={p.slug} name={p.name} className="mt-6" />
                   </div>
 
                   {/* what you get */}
@@ -364,17 +349,15 @@ export function ProductPage({ slug }: { slug: string }) {
             <p className="display-md mt-5 max-w-[24ch] text-ink text-balance">{copy?.lede ?? p.purpose}</p>
           </Reveal>
           <Reveal className="lg:col-span-7" delay={80}>
-            <ol className="grid border-l border-t border-line sm:grid-cols-2">
-              {points.map((pt, i) => (
-                <li
-                  key={pt}
-                  className={`flex flex-col border-b border-r border-line bg-ground/40 p-6 sm:p-7 ${odd && i === points.length - 1 ? "sm:col-span-2" : ""}`}
-                >
-                  <span className="font-mono text-[length:calc(11px*var(--type))] tracking-[0.14em] text-gold">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="mt-4 text-[length:calc(15.5px*var(--type))] leading-[1.5] text-ink text-pretty">{pt}</span>
-                </li>
-              ))}
-            </ol>
+            <PointGrid points={points} />
+            {/* A listing's further "◆" blocks (since 2026-10-11, e.g. "On your
+                price chart"): the same grid under its own heading, numbering on. */}
+            {(copy?.more ?? []).map((b, k, all) => (
+              <div key={b.heading} className="mt-10">
+                <p className="font-mono text-[length:calc(10.5px*var(--type))] uppercase tracking-[0.16em] text-gold">{b.heading}</p>
+                <PointGrid className="mt-4" points={b.points} start={points.length + all.slice(0, k).reduce((n, x) => n + x.points.length, 0)} />
+              </div>
+            ))}
           </Reveal>
         </div>
       </section>
@@ -541,16 +524,32 @@ export function ProductPage({ slug }: { slug: string }) {
           {price?.free ? "Free" : price?.withComplete ? WITH_BUNDLE.label : price ? money(price.now) : null}
         </span>
         <span className="flex shrink-0 items-center gap-2.5">
-          {trial ? (
-            <TrialButton slug={p.slug} className="!h-10" />
-          ) : (
-            /* DS ASL / DS Toolkit: the price is in the label on wider screens; a phone gets the short form. */
-            <BuyButton slug={p.slug} label={price?.withComplete ? (onWaitlist() ? undefined : `Get ${COMPLETE.name}`) : buyLabel} className="!h-10" />
-          )}
-          {trial && <BuyButton slug={p.slug} variant="ghost" className="!hidden !h-10 lg:!inline-flex" />}
+          {/* The DS Complete trial, beside the buy button on wide screens only:
+              the bar stays one button on a phone. */}
+          {trial && <TrialButton variant="ghost" className="!hidden !h-10 lg:!inline-flex" />}
+          {/* DS ASL / DS Toolkit: the price is in the label on wider screens; a phone gets the short form. */}
+          <BuyButton slug={p.slug} label={price?.withComplete ? (onWaitlist() ? undefined : `Get ${COMPLETE.name}`) : buyLabel} className="!h-10" />
         </span>
       </BuyBar>
     </>
+  );
+}
+
+/** A listing's points as numbered cells, two across; an odd last cell spans the row. */
+function PointGrid({ points, start = 0, className = "" }: { points: string[]; start?: number; className?: string }) {
+  const odd = points.length % 2 === 1;
+  return (
+    <ol className={`grid border-l border-t border-line sm:grid-cols-2 ${className}`} start={start + 1}>
+      {points.map((pt, i) => (
+        <li
+          key={pt}
+          className={`flex flex-col border-b border-r border-line bg-ground/40 p-6 sm:p-7 ${odd && i === points.length - 1 ? "sm:col-span-2" : ""}`}
+        >
+          <span className="font-mono text-[length:calc(11px*var(--type))] tracking-[0.14em] text-gold">{String(start + i + 1).padStart(2, "0")}</span>
+          <span className="mt-4 text-[length:calc(15.5px*var(--type))] leading-[1.5] text-ink text-pretty">{pt}</span>
+        </li>
+      ))}
+    </ol>
   );
 }
 

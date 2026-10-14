@@ -141,8 +141,8 @@ export default function ProductsPage() {
                 ))}
               </ul>
 
-              {/* The 3-day free trial, named once on the store's first screen
-                  (2026-09-29) — the tiles below carry its legend. */}
+              {/* The DS Complete 7-day free trial, named once on the store's
+                  first screen (2026-10-13). */}
               <TrialStoreNote className="mt-6 max-w-xl" />
 
               <p className="mt-6 text-[length:calc(14px*var(--type))] text-slate">

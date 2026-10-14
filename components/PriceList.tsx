@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { BuyButton } from "@/components/BuyButton";
 import { PriceFigure } from "@/components/Price";
-import { External, TrialMark } from "@/components/Trial";
-import { TRIAL, trialHref } from "@/content/trial";
 import { PRICES, WITH_BUNDLE, discountPct, isPaid, money } from "@/content/pricing";
 import { productHref } from "@/content/release";
 import type { Product } from "@/content/products";
@@ -48,21 +46,6 @@ export function PriceList({ products, buttonWidth = 124 }: { products: Product[]
                 {p.name}
               </Link>
               <p className="mt-0.5 truncate text-[length:calc(12.5px*var(--type))] text-slate">{p.category}</p>
-              {/* The 3-day free trial (content/trial.ts): a direct link, on
-                  the rows that have one. The row's own price and buy button
-                  are untouched. */}
-              {trialHref(p.slug) && (
-                <a
-                  href={trialHref(p.slug)}
-                  target="_blank"
-                  rel="noopener"
-                  className="mt-1.5 inline-flex items-center gap-2 font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.12em] text-bull-text transition-colors hover:text-ink"
-                >
-                  <TrialMark />
-                  {TRIAL.ctaTile}
-                  <External className="!h-3 !w-3" />
-                </a>
-              )}
               {/* A row that is had by buying DS Complete. */}
               {pr?.withComplete && (
                 <span className="mt-1.5 flex items-center gap-2 font-mono text-[length:calc(10px*var(--type))] uppercase tracking-[0.12em] text-gold">

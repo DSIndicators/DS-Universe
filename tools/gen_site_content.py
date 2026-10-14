@@ -76,12 +76,23 @@ def main(sheet, out):
         body = text.split("✦  ✦  ✦")[0]
         paras = [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip()]
         assert paras[0].startswith("✦ "), name
-        i = next(k for k, p in enumerate(paras) if p.startswith("◆ "))
-        block = paras[i].split("\n")
-        points = [l[2:].strip() for l in block[1:]]
-        assert all(l.startswith("▸ ") for l in block[1:]) and len(points) == 4 and i == 2, name
-        listing[SLUG[name]] = {"hook": dash(paras[0][2:]), "lede": dash(paras[1]), "heading": block[0][2:].strip(),
-                               "points": [dash(p) for p in points], "close": [dash(p) for p in paras[i + 1:]]}
+        # Since 2026-10-11 a listing may carry 3-5 points and a second "◆" block ("On your price
+        # chart"). The first block is heading/points as before; every "◆" block, the first
+        # included, is also in `blocks`. What follows the last block is the close, minus the
+        # paid listings' "Free to try: 7 days in the DS Complete trial." line: the site says
+        # that itself, from content/trial.ts, and only while the trial is on.
+        heads = [k for k, p in enumerate(paras) if p.startswith("◆ ")]
+        assert heads and heads[0] == 2 and heads == list(range(2, 2 + len(heads))), name
+        blocks = []
+        for k in heads:
+            block = paras[k].split("\n")
+            points = [l[2:].strip() for l in block[1:]]
+            assert all(l.startswith("▸ ") for l in block[1:]) and 3 <= len(points) <= 5, name
+            blocks.append({"heading": block[0][2:].strip(), "points": [dash(p) for p in points]})
+        close = [dash(p) for p in paras[heads[-1] + 1:] if not p.startswith("Free to try:")]
+        listing[SLUG[name]] = {"hook": dash(paras[0][2:]), "lede": dash(paras[1]), "heading": blocks[0]["heading"],
+                               "points": blocks[0]["points"], **({"more": blocks[1:]} if len(blocks) > 1 else {}),
+                               "close": close}
     json.dump(listing, open(out + "/listing.entries.json", "w", encoding="utf-8"), indent=4, ensure_ascii=False)
 
     q = lambda s: json.dumps(s, ensure_ascii=False)
