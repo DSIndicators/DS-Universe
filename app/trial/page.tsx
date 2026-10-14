@@ -171,9 +171,6 @@ function TrialEnded() {
               See the products
             </Link>
           </div>
-          <p className="mt-8 max-w-xl text-[length:calc(13px*var(--type))] leading-relaxed text-mute text-pretty">
-            Already in a 3-day trial? It runs to the end of its three days as normal.
-          </p>
         </Reveal>
       </div>
     </section>

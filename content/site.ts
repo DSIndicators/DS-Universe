@@ -11,7 +11,7 @@ export const SITE = {
   tagline: "Trading tools for NinjaTrader 8",
   url: "https://dsuniverse.net",
   description:
-    "DS Universe builds calm, precise trading tools for NinjaTrader 8 — indicators that read the market in plain language, bought once, and a Free Vault of tools that make the chart easier to live with.",
+    "DS Universe builds order-flow indicators for NinjaTrader 8 — where the volume traded, which side was pressing and which levels held, drawn in plain trading language and bought once — plus a Free Vault of free tools.",
   email: "support@dsuniverse.net",
   city: "New York City",
   platform: "NinjaTrader 8",
@@ -49,10 +49,23 @@ export const NAV: NavItem[] = [
 
 /** Hero copy. Short on purpose, and NO PRICES (Tom, 2026-09-21) — the numbers
  *  live on the shelves, the DS Complete band and the product pages. */
+/**
+ * THE HERO (rewritten 2026-10-14, Tom: "This homepage hero is weak ... Majority
+ * of our indicators is orderflow"). The lineup's centre of gravity is what
+ * TRADED, not where price went: DS Flow (buy/sell volume at each price inside
+ * the candles), DS Iceberg (absorption, read with the live bid/ask), DS Zones
+ * (the order flow inside each level), DS ASL (each session's volume profile and
+ * POC), DS ProRSI (an RSI weighed by volume). So the headline goes inside the
+ * candle, and the sub names the three things a trader asks of order flow —
+ * where it traded, who pressed, what held — in plain words. The eyebrow names
+ * the core honestly; GEX, the trend panels and the Free Vault sit around it.
+ * Vendor rules hold: no forecast, no result, no superlative. The last word of
+ * the title is the one set in .fluoro (app/page.tsx splits at the last space).
+ */
 export const HERO = {
-  eyebrow: "For NinjaTrader 8",
-  title: "See the market clearly.",
-  sub: "Indicators that put what matters on the chart and leave the rest off — each one bought once. The Free Vault costs nothing.",
+  eyebrow: "Order flow for NinjaTrader 8",
+  title: "See inside every candle.",
+  sub: "Where the volume traded, which side was pressing, and which levels absorbed size and held — drawn on your chart in plain trading language. Bought once; the Free Vault costs nothing.",
   primary: { label: "Explore the lineup", href: "/products" },
   secondary: { label: "See prices", href: "/products?view=list" },
 };

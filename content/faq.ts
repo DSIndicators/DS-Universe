@@ -83,7 +83,7 @@ export const FAQ: Faq[] = [
         // 2026-10-14: the 3-day trial is closed; the question still gets asked.
         {
           q: "Is there a free trial?",
-          a: `Not right now. ${TRIAL_NOTICE.label}, and a new trial package is coming soon. A 3-day trial already running carries on to the end of its three days. Until the new one opens, everything in the Free Vault is free permanently, and every product page shows the indicator on real charts.`,
+          a: `Not right now. ${TRIAL_NOTICE.label}, and a new trial package is coming soon. Until the new one opens, everything in the Free Vault is free permanently, and every product page shows the indicator on real charts.`,
           link: { href: VAULT_PATH, label: "Open the Free Vault" },
         },
       ]
