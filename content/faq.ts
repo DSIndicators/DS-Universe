@@ -26,7 +26,7 @@
 import { SITE } from "./site";
 import { BUNDLED, BUNDLED_NAMES, WITH_BUNDLE, bundledFor } from "./pricing";
 import { VAULT_PATH, productHref } from "./release";
-import { TRIAL, keepPrice, startsWhen, trialNames, trialProducts } from "./trial";
+import { TRIAL, TRIAL_NOTICE, keepPrice, startsWhen, trialNames, trialProducts } from "./trial";
 import { HOME_MARKETS, tapeOnlySlugs } from "./markets";
 import { BY_SLUG } from "./products";
 
@@ -76,6 +76,15 @@ export const FAQ: Faq[] = [
           q: "Can I try one before I buy?",
           a: `Yes. ${trialNames()} each have a ${TRIAL.label}. Check out free on Whop with your NinjaTrader account email, import it, and the ${TRIAL.days} days start ${startsWhen()}. No card is asked for and nothing is charged when it ends — it simply stops running. One trial per product, per NinjaTrader account. To keep it, buy it${keepPrice() ? ` for ${keepPrice()}` : ""}: the license goes on the same account, with nothing to reinstall. Moving to DS Complete instead? Remove the trial product and restart NinjaTrader first, as with any single DS product.`,
           link: { href: "/trial", label: "How the trial works" },
+        },
+      ]
+    : TRIAL_NOTICE.active
+    ? [
+        // 2026-10-14: the 3-day trial is closed; the question still gets asked.
+        {
+          q: "Is there a free trial?",
+          a: `Not right now. ${TRIAL_NOTICE.label}, and a new trial package is coming soon. A 3-day trial already running carries on to the end of its three days. Until the new one opens, everything in the Free Vault is free permanently, and every product page shows the indicator on real charts.`,
+          link: { href: VAULT_PATH, label: "Open the Free Vault" },
         },
       ]
     : []),

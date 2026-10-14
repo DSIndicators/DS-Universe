@@ -35,6 +35,13 @@
  *
  * TO END THE TRIAL: set `active: false`. Every mark, band, strip and button
  * disappears and the site is exactly what it was before 2026-09-29.
+ *
+ * ENDED 2026-10-14 (Tom): the 3-day trial is closed to new sign-ups while the
+ * next trial is prepared (the DS Complete 7-day trial, saved on the git branch
+ * `trial-7day-dscomplete`, not live). Its three Whop plans are archived and
+ * refused by the build (content/whop.ts RETIRED_TRIAL_PLANS). Anyone already
+ * inside a 3-day trial keeps it: NinjaTrader runs that clock, not the site.
+ * TRIAL_NOTICE below says so on every page until the new trial launches.
  */
 
 import { onWaitlist } from "./launch";
@@ -43,7 +50,7 @@ import { BY_SLUG, type Product } from "./products";
 import { WHOP } from "./whop";
 
 export const TRIAL = {
-  active: true,
+  active: false,
   /** The length Whop and the NinjaTrader dashboard are both set to. */
   days: 3,
   /** When the three days start — see above. */
@@ -126,3 +133,22 @@ export function trialSteps() {
     },
   ];
 }
+
+/**
+ * THE INTERIM NOTICE (Tom, 2026-10-14: "put a banner saying 3-day free trial is
+ * over. NEW Trial package coming soon, so users don't forget"). A slim strip
+ * under the NinjaTrader bar on every page (components/TrialNotice.tsx), and
+ * /trial — the address the old trial was shared under — explains it instead
+ * of 404ing. No length, price or launch date is named for the new trial: it
+ * is not open, so nothing about it is promised. Set `active: false` the day
+ * the new trial goes live (the 7-day branch replaces this file anyway).
+ */
+export const TRIAL_NOTICE = {
+  active: true,
+  /** Mono small caps, first. */
+  label: "The 3-day free trial is over",
+  /** Then one plain sentence. */
+  line: "A new trial package is coming soon.",
+  /** Phones: the whole notice in one short line. */
+  short: "3-day trial over · New trial coming soon",
+} as const;

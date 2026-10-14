@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Image from "next/image";
 import localFont from "next/font/local";
 import { Navbar } from "@/components/Navbar";
+import { TrialNotice } from "@/components/TrialNotice";
 import { Footer } from "@/components/Footer";
 import { Help } from "@/components/Help";
 import { DomGuard } from "@/components/DomGuard";
@@ -124,6 +125,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </a>
           </div>
         </div>
+        {/* The 3-day trial is over; the next one is coming (2026-10-14,
+            content/trial.ts TRIAL_NOTICE). Renders nothing when switched off. */}
+        <TrialNotice />
         <Navbar />
         <main id="main" className="flex-1">
           {children}

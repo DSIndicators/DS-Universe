@@ -7,14 +7,26 @@ import { TestFirst } from "@/components/TestFirst";
 import { TrialGrid, TrialLabel, TrialTerms } from "@/components/Trial";
 import { FAQ } from "@/content/faq";
 import { DISCLOSURE } from "@/content/site";
-import { TRIAL, trialNames, trialProducts } from "@/content/trial";
+import { TRIAL, TRIAL_NOTICE, trialNames, trialProducts } from "@/content/trial";
+import { STORE_PATH, VAULT_PATH } from "@/content/release";
 
-export const metadata: Metadata = {
-  title: "3-day free trial",
-  // Names from the data, never typed — the trial list can change.
-  description: `Run ${trialNames()} on your own NinjaTrader 8 charts for three days, free — the full product, no card, nothing charged when it ends.`,
-  alternates: { canonical: "/trial" },
-};
+const ENDED = trialProducts().length === 0 && TRIAL_NOTICE.active;
+
+export const metadata: Metadata = ENDED
+  ? {
+      // 2026-10-14: the trial is closed; the page explains instead of 404ing,
+      // and stays out of search results until the new trial launches.
+      title: "Free trial",
+      description: `${TRIAL_NOTICE.label}. ${TRIAL_NOTICE.line}`,
+      alternates: { canonical: "/trial" },
+      robots: { index: false, follow: true },
+    }
+  : {
+      title: "3-day free trial",
+      // Names from the data, never typed — the trial list can change.
+      description: `Run ${trialNames()} on your own NinjaTrader 8 charts for three days, free — the full product, no card, nothing charged when it ends.`,
+      alternates: { canonical: "/trial" },
+    };
 
 /**
  * /trial — THE 3-DAY FREE TRIAL ON ONE PAGE (2026-09-29).
@@ -32,7 +44,10 @@ export const metadata: Metadata = {
  */
 export default function TrialPage() {
   const ps = trialProducts();
-  if (!ps.length) notFound();
+  if (!ps.length) {
+    if (ENDED) return <TrialEnded />;
+    notFound();
+  }
 
   // The questions a trial-taker asks next, in the store FAQ's own words. The
   // trial's own question is left out: this page is its answer.
@@ -122,5 +137,45 @@ export default function TrialPage() {
         </div>
       </section>
     </>
+  );
+}
+
+/**
+ * /trial WHILE THE TRIAL IS CLOSED (2026-10-14). People reach this address from
+ * old posts, bios and the Ecosystem listings, so it says plainly what happened
+ * and what to do today, in the page head's own layout. Nothing about the next
+ * trial is promised beyond "coming soon".
+ */
+function TrialEnded() {
+  return (
+    <section className="hero-wash">
+      <div className="wrap pb-24 pt-12 sm:pt-16 lg:pb-32 lg:pt-20">
+        <Reveal>
+          <Link href={STORE_PATH} className="group inline-flex items-center gap-2 text-[length:calc(13px*var(--type))] text-slate hover:text-ink">
+            <Arrow className="rotate-180 group-hover:-translate-x-0.5" />
+            All products
+          </Link>
+        </Reveal>
+        <Reveal className="mt-10 max-w-2xl">
+          <TrialLabel text={TRIAL_NOTICE.label} />
+          <h1 className="display-xl mt-5 text-ink text-balance">A new trial is on its way.</h1>
+          <p className="lede mt-6 max-w-xl text-pretty">
+            The 3-day free trial has closed to new sign-ups. {TRIAL_NOTICE.line} In the meantime, everything in the Free
+            Vault is free permanently, and every product page shows the indicator on real charts.
+          </p>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Link href={VAULT_PATH} className="btn-primary">
+              Open the Free Vault
+            </Link>
+            <Link href={STORE_PATH} className="btn-ghost">
+              See the products
+            </Link>
+          </div>
+          <p className="mt-8 max-w-xl text-[length:calc(13px*var(--type))] leading-relaxed text-mute text-pretty">
+            Already in a 3-day trial? It runs to the end of its three days as normal.
+          </p>
+        </Reveal>
+      </div>
+    </section>
   );
 }

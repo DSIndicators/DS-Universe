@@ -34,6 +34,8 @@
  *              required", and each product's $79.99 checkout still works.
  * The trial's own words and switch live in content/trial.ts. A product with
  * no `trial` here shows no trial anywhere on the site.
+ * ENDED 2026-10-14: the three plans are archived on Whop and refused here
+ * (RETIRED_TRIAL_PLANS); no product carries a `trial` link now.
  *
  * DS SESSION LEVELS (2026-09-30).
  *   plan_LhYBx2nIIXwck — supplied by Tom; opened on Tom's PC (headless Edge):
@@ -107,12 +109,12 @@ export const WHOP: Record<string, WhopListing> = {
   // ---- flagship indicators ($79.99, checkout verified 2026-09-25) ----
   zones: L("ds-zones-living-supply-demand-structure-ninjatrader-8", "plan_ocxhFcbIMnpbi"),
   iceberg: L("ds-iceberg-hidden-absorption-refill-detection-ninjatrader-8", "plan_FMGkrNvXKFMzC"),
-  // third argument = the 3-day free-trial plan (verified 2026-09-29)
-  oracle: L("ds-oracle-ai-confirmed-supertrend-neural-line-ninjatrader-8", "plan_ujtfTI9XElO8g", "plan_zZ1CGRY29Dz7n"),
+  // (the 3-day trial plan that was the third argument is retired, 2026-10-14)
+  oracle: L("ds-oracle-ai-confirmed-supertrend-neural-line-ninjatrader-8", "plan_ujtfTI9XElO8g"),
   gex: L("ds-gex-dealer-gamma-levels-fetched-live-ninjatrader-8-fb", "plan_Wos2cSDhY5RZp"),
-  flow: L("ds-flow-volume-by-price-footprint-ninjatrader-8", "plan_G6CrISw6dNHR6", "plan_5wUpmsoJ0Rj3I"),
+  flow: L("ds-flow-volume-by-price-footprint-ninjatrader-8", "plan_G6CrISw6dNHR6"),
   // ---- Pro Series ($79.99, checkout verified 2026-09-25) ----
-  prorsi: L("ds-prorsi-rsi-crossovers-as-price-levels-ninjatrader-8", "plan_BBivBWLYNMJhb", "plan_OgE67QZlTofd9"),
+  prorsi: L("ds-prorsi-rsi-crossovers-as-price-levels-ninjatrader-8", "plan_BBivBWLYNMJhb"),
   // 2026-10-05 — new Pro panels; listing and plan from Tom, each checkout
   // opened and read: the product's name, $79.99, one-time. No trial plan.
   proliquidityhunter: L("ds-proliquidityhunter-liquidity-map-with-measured-reach-odds-ninjatrader-8", "plan_yFqtNooVPvdNm"),
@@ -179,7 +181,10 @@ const RETIRED_PAID_PLANS: readonly string[] = ["plan_ACebJTJOzyeH9", "plan_sQ0Jx
  *     free with DS Complete and is not offered on its own, so a link to its
  *     old free checkout would hand out what is no longer given away.
  */
-const RETIRED_PLANS: readonly string[] = [...RETIRED_PAID_PLANS, "plan_Ywx5wxsyuCStx"];
+/** The 3-day free-trial plans of 2026-09-29 (DS Oracle, DS Flow, DS ProRSI),
+ *  archived on Whop when the trial closed (2026-10-14). */
+const RETIRED_TRIAL_PLANS: readonly string[] = ["plan_zZ1CGRY29Dz7n", "plan_5wUpmsoJ0Rj3I", "plan_OgE67QZlTofd9"];
+const RETIRED_PLANS: readonly string[] = [...RETIRED_PAID_PLANS, ...RETIRED_TRIAL_PLANS, "plan_Ywx5wxsyuCStx"];
 const RETIRED_LISTINGS: readonly string[] = [
   "ds-toolkit-one-rail-for-every-indicator-tool-ninjatrader-8",
   "ds-prostochastics-quad-rotation-stochastics-ninjatrader-8",
