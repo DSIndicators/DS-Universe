@@ -5,7 +5,7 @@ Order flow: db/tick (bid/ask aggressor per trade; tick->minute aggregation match
 high/low on every bar; open/close/volume differ only by trades stamped on the minute boundary)."""
 import sys, glob, json, math, datetime as dt, collections, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import ncd
-DB = os.environ.get('NT_DB', r'C:\Users\wspan\Documents\NinjaTrader 8\db')  # the NinjaTrader 8 historical database
+DB = os.environ.get('NT_DB', r'C:\Users\dsnin\Documents\NinjaTrader 8\db')  # the NinjaTrader 8 historical database
 EPOCH = dt.datetime(1, 1, 1)
 BASE = dt.datetime(2026, 1, 1)
 TICK = 0.25
