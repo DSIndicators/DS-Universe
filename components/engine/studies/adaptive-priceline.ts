@@ -2,16 +2,17 @@ import type { Draw, StudyDef } from "../types";
 
 /**
  * DS Adaptive Price Line — web edition.
- * Source: DSAdaptivePriceLine.cs (Build 2026-10-07), shipped defaults (ApplyDefaults()).
+ * Source: DSAdaptivePriceLine.cs v1.12 (Build 2026-10-14), shipped defaults (ApplyDefaults()).
  *
  * WHAT IS PORTED (Calculate.OnPriceChange; everything is drawn from the live price)
  *   · The line sits at the live price (d.live.c while a bar forms, else the last
  *     close) and runs from the right-most candle on screen (ChartBars.ToIndex) to
  *     the price axis — Line reach CandleToAxis.
- *   · Anchor style CandleBead, Dot size 4: bead radius max(1.25, 4 x 0.60) = 2.4 px,
- *     seated at barX + half the painted candle width + r − 0.75, with a lighter core
- *     (r x 0.52, colour = base x 0.45 + 0.55). Drawn only when the chart shows the
- *     live candle (scrolled back, the line starts at the right-most candle without it).
+ *   · Anchor style AttachedToCandle, Circle size 4: the anchor circle, radius
+ *     max(1.5, 4) = 4 px, seated at barX + half the painted candle width + r − 0.75,
+ *     filled in the line colour with a ring in base x 0.45 + 0.55, ring width
+ *     max(1, 0.8 x line width). Drawn only when the chart shows the live candle
+ *     (scrolled back, the line starts at the right-most candle without it).
  *   · Premium glow, strength 50: three round-capped passes at 6.5 / 3.6 / 1.9 x the
  *     1.5 px width, alpha 0.34 x 0.5 x (0.35 / 0.60 / 1.00).
  *   · Fade to axis: the core runs from full alpha at the candle to 42 % at the axis.
@@ -54,7 +55,7 @@ const BASE: [number, number, number] = [255, 194, 133];
 const W = 1.5;            // LineStroke width
 const GLOW = 50;          // GlowStrength
 const NODE = 4;           // NodeSize
-const BEAD_SCALE = 0.6, BEAD_MIN_R = 1.25, BEAD_CORE = 0.52, BEAD_SEAT = 0.75;
+const CIRCLE_SEAT = 0.75;   // px the attached circle overlaps the candle's edge
 const CD_GAP = 14;        // CountdownGap
 const TIMER_PX = 12;      // TimerFont size
 const BOX_OPACITY = 1;    // BoxOpacity 100
@@ -84,9 +85,9 @@ function countdown(live: { frac: number } | null): { txt: string; col: string } 
 export const study: StudyDef = {
   slug: "adaptive-priceline", rightMargin: 110,
   name: "DS Adaptive Price Line",
-  about: "The last-price line re-anchored to the latest candle on every frame, with its bead, fade and bar-close countdown — at the shipped defaults.",
+  about: "The last-price line re-anchored to the latest candle on every frame, with its anchor circle, fade and bar-close countdown — at the shipped defaults.",
   layers: [
-    { id: "line", label: "Show line", on: true, hint: "The tool's own switch: the line, its glow, the fade and the anchor bead." },
+    { id: "line", label: "Show line", on: true, hint: "The tool's own switch: the line, its glow, the fade and the anchor circle." },
     { id: "countdown", label: "Show countdown", on: true, hint: "The tool's own switch: the bar-close chip. It stays put when the line is off." },
   ],
   run(s) {
@@ -100,12 +101,12 @@ export const study: StudyDef = {
       if (y < pv.top - 1 || y > pv.bottom + 1) return;
       const rightX = d.plotRight;
 
-      // CandleToAxis + CandleBead: the bead sits on the right-most candle on screen
-      const nodeR = Math.max(BEAD_MIN_R, NODE * BEAD_SCALE);
+      // CandleToAxis + AttachedToCandle: the circle sits on the right-most candle on screen
+      const nodeR = Math.max(1.5, Math.min(20, NODE));
       const toIndex = d.i1;
       const barX = d.x(toIndex);
       const bodyW = Math.max(1, Math.min(d.bw * 0.66, d.bw - 1)); // the engine's painted body width
-      const edgeX = barX + bodyW * 0.5 + nodeR - BEAD_SEAT;
+      const edgeX = barX + bodyW * 0.5 + nodeR - CIRCLE_SEAT;
       const onLiveBar = toIndex >= lastIdx;
       let startX = edgeX;
       if (startX < 0) startX = 0;
@@ -154,13 +155,13 @@ export const study: StudyDef = {
         grad.addColorStop(0, rgba(BASE, 1));
         grad.addColorStop(1, rgba(BASE, 0.42));
         spans(W, grad);
-        // the bead — live candle only
+        // the anchor circle — live candle only (attached)
         if (onLiveBar) {
-          const light = BASE.map((c) => Math.min(255, c * 0.45 + 0.55 * 255));
+          const light = BASE.map((c) => Math.min(255, c * 0.45 + 0.55 * 255)) as [number, number, number];
           ctx.fillStyle = rgba(BASE, 1);
           ctx.beginPath(); ctx.arc(startX, y, nodeR, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = rgba(light, 1);
-          ctx.beginPath(); ctx.arc(startX, y, nodeR * BEAD_CORE, 0, Math.PI * 2); ctx.fill();
+          ctx.strokeStyle = rgba(light, 1); ctx.lineWidth = Math.max(1, W * 0.8);
+          ctx.beginPath(); ctx.arc(startX, y, nodeR, 0, Math.PI * 2); ctx.stroke();
         }
       }
       ctx.restore();
@@ -194,7 +195,7 @@ export const study: StudyDef = {
       },
       legend: [
         { label: "Price line · fades to the axis", color: rgba(BASE, 1), shape: "line" },
-        { label: "Anchor bead", color: rgba(BASE, 1), shape: "dot" },
+        { label: "Anchor circle", color: rgba(BASE, 1), shape: "dot" },
         { label: "Countdown · amber 10–8 s, red 3–1 s", color: rgba(C_AMBER, 1), shape: "box" },
       ],
     };
