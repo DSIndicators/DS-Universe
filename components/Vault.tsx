@@ -200,8 +200,13 @@ function Keyhole({ className = "" }: { className?: string }) {
   );
 }
 
-/** Where a box's window looks on its square cover when the cover's subject is not central. */
-const WINDOW_FOCUS: Record<string, string> = { "chart-price": "50% 0%" };
+/**
+ * Where a box's window looks on its square cover when the cover's subject is not central.
+ * The window is wider than the square, so it shows a band of it; by default the band
+ * just above the middle. DS Time Intervals (2026-10-22): its subject is the toolbar along
+ * the cover's top edge, and the middle band showed only the chalk arrow pointing at it.
+ */
+const WINDOW_FOCUS: Record<string, string> = { "chart-price": "50% 0%", "time-intervals": "50% 0%" };
 
 /** One box on the wall: plate, window, name, the line that sells it, the way in. */
 function DepositBox({ slug, no, name, category, hook }: { slug: string; no: number; name: string; category: string; hook?: string }) {

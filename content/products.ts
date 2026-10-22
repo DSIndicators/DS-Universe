@@ -1,6 +1,7 @@
 /**
  * The catalogue. GENERATED from "DS Universe - Master Product & Pricing Sheet"
- * (Product Catalog + Product Details tabs, updated 2026-10-05). Do not hand-edit
+ * (Product Catalog + Product Details tabs, updated 2026-10-05; DS Live Background
+ * and DS Time Intervals added from the sheet of 2026-10-22). Do not hand-edit
  * copy here; change the sheet and regenerate, so the site, the Whop listings and
  * the box art keep saying the same thing.
  *
@@ -18,8 +19,10 @@
  *   vault      THE FREE VAULT — DS Adaptive Price Line, DS Chart Price, DS 258,
  *              DS Parallax, DS Session Levels, DS Stochastics (was
  *              DS ProStochastics, paid), DS Squeeze (was DS ProSqueeze, paid),
- *              DS MACD (was DS ProMACD; off the store 2026-10-04) and DS VWAP
- *              (new). Each is its own free download; none is part of DS Complete.
+ *              DS MACD (was DS ProMACD; off the store 2026-10-04), DS VWAP
+ *              (new), and since 2026-10-22 DS Live Background (indicator) and
+ *              DS Time Intervals (an add-on, back as a free product). Each is
+ *              its own free download; none is part of DS Complete.
  * DS TOOLKIT LEFT THE FREE VAULT the same day (Tom: "DS Toolkit will come FREE
  * with the purchase of DS Complete Bundle only, same as DS ASL"). Its entry
  * below keeps the sheet's product copy word for word; only its series changed
@@ -39,7 +42,8 @@
  *  - Spaced hyphens in the sheet become em dashes, matching the sheet's own.
  *
  * Retired from the site on 2026-09-20 and still absent: DS Sonar, DS Isotropic
- * Lines, DS Screener, DS MarketWatch, DS Time Intervals.
+ * Lines, DS Screener, DS MarketWatch. DS Time Intervals (also retired that day)
+ * came back on 2026-10-22 as a free Free Vault add-on (v2.1).
  */
 
 export type Kind = "indicator" | "addon";
@@ -314,7 +318,7 @@ export const PRODUCTS: Product[] = [
         "kind": "indicator",
         "series": "vault",
         "category": "Multi-Timeframe Liquidity",
-        "purpose": "A multi-timeframe liquidity matrix: up to four live higher-timeframe charts on your chart, each marking exactly where the resting stops are.",
+        "purpose": "A multi-timeframe liquidity matrix: up to four live higher-timeframe charts on your chart, each marking where resting stops are likely to sit.",
         "hooks": [
             "Four timeframes, one chart",
             "Buy-side and sell-side pools marked",
@@ -322,7 +326,7 @@ export const PRODUCTS: Product[] = [
             "Swept levels ghost out"
         ],
         "helps": "You trade one timeframe. The structure that decides whether your trade works lives on others. DS Parallax puts up to four live higher-timeframe charts on the chart you're executing on — each with its own axis, candles and countdown to close — and marks the one thing that matters most on every one of them: where the resting stops are.",
-        "description": "DS Parallax draws up to four live higher-timeframe mini-charts (15m/1h/4h/1D by default) on your execution chart, each auto-scaled and running its own countdown to close, so the higher-timeframe pattern stays readable at a glance without ever changing your chart's own timeframe. Buy-side liquidity is marked just above unswept swing highs, sell-side just below unswept swing lows, and relative-equal highs and lows are clustered into a single level with a touch count — because more tests of a level means more stops resting beyond it, which is the only strength the engine can honestly claim. A pool is drawn only while it is live — no newer bar has traded through it, so there is no wait-N-bars pivot delay — and once price sweeps a level and closes back inside, it is ghosted with a small x at the sweep bar, because the sweep itself is the pattern worth recognizing; a level price closed through and held beyond was a breakout, and it is simply gone. A fold tab collapses the whole matrix for a clean chart without taking the indicator off."
+        "description": "DS Parallax draws up to four live higher-timeframe mini-charts (15m/1h/4h/1D by default) on your execution chart, each auto-scaled and running its own countdown to close, so the higher-timeframe pattern stays readable at a glance without ever changing your chart's own timeframe. Each panel can be built on the bars a trader actually executes on — minute, hour, day, week or second bars, or tick, volume, range or Renko bars, exactly as NinjaTrader builds them on a chart — and a range or Renko panel shows the ticks up and down to its next bar and marks both prices on the panel, while a tick or volume panel counts down the trades or contracts left in its bar. Buy-side liquidity is marked just above unswept swing highs, sell-side just below unswept swing lows, and relative-equal highs and lows are clustered into a single level with a touch count — because each separate test tends to leave another layer of stops beyond it, which is the only strength the engine can honestly claim. A pool is drawn only while it is live — no newer bar has traded through it, so there is no wait-N-bars pivot delay — and once price sweeps a level and closes back inside, it is ghosted with a small x at the sweep bar, because the sweep itself is the pattern worth recognizing; a level price closed through and held beyond was a breakout, and it is simply gone. A fold tab collapses the whole matrix for a clean chart without taking the indicator off."
     },
     {
         "slug": "session-levels",
@@ -403,6 +407,38 @@ export const PRODUCTS: Product[] = [
         ],
         "helps": "A VWAP answers one question — where is value? — and there are two honest answers. Value today is the session's VWAP; value now is what the market has been willing to pay lately. On a day that travels, the session VWAP ends up a long way from price with nothing in between, and the usual bands are sigma multiples chosen in advance, not a measured share of closes. DS VWAP draws both values, puts measured lines around each, and uses the chart's right-side margin to show how far price has tended to travel within the next horizon of bars.",
         "description": "DS VWAP draws value on two clocks. The live VWAP keeps a volume clock: its memory is a half-life counted in contracts traded, so heavy trade ages old prices faster and a quiet hour forgets almost nothing, and it never resets. Around it stand nine lines a side, each holding one more tenth of the closes — the core holds half, the edge nine in ten — with the number of sigmas that takes learned from the chart's own closes instead of assumed. Price runs through that band as a line on close: premium ground above the live VWAP, discount ground below, and the line in the strong color with the gap filled whenever the close stands beyond the edge. The session VWAP is the anchor, started at the session's open and again at the cash open by default (Session, Week and Month are the other anchors), with its own measured edges, and it is named at the border with an arrow when the day has left it outside the frame. Both VWAPs are built on one-minute bars the indicator adds itself, so a five-minute, a tick and a Renko chart of the same instrument show the same lines. The session has one latched state — EXTENDED, on a close beyond its edge confirmed by the next close — ending BACK IN VALUE or AT VWAP. The chart's right-side margin looks forward: three reach contours for how far price traveled within the horizon 60%, 25% and 5% of the time, the path of the live band if price holds, an odds ruler, and the measured odds of a return to the session VWAP in four fixed tiers. Two track records, HELD and RETURNED, keep the lines' and the odds' own score on screen. Nineteen values are published for strategies and the Market Analyzer. It measures where price stands and what a move would take; it does not claim that a stretch reverts or that it continues. Closed-bar decisions throughout: it does not repaint. Free for everyone."
+    },
+    {
+        "slug": "live-background",
+        "name": "DS Live Background",
+        "kind": "indicator",
+        "series": "vault",
+        "category": "Chart Personalization",
+        "purpose": "Your own MP4, MOV or animated GIF, or a still picture, playing behind every candle, line and drawing, looping without a seam and drawn at the exact pixel size of your chart.",
+        "hooks": [
+            "MP4, MOV, GIF or a still picture",
+            "Always under every candle and line",
+            "Clicks go straight to your chart",
+            "Rests when the chart is out of sight"
+        ],
+        "helps": "NinjaTrader lets a chart show a still picture behind the bars, and nothing that moves. DS Live Background plays your own video there instead, so the screen you watch for hours is one you want to look at, while the candles stay the brightest thing on it.",
+        "description": "DS Live Background plays your own MP4, MOV, M4V or MKV (H.264, or HEVC, VP9 and AV1 once Windows has Microsoft's extension), an animated GIF with its transparency, or a PNG, JPG or BMP still behind every chart object. It decodes with Windows' own media decoders, on the graphics card wherever the PC allows, at the exact pixel size of the panel, so it stays sharp at any window size and loops without a seam. Eight settings in three groups: Media file, Play and Speed (25 to 400%); Fit (Fill, Fit, Stretch, Center), Opacity (5 to 100%, default 30), Backdrop (Dark by default, which gives the picture its own black base so it looks the same on any chart background color, or ChartBackground) and Blur (Off, Light, Medium, Heavy); and Max frame rate (default 30 fps). It is always the bottom layer: candles, indicators, drawings and the chart's grid lines draw on top, and clicks go straight through to the chart. Playback stops and uses no processing when the chart is hidden, minimized or on a background tab, and the frame rate eases down if a busy chart needs the room. Sound is never played, and phone videos show upright. Free, with no license to activate."
+    },
+    {
+        "slug": "time-intervals",
+        "name": "DS Time Intervals",
+        "kind": "addon",
+        "series": "vault",
+        "category": "Workflow & Control",
+        "purpose": "Your favorite timeframes as one-click buttons on every chart toolbar, a teal line under the one the chart is on, and every common interval on one compact grid behind the ▾.",
+        "hooks": [
+            "Your favorites on every chart toolbar",
+            "The live timeframe stays underlined",
+            "Every interval on one compact grid",
+            "Right-click to pin, keep one to eight"
+        ],
+        "helps": "Switching timeframe in NinjaTrader means opening the interval list and picking from it, dozens of times a session. DS Time Intervals puts the timeframes you actually trade straight on every chart's toolbar, so a switch is one click and the teal line always tells you where you are.",
+        "description": "DS Time Intervals is a chart-toolbar add-on, not an indicator: once imported, a row of favorite timeframes (1m, 5m, 15m, 1h and 4h to start) sits directly on the toolbar of every chart, transparent and boxless, so it reads as part of the platform. One click switches the chart, and a thin teal line under a button marks the timeframe the chart is on; when the chart is on a timeframe that is not a favorite, it shows beside the ▾ instead (for example 3m ▾). The ▾ opens every common interval on one compact grid, in rows by bar type: seconds, minutes, hours, days to years, then tick, volume, range and Renko. A click switches the chart and a right-click pins or unpins that interval. The favorites window adds any value and unit, keeps one to eight, always in timeframe order, and previews the toolbar before Save; favorites are shared by every chart and saved in Documents\\NinjaTrader 8\\DSTimeIntervals.txt. Hours are minute bars (1h is 60 minutes, 4h is 240), exactly as NinjaTrader's own list builds them; a Bid or Ask chart stays on Bid or Ask; and changes are spaced at least ¾ of a second apart, so quick clicks land on the last one without straining the data feed. It follows the NinjaTrader skin, dark or light, without a restart, does almost no work on an idle chart, and if anything goes wrong it does nothing and writes one line starting [DS Time Intervals] to the NinjaScript Output window. Free, with no license to activate."
     }
 ];
 

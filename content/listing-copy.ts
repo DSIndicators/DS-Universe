@@ -2,7 +2,9 @@
  * The listing copy — the same words a buyer reads on Whop, on our own page.
  *
  * GENERATED from the "Whop Listings" tab of "DS Universe - Master Product &
- * Pricing Sheet" (updated 2026-10-05), split the way every entry is: the "✦"
+ * Pricing Sheet" (updated 2026-10-05; the two 2026-10-22 Free Vault entries
+ * and DS Parallax v2.1 from the sheet of that day — Parallax's listing has two
+ * lede paragraphs, joined here into its one lede), split the way every entry is: the "✦"
  * line is the hook, the next paragraph the lede, "◆" the heading, the four "▸"
  * lines the points, and what follows the closing paragraphs. Do not hand-edit:
  * change the sheet and regenerate, so the store and the site never drift apart.
@@ -241,12 +243,12 @@ export const LISTING: Record<string, ListingCopy> = {
     },
     "parallax": {
         "hook": "Four higher timeframes, live, on the chart you actually trade.",
-        "lede": "15m, 1h, 4h and 1D — each with its own axis, candles and countdown to close. You never change your chart's own timeframe.",
+        "lede": "15m, 1h, 4h and 1D — each with its own axis, candles and countdown to close. You never change your chart's own timeframe. Trade range, Renko, tick or volume bars? Build the panels in the same bars, and a range or Renko panel shows the ticks to its next bar.",
         "heading": "It marks one thing, properly",
         "points": [
             "BSL — buy stops resting above an unswept swing high",
             "SSL — sell stops resting below an unswept swing low",
-            "Line weight is the touch count — more tests, more stops sitting beyond it",
+            "Line weight is the touch count — each test tends to leave more stops beyond it",
             "Only live pools are drawn, so what you see still exists"
         ],
         "close": [
@@ -343,6 +345,36 @@ export const LISTING: Record<string, ListingCopy> = {
         "close": [
             "It measures where price stands and what a move would take. It does not claim that a stretch reverts or that it continues. Closed-bar decisions throughout — it does not repaint.",
             "Free — add it to a chart and both VWAPs are there."
+        ]
+    },
+    "live-background": {
+        "hook": "NinjaTrader lets a chart show a still picture behind the bars. This plays your own video there instead.",
+        "lede": "A slow ocean, a city at night, rain on glass, your own brand loop: behind every candle, line and drawing, looping without a seam, and drawn at the exact pixel size of your chart, so it stays sharp at any window size.",
+        "heading": "Built in",
+        "points": [
+            "MP4, MOV, M4V or MKV, an animated GIF with its transparency, or a PNG, JPG or BMP still",
+            "Eight settings: your file, play, speed, fit, opacity, backdrop, blur and a frame-rate limit",
+            "Always the bottom layer — candles, drawings and grid lines stay on top, and clicks go straight through",
+            "The Dark backdrop keeps the picture's own look on any chart background color"
+        ],
+        "close": [
+            "It rests when the chart is hidden, minimized or on a background tab, and eases its frame rate if a busy chart needs the room. Phone videos show upright, and sound never plays.",
+            "Free. Nothing to activate, and nothing tied to an account."
+        ]
+    },
+    "time-intervals": {
+        "hook": "Your timeframes, one click away, on every chart.",
+        "lede": "Switching timeframe means opening the interval list and picking from it. Do that fifty times a session and it adds up. DS Time Intervals puts the timeframes you actually trade as buttons right on every chart's toolbar.",
+        "heading": "Built in",
+        "points": [
+            "Your favorites — 1m, 5m, 15m, 1h and 4h to start — on every chart, set once",
+            "A thin teal line under the timeframe the chart is on",
+            "Every common interval on one compact grid: seconds to years, tick, volume, range and Renko",
+            "Right-click any interval to pin it to the toolbar, and keep one to eight"
+        ],
+        "close": [
+            "It follows your skin, dark or light, and sits on the toolbar like part of the platform. Quick clicks land on the last one you meant and stay gentle on your data feed.",
+            "Free. Nothing to activate, and nothing tied to an account."
         ]
     }
 };

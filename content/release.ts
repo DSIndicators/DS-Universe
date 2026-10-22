@@ -72,6 +72,8 @@ export const BOXART: Record<string, string> = {
   "squeeze": "/boxart/1005/squeeze.webp",
   "macd": "/boxart/1005/macd.webp",
   "vwap": "/boxart/1005/vwap.webp",
+  "live-background": "/boxart/1022/live-background.webp",
+  "time-intervals": "/boxart/1022/time-intervals.webp",
 };
 
 /** Every product has its box in the list — a missing one stops the build

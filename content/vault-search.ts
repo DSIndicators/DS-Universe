@@ -208,7 +208,9 @@ export const VAULT_KEYS: VaultKey[] = [
     id: "mtf",
     label: "Multi-timeframe",
     group: "value",
-    syn: ["multi-timeframe", "multi timeframe", "multitimeframe", "mtf", "htf", "higher timeframe", "timeframes"],
+    // "timeframe(s)" is on DS Time Intervals' key too (2026-10-22), so either
+    // word finds both products, each with its own line of evidence.
+    syn: ["multi-timeframe", "multi timeframe", "multitimeframe", "mtf", "htf", "higher timeframe", "timeframe", "timeframes"],
     has: {
       parallax: "up to four live higher-timeframe charts on your chart",
     },
@@ -284,6 +286,26 @@ export const VAULT_KEYS: VaultKey[] = [
     has: {
       "chart-price": "Kaufman Efficiency Ratio: the readout eases to amber in chop",
       macd: "ranging suppression, so a flat market does not fire on noise",
+    },
+  },
+  // 2026-10-22 — DS Live Background and DS Time Intervals. Evidence from their
+  // own copy (Product Details tab) and their v2.1 / 02:55 builds.
+  {
+    id: "background",
+    label: "Chart background",
+    group: "chart",
+    syn: ["background", "live background", "chart background", "video", "video background", "wallpaper", "live wallpaper", "animated", "animation", "mp4", "mov", "gif", "backdrop", "picture", "image", "theme", "aesthetic"],
+    has: {
+      "live-background": "your own MP4, MOV or GIF playing behind the bars",
+    },
+  },
+  {
+    id: "timeframe-buttons",
+    label: "Timeframe buttons",
+    group: "chart",
+    syn: ["timeframe", "timeframes", "timeframe buttons", "interval", "intervals", "time interval", "time intervals", "toolbar", "buttons", "one click", "one-click", "switch timeframe", "favorites", "favourites"],
+    has: {
+      "time-intervals": "favorite timeframes as one-click buttons on every chart toolbar",
     },
   },
 ];

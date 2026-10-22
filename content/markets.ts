@@ -201,6 +201,18 @@ export const MARKETS: Record<string, Markets> = {
     builtOn: true,
     classes: { futures: true, stocks: true, forex: true, crypto: true },
   },
+  "live-background": {
+    headline: "Any chart",
+    note: "Reads no market data, so it behaves the same on every instrument, bar type and timeframe.",
+    builtOn: false,
+    classes: { futures: true, stocks: true, forex: true, crypto: true },
+  },
+  "time-intervals": {
+    headline: "Every chart window's toolbar",
+    note: "An add-on, not an indicator: it changes the chart's own timeframe, on any instrument.",
+    builtOn: false,
+    classes: { futures: true, stocks: true, forex: true, crypto: true },
+  },
 };
 
 export const marketsFor = (slug: string): Markets | undefined => MARKETS[slug];

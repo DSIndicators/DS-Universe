@@ -31,10 +31,10 @@
  * THE STORE TOO (Tom, later on 2026-10-08: "i like the chart designs more, so
  * we'll be moving to implement them to the products on the homepage"). The
  * home page's shelves show the paid products the same way (components/
- * BoxCard.tsx `chart`). DS Bulk Replay Downloader has no chart of its own —
- * it is a data utility — so its loupe looks at its own window instead: the
- * real NinjaTrader screenshot inside its product-guide board, magnified on
- * the download list, never on the board's printed headings.
+ * BoxCard.tsx `chart`). DS Bulk Replay Downloader had a loupe on the
+ * screenshot inside its product-guide board; that entry went with the boards
+ * on 2026-10-22 (content/shots.ts). It has its own square cover, so nothing
+ * read it.
  *
  * Coordinates were measured on the source pixels (2026-10-08). A picture that
  * is re-shot gets a new filename (one-year immutable asset cache), and its
@@ -226,15 +226,6 @@ export const SHOTS: Record<string, LoupeShot> = {
     mark: { x: at(2283, 2560), y: at(1133, 1440), text: "TREND ▲ · 152 bars" },
     reading: "An uptrend 152 bars old, each pullback filled as a pocket below the center line.",
     alt: "DS ProTrendRange: a teal trend line in a panel under a rising price chart, with pullback pockets filled beneath it.",
-  },
-  "bulk-replay-downloader": {
-    src: "/shots/0920/bulk-replay-downloader-1.webp",
-    w: 2560,
-    h: 1900,
-    focus: { cx: at(900, 2560), cy: at(960, 1900), zw: 0.5 },
-    mark: { x: at(929, 2560), y: at(832, 1900), text: "Downloading 11.8 MB" },
-    reading: "Instruments queued, then every file with its own progress: done, downloading, queued, already saved.",
-    alt: "The DS Bulk Replay Downloader window in NinjaTrader: a list of instruments on the left and a list of replay files with progress bars on the right.",
   },
 };
 

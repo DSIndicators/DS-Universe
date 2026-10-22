@@ -181,6 +181,21 @@ export const SQUARE_COVERS: Record<string, Cover> = {
     h: 1080,
     alt: "DS ProTrendRange on a dark NinjaTrader chart: an uptrend with the indicator's marks under two pullbacks and its trend panel below; a hand-drawn arrow follows the trend.",
   },
+  /* ------------------------------ 2026-10-22, the two new Free Vault products
+     Masters: DS Product Image Covers On Web\DS Live Background.png and
+     DS Time Intervals.png, plated B (batch 1022). */
+  "live-background": {
+    src: "/covers/sq/1022/live-background.webp",
+    w: 1080,
+    h: 1080,
+    alt: "DS Live Background on a dark NinjaTrader chart: a 1-minute NQ session falling to its low and bouncing, white candles over soft grey smoke drifting up behind them.",
+  },
+  "time-intervals": {
+    src: "/covers/sq/1022/time-intervals.webp",
+    w: 1080,
+    h: 1080,
+    alt: "DS Time Intervals on a dark NinjaTrader chart: the toolbar row of favorites, 1m, 5m, 15m, 1h and 4h, enlarged, with 1m underlined in teal and a hand-drawn chalk arrow pointing up at it, over a 1-minute NQ session with smoke drifting behind the candles.",
+  },
 };
 
 export const squareCoverFor = (slug: string): Cover | undefined => SQUARE_COVERS[slug];

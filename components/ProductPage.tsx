@@ -21,7 +21,7 @@ import { VaultLabel } from "@/components/Vault";
 import { Markets } from "@/components/Markets";
 import { BY_SLUG, KIND_LABEL, VAULT } from "@/content/products";
 import { COMPLETE_PRODUCTS, COMPLETE_SHELVES, STORE_PATH, VAULT_PATH, productHref, seriesMates } from "@/content/release";
-import { shotsFor } from "@/content/shots";
+import { WITHOUT_COVER, shotsFor } from "@/content/shots";
 import { CHART_H, CHART_W, chartsFor } from "@/content/charts";
 import { showcaseFor } from "@/content/showcase";
 import { marketsFor, HOME_MARKETS } from "@/content/markets";
@@ -81,7 +81,7 @@ export function productMetadata(slug: string): Metadata {
  *
  * Top to bottom:
  *   1. THE BUY STAGE — the pictures on the left (ProductMedia: charts, the
- *      annotated boards, the box art; no recording), and beside them a buy box
+ *      product's own pictures, the square cover; no recording), and beside them a buy box
  *      that stays in view while they are browsed: the name, the sheet's one
  *      line for it (pointers.ts, NT8 "Cover Line"), what it is, the price and
  *      the button (or the trial, or DS Complete), what you get, and the specs.
@@ -125,12 +125,13 @@ export function ProductPage({ slug }: { slug: string }) {
   const keep = keepPrice(p.slug);
   const bundled = bundledFor(p.slug);
 
-  // THE PICTURES: the charts first, then the annotated boards, then the box
-  // art. The recording is kept for the foot of the page.
+  // THE PICTURES: the charts first, then the product's own pictures
+  // (content/shots.ts), then the square cover. The recording is kept for the
+  // foot of the page.
   const media: MediaItem[] = [
     ...charts.map((c) => ({ src: c.src, w: CHART_W, h: CHART_H, blur: c.blur, caption: c.caption, alt: `${p.name} on a NinjaTrader 8 chart — ${c.caption}`, kind: "chart" as const })),
-    ...shots.map((b) => ({ src: b.src, w: b.w, h: b.h, blur: b.blur, caption: b.caption, alt: `${p.name} product guide — ${b.caption}`, kind: "board" as const })),
-    ...(cover ? [{ src: cover.src, w: cover.w, h: cover.h, caption: `${p.name} · ${p.category}`, alt: cover.alt, kind: "cover" as const }] : []),
+    ...shots.map((b) => ({ src: b.src, w: b.w, h: b.h, blur: b.blur, caption: b.caption, alt: b.alt, kind: "board" as const })),
+    ...(cover && !WITHOUT_COVER.has(p.slug) ? [{ src: cover.src, w: cover.w, h: cover.h, caption: `${p.name} · ${p.category}`, alt: cover.alt, kind: "cover" as const }] : []),
   ];
 
   // "More like this" = the rest of the same series. A series of one (the data

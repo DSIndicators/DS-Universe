@@ -26,7 +26,7 @@ export function TestFirst({ productName, slug }: { productName: string; slug?: s
     {
       n: "01",
       title: "Replay a session you have already seen",
-      text: `Market Replay runs a past session back tick by tick, at whatever speed you like. You get to watch ${productName} print in conditions you remember, and pause on the bars where it mattered.`,
+      text: `Market Replay runs a past session back tick by tick, at whatever speed you like. You get to watch ${productName} behave in conditions you remember, and pause on the bars where it mattered.`,
     },
     {
       n: "02",

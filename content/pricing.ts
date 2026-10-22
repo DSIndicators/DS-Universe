@@ -105,6 +105,9 @@ export const PRICES: Record<string, Price> = {
   squeeze: FREE,
   macd: FREE,
   vwap: FREE,
+  // 2026-10-22
+  "live-background": FREE,
+  "time-intervals": FREE,
 };
 
 export const priceFor = (slug: string): Price | undefined => PRICES[slug];

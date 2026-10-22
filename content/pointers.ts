@@ -3,7 +3,8 @@
  * informations from the master worksheet that will grab the users attention").
  *
  * GENERATED from "DS Universe - Master Product & Pricing Sheet" (updated
- * 2026-10-07) — do not hand-edit; change the sheet and regenerate:
+ * 2026-10-07; the two 2026-10-22 Free Vault entries from that day's sheet) —
+ * do not hand-edit; change the sheet and regenerate:
  *   line   — NT8 Listings, "Cover Line (250×250 image)": the product in one
  *            line, set under its name on its page;
  *   reads  — Markets, "What It Reads": what the product needs from the chart,
@@ -89,6 +90,14 @@ const POINTERS: Record<string, Pointers> = {
   "vwap": {
     "line": "Value on two clocks, measured.",
     "reads": "Price and bar volume, built on one 1-minute series of the same instrument that it adds itself (not added on 1-minute, seconds or daily charts). No tick data, no Tick Replay."
+  },
+  "live-background": {
+    "line": "Your own video, looping behind the bars.",
+    "reads": "No market data, only the media file you choose."
+  },
+  "time-intervals": {
+    "line": "Your timeframes, one click away.",
+    "reads": "No market data. It sets the chart's own bar period: second, minute, day, week, month, year, tick, volume, range or Renko."
   },
   "asl": {
     "reads": "Price and traded volume, on any intraday chart: real trades read in the background, gaps filled from 1-minute bars. No Tick Replay."

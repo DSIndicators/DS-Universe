@@ -13,8 +13,8 @@
  *              position. All sixteen: one-time payment (or Free), and every one
  *              asks the required "NinjaTrader account email" question.
  *              FREE VAULT, 2026-10-10: the free builds carry no license check,
- *              so the question comes off the nine free checkouts (Tom removes
- *              it in Whop); the paid checkouts keep it.
+ *              so the question comes off the free checkouts (Tom removes
+ *              it in Whop; eleven since 2026-10-22); the paid checkouts keep it.
  *
  * Every buy button on the site goes to `checkout` (buyHref). The listing stays
  * reachable as a quiet "See it on Whop" link beside the main button.
@@ -139,6 +139,10 @@ export const WHOP: Record<string, WhopListing> = {
   squeeze: L("ds-squeeze-squeeze-waves-reversion-ninjatrader-8", "plan_mCyNCv0gGgsPw"),
   macd: L("ds-macd-volatility-normalized-macd-cross-price-ninjatrader-8", "plan_rwOCbeDmfIVmz"),
   vwap: L("ds-vwap-live-session-vwap-with-measured-bands-ninjatrader-8", "plan_eC8XsRW9rz7OU"),
+  // 2026-10-22 — two new free listings; links from Tom, each checkout opened
+  // (headless Edge on Tom's PC) and read: the product's name and "Free".
+  "live-background": L("ds-live-background-your-video-behind-the-chart-ninjatrader-8", "plan_oSNrguzUxIcnF"),
+  "time-intervals": L("ds-time-intervals-one-click-timeframe-buttons-ninjatrader-8", "plan_pkn3YRk0zwB30"),
   // ---- the bundle ($374.95, checkout verified 2026-09-25) ----
   complete: L("ds-complete-all-15-ds-universe-products-one-license-ninjatrader-8", "plan_eVl3N0rb9CZQ2"),
 };

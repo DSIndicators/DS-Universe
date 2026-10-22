@@ -83,10 +83,12 @@ export const AFTER_CHECKOUT = {
   ],
 } as const;
 
-/** The Free Vault's path: no license, nothing to switch on (2026-10-10). */
+/** The Free Vault's path: no license, nothing to switch on (2026-10-10).
+ *  2026-10-22: worded for an add-on too (DS Time Intervals is not put on a
+ *  chart; it is on every chart's toolbar), so no line says "it draws". */
 export const AFTER_CHECKOUT_FREE = {
   /** One line under a free product's button. */
-  short: "Free checkout on Whop, then download and import. There is no license to switch on: it draws as soon as NinjaTrader restarts.",
+  short: "Free checkout on Whop, then download and import. There is no license to switch on: it is ready as soon as NinjaTrader restarts.",
   steps: [
     {
       title: "Get it free on Whop",
@@ -94,11 +96,11 @@ export const AFTER_CHECKOUT_FREE = {
     },
     {
       title: "Download and import",
-      text: "The archive and its guides are in your Whop account straight away. In NinjaTrader 8.1.8.1 or newer: Tools → Import → NinjaScript Add-On, then restart.",
+      text: "The archive and its instructions are in your Whop account straight away. In NinjaTrader 8.1.8.1 or newer: Tools → Import → NinjaScript Add-On, then restart.",
     },
     {
-      title: "It draws",
-      text: "There is no license and nothing to activate: add it to a chart and it is there, on any computer you use NinjaTrader on.",
+      title: "It is ready",
+      text: "There is no license and nothing to activate: add an indicator to a chart and it is there, and an add-on such as DS Time Intervals is on every chart's toolbar. Any computer you use NinjaTrader on.",
     },
   ],
 } as const;

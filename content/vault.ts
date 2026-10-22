@@ -26,6 +26,10 @@
  *     and the Whop FAQ use).
  * No product count (the lineup changes), no outcome, no superlative.
  *
+ * 2026-10-22: DS Time Intervals is an add-on, not an indicator, so nothing
+ * here says a vault product "draws" — "import it and it is ready" is true of
+ * both kinds. The README is the guide for the two products of that day.
+ *
  * DS TOOLKIT IS NOT IN THE VAULT (2026-10-05, later the same day): it comes
  * free with DS Complete and is not offered on its own, so no sentence here
  * names the rail.
@@ -37,18 +41,18 @@ export const VAULT_COPY = {
   /** The page's headline. */
   title: "The Free Vault.",
   /** One or two plain sentences: what it is, and how a free license works. */
-  lede: "Free indicators and tools for NinjaTrader 8 — free permanently, not a trial and not a stripped build. Each one is its own download from its own free listing on Whop, with no license to switch on: import it and it draws.",
+  lede: "Free indicators and tools for NinjaTrader 8 — free permanently, not a trial and not a stripped build. Each one is its own download from its own free listing on Whop, with no license to switch on: import it and it is ready.",
   /** The facts, as a spec sheet beside the headline. */
   facts: [
     { k: "Price", v: "Free, permanently. Not a trial." },
-    { k: "Download", v: "Each product is its own download, with its own guide." },
-    { k: "License", v: "None needed. Import it and it draws, on any computer you use NinjaTrader on." },
+    { k: "Download", v: "Each product is its own download, with its own README." },
+    { k: "License", v: "None needed. Import it and it is ready, on any computer you use NinjaTrader on." },
     { k: "DS Complete", v: "Not part of it. A free product runs beside it." },
   ],
   /** The home page band. */
   band: {
     heading: "Free tools, kept in a place of their own.",
-    text: "The Free Vault holds the free DS Universe products — the price line, the price readout, the level map, the higher-timeframe matrix, the session levels and the panels. Each is its own download, free permanently, and none of them is part of DS Complete.",
+    text: "The Free Vault holds the free DS Universe products — the price line, the price readout, the level map, the higher-timeframe matrix, the session levels, the panels, a live chart background and one-click timeframe buttons. Each is its own download, free permanently, and none of them is part of DS Complete.",
     cta: "Open the Free Vault",
   },
   /** The one line in the home hero. */
@@ -61,7 +65,7 @@ export const VAULT_COPY = {
   enter: "Open the vault",
   enterSearch: "Search by feature",
   /** Each product here is shown by its own NinjaTrader chart (content/covers.ts). */
-  chartsNote: "Every picture is the indicator on a real NinjaTrader 8 chart; hand-drawn marks on a picture are added for illustration.",
+  chartsNote: "Every picture is the product on a real NinjaTrader 8 chart; hand-drawn marks on a picture are added for illustration.",
   /** After the tiles: where the paid lineup is. */
   storeHeading: "Looking for the paid lineup?",
   storeText: "The flagship indicators, the Pro Series panels and the data utility are in the store, sold one by one or together as DS Complete. Nothing in the vault is needed to run them, and nothing in the vault is included with them.",
