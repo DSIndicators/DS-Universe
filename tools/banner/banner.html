@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DS Universe banner</title>
+<!--
+  The white banner (2026-10-26), in the white site's own type and colour.
+  Rendered to PNG by tools/banner/render.mjs at each size. ?w=&h=&v=
+    v=logo   Tom's new mark exactly as made, a black square flush right, full height
+    v=chart  Tom's wide order-flow chart, whole and unaltered, flush right, full height
+-->
+<style>
+  @font-face { font-family: Manrope; src: url("../../app/fonts/Manrope-Latin-Variable.woff2") format("woff2"); font-weight: 200 800; }
+  @font-face { font-family: "Inter Tight"; src: url("../../app/fonts/InterTight-Latin-Variable.woff2") format("woff2"); font-weight: 100 900; }
+  :root { --paper: #fefefe; --ink: #1c2326; --ink-2: #4d575c; --ink-3: #697277; --teal: #009999; }
+  html, body { margin: 0; background: var(--paper); }
+  body { width: var(--w); height: var(--h); overflow: hidden; position: relative; -webkit-font-smoothing: antialiased; }
+  .copy { position: absolute; left: calc(var(--h) * 0.16); top: 50%; transform: translateY(-50%); }
+  .tick { width: calc(var(--h) * 0.075); height: 1px; background: var(--teal); }
+  .mark { margin-top: calc(var(--h) * 0.05); font-family: Manrope, sans-serif; font-weight: 300; font-size: calc(var(--h) * 0.215); line-height: 0.92; letter-spacing: -0.052em; color: var(--ink); white-space: nowrap; }
+  .line { margin-top: calc(var(--h) * 0.06); font-family: "Inter Tight", sans-serif; font-weight: 400; font-size: calc(var(--h) * 0.05); letter-spacing: -0.01em; color: var(--ink-2); }
+  .meta { margin-top: calc(var(--h) * 0.022); font-family: "Inter Tight", sans-serif; font-size: calc(var(--h) * 0.03); color: var(--ink-3); letter-spacing: 0; }
+  .art { position: absolute; right: 0; top: 0; height: 100%; display: block; }
+</style>
+</head>
+<body>
+  <div class="copy">
+    <div class="tick"></div>
+    <div class="mark">DS Universe</div>
+    <div class="line">See inside every candle.</div>
+    <div class="meta">Order flow for NinjaTrader 8</div>
+  </div>
+  <img class="art" id="art" alt="">
+<script>
+  const q = new URLSearchParams(location.search);
+  const w = +q.get("w") || 1920, h = +q.get("h") || 600, v = q.get("v") || "logo";
+  document.body.style.setProperty("--w", w + "px");
+  document.body.style.setProperty("--h", h + "px");
+  document.getElementById("art").src = v === "chart" ? "../../public/wide/1026/desk-orderflow.webp" : "../../public/brand/minimal-logo.png";
+</script>
+</body>
+</html>

@@ -1,68 +1,81 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Reveal } from "@/components/ui/Reveal";
+import { AskButton } from "@/components/AskButton";
+import { WideFigure } from "@/components/Wide";
+import { SectionBar } from "@/components/SectionBar";
+import { WIDE } from "@/content/capabilities";
 import { ABOUT, CLOSING, FACTS, PRINCIPLES, SITE } from "@/content/site";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: SITE.description,
-};
+export const metadata: Metadata = { title: "About", description: SITE.description };
 
+/**
+ * About, in the white wide-body style. Every line is content/site.ts's own
+ * (ABOUT, FACTS, PRINCIPLES, CLOSING). The live site's extra sentence about a
+ * guide shipping with every product is left out: the guide zips were retired
+ * on 2026-10-25 (Patch Notes & Versions U-071).
+ */
 export default function AboutPage() {
   return (
     <>
-      <section className="wrap pt-12 sm:pt-16 lg:pt-20">
-        <Reveal className="max-w-3xl">
-          <p className="label">About</p>
-          <h1 className="display-lg mt-5 text-ink text-balance">{ABOUT.heading}</h1>
-        </Reveal>
+      <section className="wb about-hero about-brand" aria-labelledby="about-title" data-section="">
+        <h1 id="about-title" className="d2 about-h1">
+          {ABOUT.heading}
+        </h1>
+        {/* Who is speaking: Tom's logo, exactly as he made it. */}
+        <img className="about-logo" src="/brand/ds-logo-black-720.png" srcSet="/brand/ds-logo-black-480.png 480w, /brand/ds-logo-black-720.png 720w, /brand/ds-logo-black.png 1254w" sizes="(min-width: 1101px) 380px, 260px" width={1254} height={1254} alt="DS Universe, Trading Indicators" decoding="async" />
       </section>
 
-      <section className="wrap grid gap-12 py-16 md:grid-cols-12 lg:py-20">
-        <Reveal className="md:col-span-4 lg:col-span-3">
-          <dl className="space-y-7">
-            {FACTS.map((f) => (
-              <div key={f.label}>
-                <dt className="flex items-center gap-2.5 text-[length:calc(14px*var(--type))] text-ink">
-                  <span className="block h-2 w-2 rounded-[2px] bg-gold" aria-hidden="true" />
-                  {f.label}
-                </dt>
-                <dd className="mt-1.5 pl-[18px] text-[length:calc(14.5px*var(--type))] text-slate">{f.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </Reveal>
-        <Reveal className="md:col-span-8 lg:col-span-8 lg:col-start-5" delay={80}>
-          <div className="max-w-2xl space-y-5">
-            {ABOUT.paragraphs.map((p) => (
-              <p key={p} className="body text-pretty">{p}</p>
-            ))}
-            <p className="body text-pretty">
-              DS Universe is made in {SITE.city} by a trader who builds the tools he trades with. Every product ships with a plain-English guide, and a person answers when you write.
+      <section className="wb about-grid" aria-label="What DS Universe is">
+        <dl className="facts">
+          {FACTS.map((f) => (
+            <div key={f.label}>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <div className="about-copy">
+          {ABOUT.paragraphs.map((p, i) => (
+            <p key={p} className={i === 0 ? "lead" : "body"}>
+              {p}
             </p>
-          </div>
-        </Reveal>
-      </section>
-
-      <section className="border-y border-line bg-mist">
-        <div className="wrap grid gap-10 py-20 md:grid-cols-3 md:gap-8 lg:py-24">
-          {PRINCIPLES.map((p, i) => (
-            <Reveal key={p.title} delay={i * 90} className="border-t border-line-strong pt-6">
-              <h2 className="display-sm text-ink">{p.title}</h2>
-              <p className="mt-3 text-[length:calc(14px*var(--type))] leading-relaxed text-slate text-pretty">{p.text}</p>
-            </Reveal>
           ))}
         </div>
       </section>
 
-      <section className="wrap py-24 text-center lg:py-28">
-        <Reveal>
-          <h2 className="display-md text-ink">{CLOSING.heading}</h2>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link href="/products" className="btn-primary">Explore the products</Link>
-            <Link href="/contact" className="btn-ghost">{CLOSING.secondary.label}</Link>
+      <WideFigure pic={WIDE.free} />
+
+      <SectionBar n="01" title="How it is built" />
+      <section className="wb sbar-after" aria-label="How it is built">
+        <ul className="principles" style={{ marginTop: 0 }}>
+          {PRINCIPLES.map((p) => (
+            <li key={p.title}>
+              <h3 className="d3">{p.title}</h3>
+              <p className="body">{p.text}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="complete field" data-section={CLOSING.heading} aria-labelledby="closing-title">
+        <div className="wb complete-grid">
+          <div className="l">
+            <h2 id="closing-title" className="d2">
+              {CLOSING.heading}
+            </h2>
           </div>
-        </Reveal>
+          <div className="r">
+            <p className="lead">{CLOSING.text}</p>
+            <div className="hero-links" style={{ marginTop: 30 }}>
+              <Link className="btn" href="/free-vault">
+                {CLOSING.primary.label}
+              </Link>
+              <AskButton className="lnk" style={{ alignSelf: "center" }}>
+                {CLOSING.secondary.label}
+              </AskButton>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );

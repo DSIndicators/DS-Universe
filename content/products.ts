@@ -1,57 +1,43 @@
 /**
- * The catalogue. GENERATED from "DS Universe - Master Product & Pricing Sheet"
- * (Product Catalog + Product Details tabs, updated 2026-10-05; DS Live Background
- * and DS Time Intervals added from the sheet of 2026-10-22). Do not hand-edit
- * copy here; change the sheet and regenerate, so the site, the Whop listings and
- * the box art keep saying the same thing.
+ * The catalogue. GENERATED (gen_v31.py, 2026-10-29) from the v3.1 hand-off's
+ * products-v3.1.json, itself exported from "DS Universe - Master Product &
+ * Pricing Sheet" (Product Catalog + Product Details tabs, updated 2026-10-29).
+ * Do not hand-edit copy here: change the sheet, re-export and regenerate, so
+ * the site, the READMEs and the store listings keep saying the same thing.
  *
- * THE LINEUP OF 2026-10-05 — PAID AND FREE ARE KEPT APART (Tom: "The goal is to
- * disassociate Paid from free. PAID bundle will no longer include all free
- * products. free products will be managed individually while paid will be
- * grouped together").
- *   flagship   DS Zones, DS Iceberg, DS Oracle, DS GEX, DS Flow
- *   pro        DS ProRSI, DS ProLiquidityHunter (new), DS ProHeikinAshi (new),
- *              DS ProTrendRange
- *   utility    DS Bulk Replay Downloader
- *   exclusive  FREE WITH DS COMPLETE — DS ASL (Advanced Session Levels; was
- *              DS Pro Session Levels) and DS Toolkit. Neither is sold or offered
- *              on its own: each comes free with DS Complete.
- *   vault      THE FREE VAULT — DS Adaptive Price Line, DS Chart Price, DS 258,
- *              DS Parallax, DS Session Levels, DS Stochastics (was
- *              DS ProStochastics, paid), DS Squeeze (was DS ProSqueeze, paid),
- *              DS MACD (was DS ProMACD; off the store 2026-10-04), DS VWAP
- *              (new), and since 2026-10-22 DS Live Background (indicator) and
- *              DS Time Intervals (an add-on, back as a free product). Each is
- *              its own free download; none is part of DS Complete.
- * DS TOOLKIT LEFT THE FREE VAULT the same day (Tom: "DS Toolkit will come FREE
- * with the purchase of DS Complete Bundle only, same as DS ASL"). Its entry
- * below keeps the sheet's product copy word for word; only its series changed
- * (vault -> exclusive), and it sits beside DS ASL.
- * The series keys follow the sheet's own section bars. "essentials" and
- * "sessions" (the 09-20 and 09-30 keys) are retired: nothing reads them.
+ * THE v3.1 LINEUP (Tom, 2026-10-29). Free and affordable NinjaTrader 8 tools:
+ *   - DS COMPLETE is the only paid product. Every paid tool is in it, on one
+ *     license (2817), delivered as one assembly (DSCompleteBundleSuite). No
+ *     paid product is sold on its own. Its groups, in README order:
+ *       chart   On the price chart — DS Zones, DS Compass (new), DS Data
+ *               Candles (new), DS Iceberg, DS Flow, DS GEX, DS ASL
+ *       panel   In a panel of their own — DS ProRSI, DS ProLiquidityHunter,
+ *               DS ProHeikinAshi, DS ProTrendRange
+ *       addon   Add-ons — DS Bulk Replay Downloader, DS Toolkit (with DS Chalk)
+ *   - THE FREE VAULT (vault): nine free tools, each its own download, no
+ *     license, never part of DS Complete.
+ * DS Oracle was discontinued on 2026-10-29 and is off the site. DS MACD,
+ * DS Stochastics, DS Squeeze and the DS VWAP panel left on 2026-10-25. Their
+ * old addresses forward (next.config.mjs).
  *
  * WHERE A PRODUCT LIVES ON THE SITE: a vault product's page is
- * /free-vault/<slug>, every other product's is /products/<slug> — always
- * through productHref() in content/release.ts, never typed. The old addresses
- * forward permanently (next.config.mjs).
+ * /free-vault/<slug>, every other product's is /products/<slug>, always
+ * through productHref() in content/release.ts, never typed.
  *
  * Rules this site follows:
- *  - No product COUNTS are rendered in copy (the lineup changes).
- *  - `purpose` is the one line shown in lists; `hooks` + `helps` appear on the
- *    product page. `description` is retained for future use and NOT rendered.
+ *  - Counts are computed from this list, never typed.
+ *  - `purpose` is the one line shown in lists; `hooks` + `helps` lead the
+ *    product page; `description` (the full v3.1 store description) is its
+ *    "How it works" section.
  *  - Spaced hyphens in the sheet become em dashes, matching the sheet's own.
- *
- * Retired from the site on 2026-09-20 and still absent: DS Sonar, DS Isotropic
- * Lines, DS Screener, DS MarketWatch. DS Time Intervals (also retired that day)
- * came back on 2026-10-22 as a free Free Vault add-on (v2.1).
  */
 
 export type Kind = "indicator" | "addon";
 
-/** The series, by the sheet's section bars. Copy and prices per series live in
- *  content/pricing.ts; which of them the STORE shelves, which DS Complete holds
- *  and which is the Free Vault is content/release.ts. */
-export type Series = "flagship" | "pro" | "utility" | "exclusive" | "vault";
+/** The v3.1 groups, by the README's own order. Copy per group lives in
+ *  content/pricing.ts (GROUPS); which of them DS Complete holds and which is
+ *  the Free Vault is content/release.ts. */
+export type Series = "chart" | "panel" | "addon" | "vault";
 
 /** The Free Vault's series key — one name to grep for. */
 export const VAULT: Series = "vault";
@@ -62,13 +48,20 @@ export type Product = {
   kind: Kind;
   series: Series;
   category: string;
+  /** The product's version: v3.1 across the suite (DS Time Intervals keeps v2.1). */
+  version: string;
+  /** The NinjaScript assembly it installs as: the name NinjaTrader shows in
+   *  Tools → Remove NinjaScript Assembly. */
+  assembly: string;
+  /** New in v3.1. */
+  isNew: boolean;
   /** One line. The tagline. */
   purpose: string;
   /** Four cover-page hooks. */
   hooks: string[];
-  /** "How it helps traders" — the opening paragraph. */
+  /** "Why you need it" — the opening paragraph. */
   helps: string;
-  /** Full store description. Retained, not rendered. */
+  /** The full store description: the product page's "How it works". */
   description: string;
 };
 export const PRODUCTS: Product[] = [
@@ -76,8 +69,11 @@ export const PRODUCTS: Product[] = [
         "slug": "zones",
         "name": "DS Zones",
         "kind": "indicator",
-        "series": "flagship",
+        "series": "chart",
         "category": "Structure & Levels",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": false,
         "purpose": "Support and resistance that tells you whether it's holding right now — built from swing pivots, volume supply/demand and real order flow, with a live state machine tracking every zone tick by tick.",
         "hooks": [
             "Tracks FRESH to DEFENDED / BREAKING",
@@ -86,78 +82,131 @@ export const PRODUCTS: Product[] = [
             "A broken zone keeps its identity"
         ],
         "helps": "Most zone tools draw a box and leave it. DS Zones draws the box, reads the actual order flow inside it, then tracks what price does to it tick by tick — approached, tested, defended, broken — so the zones on your chart are the ones price is respecting today, not the ones that looked good when they were drawn.",
-        "description": "DS Zones runs two structural engines at once — multi-length swing pivots for a full skeleton, and high-volume impulses for institutional supply and demand — then reads the real aggressive buy versus sell volume traded inside every zone from a volume-at-price footprint. Every level carries an intrinsic supply or demand identity that never flips as price crosses it, and a live, tick-driven state machine drives each zone through FRESH, APPROACHING, TESTING, DEFENDED or BREAKING, with conviction rising when a zone is genuinely defended and draining as it is consumed. A broken zone keeps its identity and dims out as a dotted band rather than vanishing without a trace or role-reversing into the opposite kind of level. A merge step fuses everything that lands on the same price into one ranked map and draws only the strongest few, so you get a clean chart instead of forty boxes. Structure is confirmed on closed bars — it does not repaint — while the live read updates with the tape."
+        "description": "DS Zones runs two structural engines at once — multi-length swing pivots for a full skeleton, and high-volume impulses for institutional supply and demand — then reads the real aggressive buy versus sell volume traded inside every zone from a volume-at-price footprint. Every zone and pivot is born supply or demand and keeps that identity as price crosses it, and a live, tick-driven state machine drives each zone through FRESH, APPROACHING, TESTING, DEFENDED or BREAKING, with conviction rising when a zone is genuinely defended and draining as it is consumed. A broken zone keeps its identity and dims out as a dotted band rather than vanishing without a trace or role-reversing into the opposite kind of level. A merge step fuses everything that lands on the same price into one ranked map and draws only the strongest few, so you get a clean chart instead of forty boxes. Structure is confirmed on closed bars — it does not repaint — while the live read updates with the tape."
+    },
+    {
+        "slug": "compass",
+        "name": "DS Compass",
+        "kind": "indicator",
+        "series": "chart",
+        "category": "Market Side & Room",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": true,
+        "purpose": "Which side of the market holds and how much room it has — one smooth, volume-weighted line that changes hands only on a decisive close, and a reading panel that measures today against the same time of day on earlier sessions.",
+        "hooks": [
+            "The side changes only on a close",
+            "A note when it keeps changing hands",
+            "Room left in the forecast range",
+            "Read against this time of day"
+        ],
+        "helps": "Which side of the market holds, and how much room it has. DS Compass runs one smooth line through price: while bars close above it the long side holds, while they close below it the short side holds, and the side only changes hands when a bar closes clearly through the line — price brushing it changes nothing. When the side keeps changing hands, the panel says so in plain words: changing hands, or chopping. Beside the line, a reading panel measures today against the same time of day on previous sessions — how much range is left in the forecast, how far price has stretched from the line, how much of a usual day has been used, and how busy the tape is for this hour.",
+        "description": "DS Compass draws its line where a 34-bar average of price would sit, weighted by where volume actually traded, and it reads far smoother than one. The line wears the color of the side that holds: teal for the long side, gray for the short side. A bar has to close beyond the line by the flip buffer — a quarter of an average true range by default — to take the side; a close inside the buffer leaves the side where it was, and a side that keeps changing hands shows in the panel note: changing hands, or chopping. The level tag by the price axis names the line, gives the distance of the last close from it in average true ranges and its price — [ Compass +1.2 ATR 29507.00 ] — in the side's color, and shares the price-tag column with the other DS products, stepping aside instead of overlapping. The reading panel names the side and how long it has held, then five readings: ROOM, the range covered so far against the range forecast for the next 40 bars; STRETCH, how far the close sits from the line in average true ranges and how unusual that is against recent sessions; SESSION, today's range against a usual day and how far through the day you are; TAPE, this bar's volume against what this time of day usually trades; and HOLD, how many times the side changed hands over the recent window. Every comparison uses the same time of day on earlier sessions, 20 by default, and DS Compass requests that history itself. Measured on more than 600,000 bars of NQ, MNQ, ES, GC and CL, the line held about as often as any price the same distance away and a direction call from the side was right about half the time, so it claims neither; the expected move behind ROOM beat the plain assumption that the next 40 bars cover what the last 40 did, out of sample on all five. Six values are published for the Data Box, the Market Analyzer and the Strategy Builder. Volume is optional: without usable volume the line falls back to typical price and everything else works. Every reading is decided on closed bars: it does not repaint. It is part of DS Complete and is not sold on its own."
+    },
+    {
+        "slug": "data-candles",
+        "name": "DS Data Candles",
+        "kind": "indicator",
+        "series": "chart",
+        "category": "Bar Reading & Volume",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": true,
+        "purpose": "Candles that read the bar for you — direction and strength in the color, whether volume stood behind the move in the fill, measured against the same time of day on earlier sessions, and a caption on the rare bar that is exceptional for its hour.",
+        "hooks": [
+            "Trend agreement in every color",
+            "Volume behind the move, in the fill",
+            "Read against its time of day",
+            "Two captions, both tested"
+        ],
+        "helps": "Candles that read the bar for you. DS Data Candles repaints your candles so each one says three things at a glance: which way the trend reads agree, how strong the bar is, and whether volume stood behind it — measured against the same time of day on previous sessions, so a busy open is never mistaken for something unusual. The rare bar that is truly exceptional for its hour gets a small caption, and only for the two kinds of bar that held up when tested against what followed them.",
+        "description": "DS Data Candles runs four trend reads at once — at the Regime period, 14 by default, and at 3, 5 and 10 times it — and how many of them agree sets each candle's color: Push, in cyan or magenta, for a bar that was itself a large, participated move; Trending, in teal or gray, while the trend reads agree; Chop, in graphite, with no agreement or agreement over a dead tape. Calmness — Responsive, Balanced or Steady — decides how long a strong or trending state holds before one quiet bar may soften it, never when the state is earned. The fill says whether volume stood behind the bar, against the same time of day on earlier sessions (20 by default, history the indicator requests itself): a solid body is backed; a drained body with its full outline is a wide, well-formed move that almost no volume went with for its hour, about one bar in 150 to 200 on NQ, ES and GC; a graphite body is absorbed — heavy volume for the hour that bought less range than busy bars usually do. Two kinds of bar get a small caption, with a bracket over the bars it describes: RANGE (such as 2.4x RANGE), a bar far wider than this time of day usually delivers, on heavy volume, which was followed by a wider market in every period tested — NQ year by year from 2020 to 2026, ES, GC and CL; and ABSORBED (such as ABSORBED 3.1x), heavy volume for the hour that bought little range, followed by a quieter market on NQ in six of seven years and on ES. There is at most one caption every 15 minutes, and a plain volume spike is not captioned. Every caption was tested for direction as well and none held up, so none claims it: the color describes the bar that closed and is not a forecast. With the free DS Adaptive Price Line set to Follow candle color, the line wears the color painted on the live bar. Six values are published for the Market Analyzer and the Strategy Builder. On an instrument without usable volume the fills and captions switch themselves off, and direction and strength still work from price alone. Everything is decided when the bar closes: it does not repaint. It is part of DS Complete and is not sold on its own."
     },
     {
         "slug": "iceberg",
         "name": "DS Iceberg",
         "kind": "indicator",
-        "series": "flagship",
+        "series": "chart",
         "category": "Liquidity & Absorption",
-        "purpose": "Finds prices that were tested and rejected repeatedly on closed bars — the footprint passive orders leave when they absorb aggressive flow — and draws them as self-updating runway zones.",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": false,
+        "purpose": "Finds prices that were tested and rejected repeatedly on closed bars — the footprint passive orders leave when they absorb aggressive flow — and marks each with a fine level line and an iceberg sized by the volume it absorbed.",
         "hooks": [
             "Finds where size was hidden",
-            "Order-flow confirmed, not guessed",
+            "Order-flow confirmed in cyan/magenta",
             "Volume and test count shown",
             "Closed-bar accurate, never repaints"
         ],
-        "helps": "An iceberg order hides its size — only a small piece shows in the book, and every time it's hit, another slice re-posts at the same price. From the outside it looks like a level that just keeps absorbing: heavy volume trades into it, aggressive buyers or sellers keep hitting it, and price is rejected anyway. Price tells you where the market went; DS Iceberg tells you where somebody large stopped it.",
-        "description": "DS Iceberg runs two cooperating engines to confirm a level. The bar engine is a wick-to-body, local-extreme and volume test: a candle qualifies when its rejecting wick is long relative to its body, it sits in the outer quarter of the recent range, it closes on the rejecting side, and its volume is at or above average — a level confirms once enough qualified tests cluster at one price inside the detection window. The order-flow engine independently builds a rolling volume-at-price footprint, refined by the true bid/ask stamped on each trade, and confirms a level only when it is a statistically anomalous high-volume node with correct-side absorption. Levels both engines agree on are drawn in cyan or magenta — your highest-conviction prices, at a glance. Each level is drawn as a self-updating runway zone showing the traded volume and test count behind it, support below price and resistance above, built entirely from closed bars so it does not repaint."
-    },
-    {
-        "slug": "oracle",
-        "name": "DS Oracle",
-        "kind": "indicator",
-        "series": "flagship",
-        "category": "AI Trend & Signals",
-        "purpose": "A SuperTrend that only speaks when the evidence agrees — every flip is matched against the chart's own history and put to a weighted vote before it is promoted to a confirmed signal.",
-        "hooks": [
-            "AI-confirmed signals only",
-            "Neural Line sets your side",
-            "Five-state Spectrum candles",
-            "Engine output never repaints"
-        ],
-        "helps": "A plain SuperTrend flips constantly, and most of those flips are noise. DS Oracle keeps the SuperTrend as the underlying structure, but on every flip asks a second question: has this market been in a state like this before, and what happened next? It measures the current conditions, finds the most similar moments in the chart's own history, and takes a weighted vote among them — only a flip the vote finds convincing gets promoted to a confirmed signal. The engine never invents a signal of its own; it only filters the SuperTrend's.",
-        "description": "DS Oracle pairs a classic ATR SuperTrend structure with the Dropship AI matching engine. Every bar is encoded as a feature vector and matched against the most similar historical states on the chart's own history, with a weighted vote deciding whether a SuperTrend flip is promoted to a Major, confirmed signal — a flip the vote does not find convincing stays a Minor one. The Neural Line draws a single long/short decision boundary through price: above it, look long; below it, look short; an ATR flip buffer keeps chop from strobing the side back and forth. The Spectrum paints every candle into one of five regime states — strong down, down, chop, up, strong up — from how far four timeframes on your own chart agree with each other, so a bright candle can never contradict its own body. Default Close Bar anchoring means the engine's output does not repaint, and everything runs in-process on your own chart — no training thread, no files, no network call."
-    },
-    {
-        "slug": "gex",
-        "name": "DS GEX",
-        "kind": "indicator",
-        "series": "flagship",
-        "category": "Options & Key Levels",
-        "purpose": "Dealer gamma exposure levels computed straight from the live option chain and drawn on your chart automatically — Call/Put Walls, Gamma Flip, Expected Move, Max Pain and more, with no subscription and no setup.",
-        "hooks": [
-            "Live option-chain levels, zero setup",
-            "Call/Put Walls and Gamma Flip",
-            "Expected Move and Max Pain",
-            "Captured twice daily, held still"
-        ],
-        "helps": "The levels that quietly govern a session's movement — dealer hedging walls, the flip point where hedging behavior reverses, the strike price pulls toward — are widely watched and usually cost a subscription to see. DS GEX computes them itself: put it on a chart and it fetches the delayed option chain for that market in the background, converts every level to your chart's own prices, and draws them — no subscription, no pasting numbers in, no setup.",
-        "description": "DS GEX computes dealer gamma exposure directly from CBOE's free delayed option chain (NDX for NQ, SPX for ES, GLD for gold) on a background thread, scales every level to the chart via the basis, and holds it as a stable, session-anchored map instead of re-ranking on every feed refresh. Per-strike net GEX gives the Call Wall and Put Wall, 0DTE walls restricted to the current session's expiry, HGEX (the dominant hedging magnet), Max Pain and ranked G+/G- strikes. The Gamma Flip is solved, not guessed — Black-Scholes gamma is recomputed across a grid of hypothetical spot prices and the sign change nearest spot is interpolated — and an Expected Move band from the at-the-money straddle plus an ATR-scaled grid off the session open completes the map. The map is captured at two fixed times a day and then frozen, so the lines you planned your session around are the lines still on the chart after a reload. A manual levels-string override is included for when you want to paste your own numbers instead."
+        "helps": "An iceberg order hides its size — only a small piece shows in the book, and every time it's hit, another slice re-posts at the same price. From the outside it looks like a level that just keeps absorbing: heavy volume trades into it, aggressive buyers or sellers keep hitting it, and price is rejected anyway. Price tells you where the market went; DS Iceberg marks the prices it kept pushing into and being turned away from.",
+        "description": "DS Iceberg runs two cooperating engines to confirm a level. The bar engine is a wick-to-body, local-extreme and volume test: a candle qualifies when its rejecting wick is long relative to its body, it sits near a local extreme and its volume is at or above average — a level confirms once at least two qualified tests cluster at one price inside the 40-bar window, with at least half of them closed on the rejecting side. The order-flow engine independently builds a rolling volume-at-price footprint, refined by the bid/ask of each live trade (history uses a tick-rule estimate unless Tick Replay is on), and confirms a level only when it is a statistically anomalous high-volume node with correct-side absorption. Levels both engines agree on are drawn in cyan or magenta — the levels with the most evidence behind them, at a glance. Each level is drawn as a fine line with a soft tolerance tint, a fracture on every bar that tested it and an iceberg in the runway sized by the volume it absorbed, captioned with its traded volume and test count — support below price and resistance above, decided on closed bars so it does not repaint."
     },
     {
         "slug": "flow",
         "name": "DS Flow",
         "kind": "indicator",
-        "series": "flagship",
+        "series": "chart",
         "category": "Order Flow & Volume Profile",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": false,
         "purpose": "X-rays each group of candles into a live volume-by-price footprint, splitting what traded at every price into buying and selling and flagging the levels that actually mattered.",
         "hooks": [
-            "Buy vs sell volume at every price",
+            "Buy vs sell volume at every level",
             "Heavy nodes flagged automatically",
-            "One lower-timeframe series, no ticks",
+            "No tick-history download needed",
             "Low-conviction moves dim on sight"
         ],
-        "helps": "A candle tells you where the market went. It doesn't tell you where inside that range the volume traded, or whether buyers or sellers were doing the pressing. DS Flow x-rays groups of candles into a volume-by-price profile — a horizontal bar at every price level, split into buying and selling, with the heavy, statistically significant levels marked — so you get hidden support and resistance, absorption and exhaustion, and value migration across groups, not just a shape.",
-        "description": "DS Flow groups candles and builds a volume-by-price profile for each group: every horizontal row is one price, its length the total volume traded there, split into buy and sell volume printed beside it. The longest row is the group's point of control. Statistically heavy rows are flagged as high-volume acceptance shelves — the magnets and reaction zones — while a glass-rendered candle dims on below-average volume so a hollow move is obvious at a glance, and a summary box gives total volume with buy and sell percentages. Profiles build from one extra lower-timeframe series of the same instrument (1-minute by default), so no tick-history download is needed. Detail scales cleanly with zoom, and DS Toolkit can show or hide the whole overlay from the chart's own toolbar."
+        "helps": "A candle tells you where the market went. It doesn't tell you where inside that range the volume traded, or whether buyers or sellers were doing the pressing. DS Flow x-rays groups of candles into a volume-by-price profile — a horizontal bar for each slice of the range, split into buying and selling, with the heavy, statistically significant levels marked — so you get hidden support and resistance, absorption and exhaustion, and value migration across groups, not just a shape.",
+        "description": "DS Flow groups candles and builds a volume-by-price profile for each group: every horizontal row is an equal slice of the group's range, its length the total volume traded there, split into buy and sell volume printed beside it. The longest row is the group's point of control. Statistically heavy rows are flagged as high-volume acceptance shelves — the magnets and reaction zones — while a glass-rendered candle dims when its group trades less than 1.1 times the volume expected, so a hollow move is obvious at a glance, and a plain-text summary gives total volume with buy and sell percentages. Graphite-bordered FIGHT nodes mark rows that are extremely heavy and two-sided, and closed groups that meet the reversal conditions print a ▲ or ▼ arrow. History builds from one extra lower-timeframe series of the same instrument (1-minute by default) and live profiles from the trades themselves, each classified against the live bid and ask, so no tick-history download is needed. Detail scales cleanly with zoom, and DS Toolkit can show or hide the whole overlay from the chart's own toolbar."
+    },
+    {
+        "slug": "gex",
+        "name": "DS GEX",
+        "kind": "indicator",
+        "series": "chart",
+        "category": "Options & Key Levels",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": false,
+        "purpose": "Dealer gamma exposure levels computed from the delayed option chain and drawn on your chart automatically — Call/Put Walls, Gamma Flip, Expected Move, Max Pain and more, with no subscription and no setup.",
+        "hooks": [
+            "Option-chain levels, zero setup",
+            "Call/Put Walls and Gamma Flip",
+            "Expected Move and Max Pain",
+            "Built from the last close, twice a day"
+        ],
+        "helps": "The levels that quietly govern a session's movement — dealer hedging walls, the flip point where hedging behavior reverses, the strike price pulls toward — are widely watched and usually cost a subscription to see. DS GEX computes them itself: put it on a chart and it fetches the delayed option chain for that market in the background, converts every level to your chart's own prices, and draws them — no subscription, no pasting numbers in, no setup.",
+        "description": "DS GEX computes dealer gamma exposure directly from CBOE's free delayed option chain (NDX for NQ, SPX for ES, GLD for gold) on a background thread, scales every level to the chart via the basis, and holds it as a stable, session-anchored map instead of re-ranking on every feed refresh. Per-strike net GEX gives the Call Wall and Put Wall, 0DTE walls for the current session's expiry — measured from the day's own 0DTE volume and refreshed every 15 minutes through the cash session — HGEX (the strike with the largest net gamma, which in the default Session mode is one of the two walls), Max Pain and ranked G+/G- strikes. The Gamma Flip is solved, not guessed — Black-Scholes gamma is recomputed across a grid of hypothetical spot prices and the sign change nearest spot is interpolated — and an Expected Move band from the at-the-money straddle completes the map, with an ATR-scaled grid off the session open one click away in Properties. Every other level is built twice a day from the last session close and then held, so every chart shows the same map whenever NinjaTrader is opened, and the lines you planned your session around are still there after a reload. A manual levels-string override is included for when you want to paste your own numbers instead."
+    },
+    {
+        "slug": "asl",
+        "name": "DS ASL",
+        "kind": "indicator",
+        "series": "chart",
+        "category": "Session Levels & Volume Profile",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": false,
+        "purpose": "DS Session Levels with the volume added: each session's volume profile inside its bracket, its POC carried forward as a level, HVNs and LVNs marked — built from real trades, completed from 1-minute bars.",
+        "hooks": [
+            "A volume profile in every session",
+            "Each POC carried forward as a level",
+            "HVN and LVN, found per session",
+            "Real trades, gaps filled from bars"
+        ],
+        "helps": "A session's high and low show where it traded; they don't show where it did its business. DS ASL adds that: inside every session's bracket, the volume it traded at each price, with the busiest price — the POC — carried forward as a level beside the high and low, so the last session's accepted prices are on the chart when price comes back to them.",
+        "description": "DS ASL — Advanced Session Levels — is DS Session Levels with each session's volume profile built in. Everything DS Session Levels draws is here unchanged — exact session highs and lows, carry-forward, fades, edge tags, presets and alerts — and inside every bracket the session's volume at each price is drawn as thin bars against its first bar, the value area stronger and the POC's bar the longest. The POC becomes a level of its own, labeled where no candle covers it and carried forward until the session opens again; high- and low-volume nodes are found from each session's own trading — Node detail marks the main value areas, or adds the smaller build-ups inside them — and can be marked in the profile or carried forward as levels. Profiles are built from real trades wherever NinjaTrader's trade history has them, read in the background a day at a time, and completed from the chart's 1-minute bars wherever the history has gaps — so every profile is whole the moment the chart loads and sharpens as the trades arrive, with memory that stays flat however many days are loaded. It is part of DS Complete and is not sold on its own."
     },
     {
         "slug": "prorsi",
         "name": "DS ProRSI",
         "kind": "indicator",
-        "series": "pro",
+        "series": "panel",
         "category": "Momentum & Volume Zones",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": false,
         "purpose": "A volume-weighted RSI panel that leaves each turn out of an extreme on your price chart as a zone — sized by where the turn's volume traded, graded by the volume behind it, and scored on your own chart as HELD or BROKE.",
         "hooks": [
             "RSI weighted by relative volume",
@@ -166,14 +215,17 @@ export const PRODUCTS: Product[] = [
             "A HELD / BROKE record on your chart"
         ],
         "helps": "An RSI reading tells you overbought or oversold and treats every bar the same, whether ten contracts traded or ten thousand. DS ProRSI weighs each bar's move by its volume against what is normal for that minute of the day, and when the RSI turns back from an extreme it leaves the turn on your price chart as a zone — as deep as the range where the turn's nearest volume traded, graded in three steps by the volume behind it, and reinforced when a later turn lands on it again. The panel keeps the chart's own count of zones that HELD and zones that BROKE, so you read what these zones have done on your market instead of taking a strength rating on trust.",
-        "description": "DS ProRSI runs two Wilder RSIs side by side: the classic, and one in which each bar's change is multiplied by its relative volume — the bar's volume against the median of the last twenty bars that closed in the same clock minute, held between one third and three. The weighted line is the one in force; the classic stays behind it as a faint line, and RSI weighting can be set to None. An episode opens when the RSI reaches Oversold or Overbought and closes when it is back at 50. Inside an episode, a cross of the signal line that holds on the next close is a turn, and the turn becomes a zone on the price panel: the far edge at the turn's extreme, the near edge where the nearest 15% of the turn's volume traded (10% Slim, 25% Wide), never thinner than a tenth of an average true range and never thicker than one. Five strata lines mark each sixth of the zone's volume. The flag gives the RSI at the turn, three volume pips — one lit under 1.5 times normal volume, two from 1.5, three from 3 — and a count of the times price has come back into the zone and held. A turn from a later episode that lands on a live zone reinforces it: one more pip and a doubled mark at its start, instead of a second zone. A zone lives until a bar closes through its far edge (wick-break optional), then stays as a dashed gray trace, with the last six live and twelve broken zones kept. Once price has moved two average ranges away, a return is scored: HELD when price leaves by two ranges again, BROKE when the zone breaks; the header keeps both counts for the chart you are looking at. The panel carries the readout, the distance to the nearest support and resistance zone, the price at which the RSI would cross its signal on the next bar, a heat ribbon with a mark for every new, reinforced and refused turn, and a relative-volume strip. Eleven values are published for strategies and the Market Analyzer. On a market that reports no volume it runs as a classic RSI and sizes a zone from the turn's wick. A zone describes where momentum turned and where the volume traded; measured on five futures markets, heavier volume at a turn did not make a zone more likely to hold, so the panel states facts and a record and no odds. It is not a forecast. The panel's Y-axis locks by default, so dragging the chart can never push the reading off its own scale. Closed-bar decisions throughout: it does not repaint."
+        "description": "DS ProRSI runs two Wilder RSIs side by side: the classic, and one in which each bar's change is multiplied by its relative volume — the bar's volume against the median of the last twenty bars that closed in the same clock minute, held between one third and three. The weighted line is the one in force; the classic stays behind it as a faint line, and RSI weighting can be set to None. An episode opens when the RSI reaches Oversold or Overbought and closes when it is back at 50. Inside an episode, a cross of the signal line that holds on the next close is a turn, and the turn becomes a zone on the price panel: the far edge at the turn's extreme, the near edge where the nearest 15% of the turn's volume traded (10% Slim, 25% Wide), never thinner than a tenth of an average true range and never thicker than one. Five strata lines mark each sixth of the zone's volume. The flag gives the deepest RSI of the turn, three volume pips — one lit under 1.5 times normal volume, two from 1.5, three from 3 — and a count of the times price has come back into the zone. A turn from a later episode that lands on a live zone reinforces it: one more pip and a doubled mark at its start, instead of a second zone. A zone lives until a bar closes through its far edge (wick-break optional), then stays as a dashed gray trace, with the last six live and twelve broken zones kept. Once price has moved two average ranges away, a return is scored: HELD when price leaves by two ranges again, BROKE when the zone breaks; the header keeps both counts for the chart you are looking at. The panel carries the readout, the distance to the nearest support and resistance zone, the price at which the RSI would cross its signal on the next bar, a heat ribbon with a chevron for every new and reinforced zone and a dot for every refused cross, and a relative-volume strip. Eleven values are published for strategies and the Market Analyzer. On a market that reports no volume it runs as a classic RSI and sizes a zone from the turn's wick. A zone describes where momentum turned and where the volume traded; measured on five futures markets, heavier volume at a turn did not make a zone more likely to hold, so the panel states facts and a record and no odds. It is not a forecast. The panel's scale locks by default: a small drag of its axis is followed, a larger one is ignored and the automatic axis comes back. Closed-bar decisions throughout: it does not repaint."
     },
     {
         "slug": "proliquidityhunter",
         "name": "DS ProLiquidityHunter",
         "kind": "indicator",
-        "series": "pro",
+        "series": "panel",
         "category": "Liquidity & Reach Odds",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": false,
         "purpose": "A liquidity map with a track record — every swing high and low price has left behind drawn as a pool, heated by the measured odds that price reaches it within the horizon, and scored against what happened next on your own chart.",
         "hooks": [
             "Every resting pool, mapped and ranked",
@@ -182,46 +234,55 @@ export const PRODUCTS: Product[] = [
             "SWEPT or RUN, on the next close"
         ],
         "helps": "Every liquidity tool draws the same thing — the highs and lows price left behind — and most stop there. DS ProLiquidityHunter adds how likely price is to go back for each one: every pool carries the measured odds that price trades to it within the horizon, read from your own chart's history and adjusted for the time of day, and the panel scores those odds against what happened next, in its header. When a pool is taken, the next close says whether it was SWEPT or RUN. You see where the liquidity is and what it would take to get there.",
-        "description": "DS ProLiquidityHunter maps every swing extreme that price has moved away from and not traded back through as a pool of resting liquidity: buy-side over the highs, sell-side under the lows. A swing is confirmed by a reversal of Swing size times the average true range — a size, not a bar count — so it means the same thing on every instrument, timeframe and bar type, Renko included. Extremes within a quarter of an average range of each other are one stacked pool, and each pool is ranked LOCAL, SWING or MAJOR by how long its extreme had stood, counted in horizons. The panel draws price as a line on close over those pools and heats each one by the odds that price trades to it within the horizon, 60 bars by default. The odds are a measurement: a yardstick of one sigma of the next horizon, in points, adjusted for each quarter-hour of the day, and a record of how far price went in the horizon after every bar on the chart. Until the chart has built that record, the odds are the textbook ones for a market with no drift. The four tiers — COLD, COOL from 5%, WARM from 25%, HOT from 60% — are probabilities, so there is no threshold to tune, and each is latched so a band does not flicker on a line. A track record in the header reports how often the pools of each tier were taken within the horizon, on the chart you are looking at. When price trades through a pool it is taken, and the next close gives the verdict: back inside the level is SWEPT, still beyond it is RUN. In the margin an odds ladder, three odds zones and a reach bracket describe the present; scroll back and the panel shows the pools as they stood on that bar. On the price chart the pools with the top odds on each side are drawn as dashed levels with a flag at the axis, and a swept MAJOR pool gets a chevron beyond the wick that took it. Two color themes, Moonlight and Heatmap, each with a set for dark and for light charts. Nine values are published for strategies and the Market Analyzer. It reads price only and needs nothing but the chart's own bars. It measures how likely price is to reach a level and marks a precisely defined event; it does not see resting orders, and it is not a forecast of direction. Closed-bar decisions throughout: it does not repaint."
+        "description": "DS ProLiquidityHunter maps every swing extreme that price has moved away from and not traded back through as a pool of resting liquidity: buy-side over the highs, sell-side under the lows. A swing is confirmed by a reversal of Swing size times the average true range — a size, not a bar count — so it means the same thing on every instrument, timeframe and bar type, Renko included. Extremes within a quarter of an average range of each other are one stacked pool, and each pool is ranked LOCAL, SWING or MAJOR by how long its extreme had stood, counted in horizons. The panel draws price as a line on close over those pools and heats each one by the odds that price trades to it within the horizon, 60 bars by default. The odds are a measurement: a yardstick of one sigma of the next horizon, in points, adjusted for each quarter-hour of the day, and a record of how far price went in the horizon after every bar on the chart. Until the chart has built that record, the odds are the textbook ones for a market with no drift. The four tiers — COLD, COOL from 5%, WARM from 25%, HOT from 60% — are probabilities, so there is no threshold to tune, and each is latched so a band does not flicker on a line. A track record in the header reports how often the pools of each tier were taken within the horizon, on the chart you are looking at. When price trades through a pool it is taken, and the next close gives the verdict: back inside the level is SWEPT, still beyond it is RUN. In the margin an odds ladder, three odds zones and a reach bracket describe the present; scroll back and the panel shows the pools as they stood on that bar. On the price chart the two pools with the top odds on each side, 5% or better, are drawn as levels weighted bar by bar by the heat they held, with their odds as a scale beside the axis and a flag giving the price; the pool being hunted gets a caliper from the live price, and a swept MAJOR pool gets a chevron beyond the wick that took it. Three color themes, DsUniverse (the default, in the DS Universe teal and gray), Moonlight and Heatmap, each with a set for dark and for light charts. Nine values are published for strategies and the Market Analyzer. It reads price only and needs nothing but the chart's own bars. It measures how likely price is to reach a level and marks a precisely defined event; it does not see resting orders, and it is not a forecast of direction. Closed-bar decisions throughout: it does not repaint."
     },
     {
         "slug": "proheikinashi",
         "name": "DS ProHeikinAshi",
         "kind": "indicator",
-        "series": "pro",
+        "series": "panel",
         "category": "Heikin-Ashi & Flip Levels",
-        "purpose": "A Heikin-Ashi panel under your candlestick chart — every candle standing on its own open, the price at which its color flips drawn back on the price chart, and the measured odds that it flips on the next bar.",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": false,
+        "purpose": "A Heikin-Ashi panel under your candlestick chart — every candle standing on its own open, the close that turns its color printed on the price chart to the tick, and the measured odds that it flips on the next bar.",
         "hooks": [
             "Heikin-Ashi under real candles",
-            "The flip level, as a real price",
+            "The turning close, to the tick",
             "Flip odds, learned on your chart",
             "Locked panel scale, never drifts"
         ],
-        "helps": "A Heikin-Ashi chart shows the trend and hides the price: its candles are averages, so no open, high, low or close on it is a price that traded. DS ProHeikinAshi leaves the candlestick chart as it is and draws the Heikin-Ashi candle in a panel under it, each candle standing on its own open so color and strength read at a glance. The level that decides the next candle's color is drawn back on the price chart as a real price, with the measured odds that the color flips on the next bar, and two higher-timeframe candles ride above as lanes — three Heikin-Ashi timeframes read without leaving the chart.",
-        "description": "DS ProHeikinAshi builds the classic Heikin-Ashi candle from the chart's own bars — close is the bar's average price, (O + H + L + C) / 4, open is the middle of the candle before it — and never rounds it to a tick, so a bar is built the same way in history and in real time. Each candle is drawn standing on its own open, the dashed line of the panel, on a scale counted in units and fixed at five either side. The next candle opens at the middle of this one's body, so it is the other color exactly when the next bar's average finishes beyond that price: the flip level. It is known the moment a bar closes and is drawn on the price chart as a dashed rail with a flag at the axis. The cushion is how far the real close stands clear of the flip level, in units — one unit is the distance a bar's average ordinarily finishes from the close before it, measured on the chart and never less than one tick — so the same number means the same thing on every instrument and timeframe, and there is no length, threshold or sensitivity to tune. Three tiers follow: FLIP PENDING, the close already through the level, drawn hollow; HOLDING, clear of it by less than two units; FIRM, two units or more clear, in the strong color. The flip odds are the share of past bars with this cushion whose color flipped on the very next bar, read from a book that starts from a table measured on five futures markets and three timeframes and then learns the chart, each reading stated first and scored one bar later; a FLIP RATE chip shows the chart's own record of the three tiers. Two slower Heikin-Ashi candles, five and fifteen times the chart's bar by default, are built from the same bars with no second data series and read as of every bar: two lanes above the candles, the slow one's body as a tide behind them, their own flip rails on price, and a chevron on the bar that closes the slow candle in a new color. Twenty-one values are published for strategies and the Market Analyzer. It reads price only and needs nothing but the chart's own bars. A Heikin-Ashi color describes the last few bars; measured, it did not say where price went next, and a tier speaks for the next bar only — it is not a forecast. The panel's Y-axis locks by default so a chart drag cannot push the candles off their own scale. Closed-bar decisions throughout: it does not repaint."
+        "helps": "A Heikin-Ashi chart shows the trend and hides the price: its candles are averages, so no open, high, low or close on it is a price that traded. DS ProHeikinAshi leaves the candlestick chart as it is and draws the Heikin-Ashi candle in a panel under it, each candle standing on its own open so color and strength read at a glance, with the measured odds that the color flips on the next bar. On the price chart the hinge turns that open back into prices: the level that decides the next candle's color, and the close that would turn it, printed to the tick. Two higher-timeframe candles ride along as lanes and leave their own levels on price — three Heikin-Ashi timeframes read without leaving the chart.",
+        "description": "DS ProHeikinAshi builds the classic Heikin-Ashi candle from the chart's own bars — close is the bar's average price, (O + H + L + C) / 4, open is the middle of the candle before it — and never rounds it to a tick, so a bar is built the same way in history and in real time. Each candle is drawn standing on its own open, the dashed line of the panel, on a scale counted in units and fixed at five either side. The next candle opens at the middle of this one's body, so it is the other color exactly when the next bar's average finishes beyond that price: the flip level. It is known the moment a bar closes and does not move during the next bar. The cushion is how far the real close stands clear of the flip level, in units — one unit is the distance a bar's average ordinarily finishes from the close before it, measured on the chart and never less than one tick — so the same number means the same thing on every instrument and timeframe, and there is no length, threshold or sensitivity to tune. Three tiers follow: FLIP PENDING, the close already through the level, drawn hollow; HOLDING, clear of it by less than two units; FIRM, two units or more clear, in the strong color. The flip odds are the share of past bars with this cushion whose color flipped on the very next bar, read from a book that starts from a table measured on five futures markets and three timeframes and then learns the chart, each reading stated first and scored one bar later; a FLIP RATE readout shows the chart's own record of the three tiers, and a ruler in the right-side margin turns the panel back into prices for the bar that comes next. On the price chart, the hinge: each timeframe's level runs from the bars to a track by the price axis that ends at the turning close — the close that lands the candle's average exactly on its open — and its flag prints that close to the tick, a floor under an up candle and a ceiling over a down one. Two slower Heikin-Ashi candles, five and fifteen times the chart's bar by default, are built from the same bars with no second data series and read as of every bar: two lanes in the panel, the slow one's body as a tide behind the candles, a stair on price with one step at each of their earlier opens, and a chevron on the bar that closes the slow candle in a new color. Twenty-one values are published for strategies and the Market Analyzer. It reads price only and needs nothing but the chart's own bars. A Heikin-Ashi color describes the last few bars; measured, it did not say where price went next, and a tier speaks for the next bar only — it is not a forecast. The panel's Y-axis locks by default so a chart drag cannot push the candles off their own scale. Closed-bar decisions throughout: it does not repaint."
     },
     {
         "slug": "protrendrange",
         "name": "DS ProTrendRange",
         "kind": "indicator",
-        "series": "pro",
+        "series": "panel",
         "category": "Trend & Pullback",
-        "purpose": "A trend, pullback and range panel on one statistical scale — a latched trend state, the pullback filled as a pocket in the trend's own color, and one closed-bar RESUME signal that carries the price where it is wrong.",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": false,
+        "purpose": "A trend, pullback and range panel on one statistical scale — a latched trend state, the pullback filled as a pocket, one closed-bar RESUME that carries the price where it is wrong, and a Tide Gauge on price with the closes that change the state.",
         "hooks": [
             "Trend, pullback and range, named",
             "One RESUME per leg, with its HOLD",
             "No threshold to tune, on any chart",
-            "Locked panel scale, never drifts"
+            "Every state change priced to the tick"
         ],
-        "helps": "A pullback trade needs three answers in a row — is there a trend, is this a pullback inside it or the end of it, and has the pullback finished — and most panels give one of them. DS ProTrendRange gives all three on one scale: a thick TREND line for the tide, a thin SWING line for the wave, a filled pocket while the wave runs against the tide, and one signal, the RESUME, on the bar the pocket closes. When there is no tide to trade with, it says RANGING and draws the range the market is working instead.",
-        "description": "DS ProTrendRange takes one measurement — signed efficiency, how much of the distance price traveled was progress — over two lengths, and scales each by the square root of its length so a 10-bar and a 50-bar reading sit on one statistical scale: 50 is no drift, 84 and 16 are one sigma of it, 97.7 and 2.3 are two. Those levels are constants on every instrument, timeframe and bar type, Renko included, so there is no threshold to tune, and one bar, however large, cannot move a reading as far as one and a half sigma — a single spike is never read as a strong trend. A trend latches ON when the Trend-length reading reaches one sigma and stays on until it crosses back through the center — the same event as the close crossing its own Trend-length average — so the state cannot flicker along a line; past two sigma it is STRONG, and with no trend latched the market is RANGING. While a trend is on, the Swing-length reading crossing the center against it is a PULLBACK, filled in the panel as a pocket in the trend's own color. The one signal is the RESUME: the swing closes back through the center and the next close holds it, given once per leg and graded PRIME, STANDARD or MINOR by the trend it resumes. On the price chart each resume is drawn as a shelf — a level line at the HOLD price, the pullback's own extreme, from the bar that made it to the bar that confirmed the resume — and while it is live a HOLD rail carries that price to the axis, until the trend makes a new extreme or price trades through it. In a range, two rails mark the extreme the last trend left behind and the reaction against it, and a range row along the foot of the panel shows where the close sits in the Trend-length high-low window. Thirteen values are published for strategies and the Market Analyzer. It reads price only and needs nothing but the chart's own bars. It reads the state of the market and marks a precisely defined event; it is not a forecast. The panel's Y-axis locks by default so a chart drag cannot push the reading off its own scale. Closed-bar decisions throughout: it does not repaint."
+        "helps": "A pullback trade needs three answers in a row — is there a trend, is this a pullback inside it or the end of it, and has the pullback finished — and most panels give one of them. DS ProTrendRange gives all three on one scale: a thick TREND line for the tide, a thin SWING line for the wave, a filled pocket while the wave runs against the tide, and one signal, the RESUME, on the bar the pocket closes. When there is no tide to trade with, it says RANGING and frames the range the market is working instead. On the price chart the Tide Gauge turns those decisions into prices: each trend as a line at the close that ends it, and beside the price axis the exact closes that change the state on the bar now forming, with the distance to the nearest one.",
+        "description": "DS ProTrendRange takes one measurement — signed efficiency, how much of the distance price traveled was progress — over two lengths, and scales each by the square root of its length so a 10-bar and a 50-bar reading sit on one statistical scale: 50 is no drift, 84 and 16 are one sigma of it, 97.7 and 2.3 are two. Those levels are constants on every instrument, timeframe and bar type, Renko included, so there is no threshold to tune, and one bar, however large, cannot move a reading as far as one and a half sigma — a single spike is never read as a strong trend. A trend latches ON when the Trend-length reading reaches one sigma and stays on until it crosses back through the center — the same event as the close crossing its own Trend-length average — so the state cannot flicker along a line; past two sigma it is STRONG, and with no trend latched the market is RANGING. While a trend is on, the Swing-length reading crossing the center against it is a PULLBACK, filled in the panel as a pocket in the trend's own color. The one signal is the RESUME: the swing closes back through the center and the next close holds it, given once per leg and graded PRIME, STANDARD or MINOR by the trend it resumes; a ribbon gives every bar's state, with a chevron for each resume. On the price chart each PRIME and STANDARD resume is drawn as a shelf — a level line at the HOLD price, the pullback's own extreme, from the bar that made it to the bar that confirmed the resume — and while it is live a HOLD rail carries that price to a flag at the axis; MINOR resumes stay on the ribbon. The Tide Gauge turns the state into prices: a tideline under every uptrend and over every downtrend at the close that ends it, a lit pocket wherever the trend pulled back, a thin frame at the high and the low of every range, and beside the price axis the gates — every close that changes the state on the bar now forming, printed to the tick and fixed for the life of the bar, with the distance to the nearest. A range row along the foot of the panel shows where the close sits in the Trend-length high-low window. Seventeen values are published for strategies and the Market Analyzer. It reads price only and needs nothing but the chart's own bars. It reads the state of the market and marks a precisely defined event; it is not a forecast. The panel's Y-axis locks by default so a chart drag cannot push the reading off its own scale. Closed-bar decisions throughout: it does not repaint."
     },
     {
         "slug": "bulk-replay-downloader",
         "name": "DS Bulk Replay Downloader",
         "kind": "addon",
-        "series": "utility",
+        "series": "addon",
         "category": "Data Utility",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": false,
         "purpose": "Bulk downloader for NinjaTrader's own Market Replay data — queue every instrument and date you want and it fetches the lot unattended, instead of one instrument and one day at a time.",
         "hooks": [
             "Whole date ranges, one queued run",
@@ -230,30 +291,17 @@ export const PRODUCTS: Product[] = [
             "Files land where Playback expects"
         ],
         "helps": "NinjaTrader's built-in replay download is one instrument, one day, one click — building a useful replay library that way is an evening of clicking for a week of data. DS Bulk Replay Downloader takes a list of instruments and a date range and fetches all of it unattended, showing a per-file progress list and telling you exactly what it got and what it didn't.",
-        "description": "DS Bulk Replay Downloader automates NinjaTrader's own Market Replay (.nrd) download for every instrument-and-day pair you queue. You add instruments from the standard selector, tick the ones this run should include, set a begin and end date, and choose whether to skip weekends and days you already have; a begin date older than NinjaTrader's roughly 90-day serving window is moved forward automatically with a note in the log, and a truncated file is treated as missing and re-fetched rather than silently trusted. Files land in NinjaTrader's own replay folder, so Playback picks them up automatically with no extra step. It supplies no data of its own and bypasses no platform limit — it only orchestrates the same download NinjaTrader already performs, in bulk, because NinjaTrader has never shipped bulk replay downloading itself."
-    },
-    {
-        "slug": "asl",
-        "name": "DS ASL",
-        "kind": "indicator",
-        "series": "exclusive",
-        "category": "Session Levels & Volume Profile",
-        "purpose": "DS Session Levels with the volume added: each session's volume profile inside its bracket, its POC carried forward as a level, HVNs and LVNs marked — built from real trades, completed from 1-minute bars.",
-        "hooks": [
-            "A volume profile in every session",
-            "Each POC carried forward as a level",
-            "HVN and LVN found, no knobs",
-            "Real trades, gaps filled from bars"
-        ],
-        "helps": "A session's high and low show where it traded; they don't show where it did its business. DS ASL adds that: inside every session's bracket, the volume it traded at each price, with the busiest price — the POC — carried forward as a level beside the high and low, so the last session's accepted prices are on the chart when price comes back to them.",
-        "description": "DS ASL — Advanced Session Levels — is DS Session Levels with each session's volume profile built in. Everything DS Session Levels draws is here unchanged — exact session highs and lows, carry-forward, fades, edge tags, presets and alerts — and inside every bracket the session's volume at each price is drawn as thin bars against its first bar, the value area stronger and the POC's bar the longest. The POC becomes a level of its own, labeled where no candle covers it and carried forward until the session opens again; high- and low-volume nodes are found from each session's own trading, with no sensitivity setting, and can be marked in the profile or carried forward as levels. Profiles are built from real trades wherever NinjaTrader's trade history has them, read in the background a day at a time, and completed from the chart's 1-minute bars wherever the history has gaps — so every profile is whole the moment the chart loads and sharpens as the trades arrive, with memory that stays flat however many days are loaded. It comes free with DS Complete and is not sold on its own."
+        "description": "DS Bulk Replay Downloader automates NinjaTrader's own Market Replay (.nrd) download for every instrument-and-day pair you queue. You add instruments from the standard selector, tick the ones this run should include, set a begin and end date, and choose whether to skip weekends (Saturdays) and days already on disk; a begin date older than NinjaTrader's roughly 90-day serving window is moved forward automatically with a note in the NinjaScript Output window, and an interrupted overwrite puts the original file back rather than leaving a broken one. Files land in NinjaTrader's own replay folder, so Playback picks them up automatically with no extra step. It supplies no data of its own and bypasses no platform limit — it only orchestrates the same download NinjaTrader already performs, in bulk, because NinjaTrader has never shipped bulk replay downloading itself."
     },
     {
         "slug": "toolkit",
         "name": "DS Toolkit",
         "kind": "addon",
-        "series": "exclusive",
+        "series": "addon",
         "category": "Workflow & Control",
+        "version": "v3.1",
+        "assembly": "DSCompleteBundleSuite",
+        "isNew": false,
         "purpose": "One translucent rail on your chart: every DS indicator as an on/off row, your drawing tools underneath, and freehand chalk at the bottom.",
         "hooks": [
             "One click per indicator or tool",
@@ -262,7 +310,7 @@ export const PRODUCTS: Product[] = [
             "Chalk that pans, zooms, saves"
         ],
         "helps": "Turning an indicator off usually means the Indicators dialog, a checkbox and Apply; finding the drawing tool you use forty times a day means hunting the toolbar. DS Toolkit puts both in one translucent rail: your DS indicators along the top as simple on/off rows, your drawing tools underneath, and freehand chalk at the bottom — so neither one breaks your rhythm mid-session.",
-        "description": "DS Toolkit is the all-in-one chart rail for the DS Universe suite. The indicator deck lists one row for each DS indicator actually loaded on that chart — nothing else is ever listed — and every switch is a genuine mute, not a preset: turning an indicator off closes its render master and nothing else, so your own settings and templates survive every toggle, and a rebuild (theme change, tab switch, added indicator) never silently loses the arrangement. ALL OFF strips the chart to bare candles for a screenshot and the next click restores exactly what was on, including multi-family products like DS 258. The drawing deck reflects over every drawing tool actually present on your build — asking each for its own name and icon through NinjaTrader's own call, so third-party tools work for free and a helper tool an indicator owns for its own use never shows up as pickable — with a REFRESH button to re-scan after installing something new. DS Chalk is a real drawing tool included with it: every stroke is a genuine time-and-price anchor, so freehand marks pan, zoom and save with the workspace, and Ctrl+Z only ever undoes a chalk stroke while chalk itself is the armed tool. Three panel looks — Solid, Frosted and Ghost — set the rail's own background opacity (100%, 82%, 51%) independently of its idle fade, so Solid genuinely blocks the chart behind it and text and icons stay fully legible in all three."
+        "description": "DS Toolkit is the all-in-one chart rail for the DS Universe suite. The indicator deck lists one row for each DS indicator actually loaded on that chart — nothing else is ever listed — and every switch is a genuine mute, not a preset: turning an indicator off closes its render master and nothing else, so your own settings and templates survive every toggle, and a rebuild (theme change, tab switch, added indicator) never silently loses the arrangement. ALL OFF switches off every DS indicator on the rail in one click for a screenshot — other indicators and your drawings stay — and the next click restores exactly what was on, including multi-family products like DS 258. The drawing deck reflects over every drawing tool actually present on your build — asking each for its own name and icon through NinjaTrader's own call, so third-party tools work for free and a helper tool an indicator owns for its own use never shows up as pickable — with a REFRESH button to re-scan after installing something new. DS Chalk is a real drawing tool included with it: every stroke is a genuine time-and-price anchor, so freehand marks pan, zoom and save with the workspace, and Ctrl+Z only ever undoes a chalk stroke while chalk itself is the armed tool. Three panel looks — Solid, Frosted and Ghost — set the rail's own background opacity (100%, 82%, 51%) independently of its idle fade, so Solid genuinely blocks the chart behind it and text and icons stay fully legible in all three. It is part of DS Complete and is not sold on its own."
     },
     {
         "slug": "adaptive-priceline",
@@ -270,15 +318,18 @@ export const PRODUCTS: Product[] = [
         "kind": "indicator",
         "series": "vault",
         "category": "Chart Essentials",
+        "version": "v3.1",
+        "assembly": "DSAdaptivePriceLine",
+        "isNew": false,
         "purpose": "A self-anchoring replacement for NinjaTrader's native last-price line that re-derives its own geometry on every frame, so it never drifts off the candle no matter how you scroll or zoom.",
         "hooks": [
             "Always anchored to the candle",
             "Bar-close countdown rides the line",
-            "Glow, rounded caps, premium finish",
+            "Glow, rounded caps, anchor circle",
             "Zero per-frame allocations"
         ],
-        "helps": "NinjaTrader's own price line starts at a fixed percentage of the panel's width, so it drifts off the candle the moment you scroll, zoom or change your right margin. DS Adaptive Price Line works out its position again on every render frame instead: the left end sits on the most recent candle, the level tracks the live price, and the right end meets NinjaTrader's own axis marker — wherever you leave the chart.",
-        "description": "DS Adaptive Price Line replaces the geometry behind NinjaTrader's native price line without replacing what it shows: the level itself still comes from the live price, and the value is still read off NT8's own axis marker. What changes is how the line is drawn — on every render frame, the left end is re-anchored to the exact chart position of the most recent candle, rather than trusting a fixed percentage of panel width that has no idea where the candles actually are. On top of that base sits a hand-rendered finish: a luminous glow halo, rounded caps, a candle-to-axis opacity fade, and an anchor circle seated on the candle at its close, so the line is visibly connected to the candle it belongs to (Anchor style AwayFromCandle starts it clear of the candle instead, as far as you set with Candle gap). A countdown chip rides the line with a steady readout to the forming bar's close, timezone-proof (it keeps time from the data feed rather than the PC clock) and countable on Heiken-Ashi and Volumetric charts too — and it can run on its own with the line itself switched off. Painted behind the bars by default so it never covers price, and rendered with zero per-frame allocations so it costs nothing to keep on."
+        "helps": "NinjaTrader's own price line starts at a fixed percentage of the panel's width, so it drifts off the candle the moment you scroll, zoom or change your right margin. DS Adaptive Price Line works out its position again on every render frame instead: the left end sits on the right-most candle on screen, the level tracks the live price, and the right end meets NinjaTrader's own axis marker — wherever you leave the chart.",
+        "description": "DS Adaptive Price Line replaces the geometry behind NinjaTrader's native price line without replacing what it shows: the level itself still comes from the live price, and the value is still read off NT8's own axis marker. What changes is how the line is drawn — on every render frame, the left end is re-anchored to the exact chart position of the right-most candle on screen, rather than trusting a fixed percentage of panel width that has no idea where the candles actually are. On top of that base sits a hand-rendered finish: a luminous glow halo, rounded caps, a candle-to-axis opacity fade, and a small anchor circle seated on the candle at its close, so the line is visibly connected to the candle it belongs to (Anchor style sets it clear of the candle instead). A bracketed countdown tag rides the line with a steady readout to the forming bar's close, timezone-proof (it keeps time from the data feed rather than the PC clock) and it counts down on Heiken-Ashi and Volumetric charts built on a time-based period too — and it can run on its own with the line itself switched off. Painted behind the bars by default so it never covers price, and rendered with zero per-frame allocations so it costs nothing to keep on."
     },
     {
         "slug": "chart-price",
@@ -286,15 +337,18 @@ export const PRODUCTS: Product[] = [
         "kind": "indicator",
         "series": "vault",
         "category": "Chart Essentials",
-        "purpose": "A large, animated last-price readout you can place in any of nine positions on your price panel — it flashes green on an uptick, red on a downtick, and shifts to amber when the tape turns choppy.",
+        "version": "v3.1",
+        "assembly": "DSChartPrice",
+        "isNew": false,
+        "purpose": "A large, animated last-price readout you can place in any of nine positions on your price panel — it flashes DS teal on an uptick, DS gray on a downtick, and shifts to amber when the tape turns choppy.",
         "hooks": [
             "Nine placements on the panel",
-            "Amber the moment chop starts",
+            "Amber when the tape goes nowhere",
             "Three hands-free price alerts",
             "Real per-indicator volume control"
         ],
         "helps": "On a NinjaTrader chart, price lives in one place: the axis, in small type, at the far right. DS Chart Price puts it front and center instead, in a large readout you can place in any of nine spots on the panel, color-coded so you can read direction and conviction from across the room — and it carries a small price-alert engine with built-in tones so you can step away and still hear when a level you set gets hit.",
-        "description": "DS Chart Price renders the current price in large type at any of nine positions on the price panel (top, middle or bottom; left, center or right). Every tick compares the new price to the last and flashes green or red, while choppiness is measured with the Kaufman Efficiency Ratio over a rolling window — low efficiency eases the resting color toward amber, high efficiency holds a strong directional color. The alert engine takes up to three price levels and plays that level's tone whenever price crosses it from either direction, with a re-arm distance in ticks and an optional cooldown so a level cannot repeat-fire while price hovers on it; alerts are realtime-only and never fire on historical bars, chart load or scrolling. Four tones are synthesized in memory with click-free envelopes — Chime, Bell, Pulse and the shared DS Universe tone — so there are no sound files to install, and a 0-100 volume control scales amplitude directly, true per-indicator loudness NinjaTrader's own alert playback cannot offer. Two modes make it calmer: Mono draws the readout in a single color and shows direction as a small change in strength instead of hue, and Reduced motion paces the digits, pulses only the ones that changed and slows the tint; an opacity control lets the bars show through the digits. Performance is deliberate: tick-driven with no forced refresh at its default settings, zero per-frame allocation."
+        "description": "DS Chart Price renders the current price in large type at any of nine positions on the price panel (top, middle or bottom; left, center or right). Every tick compares the new price to the last and flashes DS teal or DS gray, while choppiness is measured with the Kaufman Efficiency Ratio over a rolling window — low efficiency eases the resting color toward amber, high efficiency holds a strong directional color. The alert engine takes up to three price levels and plays that level's tone whenever price crosses it from either direction, with a re-arm distance in ticks and an optional cooldown so a level cannot repeat-fire while price hovers on it; alerts are realtime-only and never fire on historical bars, chart load or scrolling. Four tones are synthesized in memory with click-free envelopes — Chime, Bell, Pulse and the shared DS Universe tone — so there are no sound files to install, and a 0-100 volume control scales amplitude directly, true per-indicator loudness NinjaTrader's own alert playback cannot offer. Two modes make it calmer: Mono draws the readout in a single color and shows direction as a small change in strength instead of hue, and Reduced motion paces the digits, pulses only the ones that changed and slows the tint; an opacity control lets the bars show through the digits. Performance is deliberate: at its default settings it forces no extra chart redraws, with zero per-frame allocation."
     },
     {
         "slug": "ds-258",
@@ -302,15 +356,18 @@ export const PRODUCTS: Product[] = [
         "kind": "indicator",
         "series": "vault",
         "category": "Key Levels",
-        "purpose": "A quiet map of the Nasdaq's 00/20/50/80 price levels, drawn across the whole visible chart so the levels NQ keeps reacting to are never in the way.",
+        "version": "v3.1",
+        "assembly": "DS258",
+        "isNew": false,
+        "purpose": "A quiet map of the Nasdaq's 00/20/50/80 price levels, drawn across the whole visible chart and kept behind your candles, out of the way.",
         "hooks": [
             "Every 00/20/50/80 in view",
             "Clear at a glance, never a wall",
-            "Nothing to calculate or configure",
+            "Nothing to set up on NQ or MNQ",
             "Its own color per level"
         ],
-        "helps": "Nasdaq futures move in hundred-point blocks, and the same four prices inside every block keep doing the work: the 00, the 20, the 50 and the 80. Drawing them by hand gets old fast. DS 258 lays a quiet line on every one of them across the visible chart, in its own color, behind your candles and out of the way — until price stops on one.",
-        "description": "DS 258 is a pure render-only overlay: on every frame it reads the chart's own price scale and lays a line across the full width of the price panel at every 00, 20, 50 and 80 level currently in view — no calculation, no lookback, nothing to configure beyond which families to show. Each of the four levels carries its own DS Universe color (gold for 00, blue for 20, platinum for 50, rose for 80) at a default opacity of 20: clear at a glance, and quiet enough that the map stays behind the chart until price actually reacts to one. On a light chart the default colors are drawn in deeper shades of the same hues, so the map reads there too. Lines draw behind the candles by default and de-clutter automatically as you zoom out — the 20 and 80 families fade first, then the 50, so the chart never turns into a ladder of lines at wide zoom. Support in DS Toolkit covers all four level families from one row, including the mute and restore behavior the rest of the suite uses."
+        "helps": "Nasdaq futures are often read in hundred-point blocks, with the same four prices marked inside each one: the 00, the 20, the 50 and the 80. Drawing them by hand gets old fast. DS 258 lays a quiet line on every one of them across the visible chart, in its own color, behind your candles and out of the way.",
+        "description": "DS 258 is a pure render-only overlay: on every frame it reads the chart's own price scale and lays a line across the full width of the price panel at every 00, 20, 50 and 80 level currently in view — no calculation and no lookback; on NQ and MNQ the defaults are the map, and Block size and Level shift move it to another market or onto the cash index. Each of the four levels carries its own DS Universe color (gold for 00, blue for 20, platinum for 50, rose for 80) at a default opacity of 20: clear at a glance, and quiet enough that the map stays behind the chart until price actually reacts to one. On a light chart the default colors are drawn in deeper shades of the same hues, so the map reads there too. Lines draw behind the candles by default and de-clutter automatically as you zoom out — the 20 and 80 families step aside first, then the 50, and declutter never hides the 00s, so the chart never turns into a ladder of lines at wide zoom. Support in DS Toolkit covers all four level families from one row, including the mute and restore behavior the rest of the suite uses."
     },
     {
         "slug": "parallax",
@@ -318,6 +375,9 @@ export const PRODUCTS: Product[] = [
         "kind": "indicator",
         "series": "vault",
         "category": "Multi-Timeframe Liquidity",
+        "version": "v3.1",
+        "assembly": "DSParallax",
+        "isNew": false,
         "purpose": "A multi-timeframe liquidity matrix: up to four live higher-timeframe charts on your chart, each marking where resting stops are likely to sit.",
         "hooks": [
             "Four timeframes, one chart",
@@ -326,7 +386,7 @@ export const PRODUCTS: Product[] = [
             "Swept levels ghost out"
         ],
         "helps": "You trade one timeframe. The structure that decides whether your trade works lives on others. DS Parallax puts up to four live higher-timeframe charts on the chart you're executing on — each with its own axis, candles and countdown to close — and marks the one thing that matters most on every one of them: where the resting stops are.",
-        "description": "DS Parallax draws up to four live higher-timeframe mini-charts (15m/1h/4h/1D by default) on your execution chart, each auto-scaled and running its own countdown to close, so the higher-timeframe pattern stays readable at a glance without ever changing your chart's own timeframe. Each panel can be built on the bars a trader actually executes on — minute, hour, day, week or second bars, or tick, volume, range or Renko bars, exactly as NinjaTrader builds them on a chart — and a range or Renko panel shows the ticks up and down to its next bar and marks both prices on the panel, while a tick or volume panel counts down the trades or contracts left in its bar. Buy-side liquidity is marked just above unswept swing highs, sell-side just below unswept swing lows, and relative-equal highs and lows are clustered into a single level with a touch count — because each separate test tends to leave another layer of stops beyond it, which is the only strength the engine can honestly claim. A pool is drawn only while it is live — no newer bar has traded through it, so there is no wait-N-bars pivot delay — and once price sweeps a level and closes back inside, it is ghosted with a small x at the sweep bar, because the sweep itself is the pattern worth recognizing; a level price closed through and held beyond was a breakout, and it is simply gone. A fold tab collapses the whole matrix for a clean chart without taking the indicator off."
+        "description": "DS Parallax draws up to four live higher-timeframe mini-charts (15m/1h/4h/1D by default) on your execution chart, each auto-scaled and running its own countdown to close, so the higher-timeframe pattern stays readable at a glance without ever changing your chart's own timeframe. Each panel can be built on the bars a trader actually executes on — minute, hour, day, week or second bars, or tick, volume, range or Renko bars, exactly as NinjaTrader builds them on a chart — and a range or Renko panel shows the ticks up and down to its next bar and marks both prices on the panel, while a tick or volume panel counts down the trades or contracts left in its bar. Buy-side liquidity is marked just above unswept swing highs, sell-side just below unswept swing lows, and relative-equal highs and lows are clustered into a single level with a touch count — because each separate test tends to leave another layer of stops beyond it, which is the only strength the engine can honestly claim. A pool is drawn only while it is live — no newer bar has traded through it, so there is no wait-N-bars pivot delay — and once price sweeps a level and closes back inside, it is ghosted with a small x at the sweep bar, because the sweep itself is the pattern worth recognizing; a level price closed through and held beyond was a breakout, and it is simply gone. It opens on a panel of its own below the chart, where the mini-charts fill the panel and the divider sizes it; moved over price (Panel: Same as input series), a fold tab collapses the whole matrix for a clean chart without taking the indicator off."
     },
     {
         "slug": "session-levels",
@@ -334,6 +394,9 @@ export const PRODUCTS: Product[] = [
         "kind": "indicator",
         "series": "vault",
         "category": "Session Levels",
+        "version": "v3.1",
+        "assembly": "DSSessionLevels",
+        "isNew": false,
         "purpose": "The Asia, London and New York highs and lows, drawn exactly where each session started and finished, and carried forward until that session opens again — free for everyone.",
         "hooks": [
             "Every session's high and low, exact",
@@ -342,55 +405,7 @@ export const PRODUCTS: Product[] = [
             "Futures, ICT and forex presets"
         ],
         "helps": "Every trading session leaves two prices behind — its high and its low — and many traders read each session against the one before it: does London hold inside the Asia range, and which of London's levels does New York test first? Marking them by hand every day is slow, and easy to get wrong across time zones. DS Session Levels draws them for you, exactly, on every intraday chart.",
-        "description": "DS Session Levels draws the high and low of every trading session as a short bracket over exactly the bars of that session — Asia, London and New York on the futures clock by default, each in its own DS Universe color (violet, teal, gold). After a session closes, its levels carry forward as dotted lines until that session opens again and fade from the bar that closes through them, so the levels still in play are named by small tags at the right edge. Sessions are clock times in New York time, converted with the Windows time-zone rules, so they land correctly on any PC and through every daylight-saving change. The highs and lows are always real traded prices from inside the session: on range, Renko, tick, Heiken Ashi and 60-minute charts a 1-minute series supplies them. Presets for the futures ETH split, the ICT killzones and the classic forex sessions; every name, time and color editable; eight Data Box values for the Market Analyzer and strategies; alerts on a close through a level or price nearing one. It draws behind the candles and never touches the price scale. Free for everyone."
-    },
-    {
-        "slug": "stochastics",
-        "name": "DS Stochastics",
-        "kind": "indicator",
-        "series": "vault",
-        "category": "Momentum & Rotation",
-        "purpose": "Four stochastics of four speeds in one panel, latching into ROTATION, PRIME and PULLBACK states so a real turn stands out from a lane that only wobbled.",
-        "hooks": [
-            "Four speeds, one quad latch",
-            "ROTATION, PRIME, PULLBACK named",
-            "Per-lane divergence, confluence counted",
-            "Locked panel scale, never drifts"
-        ],
-        "helps": "One stochastic lane tells you overbought or oversold on one timescale and leaves you guessing whether that actually means anything. DS Stochastics runs four stochastics of four different speeds in the same panel and only calls a state when they agree: a quad latch arms when every lane sits at an extreme together, and from there ROTATION, PRIME and PULLBACK name exactly what kind of turn is unfolding — so a real rotation stands apart from a lane that simply wobbled.",
-        "description": "DS Stochastics stacks four stochastic oscillators — fast, standard, slow and long, at 9/3, 14/3, 40/4 and 60/10 — into one panel, each lane heat-colored by its %D value with a quieter %K line underneath and a shared state ribbon above. A quad latch arms only when all four lanes are extreme together, and releases the moment the slowest lane crosses back through fifty. From an armed latch, three named states follow: ROTATION when the fastest lane turns back out of its extreme, PRIME when that rotation carries a same-direction divergence with it (the highest-conviction read, flagged once per arm), and PULLBACK when the slowest lane stays embedded in a trend while the fastest lane dips and turns without ever confirming a genuine reversal. Divergence is tracked independently on every lane from confirmed pivots, with a confluence count showing how many lanes agree at once, marked both on the panel and as a price-panel level. The panel's Y-axis locks by default so a chart drag cannot misalign the four 0-100 lanes against each other. Closed-bar decisions throughout: it does not repaint. Free for everyone."
-    },
-    {
-        "slug": "squeeze",
-        "name": "DS Squeeze",
-        "kind": "indicator",
-        "series": "vault",
-        "category": "Squeeze & Reversion",
-        "purpose": "A single panel joining TTM-style squeeze compression, momentum and wave context into one read, so a fire is graded by what is backing it, not just flagged.",
-        "hooks": [
-            "Compression as one live number",
-            "Every fire graded, not just fired",
-            "Reversion armed only in the quiet",
-            "TTM waves read as context"
-        ],
-        "helps": "A squeeze indicator that only tells you a squeeze is on leaves the two harder questions unanswered: how good is the fire when it comes, and is a reversion trade even on the table right now. DS Squeeze reads compression as one continuous number instead of a binary dot, grades every fire against ADX and wave context the moment it happens, and only arms its reversion play when there genuinely is no squeeze and no run to fade.",
-        "description": "DS Squeeze measures compression as Bollinger Band half-width divided by ATR — a continuous read with the three classic tiers, COILING, SQUEEZE and DEEP, as thresholds on top of it rather than the whole story. A fire triggers on the close that leaves the tightest tier in the direction of momentum, and a run is considered over only after two fading bars, so the panel does not call the end of a move on the first pause. Momentum is TTM's own linear-regression read, normalized by ATR and drawn as a line over a quiet field, with the centerline itself colored by the current compression tier. Every fire is graded, not just flagged: ADX at or below twenty plus the state of the C and B wave horizons produce a grade from PRIME down to BARE, or AGAINST FLOW when the wave context disagrees with the fire's direction — and an EARLY read appears when the fastest wave is already hooking toward the medium and slow waves inside an active squeeze, ahead of the fire itself. A separate reversion engine watches RSI(9) against 65/35 and an ATR-banded 25-period EMA and arms a mean-reversion setup, with a defined target and 1:1 risk, only when neither a squeeze nor a running fire is in effect — so the two playbooks never compete for your attention on the same bar. The panel's Y-axis locks by default so a chart drag cannot distort the compression and momentum reads against each other. Closed-bar decisions throughout: it does not repaint. Free for everyone."
-    },
-    {
-        "slug": "macd",
-        "name": "DS MACD",
-        "kind": "indicator",
-        "series": "vault",
-        "category": "Momentum & Trend",
-        "purpose": "A MACD panel rebuilt on the volatility-normalized MACD-V scale, with the price that will cross the signal line solved in closed form before the bar even closes.",
-        "hooks": [
-            "Cross price solved before it happens",
-            "MACD-V gives it real fixed zones",
-            "Six-state momentum ribbon",
-            "Divergence with a full lifecycle"
-        ],
-        "helps": "A standard MACD tells you a cross happened only after the bar that made it closes — a beat too late to act on cleanly, and read on a scale that means something different on every instrument. DS MACD solves the price that will cross the signal line before the bar closes, reads on the same volatility-normalized MACD-V scale on every chart, and grades every divergence through a full lifecycle instead of leaving you to eyeball whether it is still valid.",
-        "description": "DS MACD keeps the classic fast/slow EMA and signal-line structure but changes what you read and when. The close that will cross the signal line on the forming bar is solved in closed form from the prior bar — exact on the Classic and PPO scales, and within that one bar's change in ATR on the default MACD-V scale — and shown three ways: a price-panel rail with an axis flag, a header chip, and a panel target dash, alongside the zero-line cross price for the same bar. The default scale is MACD-V (Spiroglou, Charles H. Dow Award), which gives the panel genuine fixed zones and a state ribbon across six regimes — RISK, RALLYING, RETRACING, RANGING, REBOUNDING, REVERSING — instead of an axis that rescales itself on every instrument. Four early-signal layers are built in: a histogram slope-flip, a pre-cross alarm, a zero-line cross read together with its regime context, and ranging suppression so a flat market does not fire on noise. Divergence runs on Elder's relative-depth and separate-legs gates against the histogram (the form that actually matches his rule; applied to the MACD line directly it rejects most sound patterns), carries a PENDING to CONFIRMED, BROKEN or EXPIRED lifecycle instead of a single static mark, and also catches exaggerated equal-extreme patterns. The panel's Y-axis locks by default so a chart drag cannot push the reading off its own scale. Closed-bar decisions throughout: it does not repaint. Free for everyone."
+        "description": "DS Session Levels draws the high and low of every trading session as a short bracket over exactly the bars of that session — Asia, London and New York on the futures clock by default, each in its own DS Universe color (violet, teal, gold). After a session closes, its levels carry forward as dotted lines until that session opens again and fade from the bar that closes through them; small tags at the right edge name each level still carrying forward, faint once it has been taken. Sessions are clock times in New York time, converted with the Windows time-zone rules, so they land correctly on any PC and through every daylight-saving change. The highs and lows are always real traded prices from inside the session: on range, Renko, tick, Heiken Ashi and 60-minute charts a 1-minute series supplies them. Presets for the futures ETH split, the ICT killzones and the classic forex sessions; every name, time and color editable; eight Data Box values for the Market Analyzer and strategies; alerts on a close through a level or price nearing one. It draws behind the candles and never touches the price scale. Free for everyone."
     },
     {
         "slug": "vwap",
@@ -398,15 +413,18 @@ export const PRODUCTS: Product[] = [
         "kind": "indicator",
         "series": "vault",
         "category": "VWAP & Value",
-        "purpose": "A VWAP panel on two clocks — a live VWAP that follows price and the session VWAP as the anchor, each inside bands measured on your own chart to hold half and nine in ten closes, with a forward view in the margin — free for everyone.",
+        "version": "v3.1",
+        "assembly": "DSVWAP",
+        "isNew": false,
+        "purpose": "The session VWAP drawn on your chart with edges measured to hold nine closes in ten, and the 9 and 21 EMAs that color it only while the trend agrees with value — quiet the rest of the time — free for everyone.",
         "hooks": [
-            "Two VWAPs: value now, value today",
-            "Bands that hold 50% and 90%, measured",
-            "Reach and return odds, in the margin",
-            "The same line on every chart"
+            "On the chart, behind the candles",
+            "Colored only when the trend agrees",
+            "Edges that hold nine in ten, measured",
+            "Same line on minute, tick and Renko"
         ],
-        "helps": "A VWAP answers one question — where is value? — and there are two honest answers. Value today is the session's VWAP; value now is what the market has been willing to pay lately. On a day that travels, the session VWAP ends up a long way from price with nothing in between, and the usual bands are sigma multiples chosen in advance, not a measured share of closes. DS VWAP draws both values, puts measured lines around each, and uses the chart's right-side margin to show how far price has tended to travel within the next horizon of bars.",
-        "description": "DS VWAP draws value on two clocks. The live VWAP keeps a volume clock: its memory is a half-life counted in contracts traded, so heavy trade ages old prices faster and a quiet hour forgets almost nothing, and it never resets. Around it stand nine lines a side, each holding one more tenth of the closes — the core holds half, the edge nine in ten — with the number of sigmas that takes learned from the chart's own closes instead of assumed. Price runs through that band as a line on close: premium ground above the live VWAP, discount ground below, and the line in the strong color with the gap filled whenever the close stands beyond the edge. The session VWAP is the anchor, started at the session's open and again at the cash open by default (Session, Week and Month are the other anchors), with its own measured edges, and it is named at the border with an arrow when the day has left it outside the frame. Both VWAPs are built on one-minute bars the indicator adds itself, so a five-minute, a tick and a Renko chart of the same instrument show the same lines. The session has one latched state — EXTENDED, on a close beyond its edge confirmed by the next close — ending BACK IN VALUE or AT VWAP. The chart's right-side margin looks forward: three reach contours for how far price traveled within the horizon 60%, 25% and 5% of the time, the path of the live band if price holds, an odds ruler, and the measured odds of a return to the session VWAP in four fixed tiers. Two track records, HELD and RETURNED, keep the lines' and the odds' own score on screen. Nineteen values are published for strategies and the Market Analyzer. It measures where price stands and what a move would take; it does not claim that a stretch reverts or that it continues. Closed-bar decisions throughout: it does not repaint. Free for everyone."
+        "helps": "Most traders run a VWAP beside a pair of EMAs and judge by eye whether the two agree. Read raw, that stack — price over the fast EMA, the fast over the slow, the slow over the VWAP — sets and breaks every few bars, and the usual VWAP bands are sigma multiples chosen in advance rather than a measured share of closes. DS VWAP puts the session VWAP on the chart with edges measured on your own chart, and colors the VWAP and the EMAs only while the trend has carried its own average out of value and holds it there, so the chart stays quiet until there is something to say.",
+        "description": "DS VWAP draws the session VWAP on the price chart, behind the candles. It is built on one-minute bars the indicator adds itself, so a five-minute, a tick and a Renko chart of the same instrument show the same line, and it starts at the session's open and again at the cash open by default (Session, Week and Month are the other anchors). Two dotted edges stand either side of it: they hold nine closes in ten, with the number of sigmas that takes learned from the chart's own closes instead of assumed. Beside it run the 9 and 21 EMAs, by NinjaTrader's own formula on the chart's bars. When price is beyond the fast EMA, the fast beyond the slow and the slow beyond the VWAP's measured 50% core, all on one side, the trend is COHERENT: the gap between the EMAs fills with the side's color and the VWAP takes the same color, until the EMAs cross or the slow EMA falls back inside the core. The rest of the time the VWAP is a neutral line and the EMAs are faint. The session has one latched state — EXTENDED, on a close beyond an edge confirmed by the next close — drawn as that edge in the strong color, and ending BACK IN VALUE or AT VWAP. Flags at the price axis name the VWAP, its edges and the slow EMA, a level beyond the chart is flagged at its border, and one caption says what the chart is in. It leaves the chart's scale to the candles. Fourteen values are published for strategies and the Market Analyzer. Coherence describes the market's condition; it is not a call on direction. Closed-bar decisions throughout: it does not repaint. Free for everyone."
     },
     {
         "slug": "live-background",
@@ -414,6 +432,9 @@ export const PRODUCTS: Product[] = [
         "kind": "indicator",
         "series": "vault",
         "category": "Chart Personalization",
+        "version": "v3.1",
+        "assembly": "DSLiveBackground",
+        "isNew": false,
         "purpose": "Your own MP4, MOV or animated GIF, or a still picture, playing behind every candle, line and drawing, looping without a seam and drawn at the exact pixel size of your chart.",
         "hooks": [
             "MP4, MOV, GIF or a still picture",
@@ -422,7 +443,7 @@ export const PRODUCTS: Product[] = [
             "Rests when the chart is out of sight"
         ],
         "helps": "NinjaTrader lets a chart show a still picture behind the bars, and nothing that moves. DS Live Background plays your own video there instead, so the screen you watch for hours is one you want to look at, while the candles stay the brightest thing on it.",
-        "description": "DS Live Background plays your own MP4, MOV, M4V or MKV (H.264, or HEVC, VP9 and AV1 once Windows has Microsoft's extension), an animated GIF with its transparency, or a PNG, JPG or BMP still behind every chart object. It decodes with Windows' own media decoders, on the graphics card wherever the PC allows, at the exact pixel size of the panel, so it stays sharp at any window size and loops without a seam. Eight settings in three groups: Media file, Play and Speed (25 to 400%); Fit (Fill, Fit, Stretch, Center), Opacity (5 to 100%, default 30), Backdrop (Dark by default, which gives the picture its own black base so it looks the same on any chart background color, or ChartBackground) and Blur (Off, Light, Medium, Heavy); and Max frame rate (default 30 fps). It is always the bottom layer: candles, indicators, drawings and the chart's grid lines draw on top, and clicks go straight through to the chart. Playback stops and uses no processing when the chart is hidden, minimized or on a background tab, and the frame rate eases down if a busy chart needs the room. Sound is never played, and phone videos show upright. Free, with no license to activate."
+        "description": "DS Live Background plays your own MP4, MOV, M4V or MKV (H.264, or HEVC, VP9 and AV1 once Windows has Microsoft's extension), an animated GIF with its transparency, or a PNG, JPG or BMP still behind every chart object. It decodes with Windows' own media decoders, on the graphics card wherever the PC allows, at the exact pixel size of the panel, so it stays sharp at any window size and loops without a seam. Nine settings in three groups: Media file, Play and Speed (25 to 400%); Fit (Fill, Fit, Stretch, Center), Opacity (5 to 100%, default 30), Backdrop (Dark by default, which gives the picture its own black base so it looks the same on any chart background color, or ChartBackground) and Blur (Off, Light, Medium, Heavy); Smooth playback (on by default: the video plays in its own layer beneath the chart, at its full frame rate however many indicators run) and Max frame rate (default 30 fps). It is always the bottom layer: candles, indicators, drawings and the chart's grid lines draw on top, and clicks go straight through to the chart. Playback stops and uses no processing when the chart is hidden, minimized or on a background tab, and with Smooth playback the chart never redraws for the video. Sound is never played, and phone videos show upright. Free, with no license to activate."
     },
     {
         "slug": "time-intervals",
@@ -430,6 +451,9 @@ export const PRODUCTS: Product[] = [
         "kind": "addon",
         "series": "vault",
         "category": "Workflow & Control",
+        "version": "v2.1",
+        "assembly": "DSTimeIntervals",
+        "isNew": false,
         "purpose": "Your favorite timeframes as one-click buttons on every chart toolbar, a teal line under the one the chart is on, and every common interval on one compact grid behind the ▾.",
         "hooks": [
             "Your favorites on every chart toolbar",
@@ -439,6 +463,25 @@ export const PRODUCTS: Product[] = [
         ],
         "helps": "Switching timeframe in NinjaTrader means opening the interval list and picking from it, dozens of times a session. DS Time Intervals puts the timeframes you actually trade straight on every chart's toolbar, so a switch is one click and the teal line always tells you where you are.",
         "description": "DS Time Intervals is a chart-toolbar add-on, not an indicator: once imported, a row of favorite timeframes (1m, 5m, 15m, 1h and 4h to start) sits directly on the toolbar of every chart, transparent and boxless, so it reads as part of the platform. One click switches the chart, and a thin teal line under a button marks the timeframe the chart is on; when the chart is on a timeframe that is not a favorite, it shows beside the ▾ instead (for example 3m ▾). The ▾ opens every common interval on one compact grid, in rows by bar type: seconds, minutes, hours, days to years, then tick, volume, range and Renko. A click switches the chart and a right-click pins or unpins that interval. The favorites window adds any value and unit, keeps one to eight, always in timeframe order, and previews the toolbar before Save; favorites are shared by every chart and saved in Documents\\NinjaTrader 8\\DSTimeIntervals.txt. Hours are minute bars (1h is 60 minutes, 4h is 240), exactly as NinjaTrader's own list builds them; a Bid or Ask chart stays on Bid or Ask; and changes are spaced at least ¾ of a second apart, so quick clicks land on the last one without straining the data feed. It follows the NinjaTrader skin, dark or light, without a restart, does almost no work on an idle chart, and if anything goes wrong it does nothing and writes one line starting [DS Time Intervals] to the NinjaScript Output window. Free, with no license to activate."
+    },
+    {
+        "slug": "volume",
+        "name": "DS Volume",
+        "kind": "indicator",
+        "series": "vault",
+        "category": "Volume & Participation",
+        "version": "v3.1",
+        "assembly": "DSVolume",
+        "isNew": false,
+        "purpose": "Volume on the bottom of your price chart, read against what that exact minute of the day normally trades — quiet, normal and heavy bars weighted, and the rare spike marked when its bar closes.",
+        "hooks": [
+            "Every bar weighed against its minute",
+            "Quiet, normal, heavy at a glance",
+            "Rare spikes, decided at the close",
+            "On the price chart, no extra panel"
+        ],
+        "helps": "The native VOL indicator tells you how many contracts traded, not whether that is a lot: 600 NQ contracts in a minute is a quiet minute at the 09:30 open and an eruption at 8 in the evening. DS Volume weighs every bar against the same minutes of the previous 20 sessions and against how hard the market is running today, so a heavy bar looks heavy, a quiet one looks quiet, and the rare bar that is unusual even for today is marked as a spike.",
+        "description": "DS Volume draws the chart's volume as a low strip along the bottom of the price panel, behind the candles, with no panel of its own. Every completed 1-minute bar is filed by its exchange trading day and its minute of the day in the instrument's own time zone, and each chart bar's window is compared with the same clock window on the previous 20 qualifying sessions, so it reads minute, second, tick, range, volume, Renko and Heiken Ashi charts alike. The typical volume is the median and the spread the median absolute deviation, both on a log scale, so one FOMC day or one half-day holiday cannot move either; sessions that traded far less than the rest are left out automatically, and the history is requested in the background merged across contract rolls. A running tempo (a 30-minute half-life, reset every session) measures how far today has run above or below its baseline. A bar 2 robust standard deviations below or above the clock baseline is QUIET or HEAVY; a SPIKE stands 3.5 or more above it once the tempo is taken out (the Iglewicz–Hoaglin outlier rule, not a tuned setting), is decided when its bar closes, and spikes within 15 minutes of each other are one burst, labelled and alerted once. A typical-volume line, a live-pace cap on the developing bar, a now / tempo / session caption and hover details sit on the strip, and five values are published for the Strategy Builder and the Market Analyzer. Day, week, month and year charts are read against the previous 20 bars. Every bar is compared only with sessions before its own, so history reads exactly as it did live: it does not repaint. It reads participation, not direction. Free for everyone."
     }
 ];
 

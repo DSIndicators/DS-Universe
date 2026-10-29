@@ -1,1075 +1,1089 @@
 @tailwind base;
-@tailwind components;
 @tailwind utilities;
 
-/* ------------------------------------------------------------------
-   DS Universe — base
-   Graphite ground. Soft light type. One gold accent. Generous air.
-   (Dark since 2026-09-20 — the site now sits on the same dark as every
-   chart, box and product guide it shows. Tokens: tailwind.config.ts.)
-   ------------------------------------------------------------------ */
+/*
+ * DS Universe — white, wide body (2026-10-26).
+ *
+ * THE PAGE IS THE CHART'S OWN WHITE. Tom's charts are shot on a white
+ * NinjaTrader template whose ground measures #FEFEFE (tools/wide.mjs, 70-95% of
+ * every picture). The page is set to exactly that, so a picture has no visible
+ * edge: the candles sit straight on the page. No frames, no plates, no card
+ * outlines, no vertical rules anywhere; the only lines are horizontal hairlines
+ * between rows.
+ *
+ * Color: ink on white, one accent (the house bull teal #009999), used for marks
+ * and focus only. Text colours, measured on #FEFEFE (WCAG 2.2):
+ *   ink   #1C2326  15.6:1      ink-2 #4D575C  7.4:1      ink-3 #697277  4.9:1
+ * Teal is 3.6:1, so it never carries small text.
+ *
+ * Type: Manrope (display — geometric, open, sits beside the new helmet mark
+ * without imitating its lettering) + Inter Tight (text, the current site's
+ * face). Figures are Inter Tight's tabular numerals; no monospace.
+ */
+:root {
+  --paper: #fefefe;
+  --haze: #f5f6f6;
+  --ink: #1c2326;
+  --ink-2: #4d575c;
+  --ink-3: #697277;
+  --rule: #e7eaeb;
+  --rule-2: #d3d8da;
+  --teal: #008080;
+  --teal-deep: #006b6b;
+  --teal-tint: #eef6f6;
+  --violet: #a33dff;
 
-@layer base {
-  :root {
-    /* Dark form controls, scrollbars and autofill from the browser itself.
-       "only": never let a browser's own dark mode repaint the site (see
-       app/layout.tsx, viewport.colorScheme). The plain line first, for any
-       browser that does not know "only". */
-    color-scheme: dark;
-    color-scheme: only dark;
+  --g: clamp(20px, 3.6vw, 88px); /* the side gutter: space, never a line */
+  --gap: clamp(20px, 2.4vw, 56px);
+  --hdr: 68px;
+  --ease: cubic-bezier(0.22, 0.61, 0.18, 1);
+  --ease-draw: cubic-bezier(0.65, 0, 0.15, 1);
 
-    /* THE WIDE BODY (2026-10-09). Tom: "our website is just constricted to the
-       middle which makes it feel cluttered and cheap". The page used to be a
-       fixed 1200px column (1120px of content) whatever the screen; it is now a
-       fluid CANVAS that grows with the window up to 1680px of content, inside
-       a gutter that grows with it. What keeps it elegant at width is not the
-       stretch but what is held back: running text keeps its reading measure
-       (max-w-* on every paragraph), the type scale grows in proportion
-       (.display-*), and pictures, shelves and charts take the room.
-         --canvas  the widest the content gets
-         --gutter  the side margin of the canvas, 24px on a phone → 80px
-         --edge    where the content starts, from the window's edge
-       .wrap uses the first two; full-bleed pieces (.bleed-r, the vault rail,
-       the canvas rails) use --edge. */
-    --canvas: 1680px;
-    --gutter: clamp(24px, 4.2vw, 80px);
-    --edge: max(var(--gutter), calc((100vw - var(--canvas)) / 2));
-
-    /* THE TYPE STEP (2026-10-09, Tom: "we can raise the fonts a little").
-       Every fixed text size on the site is written as Npx × --type, so on a
-       wide screen the whole page's small type — labels, captions, body, the
-       instrument mono — rises together by one step, in proportion, instead of
-       staying laptop-sized inside a wider canvas. Headings already scale. */
-    --type: 1;
-  }
-  @media (min-width: 1536px) { :root { --type: 1.06; } }
-  @media (min-width: 1880px) { :root { --type: 1.1; } }
-  html {
-    /* clip, never hidden: nothing may scroll the page sideways (a full-bleed
-       piece measured in vw counts the scrollbar), and clip keeps sticky. */
-    overflow-x: clip;
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-  }
-  body {
-    @apply bg-ground font-sans text-[length:calc(15px*var(--type))] leading-[1.6] text-ink;
-    letter-spacing: -0.005em;
-    font-feature-settings: "cv11", "ss01", "kern";
-    text-rendering: optimizeLegibility;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  /* Figures line up in every column, everywhere. */
-  .font-mono {
-    font-feature-settings: "zero" 0, "calt" 0;
-  }
-  ::selection {
-    background: rgba(205, 166, 86, 0.38);
-    color: #ffffff;
-  }
-  :focus-visible {
-    outline: 2px solid #cda656;
-    outline-offset: 3px;
-    border-radius: 2px;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
-  }
+  color-scheme: light;
 }
 
-@layer components {
-  .wrap {
-    @apply mx-auto w-full max-w-wrap;
-    padding-inline: var(--gutter);
-  }
+html {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--hdr) + 12px);
+}
+body {
+  background: var(--paper);
+  font-family: var(--font-text), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  font-feature-settings: "ss01" 0, "cv11" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection { background: rgba(0, 153, 153, 0.16); }
 
-  /* Type scale — display is light and tight, the way the reference sets it. */
-  /* THE SHARP SCALE (2026-09-27). Smaller and lighter than before, set
-     tight: Inter Tight at a mid weight (never the 300 hairline, which bleeds
-     on a dark ground) with negative tracking that grows with the size. The
-     reference (quanttechnology.com) sets 30px heads at 450 and 14.5px body. */
-  /* WIDE BODY: each size keeps the proportion to the window it had at ~1300px
-     (where the sharp scale was approved) and grows on wider screens instead of
-     stopping, so headlines never shrink into the wider canvas. */
-  .display-xl {
-    @apply font-display font-[380] tracking-[-0.038em] text-[clamp(2.4rem,calc(1rem+3.4vw),4.6rem)] leading-[1.02];
-  }
-  .display-lg {
-    @apply font-display font-[400] tracking-[-0.032em] text-[clamp(1.85rem,calc(0.8rem+2.2vw),3.2rem)] leading-[1.06];
-  }
-  .display-md {
-    @apply font-display font-[420] tracking-[-0.024em] text-[clamp(1.4rem,calc(0.7rem+1.4vw),2.3rem)] leading-[1.12];
-  }
-  .display-sm {
-    @apply font-display font-[500] tracking-[-0.012em] text-[1.0625rem] leading-[1.3];
-  }
-  .lede {
-    @apply text-[clamp(1rem,calc(0.75rem+0.45vw),1.25rem)] leading-[1.6] text-slate;
-  }
-  .body {
-    @apply text-[length:calc(15px*var(--type))] leading-[1.7] text-slate;
-  }
-  /* Labels speak in the instrument voice: mono, small, spaced. */
-  .label {
-    @apply font-mono text-[length:calc(10.5px*var(--type))] font-normal uppercase tracking-[0.16em] text-mute;
-  }
-  .hairline {
-    @apply border-t border-line;
-  }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 1px; }
 
-  /* Buttons — two, that's it.
-     Primary is IVORY on dark, not white: pure white at button size glares next
-     to 15px type, and ivory is the light the box art's gold sits in. The hover
-     brightens it and adds the faintest gold bloom rather than a grey shadow,
-     which cannot be seen on a dark ground. */
-  .btn {
-    @apply inline-flex h-10 items-center justify-center gap-2 rounded-md px-5 text-[length:calc(13.5px*var(--type))] font-medium tracking-[-0.005em] transition-all duration-200 ease-silk;
-  }
-  .btn-primary {
-    @apply btn bg-ivory text-ground hover:bg-white hover:shadow-[0_0_0_1px_rgba(205,166,86,0.35),0_10px_30px_-12px_rgba(205,166,86,0.45)];
-  }
-  .btn-ghost {
-    @apply btn border border-line-strong bg-white/[0.02] text-ink hover:border-ink/60 hover:bg-white/[0.05];
-  }
+/* ---------------------------------------------------------------- type */
+.d1, .d2, .d3, .d4 { font-family: var(--font-display), var(--font-text), sans-serif; color: var(--ink); }
+.d1 { font-weight: 300; font-size: clamp(3.1rem, 1.2rem + 6.6vw, 10rem); line-height: 0.94; letter-spacing: -0.052em; }
+.d2 { font-weight: 300; font-size: clamp(2.4rem, 1.2rem + 3.2vw, 5.25rem); line-height: 1; letter-spacing: -0.042em; }
+.d3 { font-weight: 400; font-size: clamp(1.6rem, 1.05rem + 1.45vw, 2.75rem); line-height: 1.08; letter-spacing: -0.03em; }
+.d4 { font-weight: 500; font-size: 1.0625rem; line-height: 1.3; letter-spacing: -0.012em; }
+.lead { font-size: clamp(1.0625rem, 0.95rem + 0.42vw, 1.375rem); line-height: 1.5; color: var(--ink-2); letter-spacing: -0.006em; }
+.body { font-size: 1rem; line-height: 1.6; color: var(--ink-2); }
+.small { font-size: 0.8125rem; line-height: 1.55; color: var(--ink-3); }
+.num { font-variant-numeric: tabular-nums lining-nums; }
+.measure { max-width: 34em; }
+.measure-s { max-width: 26em; }
 
-  /* Chip — categories, hooks. */
-  .chip {
-    @apply inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-[length:calc(12.5px*var(--type))] text-slate;
-  }
-  .chip-gold {
-    @apply inline-flex items-center gap-2 rounded-full bg-gold-soft px-3 py-1 text-[length:calc(12px*var(--type))] font-medium text-gold-deep;
-  }
+/* A link is ink with a quiet underline that turns teal. No arrows, no pills. */
+.lnk {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--rule-2);
+  text-underline-offset: 0.3em;
+  transition: text-decoration-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+.lnk:hover { text-decoration-color: var(--teal); }
+.lnk-quiet { color: var(--ink-2); }
+.lnk-quiet:hover { color: var(--ink); }
 
-  /* The hero wash — graphite lifting into a barely-there gold, as if the
-     monitor in the top right were the light in the room. The gradient ends a
-     step lighter than the ground so the diagonal hem below it still reads. */
-  .hero-wash {
-    /* Transparent now: the page's grid and its ambient light run through the
-       hero. What remains is a faint lift of the ground under the headline so
-       the top of the page reads as the brightest place on it. */
-    background:
-      linear-gradient(180deg, #080a0d 0%, rgba(8, 10, 13, 0) 14%),
-      radial-gradient(70% 60% at 30% 20%, rgba(255, 255, 255, 0.022) 0%, rgba(255, 255, 255, 0) 70%);
-  }
+/* The one solid control: a square-cornered ink block. */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.75em;
+  background: var(--ink); color: var(--paper);
+  font-weight: 500; font-size: 0.9375rem; letter-spacing: -0.005em;
+  padding: 0.95em 1.6em; border-radius: 0;
+  transition: background-color 0.25s var(--ease);
+}
+.btn:hover { background: #0f1618; }
 
-  /* The closing ask: bull teal and bear violet meeting under the words —
-     the same two hints the page opens with, dimmer, so it ends where it began. */
-  .glow-close {
-    background:
-      radial-gradient(40% 55% at 30% 50%, rgba(0, 153, 153, 0.06) 0%, rgba(0, 153, 153, 0) 70%),
-      radial-gradient(40% 55% at 70% 50%, rgba(163, 61, 255, 0.05) 0%, rgba(163, 61, 255, 0) 70%);
-  }
+/* ---------------------------------------------------------------- frame */
+.wb { padding-inline: var(--g); }
+.rule-t { border-top: 1px solid var(--rule); }
 
-  /* A box on the shelf. The covers are near-black boxes, and on a near-black
-     page a box loses its silhouette — so each one stands in a soft studio
-     light: a pool of light behind it and a faint floor under it. No frame,
-     no card edge; the light IS the separation. */
-  .spotlight {
-    position: relative;
-    isolation: isolate;
-  }
-  .spotlight::before {
-    content: "";
-    position: absolute;
-    inset: 2% -2% 6%;
-    z-index: -1;
-    border-radius: 50%;
-    background: radial-gradient(closest-side, rgba(236, 238, 241, 0.11) 0%, rgba(236, 238, 241, 0.045) 55%, rgba(236, 238, 241, 0) 100%);
-    pointer-events: none;
-  }
-  .spotlight::after {
-    content: "";
-    position: absolute;
-    left: 14%;
-    right: 14%;
-    bottom: 3%;
-    height: 7%;
-    z-index: -1;
-    border-radius: 50%;
-    background: radial-gradient(closest-side, rgba(236, 238, 241, 0.07), rgba(236, 238, 241, 0));
-    pointer-events: none;
-  }
+.hdr {
+  position: sticky; top: 0; z-index: 40; height: var(--hdr);
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding-inline: var(--g);
+  /* Solid, no backdrop blur: a blur re-renders everything under the header on
+     every scrolled frame. At 97% the page barely shows through and scrolling
+     stays on the compositor. */
+  background: rgba(254, 254, 254, 0.97);
+  background: color-mix(in srgb, var(--paper) 97%, transparent); /* follows the page tone (DS Live Background is dark) */
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s var(--ease);
+}
+.hdr[data-scrolled="true"] { border-bottom-color: var(--rule); }
+.hdr-mark { font-family: var(--font-display), sans-serif; font-weight: 600; font-size: 1.0625rem; letter-spacing: -0.02em; color: var(--ink); }
+.hdr-nav { display: flex; align-items: center; gap: clamp(18px, 2.4vw, 40px); font-size: 0.9375rem; }
+.hdr-nav a { color: var(--ink-2); transition: color 0.2s var(--ease); }
+.hdr-nav a:hover { color: var(--ink); }
+.hdr-nav .hdr-go { color: var(--ink); font-weight: 500; text-decoration: underline; text-decoration-color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 0.35em; }
+.hdr-mark, .hdr-nav a { white-space: nowrap; }
+@media (max-width: 760px) { .hdr-nav .hdr-far { display: none; } }
+@media (max-width: 480px) { .hdr-nav .hdr-mid { display: none; } .hdr-nav { gap: 20px; } }
 
-  /* Diagonal hem under the hero, like the reference.
-     The depth is a FIXED distance from the bottom, not a percentage. It used
-     to be 86%, which meant the cut moved with the section's height and, once
-     the hero grew, sliced 16px off the bottom of the "Explore the products"
-     button at 1440 and 9px at 1024. A fixed depth cannot do that: the hero's
-     bottom padding below is set larger than --hem, so content always clears
-     the diagonal at every viewport and every content height. */
-  .hem {
-    --hem: 88px;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-  @screen md {
-    .hem {
-      clip-path: polygon(
-        0 0,
-        100% 0,
-        100% 100%,
-        58% 100%,
-        46% calc(100% - var(--hem)),
-        0 calc(100% - var(--hem))
-      );
-    }
-  }
-
-  /* Card with a real, quiet lift on hover. */
-  .card {
-    @apply rounded-[10px] border border-line bg-surface transition-all duration-500 ease-silk;
-  }
-  .card:hover {
-    @apply -translate-y-0.5 border-line-strong shadow-lift;
-  }
+/* ---------------------------------------------------------------- hero */
+.hero { padding-top: clamp(56px, 9vh, 128px); }
+.hero-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 28px; align-items: end; }
+.hero-title { grid-column: 1 / span 8; }
+.hero-side { grid-column: 9 / span 4; padding-bottom: 0.6rem; }
+.hero-links { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-top: 28px; font-size: 0.9375rem; }
+@media (max-width: 1100px) {
+  .hero-title, .hero-side { grid-column: 1 / -1; }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-  .text-pretty {
-    text-wrap: pretty;
-  }
-  /* Picture tracks swipe; they don't need a scrollbar to say so. */
-  .no-scrollbar {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
+/* A wide picture runs edge to edge at its own proportions — nothing cropped. */
+.wide { margin-top: clamp(40px, 7vh, 96px); }
+.wide img { display: block; width: 100%; height: auto; }
+.wide-cap { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); margin-top: 18px; }
+.wide-cap .what { grid-column: 1 / span 6; }
+.wide-cap .risk { grid-column: 8 / span 5; }
+@media (max-width: 900px) { .wide-cap .what, .wide-cap .risk { grid-column: 1 / -1; } .wide-cap .risk { margin-top: 8px; } }
+
+/* The one orchestrated moment: the hero chart is drawn left to right, once.
+   A paper veil slides away (transform only, so the compositor runs it). */
+.wide-img { position: relative; overflow: hidden; }
+.wide-img.drawn::after {
+  content: ""; position: absolute; inset: 0; background: var(--paper);
+  transform-origin: right center; will-change: transform;
+  animation: unveil 2.1s var(--ease-draw) 0.25s both;
+}
+@keyframes unveil { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+/* ---------------------------------------------------------------- reader */
+.reader-head { padding-top: clamp(96px, 16vh, 200px); }
+.reader-head-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); align-items: end; }
+.reader-head-grid .t { grid-column: 1 / span 6; }
+.reader-head-grid .s { grid-column: 8 / span 5; }
+@media (max-width: 1100px) { .reader-head-grid .t, .reader-head-grid .s { grid-column: 1 / -1; } .reader-head-grid .s { margin-top: 20px; } }
+
+.reader { position: relative; }
+.reader-pin {
+  position: sticky; top: 0; height: 100vh; min-height: 640px;
+  padding: calc(var(--hdr) + 3vh) var(--g) 4vh;
+  display: grid; grid-template-columns: minmax(170px, 2.1fr) minmax(0, 5fr) minmax(300px, 3.3fr);
+  column-gap: clamp(28px, 3.4vw, 88px);
+}
+.reader-index { align-self: center; }
+.reader-index ol { list-style: none; margin: 0; padding: 0; }
+.reader-index button {
+  position: relative; display: block; width: 100%; text-align: left;
+  padding: 0.42em 0 0.42em 30px;
+  font-family: var(--font-display), sans-serif; font-size: 0.9375rem; letter-spacing: -0.01em;
+  color: var(--ink-3); transition: color 0.35s var(--ease);
+}
+.reader-index button::before {
+  content: ""; position: absolute; left: 0; top: 50%; width: 18px; height: 1px;
+  background: var(--teal); transform-origin: left; transform: scaleX(0);
+  transition: transform 0.45s var(--ease);
+}
+.reader-index button:hover { color: var(--ink-2); }
+.reader-index button[aria-current="true"] { color: var(--ink); }
+.reader-index button[aria-current="true"]::before { background: var(--teal); transform: scaleX(1); }
+
+.reader-stage { position: relative; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.stage-box { position: relative; width: 100%; aspect-ratio: 1 / 1; max-height: calc(100vh - var(--hdr) - 150px); margin-inline: auto; }
+.stage-box img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+  opacity: 0; transition: opacity 0.7s var(--ease);
+}
+.stage-box img[data-on="true"] { opacity: 1; }
+.stage-cap { margin-top: 14px; min-height: 4.65em; }
+
+.reader-copy { align-self: center; min-width: 0; }
+.reader-copy .panel { display: none; }
+.reader-copy .panel[data-on="true"] { display: block; animation: settle 0.6s var(--ease) both; }
+@keyframes settle { from { opacity: 0; } to { opacity: 1; } }
+
+.rows { list-style: none; margin: 32px 0 0; padding: 0; border-top: 1px solid var(--rule); }
+.rows li { border-bottom: 1px solid var(--rule); }
+.row {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; align-items: baseline;
+  width: 100%; text-align: left; padding: 15px 0 15px 30px;
+}
+.row::before {
+  content: ""; position: absolute; left: 0; top: 1.62em; width: 18px; height: 1px; background: var(--teal);
+  transform-origin: left; transform: scaleX(0); transition: transform 0.45s var(--ease);
+}
+.row[data-on="true"]::before { background: var(--teal); transform: scaleX(1); }
+.row:not(:disabled):hover .row-name { text-decoration: underline; text-decoration-color: var(--rule-2); text-underline-offset: 0.3em; text-decoration-thickness: 1px; }
+.row-name { font-weight: 500; font-size: 1.0625rem; letter-spacing: -0.012em; color: var(--ink); }
+.row-line { grid-column: 1 / -1; font-size: 0.875rem; color: var(--ink-3); margin-top: 2px; }
+.row-price { font-size: 0.9375rem; color: var(--ink-2); }
+.row-acts { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 22px; font-size: 0.9375rem; }
+
+/* below the pinned layout: one block per capability, in order */
+.reader-m { display: none; }
+@media (max-width: 1100px) {
+  .reader { display: none; }
+  .reader-m { display: block; }
+}
+.cap-m { padding-top: clamp(64px, 12vh, 120px); }
+.cap-m .stage-box { max-height: none; margin-top: 28px; }
+
+/* ---------------------------------------------------------------- lineup */
+.section-top { padding-top: clamp(112px, 18vh, 220px); }
+.series { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); padding-top: clamp(56px, 8vh, 96px); }
+.series-head { grid-column: 1 / span 3; }
+.series-head .sticky { position: sticky; top: calc(var(--hdr) + 28px); }
+.series-rows { grid-column: 4 / -1; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.series-rows li {
+  display: grid; align-items: center; column-gap: clamp(16px, 2vw, 40px);
+  grid-template-columns: 88px minmax(0, 2.2fr) minmax(0, 3fr) minmax(0, 1.25fr) minmax(0, 1.2fr);
+  padding: 14px 0; border-bottom: 1px solid var(--rule);
+}
+.thumb-a { display: block; }
+.thumb { width: 88px; aspect-ratio: 1 / 1; object-fit: contain; display: block; }
+.series-rows .cat { font-size: 0.8125rem; color: var(--ink-3); margin-top: 1px; }
+.series-rows .line { font-size: 0.9375rem; color: var(--ink-2); }
+.series-rows .price { font-size: 0.9375rem; color: var(--ink); }
+.series-rows .act { text-align: right; font-size: 0.9375rem; }
+@media (max-width: 1100px) {
+  .series-head, .series-rows { grid-column: 1 / -1; }
+  .series-head { margin-bottom: 24px; }
+  .series-head .sticky { position: static; }
+}
+@media (max-width: 760px) {
+  .series-rows li { grid-template-columns: 64px minmax(0, 1fr) auto; row-gap: 4px; }
+  .thumb { width: 64px; }
+  .series-rows li > .nm { grid-column: 2; }
+  .series-rows li > .price { grid-column: 3; grid-row: 1; text-align: right; }
+  .series-rows li > .line { grid-column: 2 / -1; }
+  .series-rows li > .act { grid-column: 2 / -1; text-align: left; }
+  .series-rows li > .thumb-a { grid-row: 1 / span 3; align-self: start; }
 }
 
-/* Hero entrance — CSS only, so the first paint is already moving. It starts
-   at 1% opacity, not 0: a browser counts a fully transparent element as not
-   yet painted, which held back the hero's measured first paint of its text. */
-@keyframes rise {
-  from { opacity: 0.01; transform: translateY(16px); }
-  to { opacity: 1; transform: none; }
+/* ---------------------------------------------------------------- DS Complete
+   The tone shift: white drifts to a barely-there cool grey and back over a
+   long distance, so the band arrives without an edge. */
+.complete {
+  margin-top: clamp(40px, 5vh, 72px);
+  padding-block: clamp(112px, 16vh, 200px);
+  background: linear-gradient(to bottom, var(--paper) 0%, var(--haze) 26%, var(--haze) 74%, var(--paper) 100%);
 }
-@keyframes rise-monitor {
-  from { opacity: 0.01; transform: translateY(28px) scale(0.985); }
-  to { opacity: 1; transform: none; }
-}
-.rise { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-.rise-monitor { animation: rise-monitor 1.3s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both; }
+.complete-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 48px; align-items: start; }
+.complete-grid .l { grid-column: 1 / span 6; }
+.complete-grid .r { grid-column: 8 / span 5; }
+.complete .now { font-family: var(--font-display), sans-serif; font-weight: 300; font-size: clamp(3.4rem, 1.6rem + 5vw, 7.5rem); line-height: 1; letter-spacing: -0.05em; color: var(--ink); }
+.complete .was { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--ink-3); }
+.points { list-style: none; margin: 36px 0 0; padding: 0; border-top: 1px solid var(--rule-2); }
+.points li { padding: 13px 0; border-bottom: 1px solid var(--rule-2); color: var(--ink); font-size: 1rem; }
+@media (max-width: 1100px) { .complete-grid .l, .complete-grid .r { grid-column: 1 / -1; } }
 
-/* REVEAL (components/ui/Reveal.tsx): a scroll-driven fade, no JavaScript.
-   What is on screen at load is already past its entry and drawn whole; a
-   block further down eases in over the first 30% of its entry into view,
-   `--rd` (its delay in ms) starting it a little later. Browsers without
-   scroll-driven animations, and anyone who asks for less motion, see every
-   block as it is. */
+/* ---------------------------------------------------------------- Free Vault */
+.vault-grid { list-style: none; margin: clamp(48px, 7vh, 80px) 0 0; padding: 0; display: grid; gap: clamp(28px, 3vw, 48px) clamp(16px, 1.6vw, 32px); grid-template-columns: repeat(9, minmax(0, 1fr)); }
+.vault-grid li { display: flex; flex-direction: column; }
+.vault-grid img { width: 100%; aspect-ratio: 1 / 1; object-fit: contain; display: block; }
+.vault-grid .nm { margin-top: 14px; }
+.vault-grid .get { margin-top: auto; padding-top: 10px; font-size: 0.875rem; }
+@media (max-width: 1599px) { .vault-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (max-width: 1100px) { .vault-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .vault-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---------------------------------------------------------------- footer */
+.ftr {
+  margin-top: clamp(56px, 8vh, 104px);
+  padding-top: clamp(88px, 12vh, 140px); padding-bottom: 56px;
+  background: linear-gradient(to bottom, var(--paper) 0%, var(--haze) 120px, var(--haze) 100%);
+}
+.ftr-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 40px; }
+.ftr-logo { grid-column: 1 / span 3; }
+.ftr-logo img { width: 128px; height: 128px; display: block; }
+.ftr-col { grid-column: span 3; }
+.ftr-col ul { list-style: none; margin: 12px 0 0; padding: 0; }
+.ftr-col li { padding: 4px 0; font-size: 0.9375rem; }
+/* Two running columns (not a grid), so a long paragraph never leaves a hole beside a short one. */
+.ftr-legal { margin-top: 72px; padding-top: 28px; border-top: 1px solid var(--rule-2); columns: 2; column-gap: var(--gap); }
+.ftr-legal p { break-inside: avoid; margin: 0 0 16px; font-size: 0.8125rem; line-height: 1.6; color: var(--ink-2); }
+@media (max-width: 1100px) { .ftr-logo { grid-column: 1 / -1; } .ftr-col { grid-column: span 6; } }
+@media (max-width: 760px) { .ftr-col { grid-column: 1 / -1; } .ftr-legal { columns: 1; } }
+
+/* ---------------------------------------------------------------- motion off */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* ================================================================ pass 2 (2026-10-26) */
+
+/* Anchors glide (Products, Free Vault, Get started); never with reduced motion. */
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+@media (prefers-reduced-motion: reduce) { .wide-img.drawn::after { display: none; } }
+
+.skip { position: absolute; left: var(--g); top: -60px; z-index: 70; background: var(--ink); color: var(--paper); padding: 10px 16px; font-size: 0.875rem; }
+.skip:focus { top: 12px; }
+
+.lnk-bare { text-decoration-color: transparent; }
+.lnk-bare:hover { text-decoration-color: var(--teal); }
+.hdr-nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 0.35em; }
+
+/* ---------------------------------------------------------------- empty cover slots
+   Until Tom's new white cover is dropped in, a product shows a quiet slot of
+   the same size: a fill one step off the page, its name in the corner. */
+.slot { display: flex; align-items: flex-end; background: var(--haze); }
+.slot > span { padding: 18px 20px; font-family: var(--font-display), sans-serif; font-size: 0.9375rem; letter-spacing: -0.01em; color: var(--ink-3); }
+.stage-box .slot { position: absolute; inset: 0; opacity: 0; transition: opacity 0.7s var(--ease); }
+.stage-box .slot[data-on="true"] { opacity: 1; }
+.thumb.slot { display: block; }
+.vault-pic { display: block; }
+.vault-pic .slot { display: block; width: 100%; aspect-ratio: 1 / 1; }
+
+/* ---------------------------------------------------------------- NinjaTrader */
+.nt-hero { padding-top: clamp(56px, 9vh, 120px); }
+.nt-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 56px; align-items: center; }
+.nt-copy { grid-column: 1 / span 6; }
+.nt-devices { grid-column: 8 / span 5; display: flex; align-items: flex-end; justify-content: center; gap: clamp(8px, 1.2vw, 20px); }
+.nt-mark { display: inline-block; padding: 18px 18px 18px 0; }
+.nt-mark img { height: 34px; width: auto; display: block; }
+.nt-h1 { margin-top: 18px; max-width: 12em; }
+.nt-body { margin-top: 30px; max-width: 36em; display: flex; flex-direction: column; gap: 18px; }
+.nt-body .points { margin-top: 0; }
+.points-tight li { padding: 10px 0; font-size: 0.9375rem; }
+.nt-desk { width: 62%; max-width: 460px; height: auto; }
+.nt-phone { width: 38%; max-width: 290px; height: auto; margin-bottom: 6%; }
+@media (max-width: 1100px) { .nt-copy, .nt-devices { grid-column: 1 / -1; } .nt-devices { justify-content: flex-start; } }
+
+.steps { list-style: none; margin: clamp(48px, 7vh, 80px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 40px; }
+.steps li { border-top: 1px solid var(--rule-2); padding-top: 22px; }
+.steps .step-n { display: block; font-family: var(--font-display), sans-serif; font-weight: 300; font-size: 2.75rem; line-height: 1; letter-spacing: -0.04em; color: var(--teal); margin-bottom: 18px; }
+.steps .body { margin-top: 12px; max-width: 30em; }
+@media (max-width: 900px) { .steps { grid-template-columns: 1fr; } }
+
+.kt-l { grid-column: 1 / span 4; }
+.kt-r { grid-column: 6 / span 7; }
+.kt-mark { display: inline-block; padding: 18px 18px 18px 0; }
+.kt-mark img { height: 64px; width: auto; display: block; }
+@media (max-width: 1100px) { .kt-l, .kt-r { grid-column: 1 / -1; } }
+
+/* ---------------------------------------------------------------- About */
+.about-hero { padding-top: clamp(72px, 12vh, 160px); }
+.about-h1 { max-width: 14em; font-size: clamp(2.6rem, 1.2rem + 4.2vw, 6.25rem); }
+.about-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 48px; padding-top: clamp(56px, 9vh, 112px); }
+.facts { grid-column: 1 / span 3; margin: 0; border-top: 1px solid var(--rule-2); }
+.facts div { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.facts dt { font-size: 0.8125rem; color: var(--ink-3); }
+.facts dd { margin: 3px 0 0; font-size: 0.9375rem; color: var(--ink); }
+.about-copy { grid-column: 5 / span 7; display: flex; flex-direction: column; gap: 20px; max-width: 40em; }
+@media (max-width: 1100px) { .facts, .about-copy { grid-column: 1 / -1; } }
+.principles { list-style: none; margin: clamp(48px, 7vh, 80px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 40px; }
+.principles li { border-top: 1px solid var(--rule-2); padding-top: 24px; }
+.principles .body { margin-top: 12px; max-width: 30em; }
+@media (max-width: 900px) { .principles { grid-template-columns: 1fr; } }
+
+/* ---------------------------------------------------------------- small-screen menu */
+.hdr-menu { display: none; font-size: 0.9375rem; color: var(--ink); padding: 6px 0; }
+.sheet { display: none; }
+@media (max-width: 760px) {
+  .hdr-nav .hdr-go { display: none; }
+  .hdr-menu { display: inline-block; }
+  .sheet {
+    display: block; position: fixed; left: 0; right: 0; top: var(--hdr); bottom: 0; z-index: 39;
+    background: var(--paper);
+    opacity: 0; visibility: hidden; transform: translate3d(0, -8px, 0);
+    transition: opacity 0.35s var(--ease), transform 0.45s var(--ease), visibility 0s linear 0.45s;
+  }
+  .sheet[data-open="true"] { opacity: 1; visibility: visible; transform: none; transition: opacity 0.35s var(--ease), transform 0.45s var(--ease), visibility 0s; }
+  .sheet ul { list-style: none; margin: 0; padding: 12px var(--g) 0; }
+  .sheet li { border-bottom: 1px solid var(--rule); }
+  .sheet a { display: block; padding: 18px 0; font-family: var(--font-display), sans-serif; font-weight: 300; font-size: 2rem; letter-spacing: -0.03em; color: var(--ink); }
+  .sheet a[aria-current="page"] { color: var(--teal); }
+  .complete { padding-block: clamp(72px, 16vh, 200px); }
+}
+@media (max-width: 480px) { .hdr-nav .hdr-mid { display: none; } }
+
+/* ---------------------------------------------------------------- the pointer (pass 5)
+   The pointer itself is replaced (tools/cursors.mjs draws it). The system draws
+   a CSS cursor, so it has no lag at any refresh rate and costs the page nothing.
+   Each line is written twice: plain url() first, then image-set() with a rung
+   for every common zoom / Windows scaling factor (1x to 3x), so the browser
+   never has to stretch one; a browser that cannot read the second keeps the first.
+   One colour on every ground, DS violet (tools/cursors.mjs says why). */
+html {
+  cursor: url("/cursor/rest.png") 16 16, auto;
+  cursor: image-set(url("/cursor/rest.png") 1x, url("/cursor/rest@1.25x.png") 1.25x, url("/cursor/rest@1.5x.png") 1.5x, url("/cursor/rest@1.75x.png") 1.75x, url("/cursor/rest@2x.png") 2x, url("/cursor/rest@2.5x.png") 2.5x, url("/cursor/rest@3x.png") 3x) 16 16, auto;
+}
+a, button:not(:disabled), [role="button"], label, summary {
+  cursor: url("/cursor/link.png") 16 16, pointer;
+  cursor: image-set(url("/cursor/link.png") 1x, url("/cursor/link@1.25x.png") 1.25x, url("/cursor/link@1.5x.png") 1.5x, url("/cursor/link@1.75x.png") 1.75x, url("/cursor/link@2x.png") 2x, url("/cursor/link@2.5x.png") 2.5x, url("/cursor/link@3x.png") 3x) 16 16, pointer;
+}
+a:active, button:not(:disabled):active {
+  cursor: url("/cursor/press.png") 16 16, pointer;
+  cursor: image-set(url("/cursor/press.png") 1x, url("/cursor/press@1.25x.png") 1.25x, url("/cursor/press@1.5x.png") 1.5x, url("/cursor/press@1.75x.png") 1.75x, url("/cursor/press@2x.png") 2x, url("/cursor/press@2.5x.png") 2.5x, url("/cursor/press@3x.png") 3x) 16 16, pointer;
+}
+button:disabled { cursor: inherit; }
+.wide-img, .stage-box, .pp-cover {
+  cursor: url("/cursor/chart.png") 16 16, crosshair;
+  cursor: image-set(url("/cursor/chart.png") 1x, url("/cursor/chart@1.25x.png") 1.25x, url("/cursor/chart@1.5x.png") 1.5x, url("/cursor/chart@1.75x.png") 1.75x, url("/cursor/chart@2x.png") 2x, url("/cursor/chart@2.5x.png") 2.5x, url("/cursor/chart@3x.png") 3x) 16 16, crosshair;
+}
+
+/* ---------------------------------------------------------------- picture protection
+   No picture takes pointer events: a right click, drag or long press lands on
+   its frame, so "Save image", "Open image in new tab" and dragging it off the
+   page are not offered (components/Guard.tsx also closes the menu there). */
+img { pointer-events: none; -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.wide-img, .stage-box, .vault-pic, .thumb-a, .pp-cover, .ftr-logo, .nt-devices, .nt-mark, .kt-mark { -webkit-touch-callout: none; user-select: none; -webkit-user-select: none; }
+
+
+/* ================================================================ pass 4 (2026-10-26 night)
+   Products, the Free Vault and every product have pages of their own. Same
+   rules: the chart's white, horizontal hairlines only, teal as the one accent,
+   type and spacing doing the work. */
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* A small spaced label over a heading or a column ("Before you buy"). */
+.pp-label { font-size: 0.75rem; line-height: 1.4; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+
+/* every cover that sits in a square frame */
+.vault-pic img, .door-strip img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: contain; }
+.vault-pic .slot, .door-strip .slot { display: flex; width: 100%; aspect-ratio: 1 / 1; }
+
+/* ---------------------------------------------------------------- home: two doors */
+.doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(40px, 6vw, 140px); row-gap: 96px; }
+.door { display: flex; flex-direction: column; border-top: 1px solid var(--rule-2); padding-top: 28px; }
+.door .door-strip { margin-top: auto; padding-top: 36px; } /* both doors end on one line: strip, then button */
+.lnk-door { color: inherit; text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 1px; text-underline-offset: 0.14em; transition: text-decoration-color 0.3s var(--ease); }
+.lnk-door:hover { text-decoration-color: var(--teal); }
+.door-strip { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(8px, 1vw, 16px); }
+@media (max-width: 1100px) { .doors { grid-template-columns: 1fr; } }
+
+/* ---------------------------------------------------------------- /products: the ledger */
+.store-head, .vault-head { padding-top: clamp(56px, 9vh, 128px); }
+.store-grid, .vault-head-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 28px; align-items: end; }
+.store-grid .t, .vault-head-grid .t { grid-column: 1 / span 7; }
+.store-grid .s { grid-column: 9 / span 4; padding-bottom: 0.6rem; }
+.store-title { margin-top: 22px; font-size: clamp(3rem, 1.2rem + 5.4vw, 8.5rem); }
+.offer { list-style: none; margin: clamp(48px, 7vh, 88px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); border-top: 1px solid var(--rule-2); }
+.offer a { display: flex; flex-direction: column; gap: 12px; padding-top: 22px; }
+.offer .fig { font-family: var(--font-display), sans-serif; font-weight: 300; font-size: clamp(2.2rem, 1.3rem + 2.6vw, 4.5rem); line-height: 1; letter-spacing: -0.045em; color: var(--ink); transition: color 0.3s var(--ease); }
+.offer a:hover .fig { color: var(--teal); }
+.store-shelves { padding-top: clamp(24px, 4vh, 56px); }
+.store-shelves .series { scroll-margin-top: calc(var(--hdr) + 12px); }
+.terms4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.terms4 h3 { color: var(--ink); }
+.before-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 56px; align-items: start; }
+.before-grid .l { grid-column: 1 / span 5; }
+.before-grid .r { grid-column: 7 / span 6; }
+.terms4 + .before-grid { margin-top: clamp(96px, 14vh, 180px); }
+.steps.steps-col { grid-template-columns: 1fr; margin-top: 44px; row-gap: 30px; }
+.steps-col .step-n { font-size: 2rem; margin-bottom: 12px; }
+.before-grid > ol.r { margin-top: 0; }
+@media (max-width: 1100px) {
+  .store-grid .t, .store-grid .s, .vault-head-grid .t, .vault-head-grid .vault-facts, .before-grid .l, .before-grid .r { grid-column: 1 / -1; }
+  .terms4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .offer { grid-template-columns: 1fr; row-gap: 28px; }
+  .terms4 { grid-template-columns: 1fr; }
+}
+
+/* the questions: rows that open in place */
+.faq { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule-2); }
+.faq li { border-bottom: 1px solid var(--rule); }
+.faq summary { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; padding: 18px 0; list-style: none; font-size: 1rem; line-height: 1.45; color: var(--ink); transition: color 0.25s var(--ease); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary:hover { color: var(--ink-2); }
+.faq .pm { position: relative; flex: none; width: 13px; height: 13px; margin-top: 5px; transition: transform 0.35s var(--ease); }
+.faq .pm::before, .faq .pm::after { content: ""; position: absolute; background: var(--ink-3); }
+.faq .pm::before { left: 0; right: 0; top: 6px; height: 1px; }
+.faq .pm::after { top: 0; bottom: 0; left: 6px; width: 1px; }
+.faq details[open] .pm { transform: rotate(45deg); }
+.faq details p { padding: 0 40px 22px 0; }
+
+/* ---------------------------------------------------------------- /free-vault: the gallery */
+.vault-mark::before { content: ""; display: inline-block; width: 28px; height: 1px; margin-right: 12px; vertical-align: middle; background: var(--teal); }
+.vault-facts { grid-column: 9 / span 4; }
+.vault-shelf { padding-top: clamp(80px, 12vh, 150px); }
+.vault-gallery { list-style: none; margin: clamp(36px, 5vh, 56px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(56px, 7vh, 96px) var(--gap); }
+.vault-gallery li { display: flex; flex-direction: column; }
+.vg-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--rule-2); }
+.vg-row .nm { font-size: clamp(1.4rem, 1.1rem + 0.7vw, 2rem); }
+.vg-cat { text-align: right; }
+.vg-line { margin-top: 10px; }
+.vg-acts { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: auto; padding-top: 16px; font-size: 0.9375rem; }
+.vault-note { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--rule-2); max-width: 36em; }
+@media (max-width: 1100px) { .vault-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .vault-gallery { grid-template-columns: 1fr; } .vg-row { flex-direction: column; gap: 4px; } .vg-cat { text-align: left; } }
+
+/* ---------------------------------------------------------------- a product's own page */
+.pp-top { padding-top: clamp(28px, 4vh, 48px); }
+.crumbs { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 0.8125rem; color: var(--ink-3); }
+.crumbs a { color: var(--ink-2); transition: color 0.2s var(--ease); }
+.crumbs a:hover { color: var(--ink); }
+.crumbs [aria-current] { color: var(--ink); }
+.pp-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: clamp(48px, 7vh, 80px); margin-top: clamp(24px, 4vh, 40px); align-items: start; }
+.pp-media { grid-column: 1 / span 7; grid-row: 1; }
+.pp-why { grid-column: 1 / span 7; grid-row: 2; border-top: 1px solid var(--rule-2); padding-top: 30px; }
+.pp-buy { grid-column: 8 / span 5; grid-row: 1 / span 2; align-self: stretch; }
+.pp-sticky { position: sticky; top: calc(var(--hdr) + 24px); }
+/* The cover is as large as the screen lets it be, never taller than the window. */
+.pp-cover { width: 100%; max-width: calc(100vh - var(--hdr) - 96px); min-width: min(100%, 420px); }
+.pp-cover img { display: block; width: 100%; height: auto; }
+.pp-cover .slot { display: flex; width: 100%; aspect-ratio: 1 / 1; }
+.pp-kicker { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 0.8125rem; color: var(--ink-3); }
+.pp-kicker a { color: var(--ink-2); }
+.pp-name { margin-top: 16px; }
+.pp-line { margin-top: 18px; font-family: var(--font-display), sans-serif; font-weight: 400; font-size: clamp(1.2rem, 0.98rem + 0.6vw, 1.6rem); line-height: 1.32; letter-spacing: -0.015em; color: var(--ink); }
+.pp-price { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--rule-2); }
+.pp-figure { margin-bottom: 10px; font-family: var(--font-display), sans-serif; font-weight: 300; font-size: clamp(2.6rem, 1.6rem + 2.6vw, 4.25rem); line-height: 1; letter-spacing: -0.045em; color: var(--ink); }
+.pp-figure.pp-figure-s { font-size: clamp(1.6rem, 1.2rem + 1vw, 2.25rem); letter-spacing: -0.03em; }
+.pp-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; margin-top: 26px; font-size: 0.9375rem; }
+.pp-get { margin-top: 36px; }
+.pp-get .points { margin-top: 12px; }
+.pp-specs { margin: 32px 0 0; border-top: 1px solid var(--rule-2); }
+.pp-specs div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--rule); }
+.pp-specs dt { font-size: 0.8125rem; color: var(--ink-3); }
+.pp-specs dd { margin: 0; font-size: 0.9375rem; color: var(--ink); }
+.pp-other { margin-top: 24px; }
+.pp-helps { margin-top: 16px; max-width: 40em; font-size: clamp(1.125rem, 1rem + 0.4vw, 1.375rem); line-height: 1.6; color: var(--ink); }
+.pp-points { padding-top: clamp(96px, 14vh, 180px); }
+.pp-points-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 40px; align-items: start; }
+.pp-points-grid .t { grid-column: 1 / span 5; }
+.pp-ol { grid-column: 7 / span 6; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule-2); }
+.pp-ol li { display: grid; grid-template-columns: 56px minmax(0, 1fr); padding: 22px 0; border-bottom: 1px solid var(--rule); }
+.pp-ol .n { font-family: var(--font-display), sans-serif; font-weight: 300; font-size: 1.25rem; line-height: 1.3; color: var(--teal); }
+.pp-ol .body { color: var(--ink); font-size: 1.0625rem; }
+.pp-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px var(--gap); margin-top: clamp(40px, 6vh, 72px); }
+.pp-three > div { border-top: 1px solid var(--rule-2); padding-top: 22px; }
+.pp-three .pp-label { margin-bottom: 16px; }
+.pp-before .steps { margin-top: clamp(72px, 10vh, 120px); }
+.pp-more-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; }
+.pp-more-grid { list-style: none; margin: clamp(40px, 6vh, 64px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(28px, 3vw, 48px) clamp(16px, 1.6vw, 32px); }
+.pp-more-grid .nm { margin-top: 14px; margin-bottom: 4px; }
+
+/* where it runs: the meter */
+.mkt-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 14px; }
+.mkt-cells { list-style: none; margin: 16px 0 0; padding: 0; display: grid; column-gap: 10px; }
+.mkt-cells .bar { display: block; height: 2px; background: var(--teal); }
+.mkt-cells [data-on="false"] .bar { background: linear-gradient(to bottom, transparent 50%, var(--rule-2) 50%); }
+.mkt-cells .lbl { display: block; margin-top: 8px; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
+.mkt-cells [data-on="false"] .lbl { color: var(--ink-3); text-decoration: line-through; text-decoration-color: var(--rule-2); }
+.mkt-cells .sub { display: block; margin-top: 3px; font-size: 0.8125rem; color: var(--ink-2); }
+
+@media (max-width: 1100px) {
+  .pp-media, .pp-buy, .pp-why { grid-column: 1 / -1; grid-row: auto; }
+  .pp-sticky { position: static; }
+  .pp-cover { max-width: none; }
+  .pp-media .small { font-size: 0.75rem; }
+  .pp-points-grid .t, .pp-ol { grid-column: 1 / -1; }
+  .pp-three { grid-template-columns: 1fr; }
+  .pp-more-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) { .pp-more-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---------------------------------------------------------------- the one dark page
+   DS Live Background (Tom, 2026-10-26 night: "that is the one exception with
+   product page background as not white"). Its cover is a video frame on a warm
+   near-black, so its page takes a ground one step darker than the cover's own
+   darkest corner, and every colour is re-set from the same tokens — header and
+   footer included — before first paint (:has, no script). */
+html:has(.tone-dark) {
+  --paper: #13110d;
+  --haze: #1b1813;
+  --ink: #f3efe6;
+  --ink-2: #c4bdaf;
+  --ink-3: #979082;
+  --rule: rgba(243, 239, 230, 0.09);
+  --rule-2: rgba(243, 239, 230, 0.17);
+  color-scheme: dark;
+}
+html:has(.tone-dark) .btn:hover { background: #ffffff; }
+html:has(.tone-dark) ::selection { background: rgba(0, 153, 153, 0.35); }
+
+/* ---------------------------------------------------------------- the stack (2026-10-26 late night)
+   The house method under the hero: location, direction, participation. */
+.stack { padding-block: clamp(96px, 15vh, 180px); }
+.stack-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 24px; align-items: end; }
+.stack-head .t { grid-column: 1 / span 6; }
+.stack-head .s { grid-column: 8 / span 5; }
+.stack-steps { list-style: none; margin: clamp(56px, 8vh, 96px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 56px var(--gap); }
+.stack-steps li { display: flex; flex-direction: column; border-top: 1px solid var(--rule-2); padding-top: 26px; }
+.stack-n { font-family: var(--font-display), sans-serif; font-weight: 300; font-size: clamp(2.6rem, 1.8rem + 2vw, 4rem); line-height: 1; letter-spacing: -0.04em; color: var(--teal); margin-bottom: 22px; }
+.stack-q { margin-top: 12px; }
+.stack-text { margin-top: 16px; max-width: 32em; }
+.stack-tools { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: auto; padding-top: 22px; font-size: 0.9375rem; }
+.stack-close { margin-top: clamp(72px, 10vh, 120px); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 20px; align-items: end; }
+.stack-plan { grid-column: 1 / span 8; max-width: 18em; text-wrap: balance; }
+.stack h2, .stack-q { text-wrap: balance; }
+.stack-close .body { grid-column: 9 / span 4; }
+@media (max-width: 1100px) {
+  .stack-head .t, .stack-head .s, .stack-plan, .stack-close .body { grid-column: 1 / -1; }
+  .stack-steps { grid-template-columns: 1fr; }
+}
+
+/* ================================================================ pass 5 (2026-10-26 late night): white + teal, site-wide
+   Tom: "add more of the teal color in the panels, all white while scrolling
+   can confuse users on where they are ... i want the product information
+   (right side) to be teal and other panel splitters, including all tabs".
+
+   THE SYSTEM. The site's accent is #008080 (Tom's #FF008080). It does three
+   jobs, and only these:
+     1. WAYFINDING. Every major section of every page opens on a numbered teal
+        bar (components/SectionBar.tsx). The header names the section you are
+        in beside the wordmark, and a 2px teal tide line under it fills as you
+        read the page. You always know where you are and how far is left.
+     2. INFORMATION. Where a page tells you about a product (the reader's right
+        column, a product page's buy column), the words sit on a teal panel,
+        so the picture (white, on the chart's own white) and the facts about
+        it are two clearly different things side by side.
+     3. ACTION. The one solid control is teal; on teal it turns white.
+   Fields (.field: the stack, DS Complete, About's closing) are whole teal
+   bands for words only. No picture ever sits on teal.
+   Contrast (WCAG 2.2): white on #008080 4.8:1, #008080 on white 4.8:1. Every
+   word on teal is pure white at full strength; hierarchy is size and weight. */
+
+::selection { background: rgba(0, 128, 128, 0.18); }
+
+/* ---------------------------------------------------------------- the one solid control */
+.btn { background: var(--teal); color: #ffffff; }
+.btn:hover { background: var(--teal-deep); }
+.hdr-nav .hdr-go { background: var(--teal); color: #ffffff; text-decoration: none; padding: 9px 16px; transition: background-color 0.25s var(--ease); }
+.hdr-nav .hdr-go:hover { background: var(--teal-deep); color: #ffffff; }
+.hero-links .lnk:first-child { background: var(--teal); color: #ffffff; text-decoration: none; padding: 0.85em 1.4em; transition: background-color 0.25s var(--ease); }
+.hero-links .lnk:first-child:hover { background: var(--teal-deep); }
+.hero-links { align-items: center; }
+.hdr-nav a[aria-current="page"] { color: var(--teal); text-decoration-thickness: 2px; }
+
+/* ---------------------------------------------------------------- header: where you are */
+.hdr-left { display: flex; align-items: baseline; gap: 18px; min-width: 0; }
+.hdr-where { display: inline-flex; align-items: baseline; gap: 12px; min-width: 0; font-size: 0.875rem; color: var(--teal); opacity: 0; transition: opacity 0.35s var(--ease); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hdr-where::before { content: ""; flex: none; width: 18px; height: 1px; align-self: center; background: var(--teal); }
+.hdr-where[data-on="true"] { opacity: 1; }
+.hdr-where > span { overflow: hidden; text-overflow: ellipsis; animation: settle 0.45s var(--ease) both; }
+.hdr-tide { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--teal); transform-origin: left center; transform: scaleX(0); will-change: transform; pointer-events: none; }
+@media (max-width: 900px) { .hdr-where { display: none; } }
+
+/* ---------------------------------------------------------------- section bars: the panel splitters */
+.sbar { margin-top: clamp(80px, 12vh, 150px); background: var(--teal); color: #ffffff; scroll-margin-top: var(--hdr); }
+.sbar-in { display: grid; grid-template-columns: minmax(64px, auto) minmax(0, 1fr) minmax(0, 36em); column-gap: var(--gap); row-gap: 8px; align-items: baseline; padding-block: clamp(22px, 3.2vh, 36px); }
+.sbar-n { font-family: var(--font-display), sans-serif; font-weight: 300; font-size: 1.25rem; letter-spacing: 0.02em; color: #ffffff; }
+.sbar-t { font-family: var(--font-display), sans-serif; font-weight: 400; font-size: clamp(1.5rem, 1.1rem + 1.1vw, 2.4rem); line-height: 1.15; letter-spacing: -0.025em; color: #ffffff; text-wrap: balance; }
+.sbar-s { font-size: 0.9375rem; line-height: 1.55; color: #ffffff; }
+.sbar-after { padding-top: clamp(44px, 6.5vh, 80px); }
+@media (max-width: 900px) {
+  .sbar-in { grid-template-columns: 1fr; }
+  .sbar-s { max-width: 36em; }
+}
+
+/* ---------------------------------------------------------------- teal fields (words only) */
+.field { background: var(--teal); color: #ffffff; }
+.field :is(.d1, .d2, .d3, .d4, .lead, .body, .small, .pp-label, .stack-n, .now, .points li, .num) { color: #ffffff; }
+.field .stack-steps li { border-top-color: rgba(255, 255, 255, 0.45); }
+.field .lnk { color: #ffffff; text-decoration-color: rgba(255, 255, 255, 0.55); }
+.field .lnk:hover { text-decoration-color: #ffffff; }
+.field .was { color: #ffffff; text-decoration-color: rgba(255, 255, 255, 0.7); }
+.field .points { border-top-color: rgba(255, 255, 255, 0.45); }
+.field .points li { border-bottom-color: rgba(255, 255, 255, 0.28); }
+.field .btn { background: #ffffff; color: var(--teal); }
+.field .btn:hover { background: #e6f2f2; }
+.field :focus-visible, .pp-panel :focus-visible, .reader-copy :focus-visible, .cap-panel :focus-visible { outline-color: #ffffff; }
+.stack.field { margin-top: clamp(56px, 9vh, 112px); }
+.complete.field { margin-top: clamp(40px, 6vh, 72px); }
+.kt-band { margin-top: 0; padding-block: clamp(64px, 10vh, 120px); }
+
+/* ---------------------------------------------------------------- the reader: facts on teal */
+.reader-copy {
+  align-self: stretch; display: flex; flex-direction: column; justify-content: center;
+  margin-right: calc(-1 * var(--g)); padding: clamp(28px, 3vw, 64px);
+  background: var(--teal); color: #ffffff;
+}
+.reader-copy :is(.d2, .lead, .row-name, .row-price, .row-line) { color: #ffffff; }
+.reader-copy .rows, .cap-panel .rows { border-top-color: rgba(255, 255, 255, 0.45); }
+.reader-copy .rows li, .cap-panel .rows li { border-bottom-color: rgba(255, 255, 255, 0.24); }
+.reader-copy .row, .cap-panel .row { padding: 18px 14px 18px 34px; transition: background-color 0.3s var(--ease); }
+.reader-copy .row::before, .cap-panel .row::before { left: 10px; background: #ffffff; }
+.reader-copy .row[data-on="true"], .cap-panel .row[data-on="true"] { background: rgba(0, 0, 0, 0.14); }
+.reader-copy .row[data-on="true"]::before, .cap-panel .row[data-on="true"]::before { background: #ffffff; }
+.reader-copy .row:not(:disabled):hover .row-name, .cap-panel .row:not(:disabled):hover .row-name { text-decoration-color: #ffffff; }
+.reader-copy .row-line, .cap-panel .row-line { margin-top: 4px; }
+.reader-copy .lnk, .cap-panel .lnk { color: #ffffff; text-decoration-color: rgba(255, 255, 255, 0.55); }
+.reader-copy .lnk:hover, .cap-panel .lnk:hover { text-decoration-color: #ffffff; }
+.cap-panel { margin: 28px calc(-1 * var(--g)) 0; padding: 6px var(--g) 30px; background: var(--teal); color: #ffffff; }
+.cap-panel :is(.row-name, .row-price, .row-line) { color: #ffffff; }
+.cap-panel .rows { margin-top: 0; border-top: 0; }
+
+/* ---------------------------------------------------------------- the store's shelves */
+.shelf { scroll-margin-top: var(--hdr); }
+.shelf-rows { list-style: none; margin: 0; padding-top: clamp(20px, 3vh, 36px); }
+.shelf-rows li {
+  display: grid; align-items: center; column-gap: clamp(18px, 2.2vw, 44px);
+  grid-template-columns: 120px minmax(0, 2.2fr) minmax(0, 3fr) minmax(0, 1.1fr) minmax(0, 1.2fr);
+  margin-inline: -16px; padding: 22px 16px; border-bottom: 1px solid var(--rule-2);
+  transition: background-color 0.25s var(--ease);
+}
+.shelf-rows li:hover { background: var(--teal-tint); }
+.shelf-rows .thumb { width: 120px; }
+.shelf-rows .cat { font-size: 0.8125rem; color: var(--ink-3); margin-top: 3px; }
+.shelf-rows .line { font-size: 0.9375rem; color: var(--ink-2); }
+.shelf-rows .price { font-size: 1rem; color: var(--ink); }
+.shelf-rows .act { text-align: right; font-size: 0.9375rem; }
+@media (max-width: 760px) {
+  .shelf-rows li { grid-template-columns: 72px minmax(0, 1fr) auto; row-gap: 6px; }
+  .shelf-rows .thumb { width: 72px; }
+  .shelf-rows li > .nm { grid-column: 2; }
+  .shelf-rows li > .price { grid-column: 3; grid-row: 1; text-align: right; }
+  .shelf-rows li > .line { grid-column: 2 / -1; }
+  .shelf-rows li > .act { grid-column: 2 / -1; text-align: left; }
+  .shelf-rows li > .thumb-a { grid-row: 1 / span 3; align-self: start; }
+}
+/* On a phone the price leaves the right column and sits under the name, so a
+   long single-word name (DS ProLiquidityHunter) has the whole width and never
+   runs under "In DS Complete". */
+@media (max-width: 560px) {
+  .shelf-rows li { grid-template-columns: 72px minmax(0, 1fr); }
+  .shelf-rows li > .price { grid-column: 2; grid-row: auto; text-align: left; font-size: 0.875rem; color: var(--ink-2); }
+  .shelf-rows li > .thumb-a { grid-row: 1 / span 4; }
+}
+
+/* ---------------------------------------------------------------- the vault's gallery: each piece on its own rule */
+.vault-gallery { margin-top: 0; row-gap: clamp(72px, 9vh, 120px); }
+.vg-row { border-top: 2px solid var(--teal); }
+.vg-row .nm a { color: var(--ink); }
+
+/* ---------------------------------------------------------------- doors */
+.door { border-top: 2px solid var(--teal); }
+.door .pp-label { color: var(--teal); }
+
+/* ---------------------------------------------------------------- a product page: facts on teal */
+.pp-buy { align-self: start; }
+.pp-panel { padding: clamp(28px, 2.6vw, 48px); background: var(--teal); color: #ffffff; }
+.pp-panel :is(.d2, .d3, .d4, .body, .small, .pp-label, .pp-line, .pp-figure, .pp-kicker, .points li, dt, dd) { color: #ffffff; }
+.pp-panel .pp-kicker a { color: #ffffff; }
+.pp-panel .pp-price { border-top-color: rgba(255, 255, 255, 0.45); }
+.pp-panel .points { border-top-color: rgba(255, 255, 255, 0.45); }
+.pp-panel .points li { border-bottom-color: rgba(255, 255, 255, 0.24); }
+.pp-panel .pp-specs { border-top-color: rgba(255, 255, 255, 0.45); }
+.pp-panel .pp-specs div { border-bottom-color: rgba(255, 255, 255, 0.24); }
+.pp-panel .lnk { color: #ffffff; text-decoration-color: rgba(255, 255, 255, 0.55); }
+.pp-panel .lnk:hover { text-decoration-color: #ffffff; }
+.pp-panel .btn { background: #ffffff; color: var(--teal); }
+.pp-panel .btn:hover { background: #e6f2f2; }
+/* A section under a bar starts at the bar's own spacing: the first block's old
+   top margin (from before the bars existed) would double the gap. */
+.sbar-after > :first-child { margin-top: 0; }
+.pp-more-all { margin-top: clamp(36px, 5vh, 56px); }
+.pp-ol { border-top-color: var(--teal); border-top-width: 2px; }
+
+/* ---------------------------------------------------------------- the footer opens on a teal rule */
+.ftr { border-top: 2px solid var(--teal); }
+
+/* ---------------------------------------------------------------- the flow: bars draw in, fields unroll from a line */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .reveal {
-      animation: reveal-in linear both;
-      animation-timeline: view();
-      animation-range: entry calc(var(--rd, 0) * 0.02%) entry calc(30% + var(--rd, 0) * 0.02%);
-    }
-  }
-}
-@keyframes reveal-in {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; }
-}
-
-/* The hero screen's progress segment. */
-@keyframes fill {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
-/* ------------------------------------------------------------------
-   The store's two views (/products, 2026-09-27).
-   Each shelf renders its body twice — .v-covers and .v-list — and the
-   store bar (components/StoreBar.tsx) sets html[data-store-view]. Covers is
-   the default, so with no script at all the page is the covers store.
-   Both wrappers are plain blocks: never put layout classes on them.
-   ------------------------------------------------------------------ */
-.v-list {
-  display: none;
-}
-html[data-store-view="list"] .v-list {
-  display: block;
-}
-html[data-store-view="list"] .v-covers {
-  display: none;
-}
-/* Shelf spacing: generous between shelves of boxes, tighter between lists. */
-/* Series panels sit a breath apart — the panel edge does the separating. */
-/* ------------------------------------------------------------------
-   Series panels (2026-09-27, second pass: "sturdy and elegant").
-   One container per series, so its heading, its price and its products
-   read as one group (common region) instead of being told apart by rules.
-   Flat surface, a 1px top light and a 12px corner — no glow, no gradient
-   wash, nothing a template would add. Prices are set in type, not
-   decorated (components/Price.tsx), so there are no price styles here.
-   ------------------------------------------------------------------ */
-.series-panel {
-  /* Translucent, so the page grid runs faintly through the panel. */
-  background: rgba(14, 17, 21, 0.72);
-  backdrop-filter: blur(2px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-
-/* ------------------------------------------------------------------
-   THE FIELD — the page's background (2026-09-27, Tom: "the background is
-   too dull... sophisticated intelligent grid lines, blending in").
-
-   Built like chart paper, because that is what our customers look at all
-   day: a MINOR grid every 24px, a MAJOR grid every 96px (every fourth line,
-   the way a price scale steps), and a tiny registration mark where major
-   lines cross. It is FIXED to the viewport, so the content scrolls over a
-   still field — that parallax is where the depth comes from. A radial mask
-   lets it bloom at the top of the view and dissolve toward the edges, so it
-   is noticed, not read.
-
-   The ambient light is the house palette at a whisper: bull teal from the
-   upper right, bear violet from the lower left (DS Oracle's DsSignature
-   theme, #009999 / #A33DFF). Alphas are 4-6% — below that it disappears on
-   a calibrated monitor, above it the page turns blue.
-
-   Both layers sit at z-index -1 behind all content and never take pointer
-   events. Reduced-motion is irrelevant: nothing here moves.
-   ------------------------------------------------------------------ */
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-}
-body::before {
-  background-image:
-    /* registration marks at the major intersections */
-    radial-gradient(circle at 0.5px 0.5px, rgba(255, 255, 255, 0.16) 0.75px, transparent 1.5px),
-    /* major grid */
-    linear-gradient(90deg, rgba(255, 255, 255, 0.042) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.042) 1px, transparent 1px),
-    /* minor grid */
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 96px 96px, 96px 96px, 96px 96px, 24px 24px, 24px 24px;
-  background-position: center top;
-  -webkit-mask-image: radial-gradient(120% 85% at 50% 18%, #000 30%, rgba(0, 0, 0, 0.35) 70%, transparent 100%);
-  mask-image: radial-gradient(120% 85% at 50% 18%, #000 30%, rgba(0, 0, 0, 0.35) 70%, transparent 100%);
-}
-body::after {
-  background:
-    radial-gradient(50% 45% at 88% 4%, rgba(0, 153, 153, 0.075) 0%, rgba(0, 153, 153, 0) 70%),
-    radial-gradient(45% 45% at 6% 100%, rgba(163, 61, 255, 0.055) 0%, rgba(163, 61, 255, 0) 70%);
-}
-
-/* On a phone the same grid read as nothing (Tom, 2026-09-28: "i cannot see
-   the intelligent grid lines on mobile"): a small, bright, high-density
-   screen washes 2-4% lines out, and only four major lines fit across. So
-   below 768px the lines are drawn stronger and tighter, and the fade reaches
-   further down the screen. Still texture, never pattern. */
-@media (max-width: 767px) {
-  body::before {
-    background-image:
-      radial-gradient(circle at 0.5px 0.5px, rgba(255, 255, 255, 0.28) 0.8px, transparent 1.6px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.075) 1px, transparent 1px),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.075) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.036) 1px, transparent 1px),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.036) 1px, transparent 1px);
-    background-size: 72px 72px, 72px 72px, 72px 72px, 18px 18px, 18px 18px;
-    -webkit-mask-image: radial-gradient(150% 100% at 50% 20%, #000 45%, rgba(0, 0, 0, 0.55) 80%, rgba(0, 0, 0, 0.25) 100%);
-    mask-image: radial-gradient(150% 100% at 50% 20%, #000 45%, rgba(0, 0, 0, 0.55) 80%, rgba(0, 0, 0, 0.25) 100%);
+    .sbar { animation: ds-wipe linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    @keyframes ds-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+    .field { animation: ds-open linear both; animation-timeline: view(); animation-range: entry 0% entry 85%; }
+    @keyframes ds-open { from { clip-path: inset(0 0 calc(100% - 2px) 0); } to { clip-path: inset(0 0 0 0); } }
   }
 }
 
-/* DS Complete at the head of the lineup (components/CompleteKeystone.tsx):
-   the box art's own near-black ground, a gold-tinted edge, and one gold
-   hairline along the top. */
-.complete-panel {
-  background: rgba(8, 9, 11, 0.9);
-  border-color: rgba(205, 166, 86, 0.26);
-  box-shadow: inset 0 1px 0 rgba(221, 186, 110, 0.18);
-}
-/* The Founders Sale strip across the top of the DS Complete panel: a gold
-   hairline under it and a wash of gold that fades out to the right. */
-.founders-strip {
-  border-color: rgba(205, 166, 86, 0.22);
-  background: linear-gradient(90deg, rgba(205, 166, 86, 0.11) 0%, rgba(205, 166, 86, 0.035) 55%, rgba(205, 166, 86, 0) 100%);
-}
-/* The gold thread that joins it to every series panel below
-   (Marketplace.tsx). Its dashes run downward, slowly. The dashes are a layer
-   one dash taller than the thread, slid by a transform — moved by the
-   compositor, so the running thread costs the page no repaint (2026-10-09). */
-.thread {
-  overflow: hidden;
-}
-.thread::before {
-  content: "";
-  position: absolute;
-  inset: -8px 0 0 0;
-  background-image: repeating-linear-gradient(to bottom, rgba(221, 186, 110, 0.75) 0 4px, transparent 4px 8px);
-  background-size: 1px 8px;
-  animation: thread 1.6s linear infinite;
-  will-change: transform;
-}
-@keyframes thread { to { transform: translateY(8px); } }
-@media (prefers-reduced-motion: reduce) {
-  .thread::before { animation: none; }
+/* A bar straight after a teal field continues it: one teal run, split by a
+   white hairline, never a white stripe between two teal blocks. */
+.field + .sbar { margin-top: 0; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5); }
+
+/* ================================================================ pass 6 (2026-10-26 night): the brand, the partner strip
+   Tom: "add our ninjatrader affiliate link on the top elegantly. Add our
+   brand throughout the appropriate areas on our website."
+   The logo is Tom's new lockup (DS Media\01 Brand\Minimal logo), used as he
+   made it: black on white, white on teal and on the dark page, never on a
+   plate. The helmet alone (cut with his OK) is the header mark, the
+   browser-tab icon and the DS Complete band's mark. */
+
+/* ---------------------------------------------------------------- the partner strip */
+.ptr { background: color-mix(in srgb, var(--teal) 5%, var(--paper)); border-bottom: 1px solid var(--rule); font-size: 0.8125rem; color: var(--ink-2); }
+.ptr-in { display: flex; align-items: center; gap: 14px; min-height: 40px; }
+.ptr-tag { font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); padding-right: 14px; border-right: 1px solid var(--rule-2); }
+.ptr-mark { display: block; padding: 6px 0; -webkit-touch-callout: none; user-select: none; }
+.ptr-mark img { height: 12px; width: auto; display: block; }
+.ptr-text { margin: 0; color: var(--ink-2); }
+.ptr-go { margin-left: auto; color: var(--ink); font-weight: 500; white-space: nowrap; text-decoration: underline; text-decoration-color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 0.3em; transition: color 0.2s var(--ease); }
+.ptr-go:hover { color: var(--teal); }
+.ptr-go::after { content: "\2002\2192"; }
+@media (max-width: 760px) { .ptr-text { display: none; } }
+@media (max-width: 380px) { .ptr-tag { display: none; } }
+
+/* ---------------------------------------------------------------- the header mark */
+.hdr-mark { display: inline-flex; align-items: center; gap: 10px; }
+/* the mark is an image now: centre the "where" label on it, not on a text baseline */
+.hdr-left { align-items: center; }
+.hdr-where { align-items: center; }
+.hdr-logo { height: 30px; width: auto; display: block; flex: none; }
+.hdr-logo-w, html:has(.tone-dark) .hdr-logo-b { display: none; }
+html:has(.tone-dark) .hdr-logo-w { display: block; }
+
+/* ---------------------------------------------------------------- the footer lockup
+   The file is a square with the artwork in its middle; the negative margins
+   line the artwork itself up with the column (the file is not cut). */
+.ftr-logo img { width: 240px; height: 240px; margin: -56px 0 -60px -49px; }
+.ftr-logo .logo-w, html:has(.tone-dark) .ftr-logo .logo-b { display: none; }
+html:has(.tone-dark) .ftr-logo .logo-w { display: block; }
+
+/* ---------------------------------------------------------------- About: who is speaking */
+.about-brand { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: var(--gap); }
+.about-logo { width: 380px; height: 380px; margin: -60px -80px -80px 0; display: block; }
+@media (max-width: 1100px) { .about-brand { grid-template-columns: 1fr; } .about-logo { width: 260px; height: 260px; margin: 8px 0 -40px -54px; } }
+
+/* ---------------------------------------------------------------- DS Complete carries the helmet */
+.complete-label { display: flex; align-items: center; gap: 12px; }
+.complete-mark { height: 34px; width: auto; display: block; }
+
+/* ================================================================ pass 7 (2026-10-26 night): the headline, the vault's charter */
+
+/* Home: "Multiple confluences, stacked." with its promise beneath, in teal.
+   The longer headline is set one size down from .d1 so it stays a headline,
+   not a wall. */
+.hero-title { font-size: clamp(2.9rem, 1rem + 4.7vw, 7.25rem); }
+.hero-title .ht-1, .hero-title .ht-2 { display: block; }
+.hero-title .ht-2 { margin-top: 0.42em; font-size: 0.42em; line-height: 1.1; letter-spacing: -0.03em; font-weight: 400; color: var(--teal); }
+
+/* The Free Vault's charter: why it is free, before the vault's own title. */
+.vault-charter { padding-block: clamp(56px, 9vh, 112px); }
+.charter-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 40px; align-items: end; }
+.charter-grid .l { grid-column: 1 / span 8; }
+.charter-grid .r { grid-column: 10 / span 3; border-left: 1px solid rgba(255, 255, 255, 0.45); padding-left: clamp(20px, 2vw, 36px); }
+.charter-title { margin-top: 20px; max-width: 18em; text-wrap: balance; }
+.charter-text { margin-top: 24px; max-width: 40em; }
+.charter-fig { font-family: var(--font-display), sans-serif; font-weight: 300; font-size: clamp(4.5rem, 2rem + 6vw, 9rem); line-height: 0.9; letter-spacing: -0.05em; color: #ffffff; }
+.charter-cap { margin-top: 14px; font-size: 0.9375rem; line-height: 1.45; color: #ffffff; max-width: 14em; }
+.vault-charter + .vault-head { padding-top: clamp(48px, 7vh, 96px); }
+@media (max-width: 900px) {
+  .charter-grid .l, .charter-grid .r { grid-column: 1 / -1; }
+  .charter-grid .r { border-left: 0; border-top: 1px solid rgba(255, 255, 255, 0.45); padding: 24px 0 0; display: flex; align-items: baseline; gap: 18px; }
+  .charter-cap { margin-top: 0; }
 }
 
-/* A candle tick: the small bull / bear mark that heads a principle. */
-.tick-bull,
-.tick-bear {
-  display: block;
-  height: 2px;
-  width: 22px;
-}
-.tick-bull { background: #009999; }
-.tick-bear { background: #a33dff; }
+/* Home: the kicker above the headline, the Free Vault's promise in one quiet line. */
+.hero-kicker { grid-column: 1 / -1; margin-bottom: -6px; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; }
+.hero-kicker a { color: var(--teal); text-decoration: none; transition: color 0.2s var(--ease); }
+.hero-kicker a::before { content: ""; display: inline-block; width: 28px; height: 1px; margin-right: 12px; vertical-align: middle; background: var(--teal); }
+.hero-kicker a:hover { color: var(--ink); }
 
-/* The chart reader (components/QuestionRouter.tsx). The lit spine's dashes
-   run downward, question to chart to read; a projected drawing breathes.
-   Both stand still when motion is reduced. */
-.qr-spine {
-  background-image: repeating-linear-gradient(to bottom, var(--qr) 0 3px, transparent 3px 7px);
-  background-size: 1px 7px;
-  animation: qr-spine 0.7s linear infinite;
-}
-@keyframes qr-spine { to { background-position: 0 7px; } }
-.qr-breathe { animation: qr-breathe 3.2s ease-in-out infinite; }
-@keyframes qr-breathe { 50% { opacity: 0.72; } }
-/* The DS Complete chart's tour clock on touch screens (CompleteChart.tsx):
-   a hairline that fills while the tour rests on one product. */
-.cc-dwell { animation: cc-dwell linear forwards; transform: scaleX(0); }
-@keyframes cc-dwell { to { transform: scaleX(1); } }
-@media (prefers-reduced-motion: reduce) {
-  .qr-spine, .qr-breathe, .cc-dwell { animation: none; }
-}
+/* The hero's real trade: its disclosure is set in ink, not the quiet grey of
+   the usual chart line, so it reads as part of the picture, not small print. */
+.wide-cap .risk-trade { color: var(--ink-2); }
 
-/* "clearly." — fluorescent teal into fluorescent violet (Tom, 2026-09-27:
-   the flat teal read too close to the reference). The house bull and bear
-   at full luminance: #19F2E6 is the DS strong-bull cyan pulled a touch
-   toward teal, #B45CFF the bear violet lifted to glow on graphite. Crisp —
-   no blur, no text-shadow; the brightness does the work. */
-.fluoro {
-  background-image: linear-gradient(100deg, #19f2e6 8%, #5fb8f5 48%, #b45cff 92%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  /* keeps descenders (the y) inside the painted box */
-  padding-bottom: 0.08em;
+/* ================================================================ 2026-10-27: the header, bigger; focus reading
+   Tom: "Add a Home button, as well as making FREE VAULT stand out more.
+   Overall, header's need to be bigger, they are too hard to notice". */
+:root { --hdr: 84px; }
+.hdr-mark { font-size: 1.3125rem; gap: 12px; }
+.hdr-logo { height: 38px; }
+.hdr-nav { gap: clamp(20px, 2.6vw, 44px); font-size: 1.0625rem; }
+.hdr-nav a { color: var(--ink); font-weight: 500; }
+.hdr-nav a:hover { color: var(--teal); }
+.hdr-nav a[aria-current="page"] { color: var(--teal); text-decoration: underline; text-decoration-color: var(--teal); text-decoration-thickness: 2px; text-underline-offset: 0.45em; }
+.hdr-where { font-size: 0.9375rem; }
+/* the two ways in, side by side: the free one outlined, the paid one solid */
+.hdr-nav .hdr-vault, .hdr-nav .hdr-go { padding: 11px 20px; font-weight: 600; line-height: 1; text-decoration: none; transition: background-color 0.25s var(--ease), color 0.25s var(--ease); }
+.hdr-nav .hdr-vault { color: var(--teal); box-shadow: inset 0 0 0 1.5px var(--teal); margin-left: clamp(0px, 0.6vw, 12px); }
+.hdr-nav .hdr-vault:hover, .hdr-nav .hdr-vault[aria-current="page"] { background: var(--teal); color: #ffffff; text-decoration: none; }
+.hdr-nav .hdr-go { margin-left: calc(-1 * clamp(8px, 1.4vw, 28px)); }
+.hdr-menu { font-size: 1.0625rem; font-weight: 500; }
+.sheet { top: var(--sheet-top, var(--hdr)) !important; }
+@media (max-width: 760px) {
+  :root { --hdr: 72px; }
+  .hdr-mark { font-size: 1.125rem; }
+  .hdr-logo { height: 32px; }
+  .hdr-nav .hdr-vault { padding: 9px 14px; margin-left: 0; }
 }
+@media (max-width: 380px) { .hdr-mark > span { display: none; } }
+html:has(.tone-dark) .hdr-nav .hdr-vault { color: #ffffff; box-shadow: inset 0 0 0 1.5px #ffffff; }
 
-/* ------------------------------------------------------------------
-   THE 3-DAY FREE TRIAL (2026-09-29, components/Trial.tsx).
-   Gold is money on this site; the trial is bull teal — the house colour
-   for "on your chart, now". Same construction as the DS Complete panel
-   and the Founders strip, so it reads as part of one system: a tinted
-   edge, one hairline of light along the top, and a flat strip. No glow,
-   no gradient, nothing that animates.
-   ------------------------------------------------------------------ */
-.trial-panel {
-  background: rgba(9, 12, 14, 0.9);
-  border-color: rgba(0, 153, 153, 0.3);
-  box-shadow: inset 0 1px 0 rgba(67, 205, 200, 0.16);
-}
-/* The interim notice strip (2026-10-14, components/TrialNotice.tsx): the
-   panel's tint and teal hairline, flattened to one line under the NT bar. */
-.trial-notice {
-  background: rgba(0, 153, 153, 0.06);
-  border-color: rgba(0, 153, 153, 0.24);
-}
+/* Focus reading (bionic/transform.ts): the first part of each word carries
+   the weight. Body text 400 -> 650; the light display type 300 -> 500, so the
+   big headlines keep their quiet elegance. One class turns it all off. */
+.bf { font-weight: 650; }
+:is(.d1, .d2, .d3, .sbar-t, .charter-fig, .now, .hero-title) .bf { font-weight: 500; }
+:is(b, strong, th) .bf { font-weight: inherit; }
+.bio-off .bf { font-weight: inherit; }
+.focus-switch { display: inline-flex; gap: 10px; align-items: baseline; padding: 0; font: inherit; font-size: 0.875rem; color: var(--ink-2); background: none; border: 0; }
+.focus-switch .focus-state { color: var(--teal); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
 
-/* ------------------------------------------------------------------
-   HELP (2026-10-02, components/HelpPanel.tsx).
-   The marker is a chart's last-price flag: pinned to the right edge of
-   the window, notched on the left. Two layers, because a clipped shape
-   cannot carry a border — the outer one is the hairline, the inner one
-   the face. Flat surface, one gold tick. No glow, no gradient; the only
-   shadow is the dark one that lifts it off a picture passing under it.
-   ------------------------------------------------------------------ */
-.help-marker {
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
-  transition: transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.2s ease;
-}
-/* stepping aside for an interactive chart passing under it (HelpPanel.tsx) */
-.help-marker[data-yield] {
-  transform: translateX(110%);
-  opacity: 0;
-  pointer-events: none;
-}
-.help-marker-edge {
-  background: #3a4049;
-  padding: 1px 0 1px 1px;
-  clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%);
-}
-.help-marker-face {
-  background: #12151a;
-  clip-path: polygon(11.6px 0, 100% 0, 100% 100%, 11.6px 100%, 0 50%);
-}
-.help-marker:hover .help-marker-face,
-.help-marker:focus-visible .help-marker-face {
-  background: #171b21;
-}
+/* The header's focus-reading switch, left of Home: a small square (filled =
+   on) and the word "Focus", whose "Fo" is heavy only while the mode is on. */
+.hdr-focus { display: inline-flex; align-items: center; gap: 8px; padding: 6px 2px; margin-right: clamp(0px, 0.8vw, 14px); background: none; border: 0; font: inherit; font-size: 0.875rem; color: var(--ink-2); cursor: inherit; }
+.hdr-focus-box { width: 11px; height: 11px; box-shadow: inset 0 0 0 1.5px var(--teal); transition: background-color 0.2s var(--ease); }
+.hdr-focus[data-on="true"] .hdr-focus-box { background: var(--teal); }
+.hdr-focus-word b { font-weight: 400; transition: font-weight 0.2s var(--ease); }
+.hdr-focus[data-on="true"] .hdr-focus-word b { font-weight: 700; }
+.hdr-focus:hover { color: var(--teal); }
+.hdr-focus::after { content: ""; width: 1px; height: 18px; margin-left: clamp(10px, 1.4vw, 22px); background: var(--rule-2); }
+html:has(.tone-dark) .hdr-focus-box { box-shadow: inset 0 0 0 1.5px #ffffff; }
+html:has(.tone-dark) .hdr-focus[data-on="true"] .hdr-focus-box { background: #ffffff; }
+.sheet-focus { padding: 22px var(--g); }
+@media (max-width: 760px) { .hdr-nav .hdr-focus { display: none; } }
+
+/* ================================================================ HELP (from the live site, 2026-10-27)
+   components/HelpPanel.tsx: same behaviour as dsuniverse.net's Help, line for
+   line; restyled here. The marker is still a chart's last-price flag pinned to
+   the window's right edge, now in the site's teal with a white tick; the panel
+   is white with square corners like everything else here, opening on a teal
+   head. Layout numbers (640 / 520) are SHEET in HelpPanel.tsx: keep together. */
+.help-marker { position: fixed; right: 0; bottom: calc(env(safe-area-inset-bottom) + 20px); z-index: 55; height: 36px; padding: 0; background: none; border: 0; user-select: none; outline: none; filter: drop-shadow(0 6px 14px rgba(0, 32, 32, 0.28)); transition: transform 0.28s var(--ease), opacity 0.2s ease; }
+.help-marker[data-yield] { transform: translateX(110%); opacity: 0; pointer-events: none; }
+.help-marker-edge { display: block; height: 100%; padding: 1px 0 1px 1px; background: var(--teal-deep); clip-path: polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%); }
+.help-marker-face { display: flex; height: 100%; align-items: center; gap: 9px; padding: 0 16px 0 22px; background: var(--teal); clip-path: polygon(11.6px 0, 100% 0, 100% 100%, 11.6px 100%, 0 50%); transition: background-color 0.2s var(--ease); }
+.help-marker:hover .help-marker-face, .help-marker:focus-visible .help-marker-face { background: var(--teal-deep); }
+.help-marker-tick { display: block; width: 5px; height: 5px; background: #ffffff; }
+.help-marker-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #ffffff; }
+.help-backdrop { position: fixed; inset: 0; z-index: 58; background: rgba(10, 20, 22, 0.55); }
 .help-panel {
-  background: #0e1115;
-  box-shadow: 0 28px 70px -18px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(0, 0, 0, 0.4);
-  animation: help-in 0.24s cubic-bezier(0.2, 0.7, 0.2, 1);
-  /* THE SHEET — the default: up from the bottom, standing on the on-screen
-     keyboard instead of under it and never taller than what is in view (the
-     two values come from the visual viewport — HelpPanel.tsx). */
-  left: 0;
-  right: 0;
-  bottom: var(--help-kb, 0px);
-  width: 100%;
-  max-width: 560px;
-  margin-inline: auto;
-  height: min(86vh, 640px);
-  height: min(86dvh, 640px);
-  max-height: calc(var(--help-vh, 100vh) - 8px);
-  border-bottom-width: 0;
-  border-radius: 14px 14px 0 0;
+  position: fixed; z-index: 60; display: flex; flex-direction: column; overflow: hidden; outline: none;
+  background: var(--paper); color: var(--ink); box-shadow: 0 28px 70px -18px rgba(0, 40, 40, 0.35), 0 0 0 1px var(--rule-2);
+  animation: help-in 0.24s var(--ease);
+  left: 0; right: 0; bottom: var(--help-kb, 0px); width: 100%; max-width: 560px; margin-inline: auto;
+  height: min(86vh, 640px); height: min(86dvh, 640px); max-height: calc(var(--help-vh, 100vh) - 8px);
 }
-@keyframes help-in {
-  from { opacity: 0; transform: translateY(10px); }
-}
-/* THE PANEL — beside the page, wherever the window is wide AND tall enough
-   for it. These two numbers are SHEET in HelpPanel.tsx; keep them together. */
+.help-panel[hidden] { display: none; }
+@keyframes help-in { from { opacity: 0; transform: translateY(10px); } }
 @media (min-width: 640px) and (min-height: 521px) {
-  .help-panel {
-    left: auto;
-    right: 20px;
-    bottom: 70px;
-    width: 384px;
-    margin-inline: 0;
-    height: min(600px, calc(100vh - 164px));
-    height: min(600px, calc(100dvh - 164px));
-    max-height: none;
-    border-bottom-width: 1px;
-    border-radius: 12px;
-  }
+  .help-panel { left: auto; right: 20px; bottom: 72px; width: 400px; margin-inline: 0; height: min(620px, calc(100vh - 170px)); height: min(620px, calc(100dvh - 170px)); max-height: none; }
   .help-backdrop { display: none; }
 }
-/* As a sheet: the page behind does not scroll with it, and the marker is
-   under it, so it steps aside (the sheet has its own close). */
 @media (max-width: 639px), (max-height: 520px) {
   html:has(.help-panel[data-open]) { overflow: hidden; }
   .help-marker[aria-expanded="true"] { display: none; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .help-panel { animation: none; }
-}
+@media (prefers-reduced-motion: reduce) { .help-panel { animation: none; } }
+@media print { .hp-root { display: none; } }
 
-/* ------------------------------------------------------------------
-   THE FREE VAULT (2026-10-05, components/Vault.tsx).
-   Gold is money on this site and the store is made of rounded panels on
-   a gold thread. The vault is the house teal — "free, on your chart" —
-   and a BAND, not a card: full width, between two teal hairlines, on a
-   flat tint. No glow, no gradient, nothing that animates.
-   ------------------------------------------------------------------ */
-.vault-band {
-  /* Brass since 2026-10-08, the vault's own metal (it was teal): two brass
-     hairlines and a lamp-warm lift, so the band reads as the vault's door on
-     the home page. */
-  border-top: 1px solid rgba(201, 165, 94, 0.36);
-  border-bottom: 1px solid rgba(201, 165, 94, 0.18);
-  background:
-    radial-gradient(60% 70% at 50% 0%, rgba(214, 178, 108, 0.06) 0%, rgba(214, 178, 108, 0) 70%),
-    rgba(16, 14, 10, 0.5);
-}
-/* The drawer's rail: its first frame lines up with the content's edge at every
-   width (--edge, the wide body's canvas), and so does the snap. */
-.vault-rail {
-  padding-inline: var(--edge);
-  scroll-padding-inline: var(--edge);
-  scrollbar-width: none;
-}
-.vault-rail::-webkit-scrollbar { display: none; }
-.vault-rail-key {
-  display: inline-flex;
-  width: 36px;
-  height: 36px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(201, 165, 94, 0.35);
-  color: #e6cf9c;
-  font-size: calc(14px * var(--type));
-  transition: border-color 200ms, opacity 200ms;
-}
-.vault-rail-key:hover:not(:disabled) { border-color: #c9a55e; }
-.vault-rail-key:disabled { opacity: 0.3; cursor: default; }
-/* The vault page's shelf: the series panel's own build, edged in teal. */
-.vault-panel {
-  background: rgba(9, 12, 14, 0.82);
-  border-color: rgba(0, 153, 153, 0.3);
-  box-shadow: inset 0 1px 0 rgba(67, 205, 200, 0.16);
-}
-/* The Free Vault's tab in the header: a 1px teal rule under it, always —
-   the mark a printed index gives the section that is not like the others. */
-.vault-tab {
-  box-shadow: inset 0 -1px 0 rgba(0, 153, 153, 0.55);
-}
-.vault-tab[aria-current="page"],
-.vault-tab:hover {
-  box-shadow: inset 0 -1px 0 #43cdc8;
-}
+.hp-head { display: flex; flex: none; height: 56px; align-items: center; justify-content: space-between; padding: 0 8px 0 18px; background: var(--teal); color: #ffffff; }
+.hp-brand { display: flex; align-items: center; gap: 10px; }
+.hp-mark { height: 22px; width: auto; display: block; }
+.hp-title { font-family: var(--font-display), sans-serif; font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.01em; }
+.hp-head .hp-kicker { color: #ffffff; }
+.hp-kicker { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); }
+.hp-x { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; background: none; border: 0; color: inherit; }
+.hp-x:hover { background: rgba(255, 255, 255, 0.14); }
+.hp-x-sm { width: 28px; height: 28px; color: var(--ink-3); }
+.hp-x-sm:hover { color: var(--ink); background: var(--teal-tint); }
+.hp-tabs { display: flex; flex: none; gap: 26px; padding: 0 18px; border-bottom: 1px solid var(--rule); }
+.hp-tab { margin-bottom: -1px; padding: 12px 0 11px; background: none; border: 0; border-bottom: 2px solid transparent; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); transition: color 0.2s var(--ease); }
+.hp-tab:hover { color: var(--ink); }
+.hp-tab[aria-selected="true"] { color: var(--teal); border-bottom-color: var(--teal); }
+.hp-pane { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 18px; }
+.hp-pane[hidden] { display: none; }
+.hp-facts { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+.hp-name { margin-top: 6px; font-size: 0.9375rem; font-weight: 600; color: var(--ink); }
+.hp-dl { display: grid; grid-template-columns: 78px minmax(0, 1fr); column-gap: 12px; row-gap: 8px; margin: 12px 0 0; font-size: 0.8125rem; line-height: 1.4; }
+.hp-dl dt { color: var(--ink-3); }
+.hp-dl dd { margin: 0; color: var(--ink); }
+.hp-box { display: block; width: 100%; padding: 10px 12px; border: 1px solid var(--rule-2); background: #ffffff; color: var(--ink); font: inherit; font-size: 16px; line-height: 1.4; border-radius: 0; }
+@media (pointer: fine) { .hp-box { font-size: 0.875rem; } }
+.hp-box::placeholder { color: var(--ink-3); opacity: 0.8; }
+.hp-box:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 1px var(--teal); }
+.hp-box:read-only { opacity: 0.7; }
+.hp-field { margin-top: 6px; }
+.hp-area { resize: none; }
+.hp-faq { list-style: none; margin: 12px 0 0; padding: 0; border-bottom: 1px solid var(--rule); }
+.hp-faq li { border-top: 1px solid var(--rule); }
+.hp-q summary { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 14px 0; list-style: none; font-size: 0.875rem; line-height: 1.4; color: var(--ink); transition: color 0.2s var(--ease); }
+.hp-q summary::-webkit-details-marker { display: none; }
+.hp-q summary:hover { color: var(--teal); }
+.hp-plus { flex: none; margin-top: 2px; color: var(--ink-3); transition: transform 0.3s var(--ease); }
+.hp-q[open] .hp-plus { transform: rotate(45deg); color: var(--teal); }
+.hp-a { margin: 0; padding: 0 24px 16px 0; font-size: 0.8125rem; line-height: 1.6; color: var(--ink-2); }
+.hp-note { margin-top: 20px; font-size: 0.84375rem; line-height: 1.6; color: var(--ink-2); }
+.hp-lede { margin-top: 0; }
+.hp-link { padding: 0; background: none; border: 0; font: inherit; color: var(--ink); text-decoration: underline; text-decoration-color: var(--teal); text-underline-offset: 0.3em; }
+.hp-link:hover { color: var(--teal); }
+.hp-about { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding: 10px 0; border-block: 1px solid var(--rule); font-size: 0.8125rem; color: var(--ink); }
+.hp-about-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hp-label { display: block; margin-top: 16px; font-size: 0.78125rem; color: var(--ink-3); }
+.hp-err, .hp-err-t { color: #8a2a6f; }
+.hp-err { margin-top: 6px; font-size: 0.78125rem; }
+.hp-count { display: flex; justify-content: space-between; gap: 12px; margin-top: 6px; font-size: 0.78125rem; }
+.hp-n { flex: none; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+.hp-n-over { color: #8a2a6f; }
+.hp-trap { position: absolute; left: -9999px; width: 0; height: 0; overflow: hidden; }
+.hp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.hp-fallback { margin-top: 16px; padding-left: 14px; border-left: 2px solid var(--teal); }
+.hp-fb-t { font-size: 0.84375rem; font-weight: 600; color: var(--ink); }
+.hp-fb-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.hp-ghost { display: inline-flex; align-items: center; height: 36px; padding: 0 14px; background: none; border: 0; box-shadow: inset 0 0 0 1.5px var(--teal); color: var(--teal); font: inherit; font-size: 0.8125rem; font-weight: 600; text-decoration: none; }
+.hp-ghost:hover { background: var(--teal); color: #ffffff; }
+.hp-sent .hp-ghost { margin-top: 24px; }
+.hp-send { display: flex; align-items: center; gap: 12px; margin-top: 20px; }
+.hp-send .btn:disabled { opacity: 0.6; }
+.hp-small { margin-top: 8px; font-size: 0.8125rem; line-height: 1.6; color: var(--ink-2); }
+.hp-privacy { margin-top: 16px; color: var(--ink-3); }
+.hp-quote { margin: 0; padding-left: 14px; border-left: 2px solid var(--teal); white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.84375rem; line-height: 1.6; color: var(--ink); }
+.hp-sent-line { margin-top: 20px; font-size: 0.875rem; color: var(--ink); overflow-wrap: anywhere; }
+.hp-sent-line span { color: var(--ink-2); }
+.hp-sent { outline: none; }
+html:has(.tone-dark) .help-panel { color-scheme: dark; }
+html:has(.tone-dark) .hp-box { background: var(--paper); }
 
-/* ------------------------------------------------------------------
-   THE VAULT ROOM (2026-10-08, app/free-vault/page.tsx).
-   Tom: "i want the free vault to feel luxurious, like they've just
-   stepped into a vault. the background should have hints of gold...
-   Elegance and precision."
+/* An AskButton set as a link (product pages' "Ask a question", About's "Talk to us"). */
+button.lnk { padding: 0; background: none; border: 0; font: inherit; }
 
-   How it is built — light and metal, never decoration:
-   · THE LIGHT. On this page the room's ambient light turns from the
-     site's teal/violet to BRASS: one pool from above, as if a lamp hung
-     over the door, and a low warm return at the right. The chart-paper
-     grid behind the page warms with it. 9-12% at the source, gone by
-     the middle of the screen — noticed, not read.
-   · THE METAL. Brass (#C9A55E) is the vault's only colour: hairlines,
-     the dial, engraved numbers, small type. It is never a fill behind
-     words, never gradient text, never a glow around an object.
-   · THE CHAMBER. The deposits sit in one heavy panel with a brass edge,
-     a lit top edge and four screw heads at its corners — the inside of
-     a door, not a card.
-   Everything that moves stops under prefers-reduced-motion (base layer).
-   ------------------------------------------------------------------ */
-html:has(.vault-room) body::after {
-  background:
-    radial-gradient(55% 40% at 50% -6%, rgba(214, 178, 108, 0.12) 0%, rgba(214, 178, 108, 0.035) 45%, rgba(214, 178, 108, 0) 72%),
-    radial-gradient(38% 42% at 96% 46%, rgba(201, 165, 94, 0.05) 0%, rgba(201, 165, 94, 0) 70%),
-    radial-gradient(45% 45% at 4% 100%, rgba(163, 61, 255, 0.03) 0%, rgba(163, 61, 255, 0) 70%);
-}
-html:has(.vault-room) body::before {
-  background-image:
-    radial-gradient(circle at 0.5px 0.5px, rgba(232, 204, 148, 0.2) 0.75px, transparent 1.5px),
-    linear-gradient(90deg, rgba(222, 192, 134, 0.045) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(222, 192, 134, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(222, 192, 134, 0.02) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(222, 192, 134, 0.02) 1px, transparent 1px);
-}
-@media (max-width: 767px) {
-  html:has(.vault-room) body::before {
-    background-image:
-      radial-gradient(circle at 0.5px 0.5px, rgba(232, 204, 148, 0.3) 0.8px, transparent 1.6px),
-      linear-gradient(90deg, rgba(222, 192, 134, 0.075) 1px, transparent 1px),
-      linear-gradient(180deg, rgba(222, 192, 134, 0.075) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(222, 192, 134, 0.034) 1px, transparent 1px),
-      linear-gradient(180deg, rgba(222, 192, 134, 0.034) 1px, transparent 1px);
-  }
-}
-/* The header's Free Vault tab, while you are in the vault: brass. */
-html:has(.vault-room) .vault-tab,
-html:has(.vault-room) .vault-tab[aria-current="page"] {
-  color: #e6cf9c;
-  box-shadow: inset 0 -1px 0 #c9a55e;
-}
-
-/* The entrance: the headline and the dial, the plaque across the foot. */
-.vault-title {
-  font-size: clamp(2.7rem, 5.6vw, 4.6rem);
-  letter-spacing: -0.045em;
-}
-.vault-btn {
-  display: inline-flex;
-  height: 44px;
-  align-items: center;
-  gap: 10px;
-  padding: 0 20px;
-  border: 1px solid rgba(201, 165, 94, 0.55);
-  background: rgba(201, 165, 94, 0.06);
-  color: #e6cf9c;
-  font-size: calc(13.5px * var(--type));
-  font-weight: 500;
-  letter-spacing: -0.005em;
-  transition: border-color 200ms, background-color 200ms, color 200ms;
-}
-.vault-btn:hover {
-  border-color: #c9a55e;
-  background: rgba(201, 165, 94, 0.12);
-  color: #f3e3bd;
-}
-.vault-plaque {
-  border-top: 1px solid rgba(201, 165, 94, 0.42);
-  border-bottom: 1px solid rgba(201, 165, 94, 0.2);
-  /* the graduations of a rule, every 12px, along the top edge */
-  background-image: repeating-linear-gradient(90deg, rgba(201, 165, 94, 0.32) 0 1px, transparent 1px 12px);
-  background-size: 100% 4px;
-  background-repeat: no-repeat;
-}
-.vault-plaque-cell + .vault-plaque-cell {
-  border-left: 1px solid rgba(201, 165, 94, 0.14);
-}
-@media (max-width: 767px) {
-  .vault-plaque-cell:nth-child(odd) { border-left: 0; padding-right: 16px; }
-  .vault-plaque-cell:nth-child(even) { padding-left: 16px; }
-  .vault-plaque-cell:nth-child(n + 3) { border-top: 1px solid rgba(201, 165, 94, 0.14); }
-}
-
-/* The dial: the door opening, once, then the rosette's slow drift. */
-.vault-dial-bezel,
-.vault-dial-wheel,
-.vault-dial-rose {
-  transform-box: view-box;
-  transform-origin: 240px 240px;
-}
-.vault-dial-bezel { animation: vault-bezel 2.4s cubic-bezier(0.16, 0.84, 0.2, 1) 0.25s both; }
-.vault-dial-wheel { animation: vault-wheel 2.4s cubic-bezier(0.16, 0.84, 0.2, 1) 0.25s both; }
-/* 1,440 steps over the four minutes: a quarter of a degree six times a
-   second — no visible tick, a tenth of the frames a smooth spin repaints. */
-.vault-dial-rose { animation: vault-rose 240s steps(1440) infinite; }
-@keyframes vault-bezel { from { transform: rotate(-120deg); } to { transform: rotate(0deg); } }
-@keyframes vault-wheel { from { transform: rotate(72deg); } to { transform: rotate(0deg); } }
-@keyframes vault-rose { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-/* The chamber that holds the deposits. */
-.vault-chamber {
-  border: 1px solid rgba(201, 165, 94, 0.26);
-  background: linear-gradient(180deg, rgba(16, 14, 10, 0.92) 0%, rgba(9, 9, 9, 0.9) 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(230, 207, 156, 0.12),
-    0 50px 100px -50px rgba(0, 0, 0, 0.95);
-}
-.vault-chamber::before {
-  /* four screw heads, 14px in from each corner */
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 14px 14px, rgba(201, 165, 94, 0.55) 0 1.6px, transparent 2.4px),
-    radial-gradient(circle at calc(100% - 14px) 14px, rgba(201, 165, 94, 0.55) 0 1.6px, transparent 2.4px),
-    radial-gradient(circle at 14px calc(100% - 14px), rgba(201, 165, 94, 0.55) 0 1.6px, transparent 2.4px),
-    radial-gradient(circle at calc(100% - 14px) calc(100% - 14px), rgba(201, 165, 94, 0.55) 0 1.6px, transparent 2.4px);
-}
-
-/* The search: one field on a brass rule, the keys as engraved tabs. */
-.vault-field {
-  border: 1px solid rgba(201, 165, 94, 0.3);
-  background: rgba(4, 4, 4, 0.55);
-  transition: border-color 200ms, background-color 200ms;
-}
-.vault-field:focus-within {
-  border-color: rgba(201, 165, 94, 0.75);
-  background: rgba(4, 4, 4, 0.8);
-}
-.vault-field:focus-within,
-.vault-field input:focus-visible {
-  outline: none;
-}
-.vault-sugg {
-  border: 1px solid rgba(201, 165, 94, 0.45);
-  background: #0c0b09;
-  box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.9);
-}
-.vault-key {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 8px;
-  min-height: 32px;
-  padding: 6px 10px 6px 11px;
-  border: 1px solid rgba(201, 165, 94, 0.2);
-  background: rgba(255, 255, 255, 0.012);
-  color: #a3abb3;
-  font-size: calc(12.5px * var(--type));
-  line-height: 1.2;
-  transition: border-color 160ms, color 160ms, background-color 160ms;
-}
-.vault-key:hover:not(:disabled) {
-  border-color: rgba(201, 165, 94, 0.5);
-  color: #e7ecef;
-}
-.vault-key[aria-pressed="true"] {
-  border-color: #c9a55e;
-  background: rgba(201, 165, 94, 0.1);
-  color: #f3e3bd;
-}
-.vault-key:disabled {
-  opacity: 0.32;
-  cursor: not-allowed;
-}
-.vault-key { flex-shrink: 0; white-space: nowrap; }
-.vault-keys { scrollbar-width: none; scroll-padding-inline: 20px; }
-.vault-keys::-webkit-scrollbar { display: none; }
-@media (max-width: 639px) {
-  /* the rail fades at its right edge so it reads as "more this way" */
-  .vault-keys { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
-}
-.vault-key-n {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: calc(10px * var(--type));
-  color: #7c848d;
-  font-variant-numeric: tabular-nums;
-}
-.vault-key[aria-pressed="true"] .vault-key-n { color: #c9a55e; }
+/* ================================================================ v3.1 (2026-10-29)
+   DS Complete is the only paid product: the founders price as two figures,
+   its three plans as one solid button and two outlined ones, what is inside
+   group by group, and the "Opening soon" state while the plans are made. */
+.cpx { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 18px clamp(28px, 3vw, 56px); }
+.cpx p { margin: 0; }
+.cpx .now { display: block; font-size: clamp(2.8rem, 1.4rem + 3.4vw, 5.5rem); }
+.cpx .per { display: block; margin-top: 10px; font-size: 0.9375rem; line-height: 1.4; }
+.field .cpx .per { color: #ffffff; }
+.complete-head { max-width: 18em; text-wrap: balance; }
+.ca-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; margin: 0; }
+button.btn { border: 0; font-family: inherit; cursor: pointer; }
+.btn-ghost { background: none; color: var(--teal); box-shadow: inset 0 0 0 1.5px var(--teal); }
+.btn-ghost:hover { background: var(--teal); color: #ffffff; }
+.field .btn-ghost, .pp-panel .btn-ghost { background: none; color: #ffffff; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.85); }
+.field .btn-ghost:hover, .pp-panel .btn-ghost:hover { background: #ffffff; color: var(--teal); }
+/* "Opening soon": a statement, not a control — a hairline box, no hover. */
+.btn-static, .btn-static:hover { background: none; color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--rule-2); cursor: default; }
+.field .btn-static, .field .btn-static:hover, .pp-panel .btn-static, .pp-panel .btn-static:hover { background: none; color: #ffffff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6); }
+.inside { margin: 32px 0 0; border-top: 1px solid var(--rule-2); }
+.inside div { display: grid; grid-template-columns: minmax(9rem, 13rem) minmax(0, 1fr); gap: 6px 20px; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.inside dt { font-size: 0.8125rem; line-height: 1.5; color: var(--ink-3); }
+.inside dd { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink); }
+.field .inside { border-top-color: rgba(255, 255, 255, 0.45); }
+.field .inside div { border-bottom-color: rgba(255, 255, 255, 0.28); }
+.field .inside dt, .field .inside dd { color: #ffffff; }
+@media (max-width: 560px) { .inside div { grid-template-columns: 1fr; } }
+/* A product page's "How it works": the full description beside its one line. */
+.pp-desc { grid-column: 7 / span 6; display: grid; gap: 18px; }
+@media (max-width: 1100px) { .pp-points-grid .t, .pp-desc { grid-column: 1 / -1; } }
+.pp-desc { border-top: 2px solid var(--teal); padding-top: 22px; }
+.pp-desc .body { color: var(--ink); font-size: 1.0625rem; }
+/* The fine print (Terms, Disclosures; ported 2026-10-29): one quiet column. */
+.legal-measure { max-width: 46em; }
+.legal { max-width: 46em; }
+.legal-sec { padding: 26px 0; border-top: 1px solid var(--rule); scroll-margin-top: calc(var(--hdr) + 16px); }
+.legal-sec:first-child { border-top: 2px solid var(--teal); }
+.legal-sec .d4 { margin-bottom: 12px; }
+.legal-sec .body + .body, .legal-sec .legal-ul + .body, .legal-sec .body + .legal-ul { margin-top: 12px; }
+.legal-ul { margin: 0; padding-left: 1.2em; list-style: square; }
+.legal-ul li { margin-top: 6px; }
+.legal-ul li::marker { color: var(--teal); }
+.legal-close { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--rule); font-style: italic; }
+/* Home: "New in v3.1" — the five points beside the two new products. */
+.news { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: 48px; align-items: start; }
+.news-points { grid-column: 1 / span 6; margin-top: 0; border-top: 2px solid var(--teal); }
+.news-new { grid-column: 8 / span 5; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 2vw, 36px); }
+.news-new .nm { margin-top: 16px; }
+.news-new .small { margin-top: 6px; }
+@media (max-width: 1100px) { .news-points, .news-new { grid-column: 1 / -1; } }
+/* Square logos keep their square (2026-10-29). Tailwind's base gives every
+   img max-width:100%; with the About lockup's negative margin its grid track
+   came out narrower than the 380 px it is drawn at, so the width was clamped
+   while the height held — the logo was squeezed sideways. Width only, height
+   from the picture's own ratio, and never clamped. */
+.about-logo, .ftr-logo img { max-width: none; height: auto; aspect-ratio: 1 / 1; object-fit: contain; }
+@media (max-width: 560px) { .about-logo { width: min(260px, 64vw); margin: 8px 0 -32px -12%; } }
+/* Touch (2026-10-29 phone sweep): every small link and button gets a finger-
+   sized hit area (WCAG 2.2 target size) without moving a pixel of the layout —
+   an invisible box around it, 10 px above and below, 6 px each side. */
 @media (pointer: coarse) {
-  .vault-key { min-height: 40px; padding-top: 10px; padding-bottom: 10px; }
-}
-
-/* THE PRODUCT CARD (components/ProductCard.tsx, 2026-10-08) — the
-   marketplace's one tile. A surface edged by a hairline; on hover the edge
-   takes the tone, the card lifts 2px and the cover pushes in 3%. Brass in the
-   Free Vault, gold in the store. Square corners: sturdy, never a pill. */
-.pcard-vault { --pc: 201 165 94; --pc-light: 230 207 156; }
-.pcard-store { --pc: 205 166 86; --pc-light: 221 186 110; }
-.pcard {
-  border: 1px solid #1d2127;
-  background: rgba(255, 255, 255, 0.016);
-  transition: border-color 350ms cubic-bezier(0.2, 0.7, 0.2, 1), background-color 350ms, transform 350ms cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-.pcard-media { border-bottom: 1px solid #1d2127; }
-.pcard-tick { color: rgb(var(--pc)); }
-.pcard-free { color: rgb(var(--pc-light)); }
-.pcard-name { transition: color 300ms; }
-.cover-img { transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1); }
-/* The cover shoot's shell (content/covers.ts COVER_GAPS "blank"): an empty square, one step up from the card. */
-.cover-blank { background: #101318; }
-@media (hover: hover) {
-  .pcard:hover { border-color: rgb(var(--pc) / 0.45); background: rgba(255, 255, 255, 0.028); transform: translateY(-2px); }
-  .pcard:hover .pcard-name { color: rgb(var(--pc-light)); }
-  .group:hover .cover-img { transform: scale(1.03); }
-}
-.pcard:has(.pcard-link:focus-visible) { outline: 1px solid rgb(var(--pc) / 0.85); outline-offset: 3px; }
-.pcard:has(.pcard-link:focus-visible) .pcard-name { color: rgb(var(--pc-light)); }
-.pcard-link:focus-visible { outline: none; }
-.pcard-btn {
-  position: relative;
-  z-index: 20;
-  display: inline-flex;
-  height: 36px;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  border: 1px solid rgb(var(--pc) / 0.55);
-  border-radius: 2px;
-  padding: 0 14px;
-  font-size: calc(12.5px * var(--type));
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: rgb(var(--pc-light));
-  transition: background-color 250ms, color 250ms, border-color 250ms;
-}
-@media (max-width: 359px) {
-  .pcard-btn { padding: 0 10px; }
-}
-.pcard-btn:hover,
-.pcard-btn:focus-visible { background: rgb(var(--pc)); border-color: rgb(var(--pc)); color: #080a0d; outline: none; }
-@media (prefers-reduced-motion: reduce) {
-  .pcard, .cover-img { transition: none; }
-  .pcard:hover { transform: none; }
-  .group:hover .cover-img { transform: none; }
-}
-
-/* THE FEATURE FILTERS (components/VaultRoom.tsx) — on a desktop, a sidebar of
-   checkbox rows with the count each would leave; a phone keeps the key rails. */
-.vault-facet {
-  display: grid;
-  width: 100%;
-  grid-template-columns: 14px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 0;
-  text-align: left;
-  font-size: calc(13px * var(--type));
-  color: #a3abb3;
-  transition: color 200ms;
-}
-.vault-facet:hover:not(:disabled) { color: #e7ecef; }
-.vault-facet-box { width: 12px; height: 12px; border: 1px solid rgba(201, 165, 94, 0.45); display: grid; place-items: center; }
-.vault-facet[aria-pressed="true"] { color: #e7ecef; }
-.vault-facet[aria-pressed="true"] .vault-facet-box { background: #c9a55e; border-color: #c9a55e; }
-.vault-facet[aria-pressed="true"] .vault-facet-box::after { content: ""; width: 6px; height: 3px; border-left: 1.4px solid #080a0d; border-bottom: 1.4px solid #080a0d; transform: translateY(-1px) rotate(-45deg); }
-.vault-facet:disabled { color: #4a5058; cursor: default; }
-.vault-facet:disabled .vault-facet-box { border-color: rgba(201, 165, 94, 0.15); }
-.vault-facet-n { font-family: var(--font-mono), ui-monospace, monospace; font-size: calc(10.5px * var(--type)); color: #7c848d; font-variant-numeric: tabular-nums; }
-.vault-facet:focus-visible { outline: 1px solid rgba(201, 165, 94, 0.8); outline-offset: 2px; }
-
-/* ------------------------------------------------------------------
-   THE WIDE BODY — breakouts (2026-10-09). A piece inside .wrap that runs
-   past the canvas to the window's edge: the content edge on one side, the
-   window on the other. Uses --edge so it lines up at every width.
-   ------------------------------------------------------------------ */
-.bleed-r { margin-right: calc(-1 * var(--edge)); }
-.bleed-l { margin-left: calc(-1 * var(--edge)); }
-
-/* ------------------------------------------------------------------
-   THE SCROLL THREAD (components/Navbar.tsx, 2026-10-09). How far down the
-   page you are, drawn ON the header's bottom edge — the one line the eye
-   already rests on — rather than as rails cut through the page (Tom: the
-   margin rails "just cutting through the page … feel 2D and not thought
-   out"). Gold, filling left to right, a bead of light at its head.
-   ------------------------------------------------------------------ */
-.scroll-thread {
-  --p: 0;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: 1px;
-  pointer-events: none;
-  background: linear-gradient(90deg, rgba(205, 166, 86, 0) 0%, rgba(205, 166, 86, 0.55) 22%, rgba(230, 207, 156, 0.95) 100%);
-  transform-origin: left center;
-  transform: scaleX(var(--p));
-  transition: opacity 300ms ease;
-}
-.scroll-thread::after {
-  content: "";
-  position: absolute;
-  right: -1px;
-  top: -1.5px;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #f1dfb4;
-  box-shadow: 0 0 6px 1px rgba(230, 207, 156, 0.55);
-  transform: scaleX(calc(1 / max(var(--p), 0.001)));
-}
-
-/* ------------------------------------------------------------------
-   THE WIDE GALLERY (components/Gallery.tsx, 2026-10-09). A chart is never
-   taller than the window: on a desktop the stage is capped by the window's
-   height, and from 1536px the caption, the picture rail and the footnote
-   move into a column beside the stage instead of under it.
-   ------------------------------------------------------------------ */
-.gallery-wide { --g-stage: calc((100svh - 190px) * var(--g-ratio, 1.7778)); }
-@media (min-width: 1024px) and (max-width: 1535px) {
-  .gallery-wide { max-width: max(640px, var(--g-stage)); }
-}
-@media (min-width: 1536px) {
-  .gallery-wide {
-    display: grid;
-    grid-template-columns: minmax(0, min(calc(100% - 300px), var(--g-stage))) minmax(260px, 1fr);
-    column-gap: 32px;
-    align-items: start;
-    align-content: start;
+  .ptr-go, .ptr-mark, .hdr-mark, .crumbs a, .focus-switch, a.lnk, button.lnk, .pp-kicker a, .ftr-col a { position: relative; }
+  .ptr-go::before, .ptr-mark::before, .hdr-mark::before, .crumbs a::before, .focus-switch::before, a.lnk::before, button.lnk::before, .pp-kicker a::before, .ftr-col a::before {
+    content: ""; position: absolute; inset: -10px -6px;
   }
-  .gallery-wide > * { grid-column: 2; }
-  .gallery-wide > .g-stage { grid-column: 1; grid-row: 1 / span 6; }
-  .gallery-wide > .g-cap { margin-top: 0; flex-direction: column-reverse; gap: 10px; }
-  .gallery-wide > .g-cap > [aria-hidden] { padding-top: 0; margin-left: -2px; }
-  .gallery-wide > .g-thumbs { flex-wrap: wrap; }
-  .gallery-wide > .g-thumbs > * { flex: 0 1 calc(50% - 5px); }
 }
 
-/* ------------------------------------------------------------------
-   THE DEPOSIT WALL (components/Vault.tsx VaultBand, 2026-10-09). The home
-   page's Free Vault band as a wall of safe-deposit boxes: brushed-dark box
-   faces in brass hairline frames, an engraved plate, a window onto each
-   tool's chart, a handle at the foot. Pointing at a box draws it a few
-   pixels out of the wall and lengthens its handle.
-   ------------------------------------------------------------------ */
-.deposit-box {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid rgba(201, 165, 94, 0.24);
-  background:
-    linear-gradient(180deg, rgba(230, 207, 156, 0.035) 0%, rgba(230, 207, 156, 0) 38%),
-    linear-gradient(180deg, #15130f 0%, #0d0c0a 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(230, 207, 156, 0.09),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.7),
-    0 1px 0 rgba(0, 0, 0, 0.6);
-  transition: transform 420ms cubic-bezier(0.2, 0.7, 0.2, 1), border-color 300ms, box-shadow 420ms;
-}
-.deposit-box::after {
-  /* the handle */
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 6px;
-  width: 26px;
-  height: 2px;
-  border-radius: 1px;
-  background: linear-gradient(180deg, #e6cf9c, #8a6f3c);
-  opacity: 0.55;
-  transform: translateX(-50%);
-  transition: width 420ms cubic-bezier(0.2, 0.7, 0.2, 1), opacity 300ms;
-}
-a.deposit-box:hover,
-a.deposit-box:focus-visible {
-  transform: translateY(-4px);
-  border-color: rgba(201, 165, 94, 0.62);
-  box-shadow:
-    inset 0 1px 0 rgba(230, 207, 156, 0.16),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.7),
-    0 22px 40px -22px rgba(0, 0, 0, 0.95),
-    0 0 0 1px rgba(201, 165, 94, 0.08);
-}
-a.deposit-box:hover::after,
-a.deposit-box:focus-visible::after { width: 52px; opacity: 0.95; }
-.deposit-plate {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 11px 14px 10px;
-  border-bottom: 1px solid rgba(201, 165, 94, 0.14);
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: calc(10.5px * var(--type));
-  letter-spacing: 0.16em;
-  color: #c9a55e;
-}
-.deposit-window {
-  position: relative;
-  display: block;
-  margin: 12px 14px 0;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  border: 1px solid rgba(201, 165, 94, 0.16);
-  background: #0e1116;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
-}
-.deposit-window img { transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1); }
-a.deposit-box:hover .deposit-window img { transform: scale(1.035); }
-.deposit-body { display: block; flex: 1 1 auto; padding: 14px 14px 0; }
-.deposit-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 16px 14px 0;
-  padding: 11px 0 20px;
-  border-top: 1px solid rgba(201, 165, 94, 0.14);
-}
-.deposit-box-empty {
-  min-height: 100%;
-  align-items: center;
-  justify-content: center;
-  color: rgba(201, 165, 94, 0.32);
-  background:
-    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 4px),
-    linear-gradient(180deg, #121110 0%, #0b0a09 100%);
-}
-/* On a phone a box lies on its side: the window left, the words right. */
-@media (max-width: 639px) {
-  .deposit-box { display: grid; grid-template-columns: 112px minmax(0, 1fr); grid-template-rows: auto 1fr auto; }
-  .deposit-plate { grid-column: 1 / -1; }
-  .deposit-window { grid-row: 2 / span 2; margin: 12px 0 14px 14px; aspect-ratio: 1; }
-  .deposit-body { padding-top: 12px; }
-  .deposit-foot { margin-top: 10px; padding-bottom: 18px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  a.deposit-box:hover, a.deposit-box:focus-visible { transform: none; }
-  a.deposit-box:hover .deposit-window img { transform: none; }
-}
-
-/* The wide chart reader's step rule (components/ChartReader.tsx): the
-   vertical reader's travelling dashes, laid on their side. */
-.cr-dash {
-  background-image: repeating-linear-gradient(to right, var(--qr) 0 3px, transparent 3px 7px);
-  background-size: 7px 1px;
-  animation: cr-dash 0.7s linear infinite;
-}
-@keyframes cr-dash { to { background-position: 7px 0; } }
-@media (prefers-reduced-motion: reduce) {
-  .cr-dash { animation: none; background: var(--qr); }
-}
-
-/* The product page's buy bar (components/BuyBar.tsx): while it shows, the Help
-   tab stands on it instead of behind it. */
-.help-marker { transition: bottom 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
-html[data-buybar="on"] .help-marker { bottom: calc(env(safe-area-inset-bottom) + 84px); }
+/* one long word on a display line (see components/fit.ts): never larger than
+   the line's own size, never wider than the column */
+.d2.fit { font-size: min(clamp(2.4rem, 1.2rem + 3.2vw, 5.25rem), calc((100vw - 2 * var(--g)) / (0.56 * var(--len, 10)))); }

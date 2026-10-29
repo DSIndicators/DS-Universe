@@ -30,18 +30,28 @@
  * here says a vault product "draws" — "import it and it is ready" is true of
  * both kinds. The README is the guide for the two products of that day.
  *
+ * 2026-10-25: DS MACD, DS Stochastics and DS Squeeze were discontinued, DS VWAP
+ * moved onto the chart (v3.0) and DS Volume joined, so "the panels" left the
+ * home band. Every license on the old free product IDs was switched off the
+ * same day; the one answer for a visitor who still sees a license message is
+ * licenseNote below, shown once under "How it works" on /free-vault.
+ *
  * DS TOOLKIT IS NOT IN THE VAULT (2026-10-05, later the same day): it comes
  * free with DS Complete and is not offered on its own, so no sentence here
  * names the rail.
  */
 
+import { COMPLETE_COPY } from "./pricing";
+
+/* v3.1 (2026-10-29): the approved Free Vault wording (Website copy v3.1.md) —
+   the charter body as the lede, and the one line to DS Complete. */
 export const VAULT_COPY = {
   /** The mark's words, set in mono small caps wherever the vault is named. */
   label: "Free Vault",
   /** The page's headline. */
   title: "The Free Vault.",
   /** One or two plain sentences: what it is, and how a free license works. */
-  lede: "Free indicators and tools for NinjaTrader 8 — free permanently, not a trial and not a stripped build. Each one is its own download from its own free listing on Whop, with no license to switch on: import it and it is ready.",
+  lede: "A whole vault of free indicators, each optimized, kept current and free of license keys. Download any of them, import it once, and it draws the moment it is in. New tools are added as they are built.",
   /** The facts, as a spec sheet beside the headline. */
   facts: [
     { k: "Price", v: "Free, permanently. Not a trial." },
@@ -49,10 +59,17 @@ export const VAULT_COPY = {
     { k: "License", v: "None needed. Import it and it is ready, on any computer you use NinjaTrader on." },
     { k: "DS Complete", v: "Not part of it. A free product runs beside it." },
   ],
+  /** Said once, under "How it works" (2026-10-25: every license on the old free
+   *  product IDs was switched off). The announcement's approved words, with the
+   *  menu path in place of "as in step 1". */
+  licenseNote: {
+    k: "Seeing a license message on a free DS tool?",
+    v: "That copy is from before the free tools stopped needing a license. Remove it (Tools → Remove NinjaScript Assembly), restart NinjaTrader, and download the new one from the Free Vault.",
+  },
   /** The home page band. */
   band: {
     heading: "Free tools, kept in a place of their own.",
-    text: "The Free Vault holds the free DS Universe products — the price line, the price readout, the level map, the higher-timeframe matrix, the session levels, the panels, a live chart background and one-click timeframe buttons. Each is its own download, free permanently, and none of them is part of DS Complete.",
+    text: "The Free Vault holds the free DS Universe products — the price line, the price readout, the level map, the higher-timeframe matrix, the session levels, the VWAP on your chart, volume read against the clock, a live chart background and one-click timeframe buttons. Each is its own download, free permanently, and none of them is part of DS Complete.",
     cta: "Open the Free Vault",
   },
   /** The one line in the home hero. */
@@ -68,8 +85,8 @@ export const VAULT_COPY = {
   chartsNote: "Every picture is the product on a real NinjaTrader 8 chart; hand-drawn marks on a picture are added for illustration.",
   /** After the tiles: where the paid lineup is. */
   storeHeading: "Looking for the paid lineup?",
-  storeText: "The flagship indicators, the Pro Series panels and the data utility are in the store, sold one by one or together as DS Complete. Nothing in the vault is needed to run them, and nothing in the vault is included with them.",
-  storeCta: "Go to the store",
+  storeText: `${COMPLETE_COPY.fromVault} Nothing in the vault is needed to run them, and nothing in the vault is part of DS Complete.`,
+  storeCta: "See DS Complete",
   /** On a vault product's own page, under its price. */
   pageNote: "Its own download, free permanently. It is not part of DS Complete: it runs beside it.",
   pageLink: "Everything in the Free Vault",

@@ -1,3 +1,5 @@
+import { COMPLETE } from "./pricing";
+
 /**
  * Site-wide facts and copy. One file to edit.
  * The catalogue lives next door in content/products.ts.
@@ -11,7 +13,7 @@ export const SITE = {
   tagline: "Trading tools for NinjaTrader 8",
   url: "https://dsuniverse.net",
   description:
-    "DS Universe builds order-flow indicators for NinjaTrader 8 — where the volume traded, which side was pressing and which levels held, drawn in plain trading language and bought once — plus a Free Vault of free tools.",
+    "Free and affordable order-flow indicators for NinjaTrader 8 — where the volume traded, which side was pressing and which levels held, drawn in plain trading language. A Free Vault of free tools, and every paid tool in one low-priced bundle, DS Complete.",
   email: "support@dsuniverse.net",
   city: "New York City",
   platform: "NinjaTrader 8",
@@ -65,7 +67,7 @@ export const NAV: NavItem[] = [
 export const HERO = {
   eyebrow: "Order flow for NinjaTrader 8",
   title: "See inside every candle.",
-  sub: "Where the volume traded, which side was pressing, and which levels absorbed size and held — drawn on your chart in plain trading language. Bought once; the Free Vault costs nothing.",
+  sub: "Where the volume traded, which side was pressing, and which levels absorbed size and held — drawn on your chart in plain trading language. Every paid tool in DS Complete; the Free Vault costs nothing.",
   primary: { label: "Explore the lineup", href: "/products" },
   secondary: { label: "See prices", href: "/products?view=list" },
 };
@@ -85,8 +87,8 @@ export const ABOUT = {
   heading: "Built for the trader who wants less on the screen, and more from it.",
   paragraphs: [
     "DS Universe is a family of indicators and tools for NinjaTrader 8, written natively in NinjaScript and drawn directly on your chart. Each indicator answers one question about the market — where a level is holding, where size was hidden, what traded inside the candle, which side the trend is on — and prints the answer in plain trading language.",
-    "The Pro Series puts one panel under your candles and makes it say something about price: levels on the chart, named states and measured odds, decided on closed bars.",
-    "Every paid product is sold on its own, for a single payment. DS Complete is all of them at once, for half of what they cost apart; DS ASL and DS Toolkit come free with it and are not sold on their own. The Free Vault stands apart — the price line, the readout, the level map, the higher-timeframe matrix, the session levels and the panels — each its own free download.",
+    "The panel tools put one panel under your candles and make it say something about price: levels on the chart, named states and measured odds, decided on closed bars.",
+    "DS Universe is free and affordable. Every paid tool comes in one low-priced bundle, DS Complete, on one license, and founders get every future indicator and update with it. The Free Vault stands apart — the price line, the price readout, the level map, the higher-timeframe matrix, the session levels, the VWAP on your chart, volume read against the clock, a live chart background and one-click timeframe buttons — each its own free download.",
     "Everything runs on your machine, on your data, on the platform's supported public API. Nothing is hidden behind a second window.",
   ],
 };
@@ -103,7 +105,7 @@ export const PRINCIPLES = [
   },
   {
     title: "Quiet by design",
-    text: "Dark and light themes, one switch per tool on the DS Toolkit rail, and color only where it carries meaning. The tool should disappear into the chart.",
+    text: "One house palette across every tool, one switch per tool on the DS Toolkit rail, and color only where it carries meaning. The tool should disappear into the chart.",
   },
 ];
 
@@ -193,334 +195,10 @@ export const DISCLOSURE = {
  */
 export const CATALOGUE = {
   eyebrow: "The lineup",
-  heading: "All of it at once, or one tool at a time.",
-  sub: "DS Complete is every paid product in one purchase. Or pick them one by one: each is a single payment. Open any cover for what it shows, how it helps, and the guide to reading it.",
+  heading: "Every paid tool, one low price.",
+  sub: `DS Complete holds every paid DS Universe tool on one license, at the founders price, with a ${COMPLETE.trialDays}-day free trial first. Open any cover for what it shows and how it helps.`,
 };
 
-/**
- * 2026-10-06 — THE SCREEN RE-SET FOR THE NEW LINEUP (Tom: "5 homescreen images
- * needs to be taken out, 5 new mp4/images attached... place in order
- * elegantly"). OUT: replay.mp4 (the first clip), footprints-v2, sessions,
- * session-profiles and sessions-volume-v1 — each showed "DS ProStochastics" or
- * "DS Pro Session Levels". Their files moved to LOCAL3001 Picture Updates\\
- * Replaced pictures\\2026-10-06 Homepage screen. IN, from DS Media\\03 Website\\
- * Homepage Sources: one recording and four 2560x1440 pictures (lossless webp),
- * each noted on its own entry below. KEPT: live-levels-v1 and
- * zones-iceberg-rsi-v1.
- * ORDER NOW: the new recording (volume in the candles over the liquidity map),
- * the levels recording, then the pictures dark, light, dark, light, dark — the
- * two light-template charts never side by side, the two DS ProLiquidityHunter
- * pictures two apart, and the loop closing on the close-up. Everything below
- * this note about the earlier frames is the record of how the screen got here.
- */
-/**
- * The hero screen: two screen recordings and five real NQ charts on
- * NinjaTrader's black ground, several DS products on each one (Tom, 2026-09-21:
- * "5 new images in. We will rotate the 6 black screen. Remove the other
- * images."; 2026-09-23: "remove the attached picture from the homepage and add
- * a video instead... Video first, played in full ( users can swipe to skip to
- * next) then our 5 pictures"). The picture he took out is the four-Pro-Series
- * one; its file stays on disk at public/covers/screen/pro-series.webp, and the
- * Pro Series panels are still shown on their own product pages.
- *
- * THE CLIP — source "New Raw Images\15 New Homepage 2.mp4": 7680x3880 HEVC,
- * 60fps, 15.0s, with an audio track. It is PADDED to 16:9, never cropped. The
- * source is 1.979:1 and the screen is a 16:9 stage with `object-cover`, so
- * covering would have trimmed 5.1% off EACH side — and on this recording that
- * is exactly where the "DS ProRSI" and "DS ProStochastics" panel titles (left)
- * and the price axis (right) live. Padding costs nothing instead: the frame's
- * own outer rows measure 0,0,0, so 220 rows of black top and bottom disappear
- * into the chart. Verified on the encoded file — rows 0-54 and 1025-1079 are
- * black, row 56 carries content, 1920x1080 = 1.7778 exactly.
- *   ffmpeg -i "15 New Homepage 2.mp4" -an \
- *     -vf "pad=iw:ceil(iw*9/16/2)*2:0:(oh-ih)/2:color=black,
- *          scale=1920:1080:flags=lanczos,fps=30,format=yuv420p" \
- *     -c:v libx264 -profile:v high -preset medium -crf 23 -g 60 \
- *     -movflags +faststart  →  replay.mp4              2.79 MB
- *   same, scale=1280:720 -crf 26 -level 3.1  →  replay-sm.mp4    1.15 MB
- *   -frames:v 1 -c:v libwebp -quality 88     →  replay-poster.webp (frame 0)
- * Silent (-an): browsers only autoplay muted video, and every other DS
- * recording on the site is silent too.
- *
- * THE SECOND CLIP (Tom, 2026-10-02: "place the video as the 2nd video played.
- * This will show a nice rotation, 1 video with flow and 1 without flow") —
- * source "Master Product Folder\Homepage 2nd video.mp4": 7680x4320 HEVC, 60fps,
- * 60.0s, with an audio track. It is 16:9 already, so there is nothing to pad
- * and nothing is cropped; its own outer rows are black, like the first clip's.
- *   ffmpeg -i "Homepage 2nd video.mp4" -an -filter_complex \
- *     "[0:v]fps=30,split=2[a][b];
- *      [a]scale=1920:1080:flags=lanczos,format=yuv420p[v1];
- *      [b]scale=1280:720:flags=lanczos,format=yuv420p[v2]" \
- *     -map "[v1]" -c:v libx264 -profile:v high -preset medium -crf 23 -g 60 \
- *       -movflags +faststart  →  live-levels-v1.mp4      3.22 MB (1800 frames)
- *     -map "[v2]" … -level 3.1 -crf 26     →  live-levels-v1-sm.mp4   1.54 MB
- *   frame 0 of the 1080p file, libwebp q88 →  live-levels-v1-poster.webp
- * Four times the length of the first clip at about the same weight: a chart
- * with no volume numbers on it changes very little from frame to frame.
- * The screen does not send it with the page — components/ui/Monitor.tsx gives
- * it its file half-way through the first clip.
- * `tools`, by the same strict rule as the first clip: its data-series header
- * lists "DS Iceberg, DS Oracle, DS Zones, DS Pro Session Levels", and three of
- * those draw a LABELLED mark in the recording — the session's volume profile
- * with "NEW YORK HIGH" and "NEW YORK POC" = DS Pro Session Levels; the
- * "DEMAND 30040.00 APPROACHING / SELL 55% BALANCED" cards on their bands =
- * DS Zones; "ICE OFFER 30069.75 TESTING" and "ICE BID 30029.25" on their keel
- * icebergs = DS Iceberg. DS Oracle is loaded, but nothing on screen carries
- * its name (candle colouring is never claimed), so it is not listed.
- * Both are the 2026-10-01 look of DS Zones and DS Iceberg.
- *
- * Sources for the PICTURES — "02 Product Masters\0920 NEW Product Cover &
- * Images\Product Images\Raw", 3840x2160, served at 2560x1440 (q88):
- *   footprints-v2     ← Homepage main img 2.png  (Tom, 2026-09-23: "Replace this
- *                       picture ( first img after video ) with attached
- *                       picture"). It replaces New Homepage Main.png, which had
- *                       been the first picture since 09-21 and is still on disk
- *                       as footprints.webp. NEW FILENAME on purpose: the old one
- *                       has been served with a one-year immutable cache since
- *                       09-21, so reusing the name would have shown the old
- *                       picture to everyone who has already seen the hero.
- *                       `tools` lost DS Zones with it — the orange and teal
- *                       BANDS that were Zones with its labels off are on the
- *                       old picture, not this one. The dashed boxes on both are
- *                       still unattributed.
- *   sessions          ← DS_20260921_013448.png
- *   timeframes        ← DS_20260921_013152.png  (RETIRED 2026-09-30: the 4th
- *                       slot became sessions-zones-v1 ← "Main cover page 6.png",
- *                       itself RETIRED 2026-10-02 — it showed the pre-10-01
- *                       DS Zones cards — for zones-iceberg-rsi-v1 ←
- *                       "Master Product Folder\Homepage image 4 replacement.png")
- *   session-profiles  ← DS_20260921_013601.png
- *   levels            ← DS_20260921_013258.png  (RETIRED 2026-09-30: the last
- *                       slot is now sessions-volume-v1 ← "Main cover page 5.png")
- *
- * `tools` is what is ON each picture, attributed from its LABELS, never from a
- * shape: panel titles ("DS ProRSI", "DS ProStochastics", "DS ProMACD",
- * "DS ProSqueeze"); "RSI 62.2"-style levels on price = DS ProRSI; the
- * "NQ · 30m / 1h / 2h / 4h" matrix = DS Parallax; "ICE SUP 5x 47%" = DS
- * Iceberg; "CW 0DTE" / "G-" = DS GEX; volume-by-price rows on candle groups,
- * and the ASIA / LONDON / NEW YORK session profiles = DS Flow (its own product
- * guide 02, "Follow the sessions"). The bands running right on the RETIRED
- * `footprints` and on `levels` are DS Zones with its labels switched off — Tom,
- * who made the charts, 2026-09-21: "DS Zones are in the first and last
- * pictures, the labels are OFF". `footprints-v2`, which replaced the first of
- * those on 09-23, has no such bands, so it does not claim DS Zones. Still NOT
- * attributed, because nothing says whose they are: the
- * small triangles, the "S" swing marks, the candle coloring and the countdown
- * chip.
- *
- * On the CLIP the same rule is applied more strictly, because its data-series
- * header lists everything LOADED on Tom's chart — "DS 258, DS Zones, DS
- * Iceberg, DS Gex, DS Flow, DS Chart Price, DS Adaptive Price Line, DS Oracle",
- * plus the DS ProRSI and DS ProStochastics panels — and loaded is not drawn.
- * `tools` names only the three whose own marks are visible in the recording:
- * the DS ProRSI panel and its "RSI 50.9 / RSI 50.5 x2 / RSI 52.7" tags on
- * price, the DS ProStochastics panel ("STOCH 21 ▲ PRIME ROTATION", "DIV ▲"),
- * and DS Flow's volume-by-price rows inside the candle groups. A visitor who
- * reads a name under the screen goes looking for its mark on the screen.
- *
- * `title` says what the picture SHOWS — no outcome, no forecast, no
- * superlative (NinjaTrader vendor guidelines).
- *
- * ORDER: the first clip, then the second (2026-10-02, Tom: "the 2nd video
- * played"), then footprints, then the pictures in the order they already had
- * (the firsts are Tom's). The two recordings sit together so the screen opens
- * on movement twice — volume inside the candles, then levels with no volume
- * on the candles at all — before it settles into pictures; each plays once
- * and the pictures loop after that. Taking pro-series out did put two Flow
- * pictures side by side — footprints, then sessions — where they used to
- * alternate. Footprints (volume inside each candle group) and sessions (the
- * three session profiles) do not read as the same screenshot twice.
- * Since 2026-09-30 the last four frames were all session views; since
- * 2026-10-02 the one between the two DS Flow session pictures is
- * zones-iceberg-rsi-v1, which has no session marks on it at all, so the two
- * no longer sit side by side. (2026-10-09: that last frame is now
- * gex-sessions-rsi-v1, the new showcase; it carries session profiles again,
- * but it closes the loop, after the light zones picture, not beside a Flow one.)
- *
- * `ground` is the charts' own black (#040404, sampled): the screen and the
- * enlarged view are painted with it, so a picture that is still loading, or a
- * letterbox in a window of another shape, is invisible.
- */
-/**
- * A frame on the hero screen. Two kinds share one rotation since 2026-09-23:
- *
- *  · a STILL — a 2560x1440 chart picture, which is what every frame was before;
- *  · a CLIP — one of Tom's screen recordings, played IN FULL before the frame
- *    after it starts ("Video first, played in full — users can swipe to skip
- *    to next"). Once a clip has finished ONCE the rotation steps over it, so
- *    someone reading the page is not interrupted by a recording every lap
- *    ("Video once, then pictures loop", Tom, 2026-09-23). Paging, swiping or
- *    clicking back to it replays it from the start. There are two since
- *    2026-10-02; the screen handles any number.
- *
- * `kind` is optional on a still, so the pictures below need no marker: anything
- * without one is a picture.
- */
-export type ScreenStill = {
-  kind?: "still";
-  src: string;
-  title: string;
-  tools: string[];
-  blur: string;
-};
-
-export type ScreenClip = {
-  kind: "clip";
-  /** 1920x1080 h264, silent. */
-  src: string;
-  /** 1280x720, same cut — served to phones and to saveData. */
-  srcSmall: string;
-  /** Frame 0 of `src`, so the poster IS the first frame and nothing jumps. */
-  poster: string;
-  /** Seconds. Only a fallback: the rotation moves on the video's own `ended`. */
-  seconds: number;
-  title: string;
-  tools: string[];
-  blur: string;
-};
-
-export type ScreenFrame = ScreenStill | ScreenClip;
-
-/**
- * CRISPER SCREEN (2026-10-09, Tom: "make the monitors fit more elegantly and
- * have bigger crispier displays"). The monitor now shows the two recordings at
- * up to ~1250px wide on a 1.25x–2x screen, past what a 1080p file at CRF 23
- * holds sharply (the price labels and volume rows went soft). Both were
- * re-made from the 8K originals in DS Media\03 Website\Homepage Sources at
- * 2560x1440, CRF 20 (preset slow), with the same framing as before:
- *   flow-hunter-v2.mp4   -ss 0.5, crop=7054:3716:0:292 (the chart window),
- *                        scale=2560:-2, pad to 1440 in black, fps 30   9.3 MB
- *   live-levels-v2.mp4   scale=2560:1440, fps 30                         5.3 MB
- *   posters: frame 0, libwebp q88. The phone files (-sm, 720p) are unchanged.
- */
-export const isClip = (f: ScreenFrame): f is ScreenClip => f.kind === "clip";
-
-export const MONITOR: { frames: ScreenFrame[]; ground: string; alt: string } = {
-  frames: [
-    {
-      // ← "Homepage Flow and Liquidity Hunter.mp4" (DS Media\\03 Website\\Homepage
-      // Sources, 2026-10-06): 7054x4320 HEVC, 60 fps, 30.0 s. The chart window sits
-      // inside a black frame (rows 292-4008), so the frame is trimmed, the chart
-      // scaled to 1920 wide and padded 34 rows top and bottom in black — nothing
-      // of the chart is cropped. It starts 0.5 s in: until then the data-series
-      // header still reads "DS Flow (Calculating...)". Labelled marks only: the
-      // DS ProLiquidityHunter panel and its "MAJOR 33% 29924.00"-style flags on
-      // price; DS Flow's volume-by-price rows on the candle groups; "ASIA HIGH",
-      // "NEW YORK POC", "LONDON LOW" on session profiles = DS ASL; "ICE OFFER
-      // 29941.25" = DS Iceberg. DS Oracle and DS Zones are loaded, not claimed.
-      kind: "clip",
-      src: "/covers/screen/flow-hunter-v2.mp4",
-      srcSmall: "/covers/screen/flow-hunter-v1-sm.mp4",
-      poster: "/covers/screen/flow-hunter-v2-poster.webp",
-      seconds: 30,
-      title: "A session playing out, with its liquidity pools mapped beneath",
-      tools: ["flow", "proliquidityhunter", "asl", "iceberg"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkGRRnBJpGByPlwKkk/rUR7UwP/9k=",
-    },
-    {
-      // The second recording (2026-10-02): no DS Flow on it — the first clip is
-      // volume inside the candles over the liquidity map, this one is levels.
-      // 60s; the screen gives it its file half-way through the first clip.
-      kind: "clip",
-      src: "/covers/screen/live-levels-v2.mp4",
-      srcSmall: "/covers/screen/live-levels-v1-sm.mp4",
-      poster: "/covers/screen/live-levels-v2-poster.webp",
-      seconds: 60,
-      title: "Levels forming as a New York session trades",
-      tools: ["asl", "zones", "iceberg"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjipDYpMe9Pb7xplAH/9k=",
-    },
-    {
-      // ← DS_20261006_021500.png. "ASIA HIGH 29861.75", "LONDON POC 29830.00" with
-      // their session profiles = DS ASL; the DS ProLiquidityHunter panel and its
-      // "87% 29886.75" flags on price. Price is drawn as a line on close.
-      src: "/covers/screen/levels-liquidity-v1.webp",
-      title: "Session highs, lows and POCs on price, the liquidity map beneath",
-      tools: ["asl", "proliquidityhunter"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDktvfA+vagryDlPwpv+NJ3oA//2Q==",
-    },
-    {
-      // ← DS_20261006_020927.png, light template. "SUPPLY 29919.25 DEFENDED 4×" cards
-      // = DS Zones; "ASIA HIGH 29924.00", "LONDON POC 29850.00" = DS ASL; "ICE BID
-      // 29828.25" = DS Iceberg; "NQ · 15m / 1h / 4h / 1D" = DS Parallax; the
-      // "DS ProHeikinAshi" panel, "UP ▲ · 1 bar · HOLDING".
-      src: "/covers/screen/one-chart-light-v1.webp",
-      title: "Zones, session levels, an iceberg bid and four timeframes over the Heikin-Ashi panel",
-      tools: ["zones", "asl", "iceberg", "parallax", "proheikinashi"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDrt3HLilOSBg5qM/6upl+6KYH/2Q==",
-    },
-    {
-      // ← DS_20261006_020755.png. ASIA / LONDON / NEW YORK profiles with "NEW YORK
-      // POC", "ASIA H", "ASIA L" at the axis = DS ASL; the volume-by-price rows on
-      // the candle groups = DS Flow.
-      src: "/covers/screen/sessions-asl-v1.webp",
-      title: "Asia, London and New York, session after session, each with its volume profile",
-      tools: ["asl", "flow"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkcq5wRhj37UhbHyjoOM4ptFAH/9k=",
-    },
-    {
-      // ← DS_20261006_022256.png, light template. "DEMAND 29220.00 PIVOT" cards =
-      // DS Zones; the DS ProLiquidityHunter panel and its "MAJOR 47% 29116.75" flag.
-      // The two ENTRY / TARGET / STOP boxes are drawn on the chart and belong to no
-      // product on the site; the title does not mention them and nothing is claimed.
-      src: "/covers/screen/zones-liquidity-v1.webp",
-      title: "Supply and demand zones on price, pool odds flagged at the axis",
-      tools: ["zones", "proliquidityhunter"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDpDjI+Ygil3cc4BprdKavWmB//2Q==",
-    },
-    {
-      // ← DS_20261009_043034.png (Homepage Sources, 2026-10-09: "replace the
-      // last outdated RSI picture with the new ds showcase picture"). It takes
-      // the place of zones-iceberg-rsi-v1.webp, which showed DS ProRSI's old
-      // levels. 1920x1079 native: one row of the chart's own black added at
-      // the foot to make 1920x1080, never enlarged; LOSSLESS webp. Attributed
-      // by its labels: "G+ 30930.83", "CW 0DTE / EM High 30890.92", "Max Pain
-      // 30711.32", "Gamma Flip 30646.58" and the "08:30 NDX …" strike tags =
-      // DS GEX; "NEW YORK HIGH / POC / LOW", "LONDON HIGH", "ASIA HIGH" with
-      // their session profiles = DS ASL; "ICE BID 30691.00 3× 176" on its keel
-      // = DS Iceberg; the "RSI 78" zone flag on price and the "DS ProRSI"
-      // panel (ZONES HELD / BROKE, RSI 57 BEARISH) = DS ProRSI. The candle
-      // colouring is not claimed.
-      src: "/covers/screen/gex-sessions-rsi-v1.webp",
-      title: "Dealer gamma levels, session profiles, an iceberg bid and an RSI zone on one chart",
-      tools: ["gex", "asl", "iceberg", "prorsi"],
-      blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDyRxGsaqsZZ/4m6VGQ2R8mPwpx601vvCiwj//Z",
-    },
-  ],
-  ground: "#040404",
-  alt: "DS Universe indicators running together on a NinjaTrader 8 chart",
-};
-
-/**
- * The picture in the monitor at the top of /products (Tom, 2026-10-10,
- * "Product Page Monitor Hero.png" from DS Media\03 Website\Homepage Sources;
- * replaces the 2026-09-26 DS Flow picture, products-hero-v1). Every mark was
- * traced to the product that draws it before it was named: the 57% / 45% / 19%
- * pools, "HUNTING" and the panel underneath are DS ProLiquidityHunter; "Call
- * Wall" and "EM High" are DS GEX; "ICE OFFER" / "ICE BID" are DS Iceberg; the
- * Asia / London / New York highs, lows, POCs and profiles are DS ASL; "RSI 79"
- * is a DS ProRSI zone. Kept lossless (fine chart labels). Cropped 2 px top and
- * bottom to an exact 16:9. A re-export gets a NEW filename (assets are cached
- * for a year).
- */
-export const PRODUCTS_SCREEN = {
-  src: "/covers/products-hero-v2.webp",
-  w: 1913,
-  h: 1076,
-  blur: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAJABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDyNlCkhYmPPBIpuH4/d4/4DU9NPT8aUXd2G9D/2Q==",
-  title: "Five DS tools on one Nasdaq chart",
-  sub: "DS ProLiquidityHunter · DS GEX · DS Iceberg · DS ASL · DS ProRSI",
-  alt: "A Nasdaq futures chart with DS ProLiquidityHunter's liquidity pools and odds and its panel underneath, the DS GEX Call Wall, DS Iceberg bid and offer levels, DS ASL session levels and profiles, and a DS ProRSI zone",
-  caption:
-    "DS ProLiquidityHunter's pools above and below price with their odds, the DS GEX Call Wall, DS Iceberg bids and an offer, DS ASL's session levels and profiles, and a DS ProRSI zone, together on one chart.",
-} as const;
-
-/** "Powered by traders" lock-up beside the DS mark in the header (Tom,
- *  2026-09-26; source "Master Product Folder\DS Powered by Traders.png",
- *  trimmed to its artwork and kept lossless with its transparency). */
-export const POWERED_BY = {
-  src: "/brand/powered-by-traders-v1.webp",
-  w: 1303,
-  h: 160,
-  alt: "Powered by traders",
-} as const;
+/* The live site's hero screen (MONITOR), its products screen and the
+   "Powered by traders" lock-up were never used on the white site and were
+   removed with v3.1 (2026-10-29); DS-Universe-3 content/site.ts keeps them. */

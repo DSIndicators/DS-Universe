@@ -1,3 +1,5 @@
+import { COMPLETE, money } from "./pricing";
+
 /**
  * Waitlist mode — the whole thing behind one switch.
  *
@@ -24,22 +26,6 @@ export const LAUNCH: { waitlist: boolean; when: string | null } = {
 /** Read this, never LAUNCH.waitlist directly — one name to grep for. */
 export const onWaitlist = () => LAUNCH.waitlist;
 
-/** "the day it opens" / "in September 2026" — one phrasing, used everywhere. */
-export const opensWhen = () => (LAUNCH.when ? `in ${LAUNCH.when}` : "the day it opens");
-
-/**
- * The one-line promise, used under the home hero and the /products header.
- * Deliberately plain: it says what joining does and what it does not do.
- */
-export const WAITLIST_NOTE = {
-  /** Short — sits beside a price or a button. */
-  short: "Joining costs nothing.",
-  /** Long — carries the whole promise on its own. */
-  long: `Every product is on the waitlist while we finish attaching files. Joining costs nothing and charges nothing — you are told ${LAUNCH.when ? `when it opens ${LAUNCH.when}` : "the day it opens"}.`,
-  /** The chip that marks a product. */
-  chip: "Waitlist",
-} as const;
-
 /**
  * A call-to-action's words. Pass what the button says when the shop is open;
  * while it is on a waitlist it says Whop's own wording instead, so the button
@@ -58,27 +44,28 @@ export const cta = (whenOpen: string, whenWaiting = "Join the waitlist") =>
  * are granted by a person, from the NinjaTrader email asked at checkout).
  * Deliberately no promised turnaround time: none has been set.
  *
- * FREE VAULT (2026-10-10): the free builds carry no license check, so the free
- * checkouts no longer ask for the NinjaTrader email and nothing is switched on.
- * AFTER_CHECKOUT is the paid path; AFTER_CHECKOUT_FREE is the Free Vault's.
+ * v3.1 (2026-10-29): the paid path is DS Complete only — one license (2817),
+ * one archive, one import, installed as DSCompleteBundleSuite. The 7-day trial
+ * is NinjaTrader's own: it starts the first day a tool is used, with nothing
+ * switched on by hand. AFTER_CHECKOUT_FREE is the Free Vault's path.
  */
 export const AFTER_CHECKOUT = {
   /** One line under a buy button. */
   short:
-    "At checkout, enter the email on your NinjaTrader account. The files are yours at once; the license is switched on by hand, so allow a short wait. Free Vault products need no license.",
+    `At checkout, enter the email on your NinjaTrader account. The files are yours at once; a paid license is switched on by hand, so allow a short wait. The ${COMPLETE.trialDays}-day trial starts by itself the first day you use a tool.`,
   /** The three steps — "Before you buy" at the foot of /products. */
   steps: [
     {
-      title: "Check out on Whop",
-      text: "Checkout asks for the email on your NinjaTrader account — not your Whop email. Free Vault products have their own free checkout and need no license.",
+      title: "Start the trial on Whop",
+      text: `Checkout asks for the email on your NinjaTrader account (not your Whop email) and a card. Nothing is charged for ${COMPLETE.trialDays} days; then ${money(COMPLETE.monthly)} a month until you cancel in your Whop account.`,
     },
     {
       title: "Download and import",
-      text: "The archive and its guides are in your Whop account straight away. In NinjaTrader 8.1.8.1 or newer: Tools → Import → NinjaScript Add-On, then restart.",
+      text: `DS Complete is one archive and one import. In NinjaTrader 8.1.8.1 or newer: Tools → Import → NinjaScript Add-On, then restart. It installs as ${COMPLETE.assembly}.`,
     },
     {
-      title: "Switched on by hand",
-      text: "A person activates the license on that NinjaTrader account. It is not instant — once it is on, restart NinjaTrader and the product draws.",
+      title: "Switched on",
+      text: `On the trial, NinjaTrader starts the ${COMPLETE.trialDays} days the first day you use a tool. On a paid plan, a person activates the license on that NinjaTrader account; it is not instant. Once it is on, restart NinjaTrader and every tool draws.`,
     },
   ],
 } as const;

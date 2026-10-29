@@ -1,139 +1,72 @@
 import type { Metadata, Viewport } from "next";
-import Image from "next/image";
 import localFont from "next/font/local";
-import { Navbar } from "@/components/Navbar";
-import { TrialNotice } from "@/components/TrialNotice";
+import { Header } from "@/components/Header";
+import { PartnerBar } from "@/components/PartnerBar";
 import { Footer } from "@/components/Footer";
+import { Guard } from "@/components/Guard";
 import { Help } from "@/components/Help";
-import { DomGuard } from "@/components/DomGuard";
-import { NT_LINKS } from "@/content/ninjatrader";
 import { SITE } from "@/content/site";
 import "./globals.css";
 
-// Self-hosted (app/fonts, SIL OFL) — no call to Google, identical on every machine.
-// Type (2026-09-27, the "sharp" pass): Inter Tight for words, JetBrains Mono
-// for figures and labels — both SIL OFL, self-hosted (Latin subset, variable
-// weight). Inter is kept only as a fallback for the few glyphs Inter Tight's
-// Latin subset lacks (→ and friends), so it is not preloaded.
-const sans = localFont({
+// Self-hosted, SIL OFL. Manrope for display, Inter Tight for text.
+const display = localFont({
+  src: [{ path: "./fonts/Manrope-Latin-Variable.woff2", weight: "200 800", style: "normal" }],
+  variable: "--font-display",
+  display: "swap",
+});
+const text = localFont({
   src: [{ path: "./fonts/InterTight-Latin-Variable.woff2", weight: "100 900", style: "normal" }],
-  variable: "--font-sans",
+  variable: "--font-text",
   display: "swap",
-});
-const mono = localFont({
-  src: [{ path: "./fonts/JetBrainsMono-Latin-Variable.woff2", weight: "100 800", style: "normal" }],
-  variable: "--font-mono",
-  display: "swap",
-});
-const inter = localFont({
-  src: [{ path: "./fonts/Inter-Variable.woff2", weight: "100 900", style: "normal" }],
-  variable: "--font-inter",
-  display: "swap",
-  preload: false,
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE.url),
   title: { default: `${SITE.name} — ${SITE.tagline}`, template: `%s — ${SITE.name}` },
   description: SITE.description,
-  icons: {
-    icon: [{ url: "/brand/favicon.png", type: "image/png", sizes: "64x64" }, { url: "/brand/badge-32.png", type: "image/png", sizes: "32x32" }],
-    apple: "/brand/badge-180.png",
-  },
+  // LIVE as dsuniverse.net from 2026-10-29: indexed (it was a local mockup,
+  // set to noindex, until then). Absolute URLs for shares come from SITE.url.
+  metadataBase: new URL(SITE.url),
+  robots: { index: true, follow: true },
   openGraph: {
-    title: `${SITE.name} — ${SITE.tagline}`,
-    description: SITE.description,
     type: "website",
-    url: SITE.url,
     siteName: SITE.name,
-    images: [{ url: "/brand/og-card.png", width: 1200, height: 630, alt: `${SITE.name} — ${SITE.tagline}` }],
+    url: SITE.url,
+    images: [{ url: "/brand/ds-logo-black-720.png", width: 720, height: 720, alt: "DS Universe, Trading Indicators" }],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: `${SITE.name} — ${SITE.tagline}`,
-    description: SITE.description,
-    images: ["/brand/og-card.png"],
+  twitter: { card: "summary" },
+  // The helmet from Tom's new logo (cut from "Minimal logo (1).png" with his
+  // OK, 2026-10-26): black on a light browser tab, white on a dark one.
+  icons: {
+    icon: [
+      { url: "/brand/icon-black-32.png", sizes: "32x32", type: "image/png", media: "(prefers-color-scheme: light)" },
+      { url: "/brand/icon-black-48.png", sizes: "48x48", type: "image/png", media: "(prefers-color-scheme: light)" },
+      { url: "/brand/icon-white-32.png", sizes: "32x32", type: "image/png", media: "(prefers-color-scheme: dark)" },
+      { url: "/brand/icon-white-48.png", sizes: "48x48", type: "image/png", media: "(prefers-color-scheme: dark)" },
+      { url: "/brand/icon-black-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [{ url: "/brand/apple-icon.png", sizes: "180x180" }],
   },
 };
 
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  // The phone browser's own chrome (address bar, status bar) takes the
-  // page colour instead of flashing white above a dark site.
-  themeColor: "#080A0D",
-  // "only dark" (2026-09-29): the site IS dark, so no browser should repaint
-  // it. Plain "dark" is enough for Chrome's auto-dark, but Samsung Internet's
-  // dark mode ignored it and lightened the DS Complete chart to grey on Tom's
-  // phone. "only" is the CSS standard's word for "do not override". Next's
-  // type list lacks this spelling; it prints the value as given.
-  colorScheme: "only dark" as Viewport["colorScheme"],
-};
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#fefefe" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    // suppressHydrationWarning: /products sets data-store-view on <html>
-    // before hydration (components/StoreBar.tsx). It silences THIS element's
-    // attributes only — nothing below it.
-    <html lang="en" suppressHydrationWarning className={`${sans.variable} ${mono.variable} ${inter.variable}`}>
+    <html lang="en" className={`${display.variable} ${text.variable}`} suppressHydrationWarning>
       <head>
-        {/* Before React starts: keeps a TRANSLATED page from crashing the site
-            (components/DomGuard.tsx). */}
-        <DomGuard />
+        {/* Focus reading off, if this visitor turned it off: set before first paint. */}
+        <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.getItem("ds-focus")==="off")document.documentElement.classList.add("bio-off")}catch(e){}` }} />
       </head>
-      <body className="flex min-h-screen flex-col antialiased">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-ivory focus:px-4 focus:py-2 focus:text-ground"
-        >
+      <body>
+        <a className="skip" href="#main">
           Skip to content
         </a>
-        {/* The platform bar — first thing on every page. Carries the official
-            orange wordmark (h-14 bar so the logo keeps its required 18px clear
-            space on all sides). BOTH the logo and the CTA go straight to the
-            affiliate link (Tom, 2026-09-10) — this bar is on every page and is
-            the most-seen thing on the site, so sending it via /ninjatrader was
-            spending a click for nothing. The page itself is still in the nav
-            for anyone who wants to read about the platform first. */}
-        <div className="border-b border-white/[0.06] bg-[#050607]">
-          <div className="wrap flex h-14 items-center justify-center gap-5 text-[length:calc(12.5px*var(--type))] text-white/85">
-            <a
-              href={NT_LINKS.logo}
-              target="_blank"
-              rel="sponsored noopener"
-              className="inline-flex h-14 shrink-0 items-center"
-              aria-label="NinjaTrader — visit ninjatrader.com"
-            >
-              <Image
-                src="/brand/nt/ninjatrader-wordmark.png"
-                alt="NinjaTrader"
-                width={2376}
-                height={300}
-                priority
-                sizes="150px"
-                className="h-[18px] w-auto"
-              />
-            </a>
-            <span className="hidden truncate sm:inline">is our #1 recommended trading platform.</span>
-            <a
-              href={NT_LINKS.partner}
-              target="_blank"
-              rel="sponsored noopener"
-              className="inline-flex shrink-0 items-center gap-1.5 font-medium text-white underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-gold"
-            >
-              Get started for free <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        </div>
-        {/* The 3-day trial is over; the next one is coming (2026-10-14,
-            content/trial.ts TRIAL_NOTICE). Renders nothing when switched off. */}
-        <TrialNotice />
-        <Navbar />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
+        <PartnerBar />
+        <Header />
+        <main id="main">{children}</main>
         <Footer />
-        {/* Help: answers, and a way to ask — on every page (components/Help.tsx). */}
+        <Guard />
+        {/* Help: answers, and a way to ask, on every page (components/Help.tsx, from the live site). */}
         <Help />
       </body>
     </html>

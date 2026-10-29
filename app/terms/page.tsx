@@ -1,50 +1,70 @@
 import type { Metadata } from "next";
-import { Reveal } from "@/components/ui/Reveal";
-import { PREAMBLE, SECTIONS, TERMS_LAST_UPDATED } from "@/content/terms";
+import { SectionBar } from "@/components/SectionBar";
 import { SITE } from "@/content/site";
+import { PREAMBLE, SECTIONS, TERMS_LAST_UPDATED } from "@/content/terms";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
   description: "The terms that govern the purchase and use of DS Universe software.",
+  alternates: { canonical: "/terms" },
 };
 
+/**
+ * Terms & Conditions, white (ported 2026-10-29 from DS-Universe-3
+ * app/terms/page.tsx so the white site can stand as dsuniverse.net on its own:
+ * the store FAQ links "Terms, section 13"). The words are content/terms.ts,
+ * copied word for word from the live site; only the layout is the white
+ * site's. Each numbered section keeps its id ("section-13").
+ */
 export default function TermsPage() {
   return (
-    <section className="wrap pb-24 pt-12 sm:pt-16 lg:pt-20">
-      <Reveal className="mx-auto max-w-3xl">
-        <p className="label">Fine print</p>
-        <h1 className="display-lg mt-5 text-ink">Terms &amp; Conditions</h1>
-        <p className="label mt-4">Last updated {TERMS_LAST_UPDATED}</p>
-        <p className="body hairline mt-10 pt-10">{PREAMBLE}</p>
+    <>
+      <section className="wb store-head legal-head" aria-labelledby="terms-title" data-section="">
+        <p className="pp-label">Fine print</p>
+        <h1 id="terms-title" className="d1 store-title">
+          Terms &amp; Conditions
+        </h1>
+        <p className="small" style={{ marginTop: 22 }}>
+          Last updated {TERMS_LAST_UPDATED}
+        </p>
+        <p className="lead legal-measure" style={{ marginTop: 28 }}>
+          {PREAMBLE}
+        </p>
+      </section>
 
-        <div className="mt-12 space-y-10">
+      <SectionBar n="01" title="The terms" />
+      <section className="wb sbar-after" aria-label="The terms">
+        <div className="legal">
           {SECTIONS.map((s) => (
-            // "13. Refunds — …" → id="section-13", so a page can link one section.
-            <section key={s.heading} id={sectionId(s.heading)} className="scroll-mt-28">
-              <h2 className="display-sm text-ink">{s.heading}</h2>
-              <div className="mt-4 space-y-4">
-                {s.blocks.map((b, i) =>
-                  b.ul ? (
-                    <ul key={i} className="body list-disc space-y-2 pl-5">
-                      {b.ul.map((li) => (
-                        <li key={li}>{li}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p key={i} className="body">{b.p}</p>
-                  ),
-                )}
-              </div>
+            <section key={s.heading} id={sectionId(s.heading)} className="legal-sec">
+              <h2 className="d4">{s.heading}</h2>
+              {s.blocks.map((b, i) =>
+                b.ul ? (
+                  <ul key={i} className="legal-ul">
+                    {b.ul.map((li) => (
+                      <li key={li} className="body">
+                        {li}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p key={i} className="body">
+                    {b.p}
+                  </p>
+                ),
+              )}
             </section>
           ))}
+          <p className="small legal-close">
+            By installing or using DS Universe software, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. Questions:{" "}
+            <a className="lnk" href={`mailto:${SITE.email}`}>
+              {SITE.email}
+            </a>
+            .
+          </p>
         </div>
-
-        <p className="hairline mt-12 pt-8 text-[length:calc(13px*var(--type))] italic text-mute">
-          By installing or using DS Universe software, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. Questions:{" "}
-          <a href={`mailto:${SITE.email}`} className="text-ink hover:text-gold-deep">{SITE.email}</a>.
-        </p>
-      </Reveal>
-    </section>
+      </section>
+    </>
   );
 }
 

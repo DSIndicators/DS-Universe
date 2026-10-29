@@ -1,30 +1,19 @@
 import type { Metadata } from "next";
-import { Reveal } from "@/components/ui/Reveal";
+import { SectionBar } from "@/components/SectionBar";
 import { DISCLOSURE, SITE } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Risk Disclosures",
-  description:
-    "Futures risk disclosure, CFTC hypothetical performance disclosure, and trademark notice for DS Universe.",
+  description: "Futures risk disclosure, CFTC hypothetical performance disclosure, and trademark notice for DS Universe.",
+  alternates: { canonical: "/disclosures" },
 };
 
 /**
- * One page carrying every disclosure in full.
- *
- * WHY IT EXISTS (2026-09-10): the disclosures already appear in the footer of
- * every page, which is what the vendor guidelines require of a website. But
- * Appendix A also requires a risk disclosure LINK in the profile description of
- * every social channel, and a profile bio has room for one short URL and no
- * room for an explanation. dsuniverse.net/disclosures is that URL — a reviewer
- * following it from a bio lands on the disclosures themselves rather than on a
- * marketing page they have to scroll to the bottom of.
- *
- * The text is identical to the footer's, read from the same constants, so the
- * two can never drift. Nothing is paraphrased: the risk and hypothetical
- * performance wording is verbatim from Appendix A and the trademark statement
- * verbatim from the guidelines.
- *
- * IF YOU ADD A SOCIAL CHANNEL, put this URL in its bio.
+ * Every disclosure in full, on one page (ported 2026-10-29 from DS-Universe-3
+ * app/disclosures/page.tsx). WHY IT EXISTS: NinjaTrader's vendor guidelines
+ * (Appendix A) want a risk-disclosure LINK in the profile of every social
+ * channel; dsuniverse.net/disclosures is that link. The text is the footer's,
+ * read from the same constants, so the two can never drift.
  */
 export default function DisclosuresPage() {
   const blocks = [
@@ -34,34 +23,36 @@ export default function DisclosuresPage() {
     { heading: "No performance record", body: DISCLOSURE.long },
     { heading: "Trademarks", body: DISCLOSURE.trademark },
   ];
-
   return (
-    <section className="wrap pb-24 pt-12 sm:pt-16 lg:pt-20">
-      <Reveal className="mx-auto max-w-3xl">
-        <p className="label">Required disclosures</p>
-        <h1 className="display-lg mt-5 text-ink">Risk disclosures</h1>
-        <p className="body hairline mt-10 pt-10">
-          These apply to everything DS Universe publishes, on this site and on any channel we post
-          to. They are reproduced in the footer of every page as well.
+    <>
+      <section className="wb store-head legal-head" aria-labelledby="disc-title" data-section="">
+        <p className="pp-label">Required disclosures</p>
+        <h1 id="disc-title" className="d1 store-title">
+          Risk disclosures
+        </h1>
+        <p className="lead legal-measure" style={{ marginTop: 28 }}>
+          These apply to everything DS Universe publishes, on this site and on any channel we post to. They are reproduced in the footer of every page as well.
         </p>
+      </section>
 
-        <div className="mt-12 space-y-10">
+      <SectionBar n="01" title="In full" />
+      <section className="wb sbar-after" aria-label="The disclosures">
+        <div className="legal">
           {blocks.map((b) => (
-            <section key={b.heading}>
-              <h2 className="display-sm text-ink">{b.heading}</h2>
-              <p className="body mt-4">{b.body}</p>
+            <section key={b.heading} className="legal-sec">
+              <h2 className="d4">{b.heading}</h2>
+              <p className="body">{b.body}</p>
             </section>
           ))}
+          <p className="small legal-close">
+            Questions about any of the above:{" "}
+            <a className="lnk" href={`mailto:${SITE.email}`}>
+              {SITE.email}
+            </a>
+            .
+          </p>
         </div>
-
-        <p className="hairline mt-12 pt-8 text-[length:calc(14px*var(--type))] leading-relaxed text-slate">
-          Questions about any of the above:{" "}
-          <a href={`mailto:${SITE.email}`} className="text-ink underline decoration-line underline-offset-4 hover:decoration-gold">
-            {SITE.email}
-          </a>
-          .
-        </p>
-      </Reveal>
-    </section>
+      </section>
+    </>
   );
 }

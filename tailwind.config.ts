@@ -1,86 +1,12 @@
 import type { Config } from "tailwindcss";
 
 /**
- * DS Universe — design tokens. DARK (2026-09-20).
- *
- * Tom: every screenshot, box and product guide we ship is a dark chart, so the
- * site now sits on the same dark the charts do. The token NAMES are unchanged
- * (ink = primary text, mist = the alternate section, line = hairlines...) so
- * the skeleton did not move; only their values flipped.
- *
- * How the palette was set (checked, not eyeballed — WCAG 2.2 contrast):
- *  · Ground is a cool graphite, NOT pure black. Pure black against light type
- *    "vibrates" and flattens every layer; the product-guide boards are #111516
- *    and the NinjaTrader chart ~#1C1D1F, so the page sits just under them.
- *  · Depth is shown by LIGHTER surfaces (ground < mist < surface < raised),
- *    the way Material's dark theme does it — shadows barely read on dark, so
- *    they are deepened and only ever support a surface change.
- *  · Type is never pure white: ink #ECEEF1 (16.7:1 on ground), slate #A6ADB8
- *    (8.6:1), mute #7F8793 (5.4:1 on ground, 4.6:1 on raised) — every text
- *    colour clears AA 4.5:1 on every surface it is used on.
- *  · Gold is lifted slightly for dark (#CDA656, 8.5:1). `gold.deep` is the
- *    gold used AS TEXT, so on dark it is the LIGHTER one (#DDBA6E, 10.5:1).
- *    Chips sit on `gold.soft`, a deep bronze, not a pale cream.
- * Everything else on the page is the chart.
+ * The white wide-body site. Tailwind supplies the reset only; the design lives
+ * in app/globals.css as named tokens and classes, so one place sets the scale.
  */
 const config: Config = {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./content/**/*.{ts,tsx}"],
-  theme: {
-    extend: {
-      colors: {
-        // 2026-09-27 "sharp" pass (Tom: reference quanttechnology.com —
-        // crisp, small, precise). Ground one step deeper so the background
-        // grid reads; mist/wash are now TRANSLUCENT lifts rather than solid
-        // colours, so the grid runs unbroken behind every section.
-        ground: "#080A0D", // the page
-        mist: "rgba(255,255,255,0.018)", // alternate sections, one step up
-        wash: "rgba(255,255,255,0.012)", // the warm sections
-        surface: "#12151A", // cards, list rows
-        raised: "#191D23", // hover on a surface
-        line: "#1D2127", //   hairlines (≈ white at 6% on the ground)
-        "line-strong": "#2C3139",
-        ink: "#E7ECEF", //    primary text
-        slate: "#A3ABB3", //  secondary text
-        mute: "#7C848D", //   tertiary text
-        ivory: "#F1EEE7", //  the primary button — light on dark, never pure white
-        gold: { DEFAULT: "#CDA656", deep: "#DDBA6E", soft: "#2B2416", tint: "#16130D" },
-        // The DS Universe house palette (DS Oracle DsSignature theme): bull
-        // teal and bear violet. On the site they are HINTS only — ambient
-        // light, a candle-coloured tick, one word — never fills or buttons.
-        // `text` (2026-09-29) is bull teal lifted to be READ as small type on
-        // the ground — the 3-day free trial's colour (content/trial.ts). Gold
-        // means money on this site; teal means "on your chart, free, now".
-        // #43CDC8 measures 10.2:1 on the ground, 9.4:1 on a surface and 8.7:1 on
-        // the trial strip (WCAG AA needs 4.5).
-        bull: { DEFAULT: "#009999", strong: "#00FFFF", text: "#43CDC8" },
-        bear: { DEFAULT: "#A33DFF", strong: "#FF00FF" },
-        // THE FREE VAULT's brass (2026-10-08, Tom: "the background should
-        // have hints of gold"). Not the store's gold: a quieter, warmer brass
-        // for hairlines, marks and small type in the vault only. DEFAULT
-        // #C9A55E measures 8.3:1 on the ground, `light` #E6CF9C 12.6:1.
-        vault: { DEFAULT: "#C9A55E", light: "#E6CF9C" },
-      },
-      fontFamily: {
-        // Inter Tight for everything we say, JetBrains Mono for everything we
-        // measure (labels, prices, figures) — the pairing the reference uses.
-        // Inter stays in the stack only as a per-glyph fallback (arrows etc.
-        // that the Latin subset of Inter Tight does not carry).
-        display: ["var(--font-sans)", "var(--font-inter)", "system-ui", "sans-serif"],
-        sans: ["var(--font-sans)", "var(--font-inter)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
-      },
-      maxWidth: { wrap: "calc(var(--canvas) + 2 * var(--gutter))" }, // the wide body: app/globals.css :root
-      letterSpacing: { tightest: "-0.035em" },
-      boxShadow: {
-        // On dark a shadow is a deepening, not a grey smudge: black, larger,
-        // with a hairline of light on the top edge so a surface reads as lifted.
-        monitor: "0 50px 100px -30px rgba(0,0,0,0.85), 0 16px 36px -14px rgba(0,0,0,0.7)",
-        card: "inset 0 1px 0 rgba(255,255,255,0.035), 0 12px 32px -18px rgba(0,0,0,0.8)",
-        lift: "inset 0 1px 0 rgba(255,255,255,0.05), 0 24px 48px -22px rgba(0,0,0,0.9)",
-      },
-      transitionTimingFunction: { silk: "cubic-bezier(0.2, 0.7, 0.2, 1)" },
-    },
-  },
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  theme: { extend: {} },
   plugins: [],
 };
 export default config;

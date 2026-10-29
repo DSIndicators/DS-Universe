@@ -1,0 +1,503 @@
+{
+  "proliquidityhunter": {
+    "src": "/covers/drop/proliquidityhunter.png?v=mvu0dbzh",
+    "w": 1080,
+    "h": 1079,
+    "file": "DS ProLiquidityHunter.png",
+    "ladder": [
+      {
+        "src": "/hd/covers/proliquidityhunter-bda6745b00-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/proliquidityhunter-bda6745b00-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/proliquidityhunter-bda6745b00-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/proliquidityhunter-bda6745b00-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "zones": {
+    "src": "/covers/drop/zones.png?v=mvtz8lgp",
+    "w": 1080,
+    "h": 1079,
+    "file": "DS Zones Updated.png",
+    "ladder": [
+      {
+        "src": "/hd/covers/zones-1c95838c39-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/zones-1c95838c39-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/zones-1c95838c39-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/zones-1c95838c39-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "vwap": {
+    "src": "/covers/drop/vwap.png?v=mvtz1mxm",
+    "w": 1080,
+    "h": 1079,
+    "file": "DS VWAP Updated.png",
+    "ladder": [
+      {
+        "src": "/hd/covers/vwap-535357b0fb-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/vwap-535357b0fb-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/vwap-535357b0fb-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/vwap-535357b0fb-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "volume": {
+    "src": "/covers/drop/volume.webp?v=mvoumch3",
+    "w": 1080,
+    "h": 1080,
+    "file": "volume.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/volume-0f550d2545-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/volume-0f550d2545-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/volume-0f550d2545-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/volume-0f550d2545-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "toolkit": {
+    "src": "/covers/drop/toolkit.webp?v=mvoumcbj",
+    "w": 925,
+    "h": 776,
+    "file": "toolkit.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/toolkit-93ee6ec1ae-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/toolkit-93ee6ec1ae-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/toolkit-93ee6ec1ae-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/toolkit-93ee6ec1ae-1850.webp",
+        "w": 1850
+      }
+    ]
+  },
+  "time-intervals": {
+    "src": "/covers/drop/time-intervals.webp?v=mvoumc4r",
+    "w": 696,
+    "h": 878,
+    "file": "time-intervals.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/time-intervals-123a6c52f5-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/time-intervals-123a6c52f5-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/time-intervals-123a6c52f5-1392.webp",
+        "w": 1392
+      }
+    ]
+  },
+  "session-levels": {
+    "src": "/covers/drop/session-levels.webp?v=mvoumbx4",
+    "w": 1080,
+    "h": 1080,
+    "file": "session-levels.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/session-levels-ee436f5e01-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/session-levels-ee436f5e01-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/session-levels-ee436f5e01-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/session-levels-ee436f5e01-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "protrendrange": {
+    "src": "/covers/drop/protrendrange.webp?v=mvoumbr9",
+    "w": 1080,
+    "h": 1080,
+    "file": "protrendrange.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/protrendrange-1bee94d175-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/protrendrange-1bee94d175-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/protrendrange-1bee94d175-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/protrendrange-1bee94d175-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "prorsi": {
+    "src": "/covers/drop/prorsi.webp?v=mvoumbia",
+    "w": 1080,
+    "h": 1080,
+    "file": "prorsi.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/prorsi-0e56c42db7-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/prorsi-0e56c42db7-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/prorsi-0e56c42db7-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/prorsi-0e56c42db7-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "proheikinashi": {
+    "src": "/covers/drop/proheikinashi.webp?v=mvoumb3g",
+    "w": 1080,
+    "h": 1080,
+    "file": "proheikinashi.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/proheikinashi-8b5019b01a-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/proheikinashi-8b5019b01a-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/proheikinashi-8b5019b01a-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/proheikinashi-8b5019b01a-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "parallax": {
+    "src": "/covers/drop/parallax.webp?v=mvoumawu",
+    "w": 1080,
+    "h": 1080,
+    "file": "parallax.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/parallax-1fbbfbfa1e-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/parallax-1fbbfbfa1e-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/parallax-1fbbfbfa1e-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/parallax-1fbbfbfa1e-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "iceberg": {
+    "src": "/covers/drop/iceberg.webp?v=mvouma9y",
+    "w": 1080,
+    "h": 1080,
+    "file": "iceberg.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/iceberg-727f4ad1d9-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/iceberg-727f4ad1d9-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/iceberg-727f4ad1d9-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/iceberg-727f4ad1d9-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "gex": {
+    "src": "/covers/drop/gex.webp?v=mvouma3d",
+    "w": 1080,
+    "h": 1080,
+    "file": "gex.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/gex-deabf0de18-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/gex-deabf0de18-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/gex-deabf0de18-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/gex-deabf0de18-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "flow": {
+    "src": "/covers/drop/flow.webp?v=mvoum9vo",
+    "w": 1080,
+    "h": 1080,
+    "file": "flow.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/flow-d9911b2fb0-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/flow-d9911b2fb0-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/flow-d9911b2fb0-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/flow-d9911b2fb0-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "ds-258": {
+    "src": "/covers/drop/ds-258.webp?v=mvoum9nt",
+    "w": 1080,
+    "h": 1080,
+    "file": "ds-258.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/ds-258-ea2beaa6c2-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/ds-258-ea2beaa6c2-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/ds-258-ea2beaa6c2-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/ds-258-ea2beaa6c2-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "chart-price": {
+    "src": "/covers/drop/chart-price.webp?v=mvoum9dt",
+    "w": 1080,
+    "h": 1080,
+    "file": "chart-price.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/chart-price-5ef583aba8-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/chart-price-5ef583aba8-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/chart-price-5ef583aba8-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/chart-price-5ef583aba8-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "asl": {
+    "src": "/covers/drop/asl.webp?v=mvoum8y3",
+    "w": 1080,
+    "h": 1080,
+    "file": "asl.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/asl-b064de95ff-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/asl-b064de95ff-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/asl-b064de95ff-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/asl-b064de95ff-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "adaptive-priceline": {
+    "src": "/covers/drop/adaptive-priceline.webp?v=mvoum8rj",
+    "w": 1080,
+    "h": 1080,
+    "file": "adaptive-priceline.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/adaptive-priceline-9590b1236d-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/adaptive-priceline-9590b1236d-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/adaptive-priceline-9590b1236d-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/adaptive-priceline-9590b1236d-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "live-background": {
+    "src": "/covers/drop/live-background.webp?v=mvoumai9",
+    "w": 1080,
+    "h": 1080,
+    "file": "live-background.webp",
+    "ladder": [
+      {
+        "src": "/hd/covers/live-background-1658607c6a-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/live-background-1658607c6a-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/live-background-1658607c6a-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/live-background-1658607c6a-2160.webp",
+        "w": 2160
+      }
+    ],
+    "dark": true
+  },
+  "compass": {
+    "src": "/covers/drop/compass.png?v=mvtuu4f1",
+    "w": 1080,
+    "h": 1079,
+    "file": "DS Compass.png",
+    "ladder": [
+      {
+        "src": "/hd/covers/compass-079d7385ed-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/compass-079d7385ed-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/compass-079d7385ed-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/compass-079d7385ed-2160.webp",
+        "w": 2160
+      }
+    ]
+  },
+  "data-candles": {
+    "src": "/covers/drop/data-candles.png?v=mvtuwu35",
+    "w": 1080,
+    "h": 1079,
+    "file": "DS Data Candles.png",
+    "ladder": [
+      {
+        "src": "/hd/covers/data-candles-2f39c513ff-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/data-candles-2f39c513ff-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/data-candles-2f39c513ff-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/data-candles-2f39c513ff-2160.webp",
+        "w": 2160
+      }
+    ]
+  }
+}

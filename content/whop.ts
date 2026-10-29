@@ -3,274 +3,172 @@
  *
  * TOM: this is the only file to edit when a Whop link changes.
  *
- * TWO LINKS PER PRODUCT
- *   product  — the listing on Whop (description, FAQ, reviews). Supplied by Tom
- *              2026-09-20; each opened and its title and price read off the page.
- *   checkout — the DIRECT checkout for that product's one plan. Supplied by Tom
- *              2026-09-25 (store live). Tom's list was NOT in the same order as
- *              the listing list, so every plan was opened on whop.com and matched
- *              by the product name and price its checkout shows — never by
- *              position. All sixteen: one-time payment (or Free), and every one
- *              asks the required "NinjaTrader account email" question.
- *              FREE VAULT, 2026-10-10: the free builds carry no license check,
- *              so the question comes off the free checkouts (Tom removes
- *              it in Whop; eleven since 2026-10-22); the paid checkouts keep it.
+ * THE v3.1 STORE (2026-10-29). Whop sells two things:
+ *   · DS COMPLETE — every paid DS tool on one license (2817), at the founders
+ *     price, in three plans: monthly, own-the-set, and the 7-day free trial
+ *     (a $0 "DS Complete Free Trial" listing on Whop).
+ *   · THE FREE VAULT — nine free listings, one per tool.
+ * Every product was taken off Whop on 2026-10-29 while v3.1 was prepared, so
+ * NO LINK IS ASSUMED LIVE. A button goes to Whop only once its link is entered
+ * below; until then it shows the "Opening soon" state with "Get notified"
+ * (components/CompleteActions.tsx), never an old plan.
  *
- * Every buy button on the site goes to `checkout` (buyHref). The listing stays
- * reachable as a quiet "See it on Whop" link beside the main button.
- * Whop gave some listing paths a random suffix ("-8f", "-fb") — use exactly
- * what Whop gives you, do not tidy.
+ * DS COMPLETE (2026-10-29 evening): the trial-then-monthly plan is live and
+ * wired (COMPLETE_PLANS.trialMonthly). The $149.99 own-the-set plan: paste its
+ * checkout into COMPLETE_PLANS.own once it exists and its button appears.
  *
- * A THIRD LINK FOR THREE PRODUCTS — the 3-day free trial (Tom, 2026-09-29).
- *   trial    — a second plan on the SAME Whop product: "3-Day Free Trial",
- *              Free, one-time, Whop access for 3 days, the same required
- *              "NinjaTrader account email" question. Found by reading each
- *              listing's own default plan off whop.com (the trial is now the
- *              listing's main button) and then rendering every checkout:
- *                DS Oracle  plan_zZ1CGRY29Dz7n
- *                DS Flow    plan_5wUpmsoJ0Rj3I
- *                DS ProRSI  plan_OgE67QZlTofd9
- *              Each reads "<product> · Free · 3 day access — no payment
- *              required", and each product's $79.99 checkout still works.
- * The trial's own words and switch live in content/trial.ts. A product with
- * no `trial` here shows no trial anywhere on the site.
- * ENDED 2026-10-14: the three plans are archived on Whop and refused here
- * (RETIRED_TRIAL_PLANS); no product carries a `trial` link now.
+ * TO OPEN A FREE VAULT TOOL AGAIN: once its listing is back up on Whop and its
+ * free checkout opens, add its slug to RELISTED. Its plan and listing path are
+ * already below (each read off its own checkout when it was first wired).
  *
- * DS SESSION LEVELS (2026-09-30).
- *   plan_LhYBx2nIIXwck — supplied by Tom; opened on Tom's PC (headless Edge):
- *   "DS Session Levels ✦ Asia, London & New York Session Levels · NinjaTrader 8
- *   · Free", the required "NinjaTrader account email" question, button "Join".
- *   Listing route read off the store's own product list (prod_VdnviWEF5KU86,
- *   one visible plan).
- * DS ASL  NO entry, on purpose: it is not sold on its own. Every button for it
- *   goes to DS Complete's checkout (purchaseKey below).
- * DS TOOLKIT  NO entry either, since 2026-10-05 (Tom: "DS Toolkit will come
- *   FREE with the purchase of DS Complete Bundle only, same as DS ASL"). Its
- *   own free listing ("ds-toolkit-one-rail-…", plan_Ywx5wxsyuCStx) is RETIRED:
- *   Tom closes it on cutover day. Every button for DS Toolkit goes to DS
- *   Complete's checkout, and the build refuses that plan or that listing path
- *   anywhere in WHOP (RETIRED_PLANS / RETIRED_LISTINGS below).
- *
- * THE LINEUP OF 2026-10-05 — THE SIX NEW LISTINGS, WIRED 2026-10-05 (night).
- *   Tom made the listings; every plan was opened on its own checkout page and
- *   the product name and price read off it (never matched by position):
- *     DS ProLiquidityHunter  plan_yFqtNooVPvdNm   $79.99 one-time
- *     DS ProHeikinAshi       plan_ziBOQITqwmlgn   $79.99 one-time
- *     DS VWAP                plan_eC8XsRW9rz7OU   Free
- *     DS MACD                plan_rwOCbeDmfIVmz   Free
- *     DS Squeeze             plan_mCyNCv0gGgsPw   Free
- *     DS Stochastics         plan_uLd7kZO8uzYwI   Free
- *   The two Pro panels have no trial plan (like DS ProTrendRange).
- *   DS Stochastics and DS Squeeze are NEW free listings. Their old $79.99
- *   listings ("ds-prostochastics-…", "ds-prosqueeze-…") are gone from the
- *   store (404), and those two plans and paths stay refused by the build
- *   (RETIRED_PLANS / RETIRED_LISTINGS below): a "Get it free" button must
- *   never open a card form.
- *   All twenty listing pages were read back on whop.com the same night (title
- *   and price / "Join for free" of each). Read them at
- *   whop.com/dsuniverse/products/<path>/ — the short address
- *   whop.com/dsuniverse/<path>/ (each listing's canonical, and the one linked
- *   here) can hand a signed-out reader an old cached copy.
- *   DS Complete is still at the address Whop gave it when it held fifteen
- *   ("…all-15-…"); that is Whop's address for the live listing, not a count
- *   this site states.
- *
- * A LISTING THAT DOES NOT EXIST YET goes in PENDING_LISTING (empty now). Its
- *   page then says so plainly instead of offering a button, and a production
- *   build refuses to run while the list is not empty (see below) — the site
- *   cannot go live half-wired by accident.
- *   TO FINISH ONE: create the listing on Whop, open its checkout and read the
- *   product name and price off it, add its `L("<listing path>", "<plan>")`
- *   line to WHOP, and take its slug out of PENDING_LISTING.
+ * Whop gave some listing paths a random suffix — use exactly what Whop gives
+ * you, do not tidy.
  */
 
-import { onWaitlist } from "./launch";
 import { PRICES } from "./pricing";
+import { PRODUCTS } from "./products";
 
 export type WhopListing = {
-  /** The product's page on Whop — its price, description and reviews. */
+  /** The product's page on Whop — its description, FAQ and reviews. */
   product: string;
   /** Direct checkout link for the product's plan. */
-  checkout?: string;
-  /** Direct checkout for the product's free-trial plan, where it has one. */
-  trial?: string;
+  checkout: string;
 };
 
 export const STORE = "https://whop.com/dsuniverse";
 const CHECKOUT = "https://whop.com/checkout";
-const L = (path: string, plan: string, trialPlan?: string): WhopListing => ({
-  product: `${STORE}/${path}/`,
-  checkout: `${CHECKOUT}/${plan}`,
-  ...(trialPlan ? { trial: `${CHECKOUT}/${trialPlan}` } : {}),
-});
+// The listing is linked at whop.com/dsuniverse/products/<path>/ — the short
+// whop.com/dsuniverse/<path>/ can hand a signed-out visitor an old cached copy.
+const L = (path: string, plan: string): WhopListing => ({ product: `${STORE}/products/${path}/`, checkout: `${CHECKOUT}/${plan}` });
 
-export const WHOP: Record<string, WhopListing> = {
-  // ---- flagship indicators ($79.99, checkout verified 2026-09-25) ----
-  zones: L("ds-zones-living-supply-demand-structure-ninjatrader-8", "plan_ocxhFcbIMnpbi"),
-  iceberg: L("ds-iceberg-hidden-absorption-refill-detection-ninjatrader-8", "plan_FMGkrNvXKFMzC"),
-  // (the 3-day trial plan that was the third argument is retired, 2026-10-14)
-  oracle: L("ds-oracle-ai-confirmed-supertrend-neural-line-ninjatrader-8", "plan_ujtfTI9XElO8g"),
-  gex: L("ds-gex-dealer-gamma-levels-fetched-live-ninjatrader-8-fb", "plan_Wos2cSDhY5RZp"),
-  flow: L("ds-flow-volume-by-price-footprint-ninjatrader-8", "plan_G6CrISw6dNHR6"),
-  // ---- Pro Series ($79.99, checkout verified 2026-09-25) ----
-  prorsi: L("ds-prorsi-rsi-crossovers-as-price-levels-ninjatrader-8", "plan_BBivBWLYNMJhb"),
-  // 2026-10-05 — new Pro panels; listing and plan from Tom, each checkout
-  // opened and read: the product's name, $79.99, one-time. No trial plan.
-  proliquidityhunter: L("ds-proliquidityhunter-liquidity-map-with-measured-reach-odds-ninjatrader-8", "plan_yFqtNooVPvdNm"),
-  proheikinashi: L("ds-proheikinashi-heikin-ashi-candle-flip-level-panel-ninjatrader-8", "plan_ziBOQITqwmlgn"),
-  // 2026-10-04 — listing and plan from Tom; the listing page was read back and
-  // matches the sheet.
-  protrendrange: L("ds-protrendrange-trend-pullback-range-state-panel-ninjatrader-8", "plan_vELeEOxCkpoYx"),
-  // ---- data utility ($29.99, checkout verified 2026-09-25) ----
-  "bulk-replay-downloader": L("ds-bulk-replay-downloader-bulk-replay-data-ninjatrader-8", "plan_kKVlaEdC9dtgS"),
-  // ---- the Free Vault (checkout shows "Free", verified 2026-09-25) ----
-  // toolkit — NO entry: it comes free with DS Complete and its own free
-  //           listing is retired (2026-10-05; see RETIRED_PLANS below)
+/**
+ * DS COMPLETE's checkouts. Supplied by Tom 2026-10-29: plan_BDcgf0PEsWLeP.
+ * Opened in headless Edge on Tom's PC the same day, it reads: "DS Complete
+ * Bundle · 7 days free · Then $39.99 per month · Total due today $0.00", with
+ * a card form and the required "Your NinjaTrader Account Email". So it is ONE
+ * plan: the 7-day free trial that becomes the monthly plan. It offers no
+ * $149.99 own-the-set option, so `own` stays empty and the site says that
+ * checkout is opening soon (CompleteActions) until its own plan is pasted here.
+ * (The product title Whop shows on that checkout is still the pre-v3.1 one,
+ * "Every Paid DS Product + DS ASL & DS Toolkit Free" — Tom's to change on Whop.)
+ */
+export const COMPLETE_PLANS: { listing?: string; trialMonthly?: string; own?: string } = {
+  trialMonthly: "https://whop.com/checkout/plan_BDcgf0PEsWLeP",
+  // own: "https://whop.com/checkout/plan_…",   // $149.99 one-time, when it exists
+};
+
+/** The Free Vault's listings, as they were wired (each checkout read "Free"). */
+export const VAULT_WHOP: Record<string, WhopListing> = {
   "adaptive-priceline": L("ds-adaptive-price-line-self-anchoring-line-countdown-ninjatrader-8", "plan_XN3D0IC97yWP2"),
   "chart-price": L("ds-chart-price-large-readout-chop-detection-ninjatrader-8", "plan_E34eRRHcmYHD4"),
   "ds-258": L("ds-258-nasdaq-00-20-50-80-level-map-ninjatrader-8", "plan_LvWsdZ70h3x5m"),
-  "session-levels": L("ds-session-levels-asia-london-new-york-session-levels-ninjatrader-8", "plan_LhYBx2nIIXwck"),
   parallax: L("ds-parallax-multi-timeframe-liquidity-matrix-ninjatrader-8", "plan_RBOOqpI868f9W"),
-  // 2026-10-05 — four new free listings; each checkout opened and read: the
-  // product's name and "Free". DS Stochastics and DS Squeeze are NEW listings
-  // with NEW free plans, not their old $79.99 ones.
-  stochastics: L("ds-stochastics-quad-rotation-stochastics-ninjatrader-8", "plan_uLd7kZO8uzYwI"),
-  squeeze: L("ds-squeeze-squeeze-waves-reversion-ninjatrader-8", "plan_mCyNCv0gGgsPw"),
-  macd: L("ds-macd-volatility-normalized-macd-cross-price-ninjatrader-8", "plan_rwOCbeDmfIVmz"),
+  "session-levels": L("ds-session-levels-asia-london-new-york-session-levels-ninjatrader-8", "plan_LhYBx2nIIXwck"),
   vwap: L("ds-vwap-live-session-vwap-with-measured-bands-ninjatrader-8", "plan_eC8XsRW9rz7OU"),
-  // 2026-10-22 — two new free listings; links from Tom, each checkout opened
-  // (headless Edge on Tom's PC) and read: the product's name and "Free".
   "live-background": L("ds-live-background-your-video-behind-the-chart-ninjatrader-8", "plan_oSNrguzUxIcnF"),
   "time-intervals": L("ds-time-intervals-one-click-timeframe-buttons-ninjatrader-8", "plan_pkn3YRk0zwB30"),
-  // ---- the bundle ($374.95, checkout verified 2026-09-25) ----
-  complete: L("ds-complete-all-15-ds-universe-products-one-license-ninjatrader-8", "plan_eVl3N0rb9CZQ2"),
+  volume: L("ds-volume-smart-volume-read-against-the-clock-ninjatrader-8", "plan_41tqwGSBzrBUd"),
 };
 
 /**
- * LISTINGS THAT DO NOT EXIST ON WHOP YET — NONE since 2026-10-05 (night): the
- * six of the 10-05 lineup are wired above. A pending product has NO entry in
- * WHOP at all, so there is nothing a button could open: its tile carries no
- * buy button, and its page shows a plain "not open yet" state where the button
- * would be (components/BuyButton.tsx). It must never go live that way — so a
- * production build stops while a slug is listed here.
- * (`DS_PREVIEW_BUILD=1 npm run build` builds anyway, for checking only;
- * Hostinger never sets it.)
+ * Free Vault tools confirmed live on Whop again after the 2026-10-29 take-down.
+ * ALL NINE, checked 2026-10-29 (evening): the store lists them, and every
+ * checkout above opened in headless Edge on Tom's PC with the product's name
+ * and "Free". A tool not listed here shows "Opening soon".
  */
-export const PENDING_LISTING: readonly string[] = [];
-export const isPending = (slug: string) => PENDING_LISTING.includes(slug);
-
-/** What a pending product's page says where its button would be. */
-export const PENDING_NOTE = {
-  /** In the button's place. Not a link. */
-  label: "Not open yet",
-  /** Under it, on the product page. */
-  text: "Its listing on Whop is being set up, so there is nothing to check out yet. Nothing here takes an order or a payment.",
-} as const;
-
-/**
- * Plans that were PAID and belong to products that are free now. They must
- * never come back as a free product's checkout (DS Stochastics and DS Squeeze
- * have NEW free plans since 2026-10-05; these two charged $79.99).
- */
-const RETIRED_PAID_PLANS: readonly string[] = ["plan_ACebJTJOzyeH9", "plan_sQ0Jx6UJRsggw"];
+export const RELISTED: readonly string[] = [
+  "adaptive-priceline", "chart-price", "ds-258", "parallax", "session-levels", "vwap", "live-background", "time-intervals", "volume",
+];
 
 /**
  * RETIRED FOR GOOD — plans and listings no button may ever open again,
- * whatever product they are pasted under:
- *   · the two $79.99 plans above, and the two listings they belonged to
- *     (the old DS ProStochastics and DS ProSqueeze pages — 404 on Whop since
- *     2026-10-05);
- *   · DS Toolkit's own free plan and listing (2026-10-05). DS Toolkit comes
- *     free with DS Complete and is not offered on its own, so a link to its
- *     old free checkout would hand out what is no longer given away.
+ * whatever product they are pasted under. Since v3.1 that is every single
+ * paid product's plan (no paid product is sold on its own), the pre-v3.1
+ * DS Complete plan and listing, DS Oracle's, the old trial plans, and the
+ * discontinued and retired free plans.
  */
-/** The 3-day free-trial plans of 2026-09-29 (DS Oracle, DS Flow, DS ProRSI),
- *  archived on Whop when the trial closed (2026-10-14). */
-const RETIRED_TRIAL_PLANS: readonly string[] = ["plan_zZ1CGRY29Dz7n", "plan_5wUpmsoJ0Rj3I", "plan_OgE67QZlTofd9"];
-const RETIRED_PLANS: readonly string[] = [...RETIRED_PAID_PLANS, ...RETIRED_TRIAL_PLANS, "plan_Ywx5wxsyuCStx"];
+const RETIRED_PLANS: readonly string[] = [
+  // single paid products, retired 2026-10-29 (sold only in DS Complete now)
+  "plan_ocxhFcbIMnpbi", "plan_FMGkrNvXKFMzC", "plan_Wos2cSDhY5RZp", "plan_G6CrISw6dNHR6", "plan_BBivBWLYNMJhb",
+  "plan_yFqtNooVPvdNm", "plan_ziBOQITqwmlgn", "plan_vELeEOxCkpoYx", "plan_kKVlaEdC9dtgS",
+  // DS Oracle (discontinued 2026-10-29)
+  "plan_ujtfTI9XElO8g",
+  // DS Complete before v3.1 ($374.95, "all 15 products")
+  "plan_eVl3N0rb9CZQ2",
+  // the 3-day trial plans (ended 2026-10-14)
+  "plan_zZ1CGRY29Dz7n", "plan_5wUpmsoJ0Rj3I", "plan_OgE67QZlTofd9",
+  // old paid DS ProStochastics / DS ProSqueeze, and DS Toolkit's retired free plan
+  "plan_ACebJTJOzyeH9", "plan_sQ0Jx6UJRsggw", "plan_Ywx5wxsyuCStx",
+  // DS MACD, DS Squeeze, DS Stochastics (discontinued 2026-10-25)
+  "plan_rwOCbeDmfIVmz", "plan_mCyNCv0gGgsPw", "plan_uLd7kZO8uzYwI",
+];
 const RETIRED_LISTINGS: readonly string[] = [
+  "ds-complete-all-15-ds-universe-products-one-license-ninjatrader-8",
+  "ds-oracle-ai-confirmed-supertrend-neural-line-ninjatrader-8",
   "ds-toolkit-one-rail-for-every-indicator-tool-ninjatrader-8",
   "ds-prostochastics-quad-rotation-stochastics-ninjatrader-8",
   "ds-prosqueeze-squeeze-waves-reversion-ninjatrader-8",
+  "ds-macd-volatility-normalized-macd-cross-price-ninjatrader-8",
+  "ds-squeeze-squeeze-waves-reversion-ninjatrader-8",
+  "ds-stochastics-quad-rotation-stochastics-ninjatrader-8",
 ];
 
-const LIVE_BUILD = process.env.NODE_ENV === "production" && process.env.DS_PREVIEW_BUILD !== "1";
-
-/* Every listed product has its own plan — a pasted duplicate would send two
-   products to one checkout, so the build refuses it. */
+/* The build refuses a retired link, a duplicated plan, a free listing for a
+   product that is not free, and a paid product with a listing of its own. */
 {
-  const plans = Object.values(WHOP).flatMap((w) => (w.checkout ? [w.checkout] : []));
-  if (new Set(plans).size !== plans.length) {
-    throw new Error("content/whop.ts: two products share one checkout plan.");
+  const links = [
+    ...Object.values(COMPLETE_PLANS).filter((x): x is string => !!x),
+    ...Object.values(VAULT_WHOP).flatMap((w) => [w.product, w.checkout]),
+  ];
+  const dead = [
+    ...RETIRED_PLANS.filter((plan) => links.some((x) => x.endsWith(`/${plan}`))),
+    ...RETIRED_LISTINGS.filter((path) => links.some((x) => x.includes(`/${path}`))),
+  ];
+  if (dead.length) throw new Error(`content/whop.ts: ${dead.join(", ")} is retired and must not be linked from the site.`);
+  const plans = [...Object.values(VAULT_WHOP).map((w) => w.checkout), COMPLETE_PLANS.trialMonthly, COMPLETE_PLANS.own].filter(
+    (x): x is string => !!x,
+  );
+  if (new Set(plans).size !== plans.length) throw new Error("content/whop.ts: two buttons share one checkout plan.");
+  for (const slug of Object.keys(VAULT_WHOP)) {
+    if (!PRICES[slug]?.free) throw new Error(`content/whop.ts: "${slug}" has a free listing but is not a Free Vault product.`);
   }
-  // A trial plan is a plan of its own: never another product's, never the
-  // product's own paid plan (that would send a "free trial" click to a card form).
-  const trials = Object.values(WHOP).flatMap((w) => (w.trial ? [w.trial] : []));
-  if (new Set([...plans, ...trials]).size !== plans.length + trials.length) {
-    throw new Error("content/whop.ts: a trial link repeats another checkout plan.");
+  for (const p of PRODUCTS) {
+    if (PRICES[p.slug]?.free && !VAULT_WHOP[p.slug]) throw new Error(`content/whop.ts: Free Vault product "${p.slug}" has no listing.`);
   }
-  for (const [slug, w] of Object.entries(WHOP)) {
-    if (slug !== "complete" && !PRICES[slug]) throw new Error(`content/whop.ts: "${slug}" has a listing but is not in the catalogue.`);
-    if (PRICES[slug]?.free && RETIRED_PAID_PLANS.some((plan) => w.checkout?.endsWith(`/${plan}`))) {
-      throw new Error(`content/whop.ts: "${slug}" is free, but its checkout is a retired PAID plan. Make a new free plan on Whop.`);
-    }
-    const links = [w.checkout, w.trial, w.product].filter((x): x is string => !!x);
-    const dead = [
-      ...RETIRED_PLANS.filter((plan) => links.some((x) => x.endsWith(`/${plan}`))),
-      ...RETIRED_LISTINGS.filter((path) => links.some((x) => x.includes(`/${path}`))),
-    ];
-    if (dead.length) {
-      throw new Error(`content/whop.ts: "${slug}" points at ${dead.join(", ")}, which is retired and must not be linked from the site.`);
-    }
+  for (const slug of RELISTED) {
+    if (!VAULT_WHOP[slug]) throw new Error(`content/whop.ts: RELISTED names "${slug}", which has no Free Vault listing.`);
   }
-  for (const slug of [...Object.keys(PRICES), "complete"]) {
-    // A product that comes free with DS Complete (DS ASL, DS Toolkit) has no
-    // checkout of its own — and must not have one, or a button would sell, or
-    // give away, what is not offered on its own.
-    if (PRICES[slug]?.withComplete) {
-      if (WHOP[slug] || isPending(slug)) throw new Error(`content/whop.ts: "${slug}" comes free with DS Complete, is not offered on its own, and must not have a listing.`);
-      continue;
-    }
-    if (isPending(slug)) {
-      if (WHOP[slug]) throw new Error(`content/whop.ts: "${slug}" has a listing now — take it out of PENDING_LISTING.`);
-      continue;
-    }
-    if (!WHOP[slug]?.checkout) throw new Error(`content/whop.ts: "${slug}" has no checkout link.`);
-  }
-  for (const slug of PENDING_LISTING) {
-    if (!PRICES[slug]) throw new Error(`content/whop.ts: "${slug}" is pending but is not in the catalogue.`);
-  }
-  if (PENDING_LISTING.length && LIVE_BUILD) {
-    throw new Error(
-      `content/whop.ts: ${PENDING_LISTING.join(", ")} ${PENDING_LISTING.length > 1 ? "have" : "has"} no Whop listing yet, so this build must not go live. ` +
-        `Create each listing on Whop, put its listing path and plan in WHOP, and take it out of PENDING_LISTING before deploying. ` +
-        `(To look at the site as it is: DS_PREVIEW_BUILD=1 npm run build.)`,
-    );
+  // Not a refusal — the site may go live with "Opening soon" — but never silent.
+  const pending = [
+    ...(["trialMonthly", "own"] as const).filter((k) => !COMPLETE_PLANS[k]).map((k) => `DS Complete ${k} plan`),
+    ...Object.keys(VAULT_WHOP).filter((s) => !RELISTED.includes(s)),
+  ];
+  if (pending.length && process.env.NODE_ENV === "production") {
+    console.warn(`\n  content/whop.ts: not linked yet, shown as "Opening soon": ${pending.join(", ")}.\n`);
   }
 }
 
-/**
- * Whose checkout a product is bought through: its own — or, for a product that
- * comes free with DS Complete and is not sold on its own, DS Complete's.
- */
-export const purchaseKey = (slug: string) => (PRICES[slug]?.withComplete ? "complete" : slug);
+/** DS Complete's live links (each undefined until entered). */
+export const completeLinks = () => ({ trialMonthly: COMPLETE_PLANS.trialMonthly, own: COMPLETE_PLANS.own, listing: COMPLETE_PLANS.listing });
+/** Is any DS Complete plan live yet? */
+export const completeOpen = () => !!(COMPLETE_PLANS.trialMonthly || COMPLETE_PLANS.own);
 
-export const listingFor = (key: string): WhopListing | undefined => WHOP[key];
+/** A Free Vault tool's live listing, or undefined while it is not back up. */
+export const vaultListing = (slug: string): WhopListing | undefined => (RELISTED.includes(slug) ? VAULT_WHOP[slug] : undefined);
 
-/** The main button's destination: the direct checkout, else the listing. */
-export const buyHref = (l: WhopListing) => l.checkout ?? l.product;
-
-/**
- * The button's words. While the store is on a waitlist every button says what
- * Whop's own page says — "Join waitlist". Open: paid products say "Buy now"
- * (Whop's listing button says the same), free ones "Get it free".
- */
-export const buyLabel = (key: string) =>
-  onWaitlist()
-    ? "Join the waitlist"
-    : PRICES[key]?.free
-      ? "Get it free"
-      : PRICES[key]?.withComplete
-        ? "Get DS Complete"
-        : "Buy now";
+/** What a button shows while its link is not live yet, and the request "Get notified" writes. */
+export const OPENING = {
+  label: "Opening soon",
+  notify: "Get notified",
+  complete: {
+    note: "The founders plans are being set up on Whop, so there is nothing to check out yet. Nothing here takes an order or a payment.",
+    request: "Please email me when DS Complete opens at the founders price.",
+    /** While only the trial / monthly plan is live. */
+    own: "Owning the set outright: its checkout opens soon.",
+    ownRequest: "Please email me when DS Complete can be bought outright for $149.99.",
+  },
+  vault: {
+    note: "Its free download is being put back up on Whop for v3.1. Nothing here takes an order or a payment.",
+    request: (name: string) => `Please email me when ${name} is back in the Free Vault.`,
+  },
+} as const;

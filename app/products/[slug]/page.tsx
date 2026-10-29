@@ -5,8 +5,8 @@ import { isVault } from "@/content/products";
 import { STORE_PRODUCTS, productHref } from "@/content/release";
 
 /**
- * /products/<slug> — a product in the store (and DS ASL and DS Toolkit, which
- * come free with DS Complete). The page itself is components/ProductPage.tsx.
+ * /products/<slug> — a paid product, each of which comes in DS Complete (v3.1).
+ * The page itself is components/ProductPage.tsx.
  *
  * A FREE product does not live here any more (2026-10-05): its page is
  * /free-vault/<slug>. The five that were on the site before forward by name in
