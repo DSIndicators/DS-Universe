@@ -76,7 +76,6 @@ export function Footer() {
             {DISCLOSURE.long} {DISCLOSURE.chart}
           </p>
           <p>{DISCLOSURE.trademark}</p>
-          <p>{DISCLOSURE.bionic}</p>
           <p data-nobio="">© 2026 {SITE.name}. All rights reserved.</p>
         </div>
       </div>

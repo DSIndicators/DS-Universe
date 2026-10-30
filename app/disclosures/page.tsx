@@ -4,7 +4,7 @@ import { DISCLOSURE, SITE } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Risk Disclosures",
-  description: "Futures risk disclosure, CFTC hypothetical performance disclosure, and trademark notices for DS Universe.",
+  description: "Futures risk disclosure, CFTC hypothetical performance disclosure, and trademark notice for DS Universe.",
   alternates: { canonical: "/disclosures" },
 };
 
@@ -22,7 +22,6 @@ export default function DisclosuresPage() {
     { heading: "What our software is", body: DISCLOSURE.short },
     { heading: "No performance record", body: DISCLOSURE.long },
     { heading: "Trademarks", body: DISCLOSURE.trademark },
-    { heading: "Bionic reading", body: DISCLOSURE.bionic },
   ];
   return (
     <>

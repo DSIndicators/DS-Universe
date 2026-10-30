@@ -1,13 +1,13 @@
 /**
- * BIONIC READING (2026-10-27, Tom: "We will use Bionic Reading for our website
+ * TYPOGRAPHY FIXATION (2026-10-27, Tom: "We will use Bionic Reading for our website
  * ... implement ALL texts as bionic reading texts so our users with short
  * attention span stays").
  *
  * The technique: the first part of every word is set heavier, so the eye can
  * anchor on it and the brain completes the rest. It is our own
- * implementation. Labelled "Bionic reading" on the page since 2026-10-29
- * (Tom: visitors did not know what "Focus" meant and thought the site was
- * broken); "Bionic Reading" is a registered trademark of Bionic Reading AG.
+ * implementation, labelled "Typography fixation" on the page since 2026-10-30
+ * ("Focus" before that). "Bionic Reading" is a registered trademark of Bionic
+ * Reading AG, so that name never appears where a visitor can see it.
  *
  * Research at the time of writing found no speed or comprehension gain for
  * skilled adult readers (Readwise, n=1,916; Parker et al., Royal Society Open

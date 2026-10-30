@@ -1,4 +1,4 @@
-// The bionic-reading switch, end to end in headless Edge (2026-10-29: OFF by
+// The typography-fixation switch, end to end in headless Edge (2026-10-29: OFF by
 // default). Fresh visit must be plain; click the header switch on, check the
 // footer agrees, reload (remembered), turn it off from the footer; then the
 // phone switch above the home title at 390 wide. usage: node tools/focus-check.mjs

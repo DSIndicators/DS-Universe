@@ -892,7 +892,7 @@ html:has(.tone-dark) .ftr-logo .logo-w { display: block; }
 @media (max-width: 380px) { .hdr-mark > span { display: none; } }
 html:has(.tone-dark) .hdr-nav .hdr-vault { color: #ffffff; box-shadow: inset 0 0 0 1.5px #ffffff; }
 
-/* Bionic reading (bionic/transform.ts), off by default: the first part of each word carries
+/* Typography fixation (bionic/transform.ts), off by default: the first part of each word carries
    the weight. Body text 400 -> 650; the light display type 300 -> 500, so the
    big headlines keep their quiet elegance. One class turns it all off. */
 .bf { font-weight: 650; }
@@ -902,8 +902,8 @@ html:has(.tone-dark) .hdr-nav .hdr-vault { color: #ffffff; box-shadow: inset 0 0
 .focus-switch { display: inline-flex; gap: 10px; align-items: baseline; padding: 0; font: inherit; font-size: 0.875rem; color: var(--ink-2); background: none; border: 0; }
 .focus-switch .focus-state { color: var(--teal); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
 
-/* The header's bionic-reading switch, left of Home: a small square (filled =
-   on) and the words "Bionic reading", whose "Bio" is heavy only while on. */
+/* The header's typography-fixation switch, left of Home: a small square
+   (filled = on) and the words, whose first letters are heavy only while on. */
 .hdr-focus { display: inline-flex; align-items: center; gap: 8px; padding: 6px 2px; margin-right: clamp(0px, 0.8vw, 14px); background: none; border: 0; font: inherit; font-size: 0.875rem; color: var(--ink-2); cursor: inherit; }
 .hdr-focus { white-space: nowrap; }
 .hdr-focus-box { flex: none; width: 11px; height: 11px; box-shadow: inset 0 0 0 1.5px var(--teal); transition: background-color 0.2s var(--ease); }
@@ -915,7 +915,8 @@ html:has(.tone-dark) .hdr-nav .hdr-vault { color: #ffffff; box-shadow: inset 0 0
 html:has(.tone-dark) .hdr-focus-box { box-shadow: inset 0 0 0 1.5px #ffffff; }
 html:has(.tone-dark) .hdr-focus[data-on="true"] .hdr-focus-box { background: #ffffff; }
 .sheet-focus { padding: 22px var(--g); }
-@media (min-width: 761px) and (max-width: 1240px) { .hdr-nav .hdr-focus-more { display: none; } }
+.hdr-focus .lbl-short { display: none; }
+@media (min-width: 761px) and (max-width: 1240px) { .hdr-nav .lbl-full { display: none; } .hdr-nav .lbl-short { display: inline; } }
 /* below 1024 (tablets) the header has no room: the switch moves above the
    home title, as on phones, and stays in the footer */
 @media (max-width: 1023px) { .hdr-nav .hdr-focus { display: none; } }
