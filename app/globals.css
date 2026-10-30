@@ -121,6 +121,9 @@ body {
 .hdr-nav .hdr-go { color: var(--ink); font-weight: 500; text-decoration: underline; text-decoration-color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 0.35em; }
 .hdr-mark, .hdr-nav a { white-space: nowrap; }
 @media (max-width: 760px) { .hdr-nav .hdr-far { display: none; } }
+/* small tablets (iPad mini portrait, 768): the logo already goes home, so the
+   Home tab steps out and the rest of the row clears the logo */
+@media (max-width: 860px) { .hdr-nav .hdr-home { display: none; } }
 @media (max-width: 480px) { .hdr-nav .hdr-mid { display: none; } .hdr-nav { gap: 20px; } }
 
 /* ---------------------------------------------------------------- hero */
@@ -889,7 +892,7 @@ html:has(.tone-dark) .ftr-logo .logo-w { display: block; }
 @media (max-width: 380px) { .hdr-mark > span { display: none; } }
 html:has(.tone-dark) .hdr-nav .hdr-vault { color: #ffffff; box-shadow: inset 0 0 0 1.5px #ffffff; }
 
-/* Focus reading (bionic/transform.ts): the first part of each word carries
+/* Bionic reading (bionic/transform.ts), off by default: the first part of each word carries
    the weight. Body text 400 -> 650; the light display type 300 -> 500, so the
    big headlines keep their quiet elegance. One class turns it all off. */
 .bf { font-weight: 650; }
@@ -899,10 +902,11 @@ html:has(.tone-dark) .hdr-nav .hdr-vault { color: #ffffff; box-shadow: inset 0 0
 .focus-switch { display: inline-flex; gap: 10px; align-items: baseline; padding: 0; font: inherit; font-size: 0.875rem; color: var(--ink-2); background: none; border: 0; }
 .focus-switch .focus-state { color: var(--teal); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
 
-/* The header's focus-reading switch, left of Home: a small square (filled =
-   on) and the word "Focus", whose "Fo" is heavy only while the mode is on. */
+/* The header's bionic-reading switch, left of Home: a small square (filled =
+   on) and the words "Bionic reading", whose "Bio" is heavy only while on. */
 .hdr-focus { display: inline-flex; align-items: center; gap: 8px; padding: 6px 2px; margin-right: clamp(0px, 0.8vw, 14px); background: none; border: 0; font: inherit; font-size: 0.875rem; color: var(--ink-2); cursor: inherit; }
-.hdr-focus-box { width: 11px; height: 11px; box-shadow: inset 0 0 0 1.5px var(--teal); transition: background-color 0.2s var(--ease); }
+.hdr-focus { white-space: nowrap; }
+.hdr-focus-box { flex: none; width: 11px; height: 11px; box-shadow: inset 0 0 0 1.5px var(--teal); transition: background-color 0.2s var(--ease); }
 .hdr-focus[data-on="true"] .hdr-focus-box { background: var(--teal); }
 .hdr-focus-word b { font-weight: 400; transition: font-weight 0.2s var(--ease); }
 .hdr-focus[data-on="true"] .hdr-focus-word b { font-weight: 700; }
@@ -911,7 +915,21 @@ html:has(.tone-dark) .hdr-nav .hdr-vault { color: #ffffff; box-shadow: inset 0 0
 html:has(.tone-dark) .hdr-focus-box { box-shadow: inset 0 0 0 1.5px #ffffff; }
 html:has(.tone-dark) .hdr-focus[data-on="true"] .hdr-focus-box { background: #ffffff; }
 .sheet-focus { padding: 22px var(--g); }
-@media (max-width: 760px) { .hdr-nav .hdr-focus { display: none; } }
+@media (min-width: 761px) and (max-width: 1240px) { .hdr-nav .hdr-focus-more { display: none; } }
+/* below 1024 (tablets) the header has no room: the switch moves above the
+   home title, as on phones, and stays in the footer */
+@media (max-width: 1023px) { .hdr-nav .hdr-focus { display: none; } }
+
+/* The same switch above the home title on phones (the header hides its own
+   there). No divider after it; the state word sits at the end in teal, like
+   the footer's. A 36px-tall hit area for a thumb. */
+.hero-bionic-row { display: none; }
+@media (max-width: 1023px) {
+  .hero-bionic-row { display: block; grid-column: 1 / -1; margin-bottom: 4px; }
+  .hero-bionic { min-height: 36px; padding: 6px 0; margin: 0; font-size: 0.875rem; gap: 10px; }
+  .hero-bionic::after { content: none; }
+  .hero-bionic-state { color: var(--teal); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
+}
 
 /* ================================================================ HELP (from the live site, 2026-10-27)
    components/HelpPanel.tsx: same behaviour as dsuniverse.net's Help, line for

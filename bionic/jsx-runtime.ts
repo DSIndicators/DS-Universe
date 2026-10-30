@@ -1,4 +1,4 @@
-/** The site's JSX runtime: React's own, plus focus reading (./transform.ts). */
+/** The site's JSX runtime: React's own, plus bionic reading (./transform.ts). */
 import * as R from "react/jsx-runtime";
 import { bio } from "./transform";
 

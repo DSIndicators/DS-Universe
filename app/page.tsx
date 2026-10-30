@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CompleteBand } from "@/components/CompleteBand";
+import { FocusSwitch } from "@/components/FocusSwitch";
 import { Cover } from "@/components/Cover";
 import { Reader } from "@/components/Reader";
 import { Stack } from "@/components/Stack";
@@ -35,6 +36,10 @@ export default function Home() {
       {/* ------------------------------------------------ hero */}
       <section className="hero" aria-labelledby="hero-title" data-section="">
         <div className="wb hero-grid">
+          {/* phones only: the header has no room for the switch there */}
+          <div className="hero-bionic-row">
+            <FocusSwitch variant="hero" />
+          </div>
           <p className="hero-kicker">
             <Link href={VAULT_PATH}>{HERO_W.kicker}</Link>
           </p>

@@ -1,18 +1,20 @@
 /**
- * FOCUS READING (2026-10-27, Tom: "We will use Bionic Reading for our website
+ * BIONIC READING (2026-10-27, Tom: "We will use Bionic Reading for our website
  * ... implement ALL texts as bionic reading texts so our users with short
  * attention span stays").
  *
  * The technique: the first part of every word is set heavier, so the eye can
- * anchor on it and the brain completes the rest. "Bionic Reading" is Bionic
- * Reading AG's trademark, so the site never uses the name; the technique is
- * our own implementation and is called "Focus reading" on the page.
+ * anchor on it and the brain completes the rest. It is our own
+ * implementation. Labelled "Bionic reading" on the page since 2026-10-29
+ * (Tom: visitors did not know what "Focus" meant and thought the site was
+ * broken); "Bionic Reading" is a registered trademark of Bionic Reading AG.
  *
  * Research at the time of writing found no speed or comprehension gain for
  * skilled adult readers (Readwise, n=1,916; Parker et al., Royal Society Open
  * Science 2026, n=90, eye-tracking), and some readers find plain text easier.
- * So it ships with a visitor switch (components/FocusSwitch.tsx) that turns it
- * off by one class on <html>, remembered per browser.
+ * So it is OFF by default since 2026-10-29 and a visitor turns it on with the
+ * switch (components/FocusSwitch.tsx): one class on <html>, remembered per
+ * browser.
  *
  * HOW it reaches ALL text: tsconfig "jsxImportSource" points every .tsx file
  * at this folder's JSX runtime, which hands every element to React unchanged

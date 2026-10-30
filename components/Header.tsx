@@ -14,7 +14,7 @@ import { FocusSwitch } from "@/components/FocusSwitch";
  * is marked by ink and a short teal underline.
  */
 const LINKS = [
-  { label: "Home", href: "/", cls: "hdr-far" },
+  { label: "Home", href: "/", cls: "hdr-far hdr-home" },
   { label: "Products", href: "/products", cls: "hdr-mid" },
   { label: "NinjaTrader", href: "/ninjatrader", cls: "hdr-far" },
   { label: "About", href: "/about", cls: "hdr-far" },

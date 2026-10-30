@@ -52,10 +52,10 @@ export const viewport: Viewport = { width: "device-width", initialScale: 1, them
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${text.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${text.variable} bio-off`} suppressHydrationWarning>
       <head>
-        {/* Focus reading off, if this visitor turned it off: set before first paint. */}
-        <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.getItem("ds-focus")==="off")document.documentElement.classList.add("bio-off")}catch(e){}` }} />
+        {/* Bionic reading is off by default (the server sends class="bio-off"); lifted before first paint only for a visitor who turned it on (components/FocusSwitch.tsx). */}
+        <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.getItem("ds-bionic")==="on")document.documentElement.classList.remove("bio-off")}catch(e){}` }} />
       </head>
       <body>
         <a className="skip" href="#main">
