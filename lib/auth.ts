@@ -214,8 +214,8 @@ export function setPlan(id: string, plan: Plan) {
 }
 
 /* ---- Whop, connected to the one account ---- */
-export type WhopUser = { id: string; email: string; name?: string };
-export type Connect = { member: Member } | { error: "whop-taken" | "email-taken" };
+export type WhopUser = { id: string; email: string; emailVerified?: boolean; name?: string };
+export type Connect = { member: Member } | { error: "whop-taken" | "email-taken" | "email-unverified" };
 
 /**
  * Attach a Whop user to the right account (rules at the top of this file).
@@ -241,7 +241,13 @@ export function connectWhop(u: WhopUser, currentId?: string): Connect {
   }
   if (owner) return link(owner);
   const same = email ? list.find((m) => m.email === email) : undefined;
-  if (same) return same.whopId && same.whopId !== u.id ? { error: "email-taken" } : link(same);
+  if (same) {
+    if (same.whopId && same.whopId !== u.id) return { error: "email-taken" };
+    // Joining a Whop account to an EXISTING account by email alone is only safe when Whop has verified
+    // that email; otherwise anyone could open a Whop account under someone else's address and walk in.
+    if (!u.emailVerified) return { error: "email-unverified" };
+    return link(same);
+  }
   const m: Member = { id: crypto.randomUUID(), email, name: u.name?.split(" ")[0] || undefined, plan: "free", createdAt: new Date().toISOString() };
   list.push(m);
   const r = link(m);

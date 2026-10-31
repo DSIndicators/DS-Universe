@@ -10,6 +10,7 @@ export const metadata: Metadata = { title: "Sign in" };
 const ERR: Record<string, string> = {
   whop: "Whop could not sign you in just now. Try again, or sign in with your email.",
   "email-taken": "That email is already connected to a different Whop account. Sign in with your email and password, or write to support@dsuniverse.net.",
+  "email-unverified": "There is already an account for this email, and Whop has not verified the email yet. Sign in with your email and password, then connect Whop from your account page.",
   "whop-taken": "That Whop account is already connected to a different DS Universe account. Write to support@dsuniverse.net and we will sort it out.",
 };
 

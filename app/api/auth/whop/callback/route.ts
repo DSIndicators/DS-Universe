@@ -27,14 +27,22 @@ export async function GET(req: Request) {
   if (url.searchParams.get("error") && !url.searchParams.get("code")) {
     return go(safeNext(saved?.back, (await getSession()) ? "/members/account" : "/signin"));
   }
-  if (!whopReady() || !saved) return fail("whop");
+  // Every failure is logged with its reason (never a secret), so a broken sign-in shows up in the
+  // Hostinger runtime log instead of only as a message on the visitor's screen.
+  const why = (reason: string) => {
+    console.error(`[whop] sign-in failed: ${reason}`);
+    return fail("whop");
+  };
+  if (!whopReady()) return why("Whop settings missing on the server");
+  if (!saved) return why("no ds_oauth cookie (expired after 10 minutes, or cookies blocked)");
   const code = url.searchParams.get("code");
-  if (!code || url.searchParams.get("state") !== saved.state) return fail("whop");
+  if (!code) return why(`no code (Whop said: ${url.searchParams.get("error") ?? "nothing"})`);
+  if (url.searchParams.get("state") !== saved.state) return why("state did not match");
   let u;
   try {
     u = await finishSignIn(code, saved.verifier);
-  } catch {
-    return fail("whop");
+  } catch (e) {
+    return why((e as Error).message);
   }
   const current = await getSession();
   const r = connectWhop(u, current?.id);

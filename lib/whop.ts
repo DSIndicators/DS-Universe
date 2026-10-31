@@ -79,12 +79,16 @@ export async function finishSignIn(code: string, verifier: string) {
       ...(process.env.WHOP_CLIENT_SECRET ? { client_secret: process.env.WHOP_CLIENT_SECRET } : {}),
     }),
   });
-  if (!tok.ok) throw new Error(`Whop token exchange failed (${tok.status}).`);
+  // Whop's error body is { error, error_description } - no secrets - so it goes into the server log as it is.
+  // (2026-10-31: every sign-in failed with "client_secret lacks oauth:token_exchange permission" until that
+  // permission was added on the app's Permissions tab in the Whop dashboard.)
+  if (!tok.ok) throw new Error(`token exchange ${tok.status}: ${(await tok.text()).slice(0, 200)}`);
   const { access_token } = (await tok.json()) as { access_token: string };
   const me = await fetch(`${BASE()}/oauth/userinfo`, { headers: { Authorization: `Bearer ${access_token}` } });
-  if (!me.ok) throw new Error(`Whop userinfo failed (${me.status}).`);
-  const u = (await me.json()) as { sub: string; email?: string; name?: string; preferred_username?: string };
-  return { id: u.sub, email: u.email ?? "", name: u.name ?? u.preferred_username };
+  if (!me.ok) throw new Error(`userinfo ${me.status}: ${(await me.text()).slice(0, 200)}`);
+  const u = (await me.json()) as { sub?: string; email?: string; email_verified?: boolean; name?: string; preferred_username?: string };
+  if (!u.sub) throw new Error("userinfo returned no user id");
+  return { id: u.sub, email: u.email ?? "", emailVerified: u.email_verified === true, name: u.name ?? u.preferred_username };
 }
 
 /* One minute of memory per member, so a page with several checks asks Whop once. */
