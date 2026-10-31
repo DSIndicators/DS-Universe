@@ -4,6 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { essentialsAccess, whopReady } from "./whop";
+import { notifySignup } from "./notify";
 
 /**
  * MEMBER ACCOUNTS — the LOCAL provider (localhost:3003).
@@ -154,6 +155,7 @@ export function createMember(email: string, password: string, name?: string): Me
   };
   list.push(m);
   writeAll(list);
+  notifySignup({ email: m.email, name: m.name, via: "email", total: list.length });
   return m;
 }
 
@@ -196,7 +198,9 @@ export function connectWhop(u: WhopUser, currentId?: string): Connect {
   if (same) return same.whopId && same.whopId !== u.id ? { error: "email-taken" } : link(same);
   const m: Member = { id: crypto.randomUUID(), email, name: u.name?.split(" ")[0] || undefined, plan: "free", createdAt: new Date().toISOString() };
   list.push(m);
-  return link(m);
+  const r = link(m);
+  notifySignup({ email: m.email, name: m.name, via: "whop", total: list.length });
+  return r;
 }
 
 /* ---- sign-in throttle (per email, in memory) ---- */

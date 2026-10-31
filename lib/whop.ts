@@ -33,6 +33,7 @@ import crypto from "node:crypto";
  *   WHOP_REDIRECT_URI         https://dsuniverse.net/api/auth/whop/callback (registered on the app)
  *   WHOP_API_KEY              an account API key with permission to check access
  *   WHOP_ESSENTIALS_PRODUCT   the Essentials Vault product's prod_… id
+ *   WHOP_CLIENT_SECRET        optional; the app's client secret, sent with the code exchange when set
  *   WHOP_API_BASE             optional; https://sandbox-api.whop.com for testing
  */
 
@@ -74,6 +75,8 @@ export async function finishSignIn(code: string, verifier: string) {
       redirect_uri: process.env.WHOP_REDIRECT_URI,
       client_id: process.env.WHOP_CLIENT_ID,
       code_verifier: verifier,
+      // Sent only when it is set (Whop's own guide stores it as WHOP_CLIENT_SECRET); PKCE alone works without it.
+      ...(process.env.WHOP_CLIENT_SECRET ? { client_secret: process.env.WHOP_CLIENT_SECRET } : {}),
     }),
   });
   if (!tok.ok) throw new Error(`Whop token exchange failed (${tok.status}).`);
