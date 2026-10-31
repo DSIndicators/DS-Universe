@@ -4,7 +4,7 @@ import { BY_SLUG } from "@/content/products";
 import { STRENGTHS } from "@/content/strengths";
 import { COUNT, PRICE_MONTHLY } from "@/content/vaults";
 
-const ESS = ["zones", "flow", "prorsi", "gex", "compass", "iceberg"];
+const ESS = ["zones", "flow", "prorsi", "gex", "compass", "ember"];
 const FREE = ["session-levels", "vwap", "volume", "parallax", "chart-price", "adaptive-priceline"];
 
 /** The calm column beside a form: what the account opens, why the suite is worth keeping, and six named

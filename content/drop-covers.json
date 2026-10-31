@@ -492,5 +492,21 @@
    }
   ],
   "dark": true
+ },
+ "ember": {
+  "src": "/covers/drop/ember.png?v=04cf1070",
+  "w": 1080,
+  "h": 1080,
+  "file": "DS_20261031_011903.png",
+  "ladder": [
+   {
+    "src": "/hd/covers/ember-04cf107033-360.webp",
+    "w": 360
+   },
+   {
+    "src": "/hd/covers/ember-04cf107033-720.webp",
+    "w": 720
+   }
+  ]
  }
 }
