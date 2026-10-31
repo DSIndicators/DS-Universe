@@ -589,6 +589,42 @@
     "src": "/hd/wide/hero-f083e5c479-4680.webp",
     "w": 4680
    }
+  ],
+  "home": [
+   {
+    "src": "/hd/wide/home-c9ace28005-720.webp",
+    "w": 720
+   },
+   {
+    "src": "/hd/wide/home-c9ace28005-960.webp",
+    "w": 960
+   },
+   {
+    "src": "/hd/wide/home-c9ace28005-1280.webp",
+    "w": 1280
+   },
+   {
+    "src": "/hd/wide/home-c9ace28005-1920.webp",
+    "w": 1920
+   }
+  ],
+  "vault": [
+   {
+    "src": "/hd/wide/vault-be6cf993c0-720.webp",
+    "w": 720
+   },
+   {
+    "src": "/hd/wide/vault-be6cf993c0-960.webp",
+    "w": 960
+   },
+   {
+    "src": "/hd/wide/vault-be6cf993c0-1280.webp",
+    "w": 1280
+   },
+   {
+    "src": "/hd/wide/vault-be6cf993c0-1920.webp",
+    "w": 1920
+   }
   ]
  },
  "report": {

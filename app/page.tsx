@@ -21,12 +21,12 @@ import { FocusSwitch } from "@/components/FocusSwitch";
  */
 export default async function Home() {
   const s = await getSession();
-  const hero = widePic("hero");
+  const hero = widePic("home");
   const flow = widePic("orderflow");
   return (
     <>
       <section className="hero">
-        <div className="wrap hero-grid">
+        <div className="hero-grid hero-wide">
           <div className="hero-copy">
             <FocusSwitch variant="hero" />
             <p className="kicker">Indicators for NinjaTrader 8</p>
@@ -50,7 +50,7 @@ export default async function Home() {
             </p>
           </div>
           <div className="hero-pic">
-            <Shot pic={hero} sizes="(max-width: 960px) 92vw, 600px" priority caption="DS ASL’s session volume profiles, DS ProRSI’s zones and DS Volume’s surges on one NinjaTrader 8 chart, three trades marked at the levels they came from, and the DS ProTrendRange panel beneath." />
+            <Shot pic={hero} sizes="(max-width: 960px) 92vw, 62vw" priority caption={hero.caption} />
           </div>
         </div>
       </section>

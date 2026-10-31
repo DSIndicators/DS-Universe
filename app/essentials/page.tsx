@@ -27,7 +27,7 @@ export default async function EssentialsPage() {
   return (
     <>
       <section className="hero">
-        <div className="wrap hero-grid">
+        <div className="hero-grid hero-wide">
           <div className="hero-copy">
             <p className="kicker">{ESSENTIALS.name}</p>
             <h1 className="d1">
@@ -53,7 +53,7 @@ export default async function EssentialsPage() {
             {!member && <p className="small hero-note">{BILLING}</p>}
           </div>
           <div className="hero-pic">
-            <Shot pic={widePic("liquidity")} sizes="(max-width: 960px) 92vw, 600px" priority caption="DS ProLiquidityHunter’s pools and odds, DS ASL’s Asia profile and DS Iceberg on one chart, with the DS ProHeikinAshi panel underneath." />
+            <Shot pic={widePic("vault")} sizes="(max-width: 960px) 92vw, 62vw" priority caption={widePic("vault").caption} />
           </div>
         </div>
       </section>

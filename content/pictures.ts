@@ -80,6 +80,26 @@ export const WIDE = {
     caption: "DS ProLiquidityHunter's pools and odds, DS ASL's Asia profile and DS Iceberg on one chart, with the DS ProHeikinAshi panel underneath.",
     alt: "A white NinjaTrader 8 chart of the Nasdaq futures: DS ProLiquidityHunter's liquidity bands with MAJOR pools and their odds at the right edge, DS ASL's Asia volume profile in violet, an ICE OFFER and a broken ICE BID from DS Iceberg, 1m, 5m and 15m levels at the price axis, and the DS ProHeikinAshi panel reading UP ▲ · 1 bar · FIRM beneath.",
   },
+  /** THE HOME PAGE PICTURE since 2026-10-31 (Tom: "DS Homepage image and DS Essential Vault page main
+   *  images will change (indicators update)"), his 2297 x 1378 white-ground PNG sent in chat, as WebP.
+   *  Captioned with what is drawn on it, read off the picture. */
+  home: {
+    key: "home",
+    src: "/wide/1031/desk-home.webp",
+    w: 2297,
+    h: 1378,
+    caption: "DS Ember's trend turns, DS Zones' supply and demand, DS ASL's session profiles and DS GEX's levels on one NinjaTrader 8 chart, with the DS ProTrendRange panel underneath.",
+    alt: "A white NinjaTrader 8 chart of the Nasdaq futures from 3:30 AM to 4 PM: DS Ember's ribbon flowing through price with BUY and SELL trend-reversal marks at each turn; DS Zones' supply at 29852.25 (defended twice, buying absorbed) and demand at 29702.25, 29676.50, 29582.50 and 29536.25; DS ASL's London and New York highs, lows and POCs with their volume profiles; DS GEX's EM High at 29942.23 and G- at 29633.99; DS ProRSI's RSI 92 tag; and the DS ProTrendRange panel beneath, reading RANGING for 72 bars.",
+  },
+  /** THE ESSENTIALS VAULT PAGE PICTURE since 2026-10-31 (same message), his second PNG. */
+  vault: {
+    key: "vault",
+    src: "/wide/1031/desk-vault.webp",
+    w: 2297,
+    h: 1378,
+    caption: "DS Ember turning SELL at the London high and BUY after the New York sell-off, DS ASL's session profiles, DS ProRSI's tags and DS Volume on one NinjaTrader 8 chart, with the DS ProTrendRange panel underneath.",
+    alt: "A white NinjaTrader 8 chart of the Nasdaq futures from 2:30 AM to 7:30 PM: DS Ember's ribbon rising through Asia and London, turning SELL at the London high of 30283.00 and BUY near the New York POC at 30084.25 after the sell-off; DS ASL's Asia, London and New York profiles with their highs, lows and POCs; DS ProRSI tags at RSI 90 and RSI 21; DS Volume along the foot of the price panel; and the DS ProTrendRange panel beneath, reading RESUME LONG.",
+  },
   /** Tom, 2026-10-26 03:04: "to replace the current Free Vault chart picture
    *  since the current one has all premiums". Free Vault tools only. */
   free: {
@@ -112,6 +132,7 @@ export const DESK: Partial<Record<string, keyof typeof WIDE>> = {
   "session-levels": "free",
   "chart-price": "free",
   "adaptive-priceline": "free",
+  ember: "vault",
 };
 
 const hdWide = (HD as { wide?: Record<string, Rung[]> }).wide ?? {};

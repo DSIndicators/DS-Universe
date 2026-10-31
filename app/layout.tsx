@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Header } from "@/components/Header";
 import { PartnerBar } from "@/components/PartnerBar";
 import { Footer } from "@/components/Footer";
+import { Help } from "@/components/Help";
 import { getSession } from "@/lib/auth";
 import { SITE } from "@/content/site";
 import "./globals.css";
@@ -46,6 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Header member={s ? { first, plan: s.plan } : null} />
         <main id="main">{children}</main>
         <Footer />
+        <Help />
       </body>
     </html>
   );
