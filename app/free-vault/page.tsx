@@ -18,7 +18,7 @@ export default async function FreeVaultPage() {
   return (
     <>
       <section className="hero">
-        <div className="wrap hero-grid">
+        <div className="hero-grid hero-wide">
           <div className="hero-copy">
             <p className="kicker">DS Free Vault</p>
             <h1 className="d1">
@@ -46,7 +46,7 @@ export default async function FreeVaultPage() {
             </div>
           </div>
           <div className="hero-pic">
-            <Shot pic={widePic("free")} sizes="(max-width: 960px) 92vw, 600px" priority caption="DS Chart Price, DS Session Levels, DS Adaptive Price Line and DS Parallax on one NinjaTrader 8 chart. All four are in the Free Vault." />
+            <Shot pic={widePic("free")} sizes="(max-width: 960px) 92vw, 62vw" priority caption="DS Chart Price, DS Session Levels, DS Adaptive Price Line and DS Parallax on one NinjaTrader 8 chart. All four are in the Free Vault." />
           </div>
         </div>
       </section>
