@@ -17,7 +17,7 @@ const ext = { target: "_blank", rel: "sponsored noopener" } as const;
 export function PartnerBar() {
   return (
     <aside className="ptr" aria-label="Our recommended trading platform">
-      <div className="wb ptr-in">
+      <div className="wrap ptr-in">
         <span className="ptr-tag">Partner</span>
         <a className="ptr-mark" href={NT_LINKS.logo} {...ext} aria-label="NinjaTrader, visit ninjatrader.com">
           <img src={NT_ASSETS.wordmark} alt="NinjaTrader" width={2376} height={300} />

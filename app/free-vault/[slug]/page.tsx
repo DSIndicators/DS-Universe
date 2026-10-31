@@ -1,28 +1,13 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { ProductPage, productMetadata } from "@/components/ProductPage";
-import { VAULT_PRODUCTS } from "@/content/release";
+import { ProductPage } from "@/components/ProductPage";
+import { BY_SLUG } from "@/content/products";
+import { lineFor } from "@/components/Tile";
 
-/**
- * /free-vault/<slug> — a free product's own page, under the Free Vault
- * (2026-10-05). The page itself is components/ProductPage.tsx, the same one
- * the store's products use. Only vault products exist here; anything else 404s.
- */
-type Params = { slug: string };
-
-export const dynamicParams = false;
-
-export function generateStaticParams(): Params[] {
-  return VAULT_PRODUCTS.map((p) => ({ slug: p.slug }));
+export const dynamic = "force-dynamic";
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const p = BY_SLUG[(await params).slug];
+  return p ? { title: p.name, description: lineFor(p) } : {};
 }
-
-export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
-  const { slug } = await params;
-  return VAULT_PRODUCTS.some((p) => p.slug === slug) ? productMetadata(slug) : {};
-}
-
-export default async function VaultProductPage({ params }: { params: Promise<Params> }) {
-  const { slug } = await params;
-  if (!VAULT_PRODUCTS.some((p) => p.slug === slug)) notFound();
-  return <ProductPage slug={slug} />;
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  return <ProductPage slug={(await params).slug} vault="free" />;
 }

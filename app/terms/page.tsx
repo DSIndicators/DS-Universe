@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SectionBar } from "@/components/SectionBar";
 import { SITE } from "@/content/site";
 import { PREAMBLE, SECTIONS, TERMS_LAST_UPDATED } from "@/content/terms";
 
@@ -19,21 +18,19 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <>
-      <section className="wb store-head legal-head" aria-labelledby="terms-title" data-section="">
-        <p className="pp-label">Fine print</p>
-        <h1 id="terms-title" className="d1 store-title">
+      <section className="wrap hero" aria-labelledby="terms-title">
+        <p className="kicker">Fine print</p>
+        <h1 id="terms-title" className="d1">
           Terms &amp; Conditions
         </h1>
         <p className="small" style={{ marginTop: 22 }}>
           Last updated {TERMS_LAST_UPDATED}
         </p>
-        <p className="lead legal-measure" style={{ marginTop: 28 }}>
+        <p className="lead" style={{ marginTop: 28 }}>
           {PREAMBLE}
         </p>
       </section>
-
-      <SectionBar n="01" title="The terms" />
-      <section className="wb sbar-after" aria-label="The terms">
+      <section className="wrap" style={{ paddingBottom: "var(--sec)" }} aria-label="The terms">
         <div className="legal">
           {SECTIONS.map((s) => (
             <section key={s.heading} id={sectionId(s.heading)} className="legal-sec">

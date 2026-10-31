@@ -1,93 +1,76 @@
-/**
- * "Before you buy" — the questions a buyer asks at the moment of deciding,
- * answered once, on the store page, and in Help on every page.
- *
- * SOURCE (v3.1, 2026-10-29): the store-wide answers of "DS Universe - Whop FAQ
- * (Before Purchase).xlsx" as approved in the hand-off's "Website copy v3.1.md"
- * (questions 1–7), with the build number and every price read from data so
- * they cannot drift. Kept from the site's own list, brought to v3.1: which
- * markets, the free ones, what DS Complete holds, owning an earlier DS
- * product, and refunds (Terms §13, Tom 2026-09-27).
- *
- * Every answer is a documented behaviour, never an outcome. No profit, accuracy
- * or prediction language — NinjaTrader's vendor wording rules apply here too.
- */
-
+import { BILLING, COUNT, ESSENTIALS, FOUNDERS, PRICE_DAY, PRICE_MONTHLY } from "./vaults";
+import { MANAGE } from "./store";
 import { SITE } from "./site";
-import { COMPLETE, COMPLETE_COPY, COMPLETE_GROUPS, FOUNDERS, PRICE_MONTHLY, money } from "./pricing";
-import { COMPLETE_HREF } from "./links";
-import { VAULT_PATH } from "./release";
-import { HOME_MARKETS, tapeOnlySlugs } from "./markets";
-import { BY_SLUG } from "./products";
 
-/** "DS Zones, DS Iceberg, DS Flow and DS ASL" — the products that read traded
- *  volume, named from content/markets.ts so the answer cannot drift from the
- *  product pages. */
-const tapeNames = (): string => {
-  const n = tapeOnlySlugs().map((s) => BY_SLUG[s]?.name ?? s);
-  return n.length > 1 ? `${n.slice(0, -1).join(", ")} and ${n[n.length - 1]}` : (n[0] ?? "");
-};
-
-export type Faq = {
-  q: string;
-  a: string;
-  /** Optional link appended to the answer. */
-  link?: { href: string; label: string };
-};
+/**
+ * The questions people ask before they join, answered once. Short answers,
+ * plain words, the real terms (Terms & Conditions, sections on memberships and
+ * refunds). `short` marks the five the home page shows; /how-it-works shows all.
+ */
+export type Faq = { q: string; a: string[]; short?: boolean };
 
 export const FAQ: Faq[] = [
   {
-    q: "What platform do DS Universe products run on?",
-    a: `NinjaTrader 8, version ${SITE.minBuild} or newer (Help → About shows yours). Every product installs through NinjaTrader's own import: no file copying and nothing to compile.`,
+    short: true,
+    q: "What is the difference between the two vaults?",
+    a: [
+      `The Free Vault holds ${COUNT.free} free tools. A free account opens it, each tool is its own download, and none of them needs a license. They are free for good, not a trial and not a stripped build.`,
+      `The ${ESSENTIALS.name} holds every paid DS indicator, ${COUNT.essentials} today, for one membership at ${PRICE_MONTHLY}. Members keep the Free Vault too, on the same account.`,
+    ],
   },
   {
-    q: "What does it cost? Is it a subscription?",
-    a: `Free and affordable. The Free Vault is free for good. All paid products are in DS Complete: ${PRICE_MONTHLY} or ${money(COMPLETE.own)} to own, a founders price ${FOUNDERS.until}. Founders get ${FOUNDERS.keeps}.`,
+    short: true,
+    q: "How does the membership work?",
+    a: [
+      BILLING,
+      "Checkout asks for the email on your NinjaTrader account, because the license is tied to it. Access is switched on by a person after checkout, so allow a short gap before your first chart: until then NinjaTrader shows a Vendor Notification, which is expected. Restart NinjaTrader once you are switched on.",
+    ],
   },
   {
-    q: "Can I try it first?",
-    a: `Yes. DS Complete has a ${COMPLETE.trialDays}-day free trial. NinjaTrader starts it the first day you use a tool, one trial per account, so you can see which tools earn a place on your chart. ${COMPLETE_COPY.billing}`,
-    link: { href: COMPLETE_HREF, label: "DS Complete" },
+    q: "Is there a free trial?",
+    a: [
+      `No. The membership is ${PRICE_MONTHLY}, about ${PRICE_DAY} a day, month to month: cancel any time and you are not billed again. If you would rather start at no cost, the Free Vault is free for good.`,
+    ],
   },
   {
-    q: "What happens right after I buy?",
-    a: "You get the files straight away and can install them and read the guides. Free Vault products run the moment you import them. Your license is switched on by hand, by a person, using the NinjaTrader email you enter at checkout; then restart NinjaTrader.",
+    short: true,
+    q: "Can I cancel any time?",
+    a: [
+      `Yes. Memberships are handled by Whop, our checkout: sign in at ${MANAGE.path}, and cancel there. Cancelling stops the next renewal and you keep the vault until the end of the period you have already paid for.`,
+      "Payments already made are not refunded part-way through a month (Terms & Conditions, section 13).",
+    ],
   },
   {
-    q: "What is in DS Complete?",
-    a: `Every paid DS tool, on one license and in one import. ${COMPLETE_GROUPS.map((g) => `${g.name}: ${g.names.join(", ")}.`).join(" ")} Each keeps its own settings, colors and guides; nothing is cut down. The Free Vault is not part of it.`,
-    link: { href: COMPLETE_HREF, label: "DS Complete" },
-  },
-  // Markets (2026-10-01): the question every buyer has before the price. The
-  // short answer here; the exact one is the Markets block on each product page.
-  {
-    q: "Which markets do they run on?",
-    a: `Most are built on Nasdaq futures, ${HOME_MARKETS.join(" and ")}, and most run on any market NinjaTrader charts: futures, stocks, forex and crypto. ${tapeNames()} read traded volume, so they are for futures and stocks; forex and CFDs report none in NinjaTrader. DS GEX draws the Nasdaq-100, the S&P 500 and gold. Every product page lists its own markets.`,
+    short: true,
+    q: "Do I get new indicators as they are made?",
+    a: [
+      "Yes, that is the point of the vault. Every new paid DS indicator goes into the Essentials Vault, and members get it at no extra cost. There is no bundle to buy again and no upgrade fee.",
+      FOUNDERS.active ? `Today's price is the founders price, ${FOUNDERS.until}. ${FOUNDERS.rising}` : "",
+    ].filter(Boolean),
   },
   {
-    q: "Are the free ones really free?",
-    a: "Yes, for good. Not a trial and not a stripped build. They live in the Free Vault, each as its own download, and none of them is part of DS Complete. A free product needs no license: there is nothing to switch on, and it is ready as soon as you import it.",
-    link: { href: VAULT_PATH, label: "Open the Free Vault" },
+    short: true,
+    q: "What do I need to run them?",
+    a: [
+      `${SITE.platform}, version ${SITE.minBuild} or newer, on Windows. NinjaTrader itself is free to download and to use on a simulated account.`,
+      "Each tool's own page says what it reads from your chart, so you can check before you join.",
+    ],
   },
   {
-    q: "Can I use it on more than one computer?",
-    a: "Yes. Your DS Complete license is tied to your NinjaTrader account, not to a machine, and the Free Vault products need no license at all. Everything runs on any computer you sign into: desktop, laptop or VPS.",
+    q: "How do updates reach me?",
+    a: [
+      `Updates are included. When a new version goes out you get the new archive: in NinjaTrader open Tools, then Remove NinjaScript Assembly, remove the old one (${ESSENTIALS.assembly} for the whole vault, or the tool's own name), restart NinjaTrader, and import the new archive.`,
+      "You can take the whole vault in one archive or only the tools you use. Install each tool one way, not both.",
+    ],
   },
   {
-    q: "Do these place trades for me?",
-    a: "No. DS Universe products are charting and research tools: they draw on your chart and never place orders. What you do with a reading stays with you and your own risk rules.",
+    q: "Is any of this trading advice or a signal service?",
+    a: [
+      "No. DS Universe tools are charting and research software. They draw what the market did, in plain words, and leave every decision to you. Nothing on this site is a forecast, a performance record or a promise of a result.",
+    ],
   },
   {
-    q: "What if I need help?",
-    a: `Email ${SITE.email}, and a person answers, not a form. Every product comes with a README covering what it shows, its settings and troubleshooting, and most with detailed guides as well.`,
-  },
-  {
-    q: "I already have DS products installed. What do I do?",
-    a: `Before importing DS Complete, go to Tools → Remove NinjaScript Assembly, select ${COMPLETE.assembly} and every other DS assembly in the list, remove them and restart NinjaTrader. Two copies of one product clash. The DS Complete README walks you through it.`,
-  },
-  {
-    q: "Can I get a refund?",
-    a: `Because the software is delivered digitally, sales are final once the files have been issued, except where a refund is required by law. The ${COMPLETE.trialDays}-day trial and the Free Vault are there so you can judge first.`,
-    link: { href: "/terms#section-13", label: "Terms, section 13" },
+    q: "Who is behind DS Universe?",
+    a: [`DS Universe is built in ${SITE.city} by an intraday MNQ and MES futures trader. Questions go straight to ${SITE.email}.`],
   },
 ];

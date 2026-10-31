@@ -3,45 +3,24 @@ import localFont from "next/font/local";
 import { Header } from "@/components/Header";
 import { PartnerBar } from "@/components/PartnerBar";
 import { Footer } from "@/components/Footer";
-import { Guard } from "@/components/Guard";
-import { Help } from "@/components/Help";
+import { getSession } from "@/lib/auth";
 import { SITE } from "@/content/site";
 import "./globals.css";
 
-// Self-hosted, SIL OFL. Manrope for display, Inter Tight for text.
-const display = localFont({
-  src: [{ path: "./fonts/Manrope-Latin-Variable.woff2", weight: "200 800", style: "normal" }],
-  variable: "--font-display",
-  display: "swap",
-});
-const text = localFont({
-  src: [{ path: "./fonts/InterTight-Latin-Variable.woff2", weight: "100 900", style: "normal" }],
-  variable: "--font-text",
-  display: "swap",
-});
+// Self-hosted, SIL OFL. Manrope for display, Inter Tight for text (as the white site).
+const display = localFont({ src: [{ path: "./fonts/Manrope-Latin-Variable.woff2", weight: "200 800", style: "normal" }], variable: "--font-display", display: "swap" });
+const text = localFont({ src: [{ path: "./fonts/InterTight-Latin-Variable.woff2", weight: "100 900", style: "normal" }], variable: "--font-text", display: "swap" });
 
 export const metadata: Metadata = {
   title: { default: `${SITE.name} — ${SITE.tagline}`, template: `%s — ${SITE.name}` },
   description: SITE.description,
-  // LIVE as dsuniverse.net from 2026-10-29: indexed (it was a local mockup,
-  // set to noindex, until then). Absolute URLs for shares come from SITE.url.
   metadataBase: new URL(SITE.url),
+  // Live on dsuniverse.net since 2026-10-31 (Tom: "launch website to main"). The members area stays out of search (app/members/layout.tsx, next.config.mjs).
   robots: { index: true, follow: true },
-  openGraph: {
-    type: "website",
-    siteName: SITE.name,
-    url: SITE.url,
-    images: [{ url: "/brand/ds-logo-black-720.png", width: 720, height: 720, alt: "DS Universe, Trading Indicators" }],
-  },
-  twitter: { card: "summary" },
-  // The helmet from Tom's new logo (cut from "Minimal logo (1).png" with his
-  // OK, 2026-10-26): black on a light browser tab, white on a dark one.
   icons: {
     icon: [
       { url: "/brand/icon-black-32.png", sizes: "32x32", type: "image/png", media: "(prefers-color-scheme: light)" },
-      { url: "/brand/icon-black-48.png", sizes: "48x48", type: "image/png", media: "(prefers-color-scheme: light)" },
       { url: "/brand/icon-white-32.png", sizes: "32x32", type: "image/png", media: "(prefers-color-scheme: dark)" },
-      { url: "/brand/icon-white-48.png", sizes: "48x48", type: "image/png", media: "(prefers-color-scheme: dark)" },
       { url: "/brand/icon-black-192.png", sizes: "192x192", type: "image/png" },
     ],
     apple: [{ url: "/brand/apple-icon.png", sizes: "180x180" }],
@@ -50,11 +29,13 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#fefefe" };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const s = await getSession();
+  const first = s ? (s.name?.split(" ")[0] || s.email.split("@")[0]) : "";
   return (
     <html lang="en" className={`${display.variable} ${text.variable} bio-off`} suppressHydrationWarning>
       <head>
-        {/* Typography fixation (bold word starts) is off by default (the server sends class="bio-off"); lifted before first paint only for a visitor who turned it on (components/FocusSwitch.tsx). */}
+        {/* Typography fixation is off by default; lifted before first paint only for a visitor who turned it on (components/FocusSwitch.tsx). */}
         <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.getItem("ds-bionic")==="on")document.documentElement.classList.remove("bio-off")}catch(e){}` }} />
       </head>
       <body>
@@ -62,12 +43,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <PartnerBar />
-        <Header />
+        <Header member={s ? { first, plan: s.plan } : null} />
         <main id="main">{children}</main>
         <Footer />
-        <Guard />
-        {/* Help: answers, and a way to ask, on every page (components/Help.tsx, from the live site). */}
-        <Help />
       </body>
     </html>
   );

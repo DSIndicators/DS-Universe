@@ -1,20 +1,9 @@
-# DS-Universe-White — what never goes to the repo (2026-10-29).
 node_modules
 .next
-out
-*.log
-.DS_Store
-tsconfig.tsbuildinfo
+.data
+*.tsbuildinfo
+.env*.local
 .env
 .env.*
-.env*.local
-_to_delete/
-__pycache__/
-# Tom's working folders: sources, private records, parked pictures.
-# The site serves its own copies from public/ (tools/covers.mjs).
-media-edits/
-media-source/
-.stage-upscale/
-Product Covers - */
-_Parked*/
 HANDOFF*.md
+_to_delete/

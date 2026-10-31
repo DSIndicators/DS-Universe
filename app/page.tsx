@@ -1,155 +1,170 @@
 import Link from "next/link";
-import { CompleteBand } from "@/components/CompleteBand";
+import { Shot } from "@/components/Shot";
+import { Tile } from "@/components/Tile";
+import { Vaults } from "@/components/Vaults";
+import { Steps } from "@/components/Steps";
+import { Faq } from "@/components/Faq";
+import { Arrow, Tick } from "@/components/Tick";
+import { widePic } from "@/content/pictures";
+import { COUNT, ESSENTIALS_PRODUCTS, JOIN_LABEL, PRICE_DAY, PRICE_MONTHLY } from "@/content/vaults";
+import { getSession } from "@/lib/auth";
 import { FocusSwitch } from "@/components/FocusSwitch";
-import { Cover } from "@/components/Cover";
-import { Reader } from "@/components/Reader";
-import { Stack } from "@/components/Stack";
-import { SectionBar } from "@/components/SectionBar";
-import { WideFigure } from "@/components/Wide";
-import { CAPABILITIES, WIDE } from "@/content/capabilities";
-import { COVERS, PRODUCT_VIEWS } from "@/content/catalog";
-import { STORE_PATH, STORE_SHELVES, VAULT_PATH, VAULT_PRODUCTS } from "@/content/release";
-import { CATALOGUE, DISCLOSURE, HERO } from "@/content/site";
-import { VAULT_COPY } from "@/content/vault";
-import { DOORS, HERO_W, READS_LEAD, WHATS_NEW } from "@/content/voice";
-
-/** CATALOGUE.sub without its last sentence: it promises "the guide to reading
- *  it", and the guide zips were retired on 2026-10-25 (Patch Notes & Versions
- *  U-071) — the same cut app/about/page.tsx makes. */
-const STORE_TEXT = CATALOGUE.sub.replace(/\s*Open any cover[^.]*\.$/, "");
-
-/** The covers each door shows: the store's first shelf, the vault's first row. */
-const STORE_STRIP = STORE_SHELVES.flatMap((s) => s.products).filter((p) => COVERS[p.slug]).slice(0, 5);
-const VAULT_STRIP = VAULT_PRODUCTS.filter((p) => COVERS[p.slug] && !COVERS[p.slug]?.dark).slice(0, 5);
 
 /**
- * HOME (2026-10-26 night). The hero, the stack (the house method: location,
- * direction, participation; content/voice.ts), "What it reads", two doors — the store
- * and the Free Vault, each now a page of its own (/products, /free-vault) —
- * and DS Complete. The lineup and the vault no longer live here as long
- * sections: the header's tabs go to their own pages instead of scrolling this
- * one (Tom: "Each page should have its own elegantly unique pages").
+ * HOME (2026-10-30). Built to be understood in one screen and finished in a
+ * few: what DS Universe is, the two vaults, what is inside, how to start.
+ * Research behind the order (NN/g, Google 2012, Microsoft dwell-time study):
+ * visitors judge a page in a fraction of a second and decide to stay in about
+ * ten; simple, familiar layouts win; most attention goes to the first screen.
+ * So the first screen carries the whole offer, price included, and one button.
  */
-export default function Home() {
+export default async function Home() {
+  const s = await getSession();
+  const hero = widePic("hero");
+  const flow = widePic("orderflow");
   return (
     <>
-      {/* ------------------------------------------------ hero */}
-      <section className="hero" aria-labelledby="hero-title" data-section="">
-        <div className="wb hero-grid">
-          {/* phones only: the header has no room for the switch there */}
-          <div className="hero-bionic-row">
+      <section className="hero">
+        <div className="wrap hero-grid">
+          <div className="hero-copy">
             <FocusSwitch variant="hero" />
-          </div>
-          <p className="hero-kicker">
-            <Link href={VAULT_PATH}>{HERO_W.kicker}</Link>
-          </p>
-          <h1 id="hero-title" className="d1 hero-title">
-            <span className="ht-1">{HERO_W.title}</span>
-            <span className="ht-2">{HERO_W.titleTail}</span>
-          </h1>
-          <div className="hero-side">
-            <p className="lead">{HERO_W.sub}</p>
-            <div className="hero-links">
-              <Link className="lnk" href={STORE_PATH}>
-                {HERO.primary.label}
+            <p className="kicker">Indicators for NinjaTrader 8</p>
+            <h1 className="d1">
+              Start free. <em>Open everything</em> when you’re ready.
+            </h1>
+            <p className="lead">
+              DS Universe draws where the volume traded, which side was pressing and which levels held, in plain words on your chart. {COUNT.free} tools are free in the Free Vault. The other {COUNT.essentials}, and every one we build next, live in the Essentials Vault for {PRICE_MONTHLY}.
+            </p>
+            <div className="actions">
+              <Link className="btn" href={s ? "/members/unlock" : "/join?vault=essentials"}>
+                {JOIN_LABEL}
               </Link>
-              <Link className="lnk lnk-quiet" href={VAULT_PATH}>
-                {VAULT_COPY.band.cta}
+              <Link className="btn btn-line" href="/free-vault">
+                Open the Free Vault
               </Link>
             </div>
+            <p className="hero-day">
+              <span className="hero-day-num" data-nobio="">{`${PRICE_DAY} a day`}</span>
+              <span className="hero-day-rest">for every paid DS indicator. Cancel any time.</span>
+            </p>
+          </div>
+          <div className="hero-pic">
+            <Shot pic={hero} sizes="(max-width: 960px) 92vw, 600px" priority caption="DS ASL’s session volume profiles, DS ProRSI’s zones and DS Volume’s surges on one NinjaTrader 8 chart, three trades marked at the levels they came from, and the DS ProTrendRange panel beneath." />
           </div>
         </div>
-        <WideFigure pic={WIDE.hero} drawn />
       </section>
 
-      {/* ------------------------------------------------ the stack: the house method */}
-      <Stack />
+      <section className="sec band-haze" aria-labelledby="vaults-h">
+        <div className="wrap">
+          <div className="head-c">
+            <p className="kicker">The vaults</p>
+            <h2 id="vaults-h" className="d2">
+              One account. Two vaults.
+            </h2>
+            <p className="lead">Your free account opens the Free Vault for good. Add the Essentials membership and the rest of the suite opens beside it.</p>
+          </div>
+          <Vaults signedIn={!!s} />
+        </div>
+      </section>
 
-      {/* ------------------------------------------------ what it reads */}
-      <SectionBar n="02" title="What it reads" sub={READS_LEAD} />
-      <Reader caps={CAPABILITIES} covers={COVERS} products={PRODUCT_VIEWS} disclosure={DISCLOSURE.chart} />
-
-      {/* ------------------------------------------------ new in v3.1 */}
-      <SectionBar n="03" title={WHATS_NEW.title} sub={WHATS_NEW.lead} />
-      <section className="wb sbar-after news" aria-label={WHATS_NEW.title}>
-        <ul className="points news-points">
-          {WHATS_NEW.points.map((x) => (
-            <li key={x}>{x}</li>
-          ))}
-        </ul>
-        <ul className="news-new">
-          {WHATS_NEW.slugs.map((s) => (
-            <li key={s}>
-              <Link href={PRODUCT_VIEWS[s].page} className="vault-pic" aria-label={PRODUCT_VIEWS[s].name}>
-                <Cover cover={COVERS[s]} name={PRODUCT_VIEWS[s].name} sizes="(min-width: 1101px) 22vw, 46vw" decorative />
-              </Link>
-              <p className="d4 nm">
-                <Link className="lnk lnk-bare" href={PRODUCT_VIEWS[s].page}>
-                  {PRODUCT_VIEWS[s].name}
+      <section className="sec" aria-labelledby="inside-h">
+        <div className="wrap">
+          <div className="head">
+            <div>
+              <p className="kicker">Inside the Essentials Vault</p>
+              <h2 id="inside-h" className="d2">
+                Take a look behind the door.
+              </h2>
+            </div>
+            <div className="stack-s">
+              <p className="body">Every tool below comes with the membership. Open any of them to see what it draws, what it reads from your chart and how it helps.</p>
+              <p>
+                <Link className="lnk lnk-teal" href="/essentials">
+                  The whole Essentials Vault <Arrow />
                 </Link>
               </p>
-              <p className="small">{PRODUCT_VIEWS[s].line}</p>
-            </li>
-          ))}
-        </ul>
+            </div>
+          </div>
+          <div className="tiles tiles-s">
+            {ESSENTIALS_PRODUCTS.map((p) => (
+              <Tile key={p.slug} p={p} tag={false} sizes="(max-width: 560px) 92vw, 200px" />
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* ------------------------------------------------ two doors */}
-      <SectionBar n="04" title={DOORS.title} sub={DOORS.sub} />
-      <section className="wb doors sbar-after" aria-label="The store and the Free Vault">
-        <Door
-          label="The store"
-          title={CATALOGUE.heading}
-          text={STORE_TEXT}
-          href={STORE_PATH}
-          cta={HERO.primary.label}
-          strip={STORE_STRIP.map((p) => p.slug)}
-        />
-        <Door
-          label={VAULT_COPY.label}
-          title={VAULT_COPY.band.heading}
-          text={VAULT_COPY.band.text}
-          href={VAULT_PATH}
-          cta={VAULT_COPY.band.cta}
-          strip={VAULT_STRIP.map((p) => p.slug)}
-        />
+      <section className="sec" aria-labelledby="chart-h">
+        <div className="wrap split">
+          <Shot pic={flow} sizes="(max-width: 900px) 92vw, 580px" caption="DS Flow, DS Iceberg, DS GEX, DS ProRSI and DS Volume on one chart, with the DS ProTrendRange panel underneath." />
+          <div className="stack">
+            <p className="kicker">On your chart</p>
+            <h2 id="chart-h" className="d2">
+              The data behind the candles, in plain words.
+            </h2>
+            <p className="body">Most of the suite reads order flow: what actually traded at each price, not only where price went. Every read is drawn as a clean, named level, so a glance tells you what you are looking at.</p>
+            <ul className="checks">
+              <li>
+                <Tick /> Where the volume traded, split into buying and selling
+              </li>
+              <li>
+                <Tick /> Which side is pressing, and where size was hidden
+              </li>
+              <li>
+                <Tick /> Which levels are holding, tested or broken
+              </li>
+            </ul>
+          </div>
+        </div>
       </section>
 
-      {/* ------------------------------------------------ DS Complete */}
-      <WideFigure pic={WIDE.liquidity} />
-      <CompleteBand id="complete" n="05" />
-    </>
-  );
-}
+      <section className="sec band-haze" aria-labelledby="how-h">
+        <div className="wrap">
+          <div className="head">
+            <div>
+              <p className="kicker">How it works</p>
+              <h2 id="how-h" className="d2">
+                From here to your chart in three steps.
+              </h2>
+            </div>
+            <p className="body">No bundles to compare and nothing to activate tool by tool. Pick a vault, import the tools you want, and new ones arrive as they are made.</p>
+          </div>
+          <Steps />
+        </div>
+      </section>
 
-/** One door: what is behind it in a heading and a paragraph, a row of its
- *  covers, and the one link through. */
-function Door({ label, title, text, href, cta, strip }: { label: string; title: string; text: string; href: string; cta: string; strip: string[] }) {
-  return (
-    <div className="door">
-      <p className="pp-label">{label}</p>
-      <h2 className="d2" style={{ marginTop: 18 }}>
-        <Link className="lnk-door" href={href}>
-          {title}
-        </Link>
-      </h2>
-      <p className="body measure" style={{ marginTop: 20 }}>
-        {text}
-      </p>
-      <ul className="door-strip">
-        {strip.map((s) => (
-          <li key={s}>
-            <Link href={PRODUCT_VIEWS[s].page} className="vault-pic" aria-label={PRODUCT_VIEWS[s].name}>
-              <Cover cover={COVERS[s]} name={PRODUCT_VIEWS[s].name} sizes="(min-width: 1101px) 9vw, 18vw" decorative />
+      <section className="sec" aria-labelledby="faq-h">
+        <div className="wrap">
+          <div className="head-c">
+            <p className="kicker">Questions</p>
+            <h2 id="faq-h" className="d2">
+              Before you join
+            </h2>
+          </div>
+          <Faq short />
+          <p className="center small" style={{ marginTop: 28 }}>
+            More answers on{" "}
+            <Link className="lnk" href="/how-it-works">
+              How it works
             </Link>
-          </li>
-        ))}
-      </ul>
-      <p style={{ marginTop: 28 }}>
-        <Link className="btn" href={href}>
-          {cta}
-        </Link>
-      </p>
-    </div>
+            .
+          </p>
+        </div>
+      </section>
+
+      <section className="band sec">
+        <div className="wrap center stack-l">
+          <h2 className="d2">Start free today.</h2>
+          <p className="lead">Open the Free Vault in under a minute. Unlock the rest whenever you are ready.</p>
+          <div className="actions">
+            <Link className="btn btn-white" href={s ? "/members" : "/join"}>
+              {s ? "Open your vault" : "Join free"}
+            </Link>
+            <Link className="btn btn-ghost-white" href="/essentials">
+              See the Essentials Vault
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

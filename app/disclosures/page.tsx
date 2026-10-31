@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SectionBar } from "@/components/SectionBar";
 import { DISCLOSURE, SITE } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -25,18 +24,16 @@ export default function DisclosuresPage() {
   ];
   return (
     <>
-      <section className="wb store-head legal-head" aria-labelledby="disc-title" data-section="">
-        <p className="pp-label">Required disclosures</p>
-        <h1 id="disc-title" className="d1 store-title">
+      <section className="wrap hero" aria-labelledby="disc-title">
+        <p className="kicker">Required disclosures</p>
+        <h1 id="disc-title" className="d1">
           Risk disclosures
         </h1>
-        <p className="lead legal-measure" style={{ marginTop: 28 }}>
+        <p className="lead" style={{ marginTop: 28 }}>
           These apply to everything DS Universe publishes, on this site and on any channel we post to. They are reproduced in the footer of every page as well.
         </p>
       </section>
-
-      <SectionBar n="01" title="In full" />
-      <section className="wb sbar-after" aria-label="The disclosures">
+      <section className="wrap" style={{ paddingBottom: "var(--sec)" }} aria-label="The disclosures">
         <div className="legal">
           {blocks.map((b) => (
             <section key={b.heading} className="legal-sec">

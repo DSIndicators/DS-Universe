@@ -1,11 +1,10 @@
 import type { MetadataRoute } from "next";
 import { PRODUCTS } from "@/content/products";
-import { productHref } from "@/content/release";
+import { hrefFor } from "@/content/paths";
 import { SITE } from "@/content/site";
 
-/** Every page the site has (2026-10-29: the live site served one; the white
- *  site takes its place). Product pages are read from the catalogue. */
+/** Every public page, product pages read from the catalogue (both vaults). */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["/", "/products", "/free-vault", "/ninjatrader", "/about", "/contact", "/terms", "/disclosures"];
-  return [...pages, ...PRODUCTS.map((p) => productHref(p.slug))].map((path) => ({ url: `${SITE.url}${path === "/" ? "" : path}` }));
+  const pages = ["/", "/essentials", "/free-vault", "/ninjatrader", "/how-it-works", "/contact", "/terms", "/disclosures"];
+  return [...pages, ...PRODUCTS.map((p) => hrefFor(p.slug))].map((path) => ({ url: `${SITE.url}${path === "/" ? "" : path}` }));
 }
