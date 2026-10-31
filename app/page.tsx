@@ -6,7 +6,8 @@ import { Steps } from "@/components/Steps";
 import { Faq } from "@/components/Faq";
 import { Arrow, Tick } from "@/components/Tick";
 import { widePic } from "@/content/pictures";
-import { COUNT, ESSENTIALS_PRODUCTS, JOIN_LABEL, PRICE_DAY, PRICE_MONTHLY } from "@/content/vaults";
+import { COUNT, ESSENTIALS_PRODUCTS, FREE_PRODUCTS, JOIN_LABEL, PRICE_DAY, PRICE_MONTHLY } from "@/content/vaults";
+import { LATEST, STRENGTHS } from "@/content/strengths";
 import { getSession } from "@/lib/auth";
 import { FocusSwitch } from "@/components/FocusSwitch";
 
@@ -67,6 +68,42 @@ export default async function Home() {
         </div>
       </section>
 
+      <section className="sec" aria-labelledby="current-h">
+        <div className="wrap">
+          <div className="head">
+            <div>
+              <p className="kicker">Why traders stay</p>
+              <h2 id="current-h" className="d2">
+                Consistently updated for <em>the current market.</em>
+              </h2>
+            </div>
+            <p className="body">A DS indicator is never finished. Each one is reworked as the market changes, and every release is tuned for speed before it reaches your chart.</p>
+          </div>
+          <div className="pillars">
+            {STRENGTHS.map((x) => (
+              <div key={x.key} className="pillar">
+                <p className="pillar-fig num" data-nobio="">
+                  {x.fig}
+                </p>
+                <p className="small pillar-figline">{x.figLine}</p>
+                <h3 className="d4">{x.title}</h3>
+                <p className="body">{x.body}</p>
+              </div>
+            ))}
+          </div>
+          <div className="latest">
+            <p className="kicker kicker-plain">New in {LATEST.version}</p>
+            <ul className="checks latest-list">
+              {LATEST.items.map((t) => (
+                <li key={t}>
+                  <Tick /> {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <section className="sec" aria-labelledby="inside-h">
         <div className="wrap">
           <div className="head">
@@ -87,6 +124,32 @@ export default async function Home() {
           </div>
           <div className="tiles tiles-s">
             {ESSENTIALS_PRODUCTS.map((p) => (
+              <Tile key={p.slug} p={p} tag={false} sizes="(max-width: 600px) 46vw, (max-width: 960px) 24vw, 220px" />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="sec band-haze" aria-labelledby="free-h">
+        <div className="wrap">
+          <div className="head">
+            <div>
+              <p className="kicker">In the Free Vault</p>
+              <h2 id="free-h" className="d2">
+                {COUNT.free} indicators, free for good.
+              </h2>
+            </div>
+            <div className="stack-s">
+              <p className="body">No card and no license key. Each one is its own small download, built and updated to the same standard as the Essentials Vault.</p>
+              <p>
+                <Link className="lnk lnk-teal" href="/free-vault">
+                  The whole Free Vault <Arrow />
+                </Link>
+              </p>
+            </div>
+          </div>
+          <div className="tiles tiles-s">
+            {FREE_PRODUCTS.map((p) => (
               <Tile key={p.slug} p={p} tag={false} sizes="(max-width: 600px) 46vw, (max-width: 960px) 24vw, 220px" />
             ))}
           </div>

@@ -48,6 +48,11 @@ export type Member = {
   /** The connected Whop user (user_...), and the email Whop gave for it. */
   whopId?: string;
   whopEmail?: string;
+  /** Password reset (lib/reset.ts): sha256 of the emailed token, and when it stops working. Cleared on use. */
+  resetHash?: string;
+  resetExp?: number;
+  /** When the password last changed; sessions started before it are signed out. */
+  pwAt?: number;
 };
 /** `via` = how this visit signed in; `whop` = a Whop user is connected to the account. */
 export type Session = { id: string; email: string; name?: string; plan: Plan; via: "local" | "whop"; whop: boolean; whopEmail?: string; hasPassword: boolean };
@@ -159,6 +164,47 @@ export function createMember(email: string, password: string, name?: string): Me
   return m;
 }
 
+/** Store (or clear) a reset token's hash on an account. */
+export function setReset(id: string, hash: string | null, exp = 0) {
+  const list = readAll();
+  const m = list.find((x) => x.id === id);
+  if (!m) return;
+  if (hash) {
+    m.resetHash = hash;
+    m.resetExp = exp;
+  } else {
+    delete m.resetHash;
+    delete m.resetExp;
+  }
+  writeAll(list);
+}
+
+/** The account a live reset token belongs to (compared in constant time), or undefined. */
+export function findByReset(hash: string): Member | undefined {
+  const now = Date.now();
+  const want = Buffer.from(hash, "hex");
+  return readAll().find((m) => {
+    if (!m.resetHash || !m.resetExp || m.resetExp < now) return false;
+    const got = Buffer.from(m.resetHash, "hex");
+    return got.length === want.length && crypto.timingSafeEqual(got, want);
+  });
+}
+
+/** A new password: replaces the old one, uses up the reset token, signs out every other session. */
+export function setPassword(id: string, password: string): Member | undefined {
+  const list = readAll();
+  const m = list.find((x) => x.id === id);
+  if (!m) return;
+  m.salt = crypto.randomBytes(16).toString("hex");
+  m.hash = hashOf(password, m.salt);
+  m.pwAt = Date.now();
+  delete m.resetHash;
+  delete m.resetExp;
+  writeAll(list);
+  fails.delete(m.email);
+  return m;
+}
+
 export function setPlan(id: string, plan: Plan) {
   const list = readAll();
   const m = list.find((x) => x.id === id);
@@ -232,10 +278,10 @@ export function verify(email: string, password: string): Member | null {
 const b64 = (s: string) => Buffer.from(s).toString("base64url");
 const sign = (data: string) => crypto.createHmac("sha256", secret()).update(data).digest("base64url");
 
-type Payload = { id: string; exp: number; via?: "local" | "whop" };
+type Payload = { id: string; exp: number; via?: "local" | "whop"; iat?: number };
 
 export async function startSession(m: Pick<Member, "id">, via: "local" | "whop" = "local") {
-  const payload: Payload = { id: m.id, exp: Date.now() + MAX_AGE * 1000, via };
+  const payload: Payload = { id: m.id, exp: Date.now() + MAX_AGE * 1000, via, iat: Date.now() };
   const data = b64(JSON.stringify(payload));
   const jar = await cookies();
   jar.set(COOKIE, `${data}.${sign(data)}`, {
@@ -265,6 +311,8 @@ export async function getSession(): Promise<Session | null> {
     if (Date.now() > p.exp) return null;
     const m = findById(p.id);
     if (!m) return null;
+    // A password change signs out sessions that began before it (a reset from a lost or shared device).
+    if (m.pwAt && (p.iat ?? p.exp - MAX_AGE * 1000) < m.pwAt) return null;
     return {
       id: m.id, email: m.email, name: m.name, plan: await planOf(m), via: p.via === "whop" ? "whop" : "local",
       whop: !!m.whopId, whopEmail: m.whopEmail, hasPassword: !!m.hash,

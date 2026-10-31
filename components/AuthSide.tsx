@@ -1,10 +1,18 @@
 import { Tick } from "./Tick";
 import { COVERS } from "@/content/pictures";
+import { BY_SLUG } from "@/content/products";
+import { STRENGTHS } from "@/content/strengths";
 import { COUNT, PRICE_MONTHLY } from "@/content/vaults";
 
-/** The calm column beside a form: what the account opens, and three covers as a glimpse. */
+const ESS = ["zones", "flow", "prorsi", "gex", "compass", "data-candles"];
+const FREE = ["session-levels", "vwap", "volume", "parallax", "chart-price", "adaptive-priceline"];
+
+/** The calm column beside a form: what the account opens, why the suite is worth keeping, and six named
+ *  covers as a glimpse. On a phone it sits below the form, so nothing here stands between a visitor and
+ *  the button. */
 export function AuthSide({ essentials }: { essentials?: boolean }) {
-  const glimpse = (essentials ? ["zones", "flow", "prorsi"] : ["session-levels", "vwap", "volume"]).map((s) => COVERS[s]).filter(Boolean);
+  const glimpse = (essentials ? ESS : FREE).map((s) => ({ s, c: COVERS[s], name: BY_SLUG[s]?.name ?? s })).filter((g) => g.c);
+  const two = STRENGTHS.filter((x) => x.key !== "together");
   return (
     <aside className="auth-side">
       <div className="auth-side-in">
@@ -21,13 +29,30 @@ export function AuthSide({ essentials }: { essentials?: boolean }) {
             <Tick /> {essentials ? "Cancel any time from your Whop account" : "No card for the free account"}
           </li>
         </ul>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, paddingTop: 8 }}>
-          {glimpse.map((c) => (
-            <span key={c!.src} className="tile-pic">
-              <img src={c!.src} srcSet={c!.srcSet} sizes="140px" width={c!.w} height={c!.h} alt={c!.alt} loading="lazy" decoding="async" />
-            </span>
+        <div className="auth-strengths">
+          {two.map((x) => (
+            <div key={x.key} className="auth-strength">
+              <p className="auth-fig num" data-nobio="">
+                {x.fig}
+              </p>
+              <div>
+                <p className="auth-strength-t">{x.title}</p>
+                <p className="small">{x.key === "speed" ? "DS Flow now draws at 0.5x the time of NinjaTrader's own candles, down from 2.4x." : x.short}</p>
+              </div>
+            </div>
           ))}
         </div>
+        <ul className="auth-glimpse" aria-label={essentials ? "A few of the Essentials tools" : "A few of the free tools"}>
+          {glimpse.map((g) => (
+            <li key={g.s}>
+              <span className="tile-pic">
+                <img src={g.c!.src} srcSet={g.c!.srcSet} sizes="(max-width: 860px) 30vw, 140px" width={g.c!.w} height={g.c!.h} alt={g.c!.alt} loading="lazy" decoding="async" />
+              </span>
+              <span className="auth-glimpse-n">{g.name}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="small auth-privacy">Your email is used for your account and nothing else.</p>
       </div>
     </aside>
   );

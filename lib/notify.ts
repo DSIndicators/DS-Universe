@@ -61,3 +61,22 @@ export function notifySignup(m: { email: string; name?: string; via: "email" | "
     console.error("[notify] sign-up notice failed:", e.message),
   );
 }
+
+/**
+ * A mail TO a member - used only for a password-reset link they asked for
+ * (lib/reset.ts). Same mailbox and settings as above. Resolves true when the
+ * server accepted it; never throws.
+ */
+export async function sendToMember(to: string, subject: string, text: string): Promise<boolean> {
+  const c = config();
+  if (!c) return false;
+  try {
+    const t = nodemailer.createTransport({ host: c.host, port: c.port, secure: c.port === 465, auth: { user: c.user, pass: c.pass } });
+    await t.sendMail({ from: `"DS Universe" <${c.user}>`, replyTo: c.user, to, subject, text });
+    return true;
+  } catch (e) {
+    console.error("[notify] member mail failed:", (e as Error).message);
+    return false;
+  }
+}
+export const mailReady = () => !!config();

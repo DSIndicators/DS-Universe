@@ -11,7 +11,11 @@
 const INTERNAL = /^(0\.0\.0\.0|127\.|\[?::1?\]?|localhost:3000$)/;
 
 export function originOf(req: Request): string {
-  const h = req.headers;
+  return originOfHeaders(req.headers);
+}
+
+/** The same, from the request headers a server action can read (next/headers). */
+export function originOfHeaders(h: Headers): string {
   const host = (h.get("x-forwarded-host") || h.get("host") || "").split(",")[0].trim();
   if (!host || INTERNAL.test(host)) return "https://dsuniverse.net";
   const local = /^localhost(:\d+)?$/.test(host);

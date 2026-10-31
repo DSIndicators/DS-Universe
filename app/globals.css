@@ -446,3 +446,33 @@ a, button:not(:disabled), [role="button"], label, summary {
 .hdr-focus { min-height: 44px; }
 .hero-bionic { margin-bottom: -10px; }
 .pw-toggle { min-height: 44px; min-width: 44px; }
+
+/* WHY TRADERS STAY (home, 2026-10-31): three strengths, each led by one measured figure, then what the
+   current release brought. Hairlines and type only, as the rest of the site. */
+.pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+.pillar { padding: 28px 28px 8px 0; }
+.pillar + .pillar { padding-left: 28px; border-left: 1px solid var(--rule); }
+.pillar-fig { font-family: var(--font-display), var(--font-text), sans-serif; font-weight: 300; font-size: clamp(2.4rem, 1.9rem + 1.6vw, 3.4rem); letter-spacing: -0.04em; line-height: 1; color: var(--teal); }
+.pillar-figline { margin-top: 8px; color: var(--ink-3); max-width: 26em; }
+.pillar .d4 { margin-top: 22px; }
+.pillar .body { margin-top: 10px; font-size: 0.97rem; }
+.latest { margin-top: clamp(40px, 4vw, 56px); padding-top: 28px; border-top: 1px solid var(--rule); display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 16px 48px; }
+.latest-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 40px; }
+@media (max-width: 900px) {
+  .pillars { grid-template-columns: 1fr; }
+  .pillar, .pillar + .pillar { padding: 24px 0 20px; border-left: 0; }
+  .pillar + .pillar { border-top: 1px solid var(--rule); }
+  .latest { grid-template-columns: 1fr; }
+  .latest-list { grid-template-columns: 1fr; }
+}
+
+/* SIGN-UP SIDE COLUMN (2026-10-31): two strengths with their figures, six named covers, a privacy line. */
+.auth-strengths { border-top: 1px solid var(--rule); }
+.auth-strength { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--rule); align-items: start; }
+.auth-fig { font-family: var(--font-display), var(--font-text), sans-serif; font-weight: 300; font-size: 1.9rem; letter-spacing: -0.04em; line-height: 1; color: var(--teal); }
+.auth-strength-t { font-weight: 500; color: var(--ink); line-height: 1.35; }
+.auth-strength .small { margin-top: 4px; color: var(--ink-2); }
+.auth-glimpse { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 10px; }
+.auth-glimpse li { min-width: 0; }
+.auth-glimpse-n { display: block; margin-top: 6px; font-size: 0.78rem; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.auth-privacy { color: var(--ink-3); }

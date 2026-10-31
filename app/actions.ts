@@ -1,9 +1,12 @@
 "use server";
 
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import {
-  EMAIL_RE, createMember, endSession, findByEmail, getSession, localPreview, lockedOut, passwordProblem, safeNext, setPlan, startSession, verify,
+  EMAIL_RE, createMember, endSession, findByEmail, getSession, localPreview, lockedOut, passwordProblem, safeNext, setPassword, setPlan, startSession, verify,
 } from "@/lib/auth";
+import { accountForToken, requestReset } from "@/lib/reset";
+import { originOfHeaders } from "@/lib/origin";
 
 export type FormState = { error?: string; field?: "email" | "password" | "name"; email?: string; name?: string } | undefined;
 
@@ -44,6 +47,31 @@ export async function signIn(_: FormState, fd: FormData): Promise<FormState> {
   }
   await startSession(m);
   redirect(safeNext(fd.get("next")));
+}
+
+export type ForgotState = { sent?: boolean; error?: string; email?: string } | undefined;
+
+/** Ask for a reset link. The answer is the same whether or not the email has an account. */
+export async function forgot(_: ForgotState, fd: FormData): Promise<ForgotState> {
+  const email = String(fd.get("email") ?? "").trim();
+  if (!EMAIL_RE.test(email)) return { email, error: "That email does not look complete. Check for a missing @ or dot." };
+  requestReset(email, originOfHeaders(await headers()));
+  return { sent: true, email };
+}
+
+export type ResetState = { error?: string; expired?: boolean } | undefined;
+
+/** Choose a new password from a reset link, then sign straight in. */
+export async function resetPassword(_: ResetState, fd: FormData): Promise<ResetState> {
+  const m = accountForToken(fd.get("token"));
+  if (!m) return { expired: true, error: "This link has expired or has already been used. Ask for a new one below." };
+  const password = String(fd.get("password") ?? "");
+  const problem = passwordProblem(password, m.email);
+  if (problem) return { error: problem };
+  const done = setPassword(m.id, password);
+  if (!done) return { expired: true, error: "This link has expired or has already been used. Ask for a new one below." };
+  await startSession(done);
+  redirect("/members?reset=1");
 }
 
 export async function signOut() {

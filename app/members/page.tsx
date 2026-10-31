@@ -6,9 +6,9 @@ import { COVERS } from "@/content/pictures";
 import { BILLING, COUNT, ESSENTIALS_PRODUCTS, FREE_PRODUCTS, JOIN_LABEL, PRICE_MONTHLY } from "@/content/vaults";
 
 /** The first page after joining or signing in: both vaults, what is open, the one next step. */
-export default async function MembersHome({ searchParams }: { searchParams: Promise<{ welcome?: string }> }) {
+export default async function MembersHome({ searchParams }: { searchParams: Promise<{ welcome?: string; reset?: string }> }) {
   const s = (await getSession())!;
-  const { welcome } = await searchParams;
+  const { welcome, reset } = await searchParams;
   const ess = s.plan === "essentials";
   const first = s.name?.split(" ")[0] || "";
   const strip = (slugs: string[]) =>
@@ -20,6 +20,7 @@ export default async function MembersHome({ searchParams }: { searchParams: Prom
   return (
     <>
       <PreviewBar s={s} back="/members" />
+      {reset && !welcome && <p className="form-ok">Your new password is saved, and you are signed in.</p>}
       {welcome && <p className="form-ok">Your account is ready{first ? `, ${first}` : ""}. The Free Vault is open.</p>}
       <div className="stack-s">
         <p className="kicker">Your vault</p>

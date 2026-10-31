@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useId, useState } from "react";
-import { join, signIn, type FormState } from "@/app/actions";
+import { forgot, join, resetPassword, signIn, type FormState } from "@/app/actions";
 
 function Password({ label, value, onChange, invalid, describedBy, autoComplete, hint }: {
   label: string; value: string; onChange: (v: string) => void; invalid: boolean; describedBy?: string; autoComplete: string; hint?: string;
@@ -122,12 +122,101 @@ export function SignInForm({ next, whop }: { next?: string; whop: boolean }) {
         <Link className="lnk" href={`/join${next ? `?next=${encodeURIComponent(next)}` : ""}`}>
           Create a free account
         </Link>
-        . Forgot your password? Write to{" "}
-        <a className="lnk" href="mailto:support@dsuniverse.net">
-          support@dsuniverse.net
-        </a>
-        .
+        .{" "}
+        <Link className="lnk" href="/forgot">
+          Forgot your password?
+        </Link>
       </p>
+    </form>
+  );
+}
+
+/** Ask for a reset link. After sending it shows the same calm note whether or not the email has an account. */
+export function ForgotForm() {
+  const [state, action, pending] = useActionState(forgot, undefined);
+  const [email, setEmail] = useState("");
+  const eid = useId();
+  if (state?.sent)
+    return (
+      <div className="auth-form">
+        <div className="stack-s">
+          <h1 className="d2">Check your email.</h1>
+          <p className="body">
+            If <strong>{state.email}</strong> has a DS Universe account, a link to choose a new password is on its way. It works once, for 30 minutes.
+          </p>
+        </div>
+        <p className="small">Nothing after a few minutes? Look in spam, check the address for a typo, or write to <a className="lnk" href="mailto:support@dsuniverse.net">support@dsuniverse.net</a>.</p>
+        <p className="small">
+          <Link className="lnk" href="/signin">
+            Back to sign in
+          </Link>
+        </p>
+      </div>
+    );
+  return (
+    <form action={action} className="auth-form" noValidate>
+      <div className="stack-s">
+        <h1 className="d2">Forgot your password?</h1>
+        <p className="body">Enter the email you joined with and we will send you a link to choose a new one.</p>
+      </div>
+      <div className="field">
+        <label htmlFor="fg-email">Email</label>
+        <input id="fg-email" className="input" name="email" type="email" inputMode="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} aria-invalid={!!state?.error} aria-describedby={state?.error ? eid : undefined} />
+        {state?.error && (
+          <p className="err" id={eid} role="alert">
+            {state.error}
+          </p>
+        )}
+      </div>
+      <button className="btn btn-wide" type="submit" disabled={pending}>
+        {pending ? "Sending…" : "Send the link"}
+      </button>
+      <p className="small">
+        Remembered it?{" "}
+        <Link className="lnk" href="/signin">
+          Sign in
+        </Link>
+        . Joined with Whop? Use Continue with Whop on the sign-in page, no password needed.
+      </p>
+    </form>
+  );
+}
+
+/** Choose a new password from the emailed link. */
+export function ResetForm({ token, email, min }: { token: string; email: string; min: number }) {
+  const [state, action, pending] = useActionState(resetPassword, undefined);
+  const [pw, setPw] = useState("");
+  const pid = useId();
+  if (state?.expired)
+    return (
+      <div className="auth-form">
+        <p className="form-err" role="alert">
+          {state.error}
+        </p>
+        <Link className="btn btn-wide" href="/forgot">
+          Send a new link
+        </Link>
+      </div>
+    );
+  return (
+    <form action={action} className="auth-form" noValidate>
+      <div className="stack-s">
+        <h1 className="d2">Choose a new password.</h1>
+        <p className="body">
+          For <strong>{email}</strong>. You will be signed in as soon as it is saved.
+        </p>
+      </div>
+      <input type="hidden" name="token" value={token} />
+      <input type="email" name="email" value={email} autoComplete="username" readOnly hidden />
+      <Password label="New password" value={pw} onChange={setPw} invalid={!!state?.error} describedBy={state?.error ? pid : undefined} autoComplete="new-password" hint={`At least ${min} characters.`} />
+      {state?.error && (
+        <p className="err" id={pid} role="alert">
+          {state.error}
+        </p>
+      )}
+      <button className="btn btn-wide" type="submit" disabled={pending}>
+        {pending ? "Saving…" : "Save and sign in"}
+      </button>
     </form>
   );
 }
