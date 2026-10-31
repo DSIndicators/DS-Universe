@@ -476,30 +476,6 @@
    }
   ]
  },
- "data-candles": {
-  "src": "/covers/drop/data-candles.png?v=mvtuwu35",
-  "w": 1080,
-  "h": 1079,
-  "file": "DS Data Candles.png",
-  "ladder": [
-   {
-    "src": "/hd/covers/data-candles-2f39c513ff-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/data-candles-2f39c513ff-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/data-candles-2f39c513ff-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/data-candles-2f39c513ff-2160.webp",
-    "w": 2160
-   }
-  ]
- },
  "bulk-replay-downloader": {
   "src": "/covers/drop/bulk-replay-downloader.png?v=4ec8a6fd",
   "w": 1122,

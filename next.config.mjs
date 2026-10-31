@@ -27,6 +27,9 @@ const nextConfig = {
       { source: "/replay-lab", destination: "/essentials/bulk-replay-downloader", permanent: true },
       // retired or renamed products (DS-Universe-White's list)
       { source: "/products/oracle", destination: "/essentials", permanent: true },
+      // DS Data Candles discontinued 2026-10-31; DS Ember took its place in the Essentials Vault.
+      { source: "/essentials/data-candles", destination: "/essentials/ember", permanent: true },
+      { source: "/products/data-candles", destination: "/essentials/ember", permanent: true },
       { source: "/products/pro-session-levels", destination: "/essentials/asl", permanent: true },
       ...["promacd", "prostochastics", "prosqueeze", "macd", "stochastics", "squeeze"].map((s) => ({ source: `/products/${s}`, destination: "/free-vault", permanent: true })),
       ...["macd", "stochastics", "squeeze"].map((s) => ({ source: `/free-vault/${s}`, destination: "/free-vault", permanent: true })),

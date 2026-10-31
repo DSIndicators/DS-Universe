@@ -356,24 +356,6 @@
     "w": 2160
    }
   ],
-  "2f39c513ff541c26ef3ea83e516fa166227f2177": [
-   {
-    "src": "/hd/covers/data-candles-2f39c513ff-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/data-candles-2f39c513ff-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/data-candles-2f39c513ff-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/data-candles-2f39c513ff-2160.webp",
-    "w": 2160
-   }
-  ],
   "bda6745b005fd8cce8411e539f71c526abdca985": [
    {
     "src": "/hd/covers/proliquidityhunter-bda6745b00-360.webp",
@@ -924,19 +906,6 @@
    "size": "1080x1079",
    "model": "remacri-4x",
    "psnr_back_to_original_dB": 45.13,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "data-candles": {
-   "source": "DS Master Folder\\DS Data Candles\\DS Data Candles.png",
-   "sha1": "2f39c513ff541c26ef3ea83e516fa166227f2177",
-   "size": "1080x1079",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 46.53,
    "rungs": [
     360,
     720,

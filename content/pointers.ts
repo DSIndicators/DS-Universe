@@ -23,9 +23,9 @@ const POINTERS: Record<string, Pointers> = {
     line: "Who holds the market, and the room left.",
     reads: "Price and bar volume (the line is weighted by where volume traded), each reading compared with the same time of day on earlier sessions, 20 by default — history it requests itself. Closed bars.",
   },
-  "data-candles": {
-    line: "Candles that read the bar for you.",
-    reads: "Price on the chart's own bars (four trend reads), and bar volume against the same time of day on earlier sessions, 20 by default — history it requests itself. Closed bars.",
+  "ember": {
+    line: "The trend's heat, in your own candles.",
+    reads: "Price on the chart's own bars, any bar type: bricks of one average true range (14 bars), decided on each close. Twelve finished runs of history before a run can burn out. No volume needed. Closed bars.",
   },
   "iceberg": {
     line: "See where size was hidden.",
@@ -67,7 +67,7 @@ const POINTERS: Record<string, Pointers> = {
   },
   "adaptive-priceline": {
     line: "A price line that never leaves the candle.",
-    reads: "The chart's last price and bar clock, plus DS Data Candles' candle color when it runs beside it (Follow candle color).",
+    reads: "The chart's last price and bar clock, plus the color another indicator paints on the candles, when one runs beside it (Follow candle color).",
   },
   "chart-price": {
     line: "Price you can read from across the room.",

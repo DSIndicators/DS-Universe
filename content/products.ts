@@ -11,13 +11,15 @@
  *     license (2817; since 2026-10-30 the DS Essentials Vault, license 2835 -
  *     see vaults.ts), delivered as one assembly (DSCompleteBundleSuite). No
  *     paid product is sold on its own. Its groups, in README order:
- *       chart   On the price chart — DS Zones, DS Compass (new), DS Data
- *               Candles (new), DS Iceberg, DS Flow, DS GEX, DS ASL
+ *       chart   On the price chart — DS Zones, DS Compass (new), DS Ember
+ *               (2026-10-31, in place of DS Data Candles, discontinued), DS Iceberg, DS Flow, DS GEX, DS ASL
  *       panel   In a panel of their own — DS ProRSI, DS ProLiquidityHunter,
  *               DS ProHeikinAshi, DS ProTrendRange
  *       addon   Add-ons — DS Bulk Replay Downloader, DS Toolkit (with DS Chalk)
  *   - THE FREE VAULT (vault): nine free tools, each its own download, no
  *     license, never part of DS Complete.
+ * DS Ember's copy was written 2026-10-31 into the Master sheet's row 7 (DS Data Candles' row) and copied
+ * here word for word. DS Data Candles was discontinued on 2026-10-31.
  * DS Oracle was discontinued on 2026-10-29 and is off the site. DS MACD,
  * DS Stochastics, DS Squeeze and the DS VWAP panel left on 2026-10-25. Their
  * old addresses forward (next.config.mjs).
@@ -106,23 +108,23 @@ export const PRODUCTS: Product[] = [
         "description": "DS Compass draws its line where a 34-bar average of price would sit, weighted by where volume actually traded, and it reads far smoother than one. The line wears the color of the side that holds: teal for the long side, gray for the short side. A bar has to close beyond the line by the flip buffer — a quarter of an average true range by default — to take the side; a close inside the buffer leaves the side where it was, and a side that keeps changing hands shows in the panel note: changing hands, or chopping. The level tag by the price axis names the line, gives the distance of the last close from it in average true ranges and its price — [ Compass +1.2 ATR 29507.00 ] — in the side's color, and shares the price-tag column with the other DS products, stepping aside instead of overlapping. The reading panel names the side and how long it has held, then five readings: ROOM, the range covered so far against the range forecast for the next 40 bars; STRETCH, how far the close sits from the line in average true ranges and how unusual that is against recent sessions; SESSION, today's range against a usual day and how far through the day you are; TAPE, this bar's volume against what this time of day usually trades; and HOLD, how many times the side changed hands over the recent window. Every comparison uses the same time of day on earlier sessions, 20 by default, and DS Compass requests that history itself. Measured on more than 600,000 bars of NQ, MNQ, ES, GC and CL, the line held about as often as any price the same distance away and a direction call from the side was right about half the time, so it claims neither; the expected move behind ROOM beat the plain assumption that the next 40 bars cover what the last 40 did, out of sample on all five. Six values are published for the Data Box, the Market Analyzer and the Strategy Builder. Volume is optional: without usable volume the line falls back to typical price and everything else works. Every reading is decided on closed bars: it does not repaint. It is part of the DS Essentials Vault: one license unlocks it, downloaded on its own or with the whole Vault, and it is not sold separately."
     },
     {
-        "slug": "data-candles",
-        "name": "DS Data Candles",
+        "slug": "ember",
+        "name": "DS Ember",
         "kind": "indicator",
         "series": "chart",
-        "category": "Bar Reading & Volume",
+        "category": "Trend & Heat",
         "version": "v3.1",
-        "assembly": "DSCompleteBundleSuite",
+        "assembly": "DSEmber",
         "isNew": true,
-        "purpose": "Candles that read the bar for you — direction and strength in the color, whether volume stood behind the move in the fill, measured against the same time of day on earlier sessions, and a caption on the rare bar that is exceptional for its hour.",
+        "purpose": "Candles that show how far the current run has come — a ghost while it is young, solid as it builds, cyan or magenta once it blazes, hollow once it has burnt out — with the Ember Ribbon flowing through price and every turn marked in plain words.",
         "hooks": [
-            "Trend agreement in every color",
-            "Volume behind the move, in the fill",
-            "Read against its time of day",
-            "Two captions, both tested"
+            "How far the run has come, in every candle",
+            "The Ember Ribbon flowing through price",
+            "Every turn marked in plain words",
+            "Decided on closed bars, never repaints"
         ],
-        "helps": "Candles that read the bar for you. DS Data Candles repaints your candles so each one says three things at a glance: which way the trend reads agree, how strong the bar is, and whether volume stood behind it — measured against the same time of day on previous sessions, so a busy open is never mistaken for something unusual. The rare bar that is truly exceptional for its hour gets a small caption, and only for the two kinds of bar that held up when tested against what followed them.",
-        "description": "DS Data Candles runs four trend reads at once — at the Regime period, 14 by default, and at 3, 5 and 10 times it — and how many of them agree sets each candle's color: Push, in cyan or magenta, for a bar that was itself a large, participated move; Trending, in teal or gray, while the trend reads agree; Chop, in graphite, with no agreement or agreement over a dead tape. Calmness — Responsive, Balanced or Steady — decides how long a strong or trending state holds before one quiet bar may soften it, never when the state is earned. The fill says whether volume stood behind the bar, against the same time of day on earlier sessions (20 by default, history the indicator requests itself): a solid body is backed; a drained body with its full outline is a wide, well-formed move that almost no volume went with for its hour, about one bar in 150 to 200 on NQ, ES and GC; a graphite body is absorbed — heavy volume for the hour that bought less range than busy bars usually do. Two kinds of bar get a small caption, with a bracket over the bars it describes: RANGE (such as 2.4x RANGE), a bar far wider than this time of day usually delivers, on heavy volume, which was followed by a wider market in every period tested — NQ year by year from 2020 to 2026, ES, GC and CL; and ABSORBED (such as ABSORBED 3.1x), heavy volume for the hour that bought little range, followed by a quieter market on NQ in six of seven years and on ES. There is at most one caption every 15 minutes, and a plain volume spike is not captioned. Every caption was tested for direction as well and none held up, so none claims it: the color describes the bar that closed and is not a forecast. With the free DS Adaptive Price Line set to Follow candle color, the line wears the color painted on the live bar. Six values are published for the Market Analyzer and the Strategy Builder. On an instrument without usable volume the fills and captions switch themselves off, and direction and strength still work from price alone. Everything is decided when the bar closes: it does not repaint. It is part of the DS Essentials Vault: one license unlocks it, downloaded on its own or with the whole Vault, and it is not sold separately."
+        "helps": "A heat signature of trend. DS Ember reads the trend in bricks of one average true range, the way a renko chart does, and shows it as heat in your own candles: a ghost of the trend's color while the run is young, solid as it builds, cyan or magenta once it blazes, and a hollow shell once it has run longer than almost every run before it on the chart. Behind the candles, the Ember Ribbon — eight averages woven into one band — shows which way they lean and how firmly. Where the trend turns, BUY or SELL prints clear of the candles with a bead on the ribbon; where price comes back to the ribbon after a turn and holds it, a small triangle marks the re-test.",
+        "description": "One brick is the average true range over 14 of the chart's own bars. On each bar's close the run grows by every full brick price has travelled with it, and the trend turns only after a bar closes two full bricks back against the run — a single brick of noise against it changes nothing. Each candle wears the run it belongs to: a ghost from 1 to 3 bricks, solid from 4, the strong color from 8. Every finished run is remembered, up to the last hundred; once twelve have finished, a live run two standard deviations longer than their average burns out to a hollow shell with a graphite edge, measured against this chart's own runs, so it means the same on any instrument and bar type. The Ember Ribbon weaves eight exponential averages of the close, from 8 to 34 bars, into one flat band behind the candles: solid where they are fully apart, a ghost while they converge through a turn, graphite over a burnt-out stretch. On a one-minute MNQ chart, the New York sessions of October 2026 showed 13 to 18 turns between 08:30 and 16:00 — more in choppy trade, fewer on a trend day. Everything is decided on the first tick of the next bar, from the bar that closed: it never repaints. It switches fully off from the DS Toolkit rail, candles included. It is part of the DS Essentials Vault: one license unlocks it, downloaded on its own or with the whole Vault, and it is not sold separately."
     },
     {
         "slug": "iceberg",

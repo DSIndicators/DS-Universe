@@ -39,7 +39,7 @@ export const STRENGTHS = [
 export const LATEST = {
   version: "v3.1",
   items: [
-    "DS Compass and DS Data Candles are new in the Essentials Vault",
+    "DS Compass and DS Ember are new in the Essentials Vault",
     "One label style across the suite, with a name in front of every value",
     "One price-tag column by the axis, shared by every DS tool",
     "DS GEX builds its map from the last session close, so it is the same whenever you open NinjaTrader",

@@ -66,7 +66,11 @@ export async function ProductPage({ slug, vault }: { slug: string; vault: "free"
           </nav>
           <div className="pp" style={{ marginTop: 28 }}>
             <div className="pp-pic">
-              {cover ? <Shot pic={cover} sizes="(max-width: 900px) 92vw, 540px" priority /> : <div className="tile-pic" />}
+              {cover ? <Shot pic={cover} sizes="(max-width: 900px) 92vw, 540px" priority /> : (
+                <div className="tile-pic">
+                  <span className="tile-empty">Picture coming</span>
+                </div>
+              )}
             </div>
             <div className="pp-copy">
               <p className="kicker">

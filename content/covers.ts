@@ -205,8 +205,6 @@ export const PICTURE_ALTS: Record<string, string> = {
     "DS Bulk Replay Downloader's window in NinjaTrader 8: NQ, ES, MNQ, MES, GC and MGC ticked in the instrument list, a date range from 2026-07-27 to 2026-09-08 with Skip weekends, Skip already-downloaded days and Auto-roll futures contracts on, and each day's replay file listed with its progress: two at 100%, one downloading, one queued and the rest already on disk.",
   "DS Compass.png":
     "DS Compass on a white NinjaTrader chart: the teal Compass line curving up beneath price, tagged \"Compass +3.2 ATR 30176.00\" at the right edge, and its reading panel below: LONG SIDE HOLDS, 75 bars, one side throughout, with its Room, Stretch, Session, Tape and Hold rows.",
-  "DS Data Candles.png":
-    "DS Data Candles on a white NinjaTrader chart: candles painted teal, cyan, gray, graphite and magenta through a rally and a decline, with a \"3.1x RANGE\" caption under one bar and an \"ABSORBED 2.9x\" caption over a group of bars near the low.",
   "DS ProLiquidityHunter.png":
     "DS ProLiquidityHunter on a white NinjaTrader chart: a liquidity pool at 29215.00 above price with 56% reach odds and +27.75 points to go, a major pool at 29022.75 below with 55% and the H mark beneath it, and the panel underneath reading HUNTING ▲ 29215.00 · 56% with its pool ladder and odds.",
   "DS VWAP Updated.png":
