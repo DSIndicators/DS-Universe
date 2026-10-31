@@ -87,7 +87,7 @@ export default async function Home() {
           </div>
           <div className="tiles tiles-s">
             {ESSENTIALS_PRODUCTS.map((p) => (
-              <Tile key={p.slug} p={p} tag={false} sizes="(max-width: 560px) 92vw, 200px" />
+              <Tile key={p.slug} p={p} tag={false} sizes="(max-width: 600px) 46vw, (max-width: 960px) 24vw, 220px" />
             ))}
           </div>
         </div>

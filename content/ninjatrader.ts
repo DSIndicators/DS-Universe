@@ -66,6 +66,8 @@ export const NT_LINKS = {
 
 export const NT_ASSETS = {
   wordmark: "/brand/nt/ninjatrader-wordmark.png", // 2376×300, official color RGB wordmark
+  /** The same wordmark at display sizes (scaled down only, 2026-10-31 speed pass): the strip shows it ~90px wide. */
+  wordmarkSet: "/brand/nt/ninjatrader-wordmark-264.png 264w, /brand/nt/ninjatrader-wordmark-528.png 528w, /brand/nt/ninjatrader-wordmark-792.png 792w, /brand/nt/ninjatrader-wordmark.png 2376w",
   /**
    * NinjaTrader's own desktop render, copied at native size with its
    * transparency intact — 510×531 is small, so it is never shown wider than

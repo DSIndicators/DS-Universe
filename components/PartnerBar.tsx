@@ -20,7 +20,7 @@ export function PartnerBar() {
       <div className="wrap ptr-in">
         <span className="ptr-tag">Partner</span>
         <a className="ptr-mark" href={NT_LINKS.logo} {...ext} aria-label="NinjaTrader, visit ninjatrader.com">
-          <img src={NT_ASSETS.wordmark} alt="NinjaTrader" width={2376} height={300} />
+          <img src={NT_ASSETS.wordmark} srcSet={NT_ASSETS.wordmarkSet} sizes="90px" alt="NinjaTrader" width={2376} height={300} />
         </a>
         <p className="ptr-text">NinjaTrader® is our #1 recommended trading platform.</p>
         <a className="ptr-go" href={NT_LINKS.partner} {...ext}>

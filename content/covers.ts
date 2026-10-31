@@ -201,6 +201,8 @@ export const squareCoverFor = (slug: string): Cover | undefined => SQUARE_COVERS
  * A picture not listed here gets the plain "<Product> in NinjaTrader 8." alt.
  */
 export const PICTURE_ALTS: Record<string, string> = {
+  "DS Bulk Replay Downlaoder.png":
+    "DS Bulk Replay Downloader's window in NinjaTrader 8: NQ, ES, MNQ, MES, GC and MGC ticked in the instrument list, a date range from 2026-07-27 to 2026-09-08 with Skip weekends, Skip already-downloaded days and Auto-roll futures contracts on, and each day's replay file listed with its progress: two at 100%, one downloading, one queued and the rest already on disk.",
   "DS Compass.png":
     "DS Compass on a white NinjaTrader chart: the teal Compass line curving up beneath price, tagged \"Compass +3.2 ATR 30176.00\" at the right edge, and its reading panel below: LONG SIDE HOLDS, 75 bars, one side throughout, with its Room, Stretch, Session, Tape and Hold rows.",
   "DS Data Candles.png":

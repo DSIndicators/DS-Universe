@@ -44,7 +44,7 @@ export default function NinjaTraderPage() {
           <div className="hero-copy">
             <p className="kicker">Our trading platform</p>
             <a className="nt-mark" href={NT_LINKS.logo} {...ext} aria-label="NinjaTrader, visit ninjatrader.com">
-              <img src={NT_ASSETS.wordmark} alt="NinjaTrader" width={2376} height={300} />
+              <img src={NT_ASSETS.wordmark} srcSet={NT_ASSETS.wordmarkSet} sizes="(max-width: 600px) 60vw, 320px" alt="NinjaTrader" width={2376} height={300} />
             </a>
             <h1 className="d1">Our Recommended Trading Platform</h1>
             <p className="lead">

@@ -56,8 +56,8 @@ export async function ProductPage({ slug, vault }: { slug: string; vault: "free"
 
   return (
     <div>
-      {/* DS Live Background is the one dark exception (Tom, 2026-10-26): its cover and its page's ground are not white. */}
-      <section className={`sec-tight${cover?.dark ? " pp-dark" : ""}`}>
+      {/* DS Live Background is the one dark exception (Tom, 2026-10-26): its page's ground is not white. A dark picture elsewhere (DS Bulk Replay Downloader's window) only gets a dark frame. */}
+      <section className={`sec-tight${p.slug === "live-background" ? " pp-dark" : ""}`}>
         <div className="wrap">
           <nav className="crumbs" aria-label="Breadcrumb">
             <Link href={free ? "/free-vault" : "/essentials"}>{free ? "Free Vault" : "Essentials Vault"}</Link>
@@ -137,7 +137,7 @@ export async function ProductPage({ slug, vault }: { slug: string; vault: "free"
             </div>
             <div className="tiles tiles-s">
               {more.map((m) => (
-                <Tile key={m.slug} p={m} tag={false} sizes="(max-width: 560px) 92vw, 200px" />
+                <Tile key={m.slug} p={m} tag={false} sizes="(max-width: 600px) 46vw, (max-width: 960px) 24vw, 220px" />
               ))}
             </div>
           </div>

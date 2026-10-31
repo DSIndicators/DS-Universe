@@ -30,7 +30,7 @@ export function Footer() {
       <div className="wrap">
         <div className="ftr-grid">
           <div className="ftr-brand">
-            <img src="/brand/ds-logo-black-480.png" srcSet="/brand/ds-logo-black-480.png 480w, /brand/ds-logo-black-720.png 720w" sizes="128px" width={1254} height={1254} alt="DS Universe, Trading Indicators" loading="lazy" decoding="async" />
+            <img src="/brand/ds-logo-black-480.png" srcSet="/brand/ds-logo-black-256.png 256w, /brand/ds-logo-black-480.png 480w, /brand/ds-logo-black-720.png 720w" sizes="128px" width={1254} height={1254} alt="DS Universe, Trading Indicators" loading="lazy" decoding="async" />
           </div>
           {cols.map((c) => (
             <div key={c.title}>

@@ -12,7 +12,7 @@ export const lineFor = (p: Product) => pointersFor(p.slug).line ?? `${p.hooks[0]
  * A tool on a shelf: its cover CONTAINED in a square (whole picture, never
  * cropped), its name, which vault it is in, one line. The whole tile is the link.
  */
-export function Tile({ p, sizes = "(max-width: 560px) 92vw, 280px", tag = true }: { p: Product; sizes?: string; tag?: boolean }) {
+export function Tile({ p, sizes = "(max-width: 600px) 46vw, (max-width: 960px) 30vw, 280px", tag = true }: { p: Product; sizes?: string; tag?: boolean }) {
   const c = COVERS[p.slug];
   const free = isFree(p);
   return (

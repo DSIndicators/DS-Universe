@@ -427,10 +427,28 @@
     "src": "/hd/covers/zones-1c95838c39-2160.webp",
     "w": 2160
    }
+  ],
+  "4ec8a6fdba93229759032dac30bba9f30fab9d28": [
+   {
+    "src": "/hd/covers/bulk-replay-downloader-4ec8a6fdba-360.webp",
+    "w": 360
+   },
+   {
+    "src": "/hd/covers/bulk-replay-downloader-4ec8a6fdba-720.webp",
+    "w": 720
+   }
   ]
  },
  "wide": {
   "orderflow": [
+   {
+    "src": "/hd/wide/orderflow-81743f62a4-720.webp",
+    "w": 720
+   },
+   {
+    "src": "/hd/wide/orderflow-81743f62a4-960.webp",
+    "w": 960
+   },
    {
     "src": "/hd/wide/orderflow-81743f62a4-1280.webp",
     "w": 1280
@@ -454,6 +472,14 @@
   ],
   "sessions": [
    {
+    "src": "/hd/wide/sessions-2e235f8b63-720.webp",
+    "w": 720
+   },
+   {
+    "src": "/hd/wide/sessions-2e235f8b63-960.webp",
+    "w": 960
+   },
+   {
     "src": "/hd/wide/sessions-2e235f8b63-1280.webp",
     "w": 1280
    },
@@ -475,6 +501,14 @@
    }
   ],
   "liquidity": [
+   {
+    "src": "/hd/wide/liquidity-dff6580033-720.webp",
+    "w": 720
+   },
+   {
+    "src": "/hd/wide/liquidity-dff6580033-960.webp",
+    "w": 960
+   },
    {
     "src": "/hd/wide/liquidity-dff6580033-1280.webp",
     "w": 1280
@@ -498,6 +532,14 @@
   ],
   "free": [
    {
+    "src": "/hd/wide/free-6eb629c1c4-720.webp",
+    "w": 720
+   },
+   {
+    "src": "/hd/wide/free-6eb629c1c4-960.webp",
+    "w": 960
+   },
+   {
     "src": "/hd/wide/free-6eb629c1c4-1280.webp",
     "w": 1280
    },
@@ -519,6 +561,14 @@
    }
   ],
   "hero": [
+   {
+    "src": "/hd/wide/hero-f083e5c479-720.webp",
+    "w": 720
+   },
+   {
+    "src": "/hd/wide/hero-f083e5c479-960.webp",
+    "w": 960
+   },
    {
     "src": "/hd/wide/hero-f083e5c479-1280.webp",
     "w": 1280

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { finishSignIn, whopReady } from "@/lib/whop";
 import { connectWhop, getSession, safeNext, startSession } from "@/lib/auth";
+import { originOf } from "@/lib/origin";
 
 /**
  * Whop sends the visitor back here with ?code&state. The Whop user is then
@@ -11,17 +12,22 @@ import { connectWhop, getSession, safeNext, startSession } from "@/lib/auth";
  */
 export async function GET(req: Request) {
   const url = new URL(req.url);
+  const site = originOf(req);
+  const go = (path: string) => NextResponse.redirect(new URL(path, site));
   const jar = await cookies();
   const raw = jar.get("ds_oauth")?.value;
   jar.delete("ds_oauth");
-  const fail = (why: string) => NextResponse.redirect(new URL(`/signin?error=${why}`, url));
-  if (!whopReady() || !raw) return fail("whop");
-  let saved: { verifier: string; state: string; next: string };
+  const fail = (why: string) => go(`/signin?error=${why}`);
+  let saved: { verifier: string; state: string; next: string; back?: string } | null = null;
   try {
-    saved = JSON.parse(raw);
-  } catch {
-    return fail("whop");
+    saved = raw ? JSON.parse(raw) : null;
+  } catch {}
+  // Cancelled or declined on Whop's page (Whop returns ?error=access_denied, no code):
+  // nothing went wrong, so no error message - back to the page they pressed the button on.
+  if (url.searchParams.get("error") && !url.searchParams.get("code")) {
+    return go(safeNext(saved?.back, (await getSession()) ? "/members/account" : "/signin"));
   }
+  if (!whopReady() || !saved) return fail("whop");
   const code = url.searchParams.get("code");
   if (!code || url.searchParams.get("state") !== saved.state) return fail("whop");
   let u;
@@ -34,8 +40,8 @@ export async function GET(req: Request) {
   const r = connectWhop(u, current?.id);
   if ("error" in r) {
     const back = current ? `/members/account?error=${r.error}` : `/signin?error=${r.error}`;
-    return NextResponse.redirect(new URL(back, url));
+    return go(back);
   }
   await startSession(r.member, current?.via === "local" ? "local" : "whop");
-  return NextResponse.redirect(new URL(safeNext(saved.next), url));
+  return go(safeNext(saved.next));
 }
