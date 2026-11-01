@@ -4,6 +4,7 @@ import { pointersFor } from "@/content/pointers";
 import type { Product } from "@/content/products";
 import { hrefFor } from "@/content/paths";
 import { isFree } from "@/content/vaults";
+import { isMarkedNew } from "@/content/returns";
 
 /** One sentence for a product: its cover line, else its first hook. */
 export const lineFor = (p: Product) => pointersFor(p.slug).line ?? `${p.hooks[0].replace(/\.$/, "")}.`;
@@ -27,7 +28,11 @@ export function Tile({ p, sizes = "(max-width: 600px) 46vw, (max-width: 960px) 3
       <span>
         <span className="tile-name">
           <span className="d4">{p.name}</span>
-          {tag && <span className={`tile-tag${free ? " tile-tag-free" : ""}`}>{free ? "Free" : "Essentials"}</span>}
+          {isMarkedNew(p.slug) ? (
+            <span className="tile-tag">New</span>
+          ) : (
+            tag && <span className={`tile-tag${free ? " tile-tag-free" : ""}`}>{free ? "Free" : "Essentials"}</span>
+          )}
         </span>
         <span className="tile-line" style={{ display: "block", marginTop: 6 }}>
           {lineFor(p)}

@@ -4,6 +4,7 @@ import type { Product } from "@/content/products";
 import { hrefFor } from "@/content/paths";
 import { lineFor } from "./Tile";
 import { Lock } from "./Tick";
+import { isMarkedNew } from "@/content/returns";
 
 /** A vault as a list: small contained cover, name and line, then what you can do with it. */
 export function Rows({ items, locked, action }: { items: Product[]; locked?: boolean; action?: (p: Product) => React.ReactNode }) {
@@ -17,6 +18,7 @@ export function Rows({ items, locked, action }: { items: Product[]; locked?: boo
             <span className="row-text">
               <span className="d4" style={{ display: "block" }}>
                 {p.name} <span className="tiny num">{p.version}</span>
+                {isMarkedNew(p.slug) && <span className="row-new">New</span>}
               </span>
               <span className="small" style={{ display: "block" }}>
                 {lineFor(p)}

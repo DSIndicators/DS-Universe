@@ -1,976 +1,986 @@
 {
- "covers": {
-  "2b5429874d48d8a0fdec1aba0c8377430c498356": [
-   {
-    "src": "/hd/covers/zones-2b5429874d-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/zones-2b5429874d-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/zones-2b5429874d-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/zones-2b5429874d-2160.webp",
-    "w": 2160
-   }
-  ],
-  "d9911b2fb0f143a6f97429f9b3a0d5ea7c86df2c": [
-   {
-    "src": "/hd/covers/flow-d9911b2fb0-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/flow-d9911b2fb0-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/flow-d9911b2fb0-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/flow-d9911b2fb0-2160.webp",
-    "w": 2160
-   }
-  ],
-  "727f4ad1d92796e1a534671d0c13d07f822b2a33": [
-   {
-    "src": "/hd/covers/iceberg-727f4ad1d9-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/iceberg-727f4ad1d9-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/iceberg-727f4ad1d9-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/iceberg-727f4ad1d9-2160.webp",
-    "w": 2160
-   }
-  ],
-  "deabf0de18a24da6d027fb623ee7d27a469882e4": [
-   {
-    "src": "/hd/covers/gex-deabf0de18-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/gex-deabf0de18-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/gex-deabf0de18-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/gex-deabf0de18-2160.webp",
-    "w": 2160
-   }
-  ],
-  "7c846ab413f56825815db59e1ef3299f283d193f": [
-   {
-    "src": "/hd/covers/oracle-7c846ab413-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/oracle-7c846ab413-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/oracle-7c846ab413-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/oracle-7c846ab413-2160.webp",
-    "w": 2160
-   }
-  ],
-  "0e56c42db77664d50fe3254752761f798371b96f": [
-   {
-    "src": "/hd/covers/prorsi-0e56c42db7-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/prorsi-0e56c42db7-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/prorsi-0e56c42db7-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/prorsi-0e56c42db7-2160.webp",
-    "w": 2160
-   }
-  ],
-  "1bee94d1756c69ee63efe9e61219297e09939a0a": [
-   {
-    "src": "/hd/covers/protrendrange-1bee94d175-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/protrendrange-1bee94d175-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/protrendrange-1bee94d175-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/protrendrange-1bee94d175-2160.webp",
-    "w": 2160
-   }
-  ],
-  "8b5019b01a025bf36f57f2f831d9e3e1a891f8f9": [
-   {
-    "src": "/hd/covers/proheikinashi-8b5019b01a-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/proheikinashi-8b5019b01a-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/proheikinashi-8b5019b01a-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/proheikinashi-8b5019b01a-2160.webp",
-    "w": 2160
-   }
-  ],
-  "b064de95ffaf06f91bea2947a4dd107980c553f0": [
-   {
-    "src": "/hd/covers/asl-b064de95ff-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/asl-b064de95ff-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/asl-b064de95ff-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/asl-b064de95ff-2160.webp",
-    "w": 2160
-   }
-  ],
-  "93ee6ec1ae3372f452f12f17e0417bb6288b470f": [
-   {
-    "src": "/hd/covers/toolkit-93ee6ec1ae-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/toolkit-93ee6ec1ae-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/toolkit-93ee6ec1ae-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/toolkit-93ee6ec1ae-1850.webp",
-    "w": 1850
-   }
-  ],
-  "ee436f5e01e565af817da454369365f671472261": [
-   {
-    "src": "/hd/covers/session-levels-ee436f5e01-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/session-levels-ee436f5e01-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/session-levels-ee436f5e01-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/session-levels-ee436f5e01-2160.webp",
-    "w": 2160
-   }
-  ],
-  "1fbbfbfa1eefa8ec27e3a931ede0c7ca6d5ef06c": [
-   {
-    "src": "/hd/covers/parallax-1fbbfbfa1e-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/parallax-1fbbfbfa1e-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/parallax-1fbbfbfa1e-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/parallax-1fbbfbfa1e-2160.webp",
-    "w": 2160
-   }
-  ],
-  "9590b1236d209fc03da5d4d8527e6cf7a7f6d969": [
-   {
-    "src": "/hd/covers/adaptive-priceline-9590b1236d-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/adaptive-priceline-9590b1236d-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/adaptive-priceline-9590b1236d-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/adaptive-priceline-9590b1236d-2160.webp",
-    "w": 2160
-   }
-  ],
-  "5ef583aba887f9a7fa0f2ca1cfc3d7ca0ab0f022": [
-   {
-    "src": "/hd/covers/chart-price-5ef583aba8-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/chart-price-5ef583aba8-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/chart-price-5ef583aba8-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/chart-price-5ef583aba8-2160.webp",
-    "w": 2160
-   }
-  ],
-  "7b009d48f6fabf5b5706b94994a0cd945b12d084": [
-   {
-    "src": "/hd/covers/vwap-7b009d48f6-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/vwap-7b009d48f6-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/vwap-7b009d48f6-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/vwap-7b009d48f6-2160.webp",
-    "w": 2160
-   }
-  ],
-  "0f550d2545a9ff810e947f5293c7856199a44e61": [
-   {
-    "src": "/hd/covers/volume-0f550d2545-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/volume-0f550d2545-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/volume-0f550d2545-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/volume-0f550d2545-2160.webp",
-    "w": 2160
-   }
-  ],
-  "ea2beaa6c24efe5deaf29beaaddc1e2c0e3e0af6": [
-   {
-    "src": "/hd/covers/ds-258-ea2beaa6c2-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/ds-258-ea2beaa6c2-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/ds-258-ea2beaa6c2-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/ds-258-ea2beaa6c2-2160.webp",
-    "w": 2160
-   }
-  ],
-  "123a6c52f55751c36c77f450842f3bbbd0cf893f": [
-   {
-    "src": "/hd/covers/time-intervals-123a6c52f5-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/time-intervals-123a6c52f5-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/time-intervals-123a6c52f5-1392.webp",
-    "w": 1392
-   }
-  ],
-  "1658607c6aba4b17a0f40d7cb01a3e857680cde9": [
-   {
-    "src": "/hd/covers/live-background-1658607c6a-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/live-background-1658607c6a-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/live-background-1658607c6a-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/live-background-1658607c6a-2160.webp",
-    "w": 2160
-   }
-  ],
-  "079d7385ed43cc7381ef240d45ac4479dc8fcdf9": [
-   {
-    "src": "/hd/covers/compass-079d7385ed-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/compass-079d7385ed-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/compass-079d7385ed-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/compass-079d7385ed-2160.webp",
-    "w": 2160
-   }
-  ],
-  "bda6745b005fd8cce8411e539f71c526abdca985": [
-   {
-    "src": "/hd/covers/proliquidityhunter-bda6745b00-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/proliquidityhunter-bda6745b00-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/proliquidityhunter-bda6745b00-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/proliquidityhunter-bda6745b00-2160.webp",
-    "w": 2160
-   }
-  ],
-  "535357b0fb2d0817e72b6fb60ab739719d3692e6": [
-   {
-    "src": "/hd/covers/vwap-535357b0fb-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/vwap-535357b0fb-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/vwap-535357b0fb-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/vwap-535357b0fb-2160.webp",
-    "w": 2160
-   }
-  ],
-  "1c95838c396a8e4b1772c60f8bdc999b083fb5e7": [
-   {
-    "src": "/hd/covers/zones-1c95838c39-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/zones-1c95838c39-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/covers/zones-1c95838c39-1440.webp",
-    "w": 1440
-   },
-   {
-    "src": "/hd/covers/zones-1c95838c39-2160.webp",
-    "w": 2160
-   }
-  ],
-  "4ec8a6fdba93229759032dac30bba9f30fab9d28": [
-   {
-    "src": "/hd/covers/bulk-replay-downloader-4ec8a6fdba-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/bulk-replay-downloader-4ec8a6fdba-720.webp",
-    "w": 720
-   }
-  ],
-  "04cf107033cbea60802b6da200c2cd8d0babe0d7": [
-   {
-    "src": "/hd/covers/ember-04cf107033-360.webp",
-    "w": 360
-   },
-   {
-    "src": "/hd/covers/ember-04cf107033-720.webp",
-    "w": 720
-   }
-  ]
- },
- "wide": {
-  "orderflow": [
-   {
-    "src": "/hd/wide/orderflow-81743f62a4-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/wide/orderflow-81743f62a4-960.webp",
-    "w": 960
-   },
-   {
-    "src": "/hd/wide/orderflow-81743f62a4-1280.webp",
-    "w": 1280
-   },
-   {
-    "src": "/hd/wide/orderflow-81743f62a4-1920.webp",
-    "w": 1920
-   },
-   {
-    "src": "/hd/wide/orderflow-81743f62a4-2560.webp",
-    "w": 2560
-   },
-   {
-    "src": "/hd/wide/orderflow-81743f62a4-2880.webp",
-    "w": 2880
-   },
-   {
-    "src": "/hd/wide/orderflow-81743f62a4-3440.webp",
-    "w": 3440
-   }
-  ],
-  "sessions": [
-   {
-    "src": "/hd/wide/sessions-2e235f8b63-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/wide/sessions-2e235f8b63-960.webp",
-    "w": 960
-   },
-   {
-    "src": "/hd/wide/sessions-2e235f8b63-1280.webp",
-    "w": 1280
-   },
-   {
-    "src": "/hd/wide/sessions-2e235f8b63-1920.webp",
-    "w": 1920
-   },
-   {
-    "src": "/hd/wide/sessions-2e235f8b63-2560.webp",
-    "w": 2560
-   },
-   {
-    "src": "/hd/wide/sessions-2e235f8b63-2880.webp",
-    "w": 2880
-   },
-   {
-    "src": "/hd/wide/sessions-2e235f8b63-3440.webp",
-    "w": 3440
-   }
-  ],
-  "liquidity": [
-   {
-    "src": "/hd/wide/liquidity-dff6580033-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/wide/liquidity-dff6580033-960.webp",
-    "w": 960
-   },
-   {
-    "src": "/hd/wide/liquidity-dff6580033-1280.webp",
-    "w": 1280
-   },
-   {
-    "src": "/hd/wide/liquidity-dff6580033-1920.webp",
-    "w": 1920
-   },
-   {
-    "src": "/hd/wide/liquidity-dff6580033-2560.webp",
-    "w": 2560
-   },
-   {
-    "src": "/hd/wide/liquidity-dff6580033-2880.webp",
-    "w": 2880
-   },
-   {
-    "src": "/hd/wide/liquidity-dff6580033-3440.webp",
-    "w": 3440
-   }
-  ],
-  "free": [
-   {
-    "src": "/hd/wide/free-6eb629c1c4-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/wide/free-6eb629c1c4-960.webp",
-    "w": 960
-   },
-   {
-    "src": "/hd/wide/free-6eb629c1c4-1280.webp",
-    "w": 1280
-   },
-   {
-    "src": "/hd/wide/free-6eb629c1c4-1920.webp",
-    "w": 1920
-   },
-   {
-    "src": "/hd/wide/free-6eb629c1c4-2560.webp",
-    "w": 2560
-   },
-   {
-    "src": "/hd/wide/free-6eb629c1c4-2880.webp",
-    "w": 2880
-   },
-   {
-    "src": "/hd/wide/free-6eb629c1c4-3440.webp",
-    "w": 3440
-   }
-  ],
-  "hero": [
-   {
-    "src": "/hd/wide/hero-f083e5c479-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/wide/hero-f083e5c479-960.webp",
-    "w": 960
-   },
-   {
-    "src": "/hd/wide/hero-f083e5c479-1280.webp",
-    "w": 1280
-   },
-   {
-    "src": "/hd/wide/hero-f083e5c479-1920.webp",
-    "w": 1920
-   },
-   {
-    "src": "/hd/wide/hero-f083e5c479-2560.webp",
-    "w": 2560
-   },
-   {
-    "src": "/hd/wide/hero-f083e5c479-2880.webp",
-    "w": 2880
-   },
-   {
-    "src": "/hd/wide/hero-f083e5c479-3440.webp",
-    "w": 3440
-   },
-   {
-    "src": "/hd/wide/hero-f083e5c479-3840.webp",
-    "w": 3840
-   },
-   {
-    "src": "/hd/wide/hero-f083e5c479-4680.webp",
-    "w": 4680
-   }
-  ],
-  "home": [
-   {
-    "src": "/hd/wide/home-c9ace28005-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/wide/home-c9ace28005-960.webp",
-    "w": 960
-   },
-   {
-    "src": "/hd/wide/home-c9ace28005-1280.webp",
-    "w": 1280
-   },
-   {
-    "src": "/hd/wide/home-c9ace28005-1920.webp",
-    "w": 1920
-   }
-  ],
-  "vault": [
-   {
-    "src": "/hd/wide/vault-be6cf993c0-720.webp",
-    "w": 720
-   },
-   {
-    "src": "/hd/wide/vault-be6cf993c0-960.webp",
-    "w": 960
-   },
-   {
-    "src": "/hd/wide/vault-be6cf993c0-1280.webp",
-    "w": 1280
-   },
-   {
-    "src": "/hd/wide/vault-be6cf993c0-1920.webp",
-    "w": 1920
-   }
-  ]
- },
- "report": {
-  "orderflow": {
-   "source": "DS_20261026_014639.png",
-   "sha1": "81743f62a4fad2796d814bf88011b98df4373eaf",
-   "size": "3840x2159",
-   "model": "none (downscales of the original only)",
-   "psnr_back_to_original_dB": null,
-   "rungs": [
-    1280,
-    1920,
-    2560,
-    2880,
-    3440
-   ]
+  "covers": {
+    "2b5429874d48d8a0fdec1aba0c8377430c498356": [
+      {
+        "src": "/hd/covers/zones-2b5429874d-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/zones-2b5429874d-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/zones-2b5429874d-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/zones-2b5429874d-2160.webp",
+        "w": 2160
+      }
+    ],
+    "d9911b2fb0f143a6f97429f9b3a0d5ea7c86df2c": [
+      {
+        "src": "/hd/covers/flow-d9911b2fb0-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/flow-d9911b2fb0-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/flow-d9911b2fb0-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/flow-d9911b2fb0-2160.webp",
+        "w": 2160
+      }
+    ],
+    "727f4ad1d92796e1a534671d0c13d07f822b2a33": [
+      {
+        "src": "/hd/covers/iceberg-727f4ad1d9-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/iceberg-727f4ad1d9-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/iceberg-727f4ad1d9-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/iceberg-727f4ad1d9-2160.webp",
+        "w": 2160
+      }
+    ],
+    "deabf0de18a24da6d027fb623ee7d27a469882e4": [
+      {
+        "src": "/hd/covers/gex-deabf0de18-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/gex-deabf0de18-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/gex-deabf0de18-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/gex-deabf0de18-2160.webp",
+        "w": 2160
+      }
+    ],
+    "7c846ab413f56825815db59e1ef3299f283d193f": [
+      {
+        "src": "/hd/covers/oracle-7c846ab413-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/oracle-7c846ab413-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/oracle-7c846ab413-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/oracle-7c846ab413-2160.webp",
+        "w": 2160
+      }
+    ],
+    "0e56c42db77664d50fe3254752761f798371b96f": [
+      {
+        "src": "/hd/covers/prorsi-0e56c42db7-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/prorsi-0e56c42db7-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/prorsi-0e56c42db7-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/prorsi-0e56c42db7-2160.webp",
+        "w": 2160
+      }
+    ],
+    "1bee94d1756c69ee63efe9e61219297e09939a0a": [
+      {
+        "src": "/hd/covers/protrendrange-1bee94d175-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/protrendrange-1bee94d175-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/protrendrange-1bee94d175-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/protrendrange-1bee94d175-2160.webp",
+        "w": 2160
+      }
+    ],
+    "8b5019b01a025bf36f57f2f831d9e3e1a891f8f9": [
+      {
+        "src": "/hd/covers/proheikinashi-8b5019b01a-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/proheikinashi-8b5019b01a-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/proheikinashi-8b5019b01a-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/proheikinashi-8b5019b01a-2160.webp",
+        "w": 2160
+      }
+    ],
+    "b064de95ffaf06f91bea2947a4dd107980c553f0": [
+      {
+        "src": "/hd/covers/asl-b064de95ff-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/asl-b064de95ff-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/asl-b064de95ff-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/asl-b064de95ff-2160.webp",
+        "w": 2160
+      }
+    ],
+    "93ee6ec1ae3372f452f12f17e0417bb6288b470f": [
+      {
+        "src": "/hd/covers/toolkit-93ee6ec1ae-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/toolkit-93ee6ec1ae-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/toolkit-93ee6ec1ae-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/toolkit-93ee6ec1ae-1850.webp",
+        "w": 1850
+      }
+    ],
+    "ee436f5e01e565af817da454369365f671472261": [
+      {
+        "src": "/hd/covers/session-levels-ee436f5e01-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/session-levels-ee436f5e01-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/session-levels-ee436f5e01-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/session-levels-ee436f5e01-2160.webp",
+        "w": 2160
+      }
+    ],
+    "1fbbfbfa1eefa8ec27e3a931ede0c7ca6d5ef06c": [
+      {
+        "src": "/hd/covers/parallax-1fbbfbfa1e-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/parallax-1fbbfbfa1e-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/parallax-1fbbfbfa1e-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/parallax-1fbbfbfa1e-2160.webp",
+        "w": 2160
+      }
+    ],
+    "9590b1236d209fc03da5d4d8527e6cf7a7f6d969": [
+      {
+        "src": "/hd/covers/adaptive-priceline-9590b1236d-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/adaptive-priceline-9590b1236d-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/adaptive-priceline-9590b1236d-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/adaptive-priceline-9590b1236d-2160.webp",
+        "w": 2160
+      }
+    ],
+    "5ef583aba887f9a7fa0f2ca1cfc3d7ca0ab0f022": [
+      {
+        "src": "/hd/covers/chart-price-5ef583aba8-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/chart-price-5ef583aba8-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/chart-price-5ef583aba8-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/chart-price-5ef583aba8-2160.webp",
+        "w": 2160
+      }
+    ],
+    "7b009d48f6fabf5b5706b94994a0cd945b12d084": [
+      {
+        "src": "/hd/covers/vwap-7b009d48f6-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/vwap-7b009d48f6-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/vwap-7b009d48f6-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/vwap-7b009d48f6-2160.webp",
+        "w": 2160
+      }
+    ],
+    "0f550d2545a9ff810e947f5293c7856199a44e61": [
+      {
+        "src": "/hd/covers/volume-0f550d2545-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/volume-0f550d2545-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/volume-0f550d2545-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/volume-0f550d2545-2160.webp",
+        "w": 2160
+      }
+    ],
+    "ea2beaa6c24efe5deaf29beaaddc1e2c0e3e0af6": [
+      {
+        "src": "/hd/covers/ds-258-ea2beaa6c2-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/ds-258-ea2beaa6c2-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/ds-258-ea2beaa6c2-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/ds-258-ea2beaa6c2-2160.webp",
+        "w": 2160
+      }
+    ],
+    "123a6c52f55751c36c77f450842f3bbbd0cf893f": [
+      {
+        "src": "/hd/covers/time-intervals-123a6c52f5-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/time-intervals-123a6c52f5-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/time-intervals-123a6c52f5-1392.webp",
+        "w": 1392
+      }
+    ],
+    "1658607c6aba4b17a0f40d7cb01a3e857680cde9": [
+      {
+        "src": "/hd/covers/live-background-1658607c6a-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/live-background-1658607c6a-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/live-background-1658607c6a-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/live-background-1658607c6a-2160.webp",
+        "w": 2160
+      }
+    ],
+    "079d7385ed43cc7381ef240d45ac4479dc8fcdf9": [
+      {
+        "src": "/hd/covers/compass-079d7385ed-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/compass-079d7385ed-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/compass-079d7385ed-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/compass-079d7385ed-2160.webp",
+        "w": 2160
+      }
+    ],
+    "bda6745b005fd8cce8411e539f71c526abdca985": [
+      {
+        "src": "/hd/covers/proliquidityhunter-bda6745b00-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/proliquidityhunter-bda6745b00-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/proliquidityhunter-bda6745b00-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/proliquidityhunter-bda6745b00-2160.webp",
+        "w": 2160
+      }
+    ],
+    "535357b0fb2d0817e72b6fb60ab739719d3692e6": [
+      {
+        "src": "/hd/covers/vwap-535357b0fb-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/vwap-535357b0fb-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/vwap-535357b0fb-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/vwap-535357b0fb-2160.webp",
+        "w": 2160
+      }
+    ],
+    "1c95838c396a8e4b1772c60f8bdc999b083fb5e7": [
+      {
+        "src": "/hd/covers/zones-1c95838c39-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/zones-1c95838c39-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/covers/zones-1c95838c39-1440.webp",
+        "w": 1440
+      },
+      {
+        "src": "/hd/covers/zones-1c95838c39-2160.webp",
+        "w": 2160
+      }
+    ],
+    "4ec8a6fdba93229759032dac30bba9f30fab9d28": [
+      {
+        "src": "/hd/covers/bulk-replay-downloader-4ec8a6fdba-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/bulk-replay-downloader-4ec8a6fdba-720.webp",
+        "w": 720
+      }
+    ],
+    "04cf107033cbea60802b6da200c2cd8d0babe0d7": [
+      {
+        "src": "/hd/covers/ember-04cf107033-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/ember-04cf107033-720.webp",
+        "w": 720
+      }
+    ],
+    "b1acac1e9378f02fbf17eada6ed50b405d72487c": [
+      {
+        "src": "/hd/covers/htf-po3-b1acac1e93-360.webp",
+        "w": 360
+      },
+      {
+        "src": "/hd/covers/htf-po3-b1acac1e93-720.webp",
+        "w": 720
+      }
+    ]
   },
-  "sessions": {
-   "source": "DS_20261026_014137.png",
-   "sha1": "2e235f8b63d02f7c57e69c051c7b911de200e767",
-   "size": "3840x2159",
-   "model": "none (downscales of the original only)",
-   "psnr_back_to_original_dB": null,
-   "rungs": [
-    1280,
-    1920,
-    2560,
-    2880,
-    3440
-   ]
+  "wide": {
+    "orderflow": [
+      {
+        "src": "/hd/wide/orderflow-81743f62a4-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/wide/orderflow-81743f62a4-960.webp",
+        "w": 960
+      },
+      {
+        "src": "/hd/wide/orderflow-81743f62a4-1280.webp",
+        "w": 1280
+      },
+      {
+        "src": "/hd/wide/orderflow-81743f62a4-1920.webp",
+        "w": 1920
+      },
+      {
+        "src": "/hd/wide/orderflow-81743f62a4-2560.webp",
+        "w": 2560
+      },
+      {
+        "src": "/hd/wide/orderflow-81743f62a4-2880.webp",
+        "w": 2880
+      },
+      {
+        "src": "/hd/wide/orderflow-81743f62a4-3440.webp",
+        "w": 3440
+      }
+    ],
+    "sessions": [
+      {
+        "src": "/hd/wide/sessions-2e235f8b63-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/wide/sessions-2e235f8b63-960.webp",
+        "w": 960
+      },
+      {
+        "src": "/hd/wide/sessions-2e235f8b63-1280.webp",
+        "w": 1280
+      },
+      {
+        "src": "/hd/wide/sessions-2e235f8b63-1920.webp",
+        "w": 1920
+      },
+      {
+        "src": "/hd/wide/sessions-2e235f8b63-2560.webp",
+        "w": 2560
+      },
+      {
+        "src": "/hd/wide/sessions-2e235f8b63-2880.webp",
+        "w": 2880
+      },
+      {
+        "src": "/hd/wide/sessions-2e235f8b63-3440.webp",
+        "w": 3440
+      }
+    ],
+    "liquidity": [
+      {
+        "src": "/hd/wide/liquidity-dff6580033-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/wide/liquidity-dff6580033-960.webp",
+        "w": 960
+      },
+      {
+        "src": "/hd/wide/liquidity-dff6580033-1280.webp",
+        "w": 1280
+      },
+      {
+        "src": "/hd/wide/liquidity-dff6580033-1920.webp",
+        "w": 1920
+      },
+      {
+        "src": "/hd/wide/liquidity-dff6580033-2560.webp",
+        "w": 2560
+      },
+      {
+        "src": "/hd/wide/liquidity-dff6580033-2880.webp",
+        "w": 2880
+      },
+      {
+        "src": "/hd/wide/liquidity-dff6580033-3440.webp",
+        "w": 3440
+      }
+    ],
+    "free": [
+      {
+        "src": "/hd/wide/free-6eb629c1c4-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/wide/free-6eb629c1c4-960.webp",
+        "w": 960
+      },
+      {
+        "src": "/hd/wide/free-6eb629c1c4-1280.webp",
+        "w": 1280
+      },
+      {
+        "src": "/hd/wide/free-6eb629c1c4-1920.webp",
+        "w": 1920
+      },
+      {
+        "src": "/hd/wide/free-6eb629c1c4-2560.webp",
+        "w": 2560
+      },
+      {
+        "src": "/hd/wide/free-6eb629c1c4-2880.webp",
+        "w": 2880
+      },
+      {
+        "src": "/hd/wide/free-6eb629c1c4-3440.webp",
+        "w": 3440
+      }
+    ],
+    "hero": [
+      {
+        "src": "/hd/wide/hero-f083e5c479-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/wide/hero-f083e5c479-960.webp",
+        "w": 960
+      },
+      {
+        "src": "/hd/wide/hero-f083e5c479-1280.webp",
+        "w": 1280
+      },
+      {
+        "src": "/hd/wide/hero-f083e5c479-1920.webp",
+        "w": 1920
+      },
+      {
+        "src": "/hd/wide/hero-f083e5c479-2560.webp",
+        "w": 2560
+      },
+      {
+        "src": "/hd/wide/hero-f083e5c479-2880.webp",
+        "w": 2880
+      },
+      {
+        "src": "/hd/wide/hero-f083e5c479-3440.webp",
+        "w": 3440
+      },
+      {
+        "src": "/hd/wide/hero-f083e5c479-3840.webp",
+        "w": 3840
+      },
+      {
+        "src": "/hd/wide/hero-f083e5c479-4680.webp",
+        "w": 4680
+      }
+    ],
+    "home": [
+      {
+        "src": "/hd/wide/home-c9ace28005-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/wide/home-c9ace28005-960.webp",
+        "w": 960
+      },
+      {
+        "src": "/hd/wide/home-c9ace28005-1280.webp",
+        "w": 1280
+      },
+      {
+        "src": "/hd/wide/home-c9ace28005-1920.webp",
+        "w": 1920
+      }
+    ],
+    "vault": [
+      {
+        "src": "/hd/wide/vault-be6cf993c0-720.webp",
+        "w": 720
+      },
+      {
+        "src": "/hd/wide/vault-be6cf993c0-960.webp",
+        "w": 960
+      },
+      {
+        "src": "/hd/wide/vault-be6cf993c0-1280.webp",
+        "w": 1280
+      },
+      {
+        "src": "/hd/wide/vault-be6cf993c0-1920.webp",
+        "w": 1920
+      }
+    ]
   },
-  "liquidity": {
-   "source": "DS_20261026_015302.png",
-   "sha1": "dff65800331a8a1ca02030b35b7e9f6079f8b400",
-   "size": "3840x2159",
-   "model": "none (downscales of the original only)",
-   "psnr_back_to_original_dB": null,
-   "rungs": [
-    1280,
-    1920,
-    2560,
-    2880,
-    3440
-   ]
-  },
-  "free": {
-   "source": "DS_20261026_030406.png",
-   "sha1": "6eb629c1c4fd96c1b9ea451ed025cb100be8c0c2",
-   "size": "3566x2160",
-   "model": "none (downscales of the original only)",
-   "psnr_back_to_original_dB": null,
-   "rungs": [
-    1280,
-    1920,
-    2560,
-    2880,
-    3440
-   ]
-  },
-  "zones": {
-   "source": "1029 New White Website Pictures\\DS Zones Updated.png",
-   "sha1": "1c95838c396a8e4b1772c60f8bdc999b083fb5e7",
-   "size": "1080x1079",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 44.49,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "flow": {
-   "source": "flow.webp",
-   "sha1": "d9911b2fb0f143a6f97429f9b3a0d5ea7c86df2c",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 51.33,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "iceberg": {
-   "source": "iceberg.webp",
-   "sha1": "727f4ad1d92796e1a534671d0c13d07f822b2a33",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 50.29,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "gex": {
-   "source": "gex.webp",
-   "sha1": "deabf0de18a24da6d027fb623ee7d27a469882e4",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 46.0,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "oracle": {
-   "source": "oracle.webp",
-   "sha1": "7c846ab413f56825815db59e1ef3299f283d193f",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 48.05,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "prorsi": {
-   "source": "prorsi.webp",
-   "sha1": "0e56c42db77664d50fe3254752761f798371b96f",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 48.23,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "protrendrange": {
-   "source": "protrendrange.webp",
-   "sha1": "1bee94d1756c69ee63efe9e61219297e09939a0a",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 46.75,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "proheikinashi": {
-   "source": "proheikinashi.webp",
-   "sha1": "8b5019b01a025bf36f57f2f831d9e3e1a891f8f9",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 44.44,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "asl": {
-   "source": "asl.webp",
-   "sha1": "b064de95ffaf06f91bea2947a4dd107980c553f0",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 43.98,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "toolkit": {
-   "source": "toolkit.webp",
-   "sha1": "93ee6ec1ae3372f452f12f17e0417bb6288b470f",
-   "size": "925x776",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 40.64,
-   "rungs": [
-    360,
-    720,
-    1440,
-    1850
-   ]
-  },
-  "session-levels": {
-   "source": "session-levels.webp",
-   "sha1": "ee436f5e01e565af817da454369365f671472261",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 46.69,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "parallax": {
-   "source": "parallax.webp",
-   "sha1": "1fbbfbfa1eefa8ec27e3a931ede0c7ca6d5ef06c",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 44.28,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "adaptive-priceline": {
-   "source": "adaptive-priceline.webp",
-   "sha1": "9590b1236d209fc03da5d4d8527e6cf7a7f6d969",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 47.36,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "chart-price": {
-   "source": "chart-price.webp",
-   "sha1": "5ef583aba887f9a7fa0f2ca1cfc3d7ca0ab0f022",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 46.91,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "vwap": {
-   "source": "1029 New White Website Pictures\\DS VWAP Updated.png",
-   "sha1": "535357b0fb2d0817e72b6fb60ab739719d3692e6",
-   "size": "1080x1079",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 45.31,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "volume": {
-   "source": "volume.webp",
-   "sha1": "0f550d2545a9ff810e947f5293c7856199a44e61",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 48.12,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "ds-258": {
-   "source": "ds-258.webp",
-   "sha1": "ea2beaa6c24efe5deaf29beaaddc1e2c0e3e0af6",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 44.24,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "time-intervals": {
-   "source": "time-intervals.webp",
-   "sha1": "123a6c52f55751c36c77f450842f3bbbd0cf893f",
-   "size": "696x878",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 42.84,
-   "rungs": [
-    360,
-    720,
-    1392
-   ]
-  },
-  "live-background": {
-   "source": "live-background.webp",
-   "sha1": "1658607c6aba4b17a0f40d7cb01a3e857680cde9",
-   "size": "1080x1080",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 42.18,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "hero": {
-   "source": "Trade ideas New.png",
-   "sha1": "f083e5c479fe64f19b486d91bb18e880cd08abb1",
-   "size": "2340x1378",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 39.67,
-   "rungs": [
-    1280,
-    1920,
-    2560,
-    2880,
-    3440,
-    3840,
-    4680
-   ]
-  },
-  "compass": {
-   "source": "DS Master Folder\\DS Compass\\DS Compass.png",
-   "sha1": "079d7385ed43cc7381ef240d45ac4479dc8fcdf9",
-   "size": "1080x1079",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 45.13,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
-  },
-  "proliquidityhunter": {
-   "source": "1029 New White Website Pictures\\DS ProLiquidityHunter.png",
-   "sha1": "bda6745b005fd8cce8411e539f71c526abdca985",
-   "size": "1080x1079",
-   "model": "remacri-4x",
-   "psnr_back_to_original_dB": 44.14,
-   "rungs": [
-    360,
-    720,
-    1440,
-    2160
-   ]
+  "report": {
+    "orderflow": {
+      "source": "DS_20261026_014639.png",
+      "sha1": "81743f62a4fad2796d814bf88011b98df4373eaf",
+      "size": "3840x2159",
+      "model": "none (downscales of the original only)",
+      "psnr_back_to_original_dB": null,
+      "rungs": [
+        1280,
+        1920,
+        2560,
+        2880,
+        3440
+      ]
+    },
+    "sessions": {
+      "source": "DS_20261026_014137.png",
+      "sha1": "2e235f8b63d02f7c57e69c051c7b911de200e767",
+      "size": "3840x2159",
+      "model": "none (downscales of the original only)",
+      "psnr_back_to_original_dB": null,
+      "rungs": [
+        1280,
+        1920,
+        2560,
+        2880,
+        3440
+      ]
+    },
+    "liquidity": {
+      "source": "DS_20261026_015302.png",
+      "sha1": "dff65800331a8a1ca02030b35b7e9f6079f8b400",
+      "size": "3840x2159",
+      "model": "none (downscales of the original only)",
+      "psnr_back_to_original_dB": null,
+      "rungs": [
+        1280,
+        1920,
+        2560,
+        2880,
+        3440
+      ]
+    },
+    "free": {
+      "source": "DS_20261026_030406.png",
+      "sha1": "6eb629c1c4fd96c1b9ea451ed025cb100be8c0c2",
+      "size": "3566x2160",
+      "model": "none (downscales of the original only)",
+      "psnr_back_to_original_dB": null,
+      "rungs": [
+        1280,
+        1920,
+        2560,
+        2880,
+        3440
+      ]
+    },
+    "zones": {
+      "source": "1029 New White Website Pictures\\DS Zones Updated.png",
+      "sha1": "1c95838c396a8e4b1772c60f8bdc999b083fb5e7",
+      "size": "1080x1079",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 44.49,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "flow": {
+      "source": "flow.webp",
+      "sha1": "d9911b2fb0f143a6f97429f9b3a0d5ea7c86df2c",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 51.33,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "iceberg": {
+      "source": "iceberg.webp",
+      "sha1": "727f4ad1d92796e1a534671d0c13d07f822b2a33",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 50.29,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "gex": {
+      "source": "gex.webp",
+      "sha1": "deabf0de18a24da6d027fb623ee7d27a469882e4",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 46,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "oracle": {
+      "source": "oracle.webp",
+      "sha1": "7c846ab413f56825815db59e1ef3299f283d193f",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 48.05,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "prorsi": {
+      "source": "prorsi.webp",
+      "sha1": "0e56c42db77664d50fe3254752761f798371b96f",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 48.23,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "protrendrange": {
+      "source": "protrendrange.webp",
+      "sha1": "1bee94d1756c69ee63efe9e61219297e09939a0a",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 46.75,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "proheikinashi": {
+      "source": "proheikinashi.webp",
+      "sha1": "8b5019b01a025bf36f57f2f831d9e3e1a891f8f9",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 44.44,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "asl": {
+      "source": "asl.webp",
+      "sha1": "b064de95ffaf06f91bea2947a4dd107980c553f0",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 43.98,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "toolkit": {
+      "source": "toolkit.webp",
+      "sha1": "93ee6ec1ae3372f452f12f17e0417bb6288b470f",
+      "size": "925x776",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 40.64,
+      "rungs": [
+        360,
+        720,
+        1440,
+        1850
+      ]
+    },
+    "session-levels": {
+      "source": "session-levels.webp",
+      "sha1": "ee436f5e01e565af817da454369365f671472261",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 46.69,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "parallax": {
+      "source": "parallax.webp",
+      "sha1": "1fbbfbfa1eefa8ec27e3a931ede0c7ca6d5ef06c",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 44.28,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "adaptive-priceline": {
+      "source": "adaptive-priceline.webp",
+      "sha1": "9590b1236d209fc03da5d4d8527e6cf7a7f6d969",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 47.36,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "chart-price": {
+      "source": "chart-price.webp",
+      "sha1": "5ef583aba887f9a7fa0f2ca1cfc3d7ca0ab0f022",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 46.91,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "vwap": {
+      "source": "1029 New White Website Pictures\\DS VWAP Updated.png",
+      "sha1": "535357b0fb2d0817e72b6fb60ab739719d3692e6",
+      "size": "1080x1079",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 45.31,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "volume": {
+      "source": "volume.webp",
+      "sha1": "0f550d2545a9ff810e947f5293c7856199a44e61",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 48.12,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "ds-258": {
+      "source": "ds-258.webp",
+      "sha1": "ea2beaa6c24efe5deaf29beaaddc1e2c0e3e0af6",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 44.24,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "time-intervals": {
+      "source": "time-intervals.webp",
+      "sha1": "123a6c52f55751c36c77f450842f3bbbd0cf893f",
+      "size": "696x878",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 42.84,
+      "rungs": [
+        360,
+        720,
+        1392
+      ]
+    },
+    "live-background": {
+      "source": "live-background.webp",
+      "sha1": "1658607c6aba4b17a0f40d7cb01a3e857680cde9",
+      "size": "1080x1080",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 42.18,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "hero": {
+      "source": "Trade ideas New.png",
+      "sha1": "f083e5c479fe64f19b486d91bb18e880cd08abb1",
+      "size": "2340x1378",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 39.67,
+      "rungs": [
+        1280,
+        1920,
+        2560,
+        2880,
+        3440,
+        3840,
+        4680
+      ]
+    },
+    "compass": {
+      "source": "DS Master Folder\\DS Compass\\DS Compass.png",
+      "sha1": "079d7385ed43cc7381ef240d45ac4479dc8fcdf9",
+      "size": "1080x1079",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 45.13,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    },
+    "proliquidityhunter": {
+      "source": "1029 New White Website Pictures\\DS ProLiquidityHunter.png",
+      "sha1": "bda6745b005fd8cce8411e539f71c526abdca985",
+      "size": "1080x1079",
+      "model": "remacri-4x",
+      "psnr_back_to_original_dB": 44.14,
+      "rungs": [
+        360,
+        720,
+        1440,
+        2160
+      ]
+    }
   }
- }
 }

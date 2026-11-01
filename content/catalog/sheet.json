@@ -1,0 +1,945 @@
+{
+    "exported":  "2026-11-01T02:51:44",
+    "catalog":  [
+                    {
+                        "section":  "chart",
+                        "id":  "2420",
+                        "product":  "DS Zones",
+                        "Type":  "Indicator",
+                        "Category":  "Structure \u0026 Levels",
+                        "Purpose":  "Support and resistance that tells you whether it\u0027s holding right now — built from swing pivots, volume supply/demand and real order flow, with a live state machine tracking every zone tick by tick.",
+                        "Hook 1":  "Tracks FRESH to DEFENDED / BREAKING",
+                        "Hook 2":  "Order flow inside every zone",
+                        "Hook 3":  "Only the strongest few drawn",
+                        "Hook 4":  "A broken zone keeps its identity"
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2816",
+                        "product":  "DS Compass",
+                        "Type":  "Indicator",
+                        "Category":  "Market Side \u0026 Room",
+                        "Purpose":  "Which side of the market holds and how much room it has — one smooth, volume-weighted line that changes hands only on a decisive close, and a reading panel that measures today against the same time of day on earlier sessions.",
+                        "Hook 1":  "The side changes only on a close",
+                        "Hook 2":  "A note when it keeps changing hands",
+                        "Hook 3":  "Room left in the forecast range",
+                        "Hook 4":  "Read against this time of day"
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "—",
+                        "product":  "DS Ember",
+                        "Type":  "Indicator",
+                        "Category":  "Trend \u0026 Heat",
+                        "Purpose":  "Candles that show how far the current run has come — a ghost while it is young, solid as it builds, cyan or magenta once it blazes, hollow once it has burnt out — with the Ember Ribbon flowing through price and every turn marked in plain words.",
+                        "Hook 1":  "How far the run has come, in every candle",
+                        "Hook 2":  "The Ember Ribbon flowing through price",
+                        "Hook 3":  "Every turn marked in plain words",
+                        "Hook 4":  "Decided on closed bars, never repaints"
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2421",
+                        "product":  "DS Iceberg",
+                        "Type":  "Indicator",
+                        "Category":  "Liquidity \u0026 Absorption",
+                        "Purpose":  "Finds prices that were tested and rejected repeatedly on closed bars — the footprint passive orders leave when they absorb aggressive flow — and marks each with a fine level line and an iceberg sized by the volume it absorbed.",
+                        "Hook 1":  "Finds where size was hidden",
+                        "Hook 2":  "Order-flow confirmed in cyan/magenta",
+                        "Hook 3":  "Volume and test count shown",
+                        "Hook 4":  "Closed-bar accurate, never repaints"
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2424",
+                        "product":  "DS Flow",
+                        "Type":  "Indicator",
+                        "Category":  "Order Flow \u0026 Volume Profile",
+                        "Purpose":  "X-rays each group of candles into a live volume-by-price footprint, splitting what traded at every price into buying and selling and flagging the levels that actually mattered.",
+                        "Hook 1":  "Buy vs sell volume at every level",
+                        "Hook 2":  "Heavy nodes flagged automatically",
+                        "Hook 3":  "No tick-history download needed",
+                        "Hook 4":  "Low-conviction moves dim on sight"
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2423",
+                        "product":  "DS GEX",
+                        "Type":  "Indicator",
+                        "Category":  "Options \u0026 Key Levels",
+                        "Purpose":  "Dealer gamma exposure levels computed from the delayed option chain and drawn on your chart automatically — Call/Put Walls, Gamma Flip, Expected Move, Max Pain and more, with no subscription and no setup.",
+                        "Hook 1":  "Option-chain levels, zero setup",
+                        "Hook 2":  "Call/Put Walls and Gamma Flip",
+                        "Hook 3":  "Expected Move and Max Pain",
+                        "Hook 4":  "Built from the last close, twice a day"
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2587",
+                        "product":  "DS ASL",
+                        "Type":  "Indicator",
+                        "Category":  "Session Levels \u0026 Volume Profile",
+                        "Purpose":  "DS Session Levels with the volume added: each session\u0027s volume profile inside its bracket, its POC carried forward as a level, HVNs and LVNs marked — built from real trades, completed from 1-minute bars.",
+                        "Hook 1":  "A volume profile in every session",
+                        "Hook 2":  "Each POC carried forward as a level",
+                        "Hook 3":  "HVN and LVN, found per session",
+                        "Hook 4":  "Real trades, gaps filled from bars"
+                    },
+                    {
+                        "section":  "panel",
+                        "id":  "2416",
+                        "product":  "DS ProRSI",
+                        "Type":  "Indicator",
+                        "Category":  "Momentum \u0026 Volume Zones",
+                        "Purpose":  "A volume-weighted RSI panel that leaves each turn out of an extreme on your price chart as a zone — sized by where the turn\u0027s volume traded, graded by the volume behind it, and scored on your own chart as HELD or BROKE.",
+                        "Hook 1":  "RSI weighted by relative volume",
+                        "Hook 2":  "Zones sized by where volume traded",
+                        "Hook 3":  "Volume pips on every flag",
+                        "Hook 4":  "A HELD / BROKE record on your chart"
+                    },
+                    {
+                        "section":  "panel",
+                        "id":  "2577",
+                        "product":  "DS ProLiquidityHunter",
+                        "Type":  "Indicator",
+                        "Category":  "Liquidity \u0026 Reach Odds",
+                        "Purpose":  "A liquidity map with a track record — every swing high and low price has left behind drawn as a pool, heated by the measured odds that price reaches it within the horizon, and scored against what happened next on your own chart.",
+                        "Hook 1":  "Every resting pool, mapped and ranked",
+                        "Hook 2":  "Reach odds from your chart\u0027s history",
+                        "Hook 3":  "A live track record for every tier",
+                        "Hook 4":  "SWEPT or RUN, on the next close"
+                    },
+                    {
+                        "section":  "panel",
+                        "id":  "2578",
+                        "product":  "DS ProHeikinAshi",
+                        "Type":  "Indicator",
+                        "Category":  "Heikin-Ashi \u0026 Flip Levels",
+                        "Purpose":  "A Heikin-Ashi panel under your candlestick chart — every candle standing on its own open, the close that turns its color printed on the price chart to the tick, and the measured odds that it flips on the next bar.",
+                        "Hook 1":  "Heikin-Ashi under real candles",
+                        "Hook 2":  "The turning close, to the tick",
+                        "Hook 3":  "Flip odds, learned on your chart",
+                        "Hook 4":  "Locked panel scale, never drifts"
+                    },
+                    {
+                        "section":  "panel",
+                        "id":  "2571",
+                        "product":  "DS ProTrendRange",
+                        "Type":  "Indicator",
+                        "Category":  "Trend \u0026 Pullback",
+                        "Purpose":  "A trend, pullback and range panel on one statistical scale — a latched trend state, the pullback filled as a pocket, one closed-bar RESUME that carries the price where it is wrong, and a Tide Gauge on price with the closes that change the state.",
+                        "Hook 1":  "Trend, pullback and range, named",
+                        "Hook 2":  "One RESUME per leg, with its HOLD",
+                        "Hook 3":  "No threshold to tune, on any chart",
+                        "Hook 4":  "Every state change priced to the tick"
+                    },
+                    {
+                        "section":  "addon",
+                        "id":  "2425",
+                        "product":  "DS Bulk Replay Downloader",
+                        "Type":  "Add-On",
+                        "Category":  "Data Utility",
+                        "Purpose":  "Bulk downloader for NinjaTrader\u0027s own Market Replay data — queue every instrument and date you want and it fetches the lot unattended, instead of one instrument and one day at a time.",
+                        "Hook 1":  "Whole date ranges, one queued run",
+                        "Hook 2":  "Per-file progress as it works",
+                        "Hook 3":  "Skips days you already have",
+                        "Hook 4":  "Files land where Playback expects"
+                    },
+                    {
+                        "section":  "addon",
+                        "id":  "2426",
+                        "product":  "DS Toolkit",
+                        "Type":  "Add-On",
+                        "Category":  "Workflow \u0026 Control",
+                        "Purpose":  "One translucent rail on your chart: every DS indicator as an on/off row, your drawing tools underneath, and freehand chalk at the bottom.",
+                        "Hook 1":  "One click per indicator or tool",
+                        "Hook 2":  "Mute is a mute, not a preset",
+                        "Hook 3":  "Three real opacity looks",
+                        "Hook 4":  "Chalk that pans, zooms, saves"
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2412",
+                        "product":  "DS Adaptive Price Line",
+                        "Type":  "Indicator",
+                        "Category":  "Chart Essentials",
+                        "Purpose":  "A self-anchoring replacement for NinjaTrader\u0027s native last-price line that re-derives its own geometry on every frame, so it never drifts off the candle no matter how you scroll or zoom.",
+                        "Hook 1":  "Always anchored to the candle",
+                        "Hook 2":  "Bar-close countdown rides the line",
+                        "Hook 3":  "Glow, rounded caps, anchor circle",
+                        "Hook 4":  "Zero per-frame allocations"
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2411",
+                        "product":  "DS Chart Price",
+                        "Type":  "Indicator",
+                        "Category":  "Chart Essentials",
+                        "Purpose":  "A large, animated last-price readout you can place in any of nine positions on your price panel — it flashes DS teal on an uptick, DS gray on a downtick, and shifts to amber when the tape turns choppy.",
+                        "Hook 1":  "Nine placements on the panel",
+                        "Hook 2":  "Amber when the tape goes nowhere",
+                        "Hook 3":  "Three hands-free price alerts",
+                        "Hook 4":  "Real per-indicator volume control"
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2409",
+                        "product":  "DS 258",
+                        "Type":  "Indicator",
+                        "Category":  "Key Levels",
+                        "Purpose":  "A quiet map of the Nasdaq\u0027s 00/20/50/80 price levels, drawn across the whole visible chart and kept behind your candles, out of the way.",
+                        "Hook 1":  "Every 00/20/50/80 in view",
+                        "Hook 2":  "Clear at a glance, never a wall",
+                        "Hook 3":  "Nothing to set up on NQ or MNQ",
+                        "Hook 4":  "Its own color per level"
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2410",
+                        "product":  "DS Parallax",
+                        "Type":  "Indicator",
+                        "Category":  "Multi-Timeframe Liquidity",
+                        "Purpose":  "A multi-timeframe liquidity matrix: up to four live higher-timeframe charts on your chart, each marking where resting stops are likely to sit.",
+                        "Hook 1":  "Four timeframes, one chart",
+                        "Hook 2":  "Buy-side and sell-side pools marked",
+                        "Hook 3":  "Touch count sets line weight",
+                        "Hook 4":  "Swept levels ghost out"
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2446",
+                        "product":  "DS Session Levels",
+                        "Type":  "Indicator",
+                        "Category":  "Session Levels",
+                        "Purpose":  "The Asia, London and New York highs and lows, drawn exactly where each session started and finished, and carried forward until that session opens again — free for everyone.",
+                        "Hook 1":  "Every session\u0027s high and low, exact",
+                        "Hook 2":  "Carried forward until it reopens",
+                        "Hook 3":  "Taken levels fade where closed",
+                        "Hook 4":  "Futures, ICT and forex presets"
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2579",
+                        "product":  "DS VWAP",
+                        "Type":  "Indicator",
+                        "Category":  "VWAP \u0026 Value",
+                        "Purpose":  "The session VWAP drawn on your chart with edges measured to hold nine closes in ten, and the 9 and 21 EMAs that color it only while the trend agrees with value — quiet the rest of the time — free for everyone.",
+                        "Hook 1":  "On the chart, behind the candles",
+                        "Hook 2":  "Colored only when the trend agrees",
+                        "Hook 3":  "Edges that hold nine in ten, measured",
+                        "Hook 4":  "Same line on minute, tick and Renko"
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "—",
+                        "product":  "DS Live Background",
+                        "Type":  "Indicator",
+                        "Category":  "Chart Personalization",
+                        "Purpose":  "Your own MP4, MOV or animated GIF, or a still picture, playing behind every candle, line and drawing, looping without a seam and drawn at the exact pixel size of your chart.",
+                        "Hook 1":  "MP4, MOV, GIF or a still picture",
+                        "Hook 2":  "Always under every candle and line",
+                        "Hook 3":  "Clicks go straight to your chart",
+                        "Hook 4":  "Rests when the chart is out of sight"
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "—",
+                        "product":  "DS Time Intervals",
+                        "Type":  "Add-On",
+                        "Category":  "Workflow \u0026 Control",
+                        "Purpose":  "Your favorite timeframes as one-click buttons on every chart toolbar, a teal line under the one the chart is on, and every common interval on one compact grid behind the ▾.",
+                        "Hook 1":  "Your favorites on every chart toolbar",
+                        "Hook 2":  "The live timeframe stays underlined",
+                        "Hook 3":  "Every interval on one compact grid",
+                        "Hook 4":  "Right-click to pin, keep one to eight"
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "—",
+                        "product":  "DS Volume",
+                        "Type":  "Indicator",
+                        "Category":  "Volume \u0026 Participation",
+                        "Purpose":  "Volume on the bottom of your price chart, read against what that exact minute of the day normally trades — quiet, normal and heavy bars weighted, and the rare spike marked when its bar closes.",
+                        "Hook 1":  "Every bar weighed against its minute",
+                        "Hook 2":  "Quiet, normal, heavy at a glance",
+                        "Hook 3":  "Rare spikes, decided at the close",
+                        "Hook 4":  "On the price chart, no extra panel"
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "—",
+                        "product":  "DS HTF PO3",
+                        "Type":  "Indicator",
+                        "Category":  "Higher Timeframe \u0026 Power of Three",
+                        "Purpose":  "The hour, four-hour or daily candle you trade inside, drawn big and solid beside your chart on its own price scale — read as Power of Three, with the odds its high and its low are already in, 80% caps on each extreme and a live countdown to its close.",
+                        "Hook 1":  "Power of Three, read as it builds",
+                        "Hook 2":  "Odds the high or low is in",
+                        "Hook 3":  "80% caps on each extreme",
+                        "Hook 4":  "A live countdown to the close"
+                    },
+                    {
+                        "section":  "bundle",
+                        "id":  "2835",
+                        "product":  "DS Essentials Vault",
+                        "Type":  "Essentials Vault",
+                        "Category":  "Full Suite",
+                        "Purpose":  "Founders price: every paid DS Universe product on one license, at $39.99 a month or $149.99 to own until founder slots are filled, with every future indicator and every update included at no extra cost — seven on the price chart (DS Zones, DS Compass, DS Ember, DS Iceberg, DS Flow, DS GEX, DS ASL), four in a panel of their own (DS ProRSI, DS ProLiquidityHunter, DS ProHeikinAshi, DS ProTrendRange) and two add-ons (DS Bulk Replay Downloader, DS Toolkit with DS Chalk). No paid product is sold on its own.",
+                        "Hook 1":  "Founders price, every paid DS tool",
+                        "Hook 2":  "$39.99 a month or $149.99 to own",
+                        "Hook 3":  "Every future indicator included",
+                        "Hook 4":  "About $1.31 a day, no contract"
+                    }
+                ],
+    "details":  [
+                    {
+                        "section":  "chart",
+                        "id":  "2420",
+                        "product":  "DS Zones",
+                        "How It Helps Traders":  "Most zone tools draw a box and leave it. DS Zones draws the box, reads the actual order flow inside it, then tracks what price does to it tick by tick - approached, tested, defended, broken - so the zones on your chart are the ones price is respecting today, not the ones that looked good when they were drawn.",
+                        "Full Description":  "DS Zones runs two structural engines at once - multi-length swing pivots for a full skeleton, and high-volume impulses for institutional supply and demand - then reads the real aggressive buy versus sell volume traded inside every zone from a volume-at-price footprint. Every zone and pivot is born supply or demand and keeps that identity as price crosses it, and a live, tick-driven state machine drives each zone through FRESH, APPROACHING, TESTING, DEFENDED or BREAKING, with conviction rising when a zone is genuinely defended and draining as it is consumed. A broken zone keeps its identity and dims out as a dotted band rather than vanishing without a trace or role-reversing into the opposite kind of level. A merge step fuses everything that lands on the same price into one ranked map and draws only the strongest few, so you get a clean chart instead of forty boxes. Structure is confirmed on closed bars - it does not repaint - while the live read updates with the tape."
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2816",
+                        "product":  "DS Compass",
+                        "How It Helps Traders":  "Which side of the market holds, and how much room it has. DS Compass runs one smooth line through price: while bars close above it the long side holds, while they close below it the short side holds, and the side only changes hands when a bar closes clearly through the line — price brushing it changes nothing. When the side keeps changing hands, the panel says so in plain words: changing hands, or chopping. Beside the line, a reading panel measures today against the same time of day on previous sessions — how much range is left in the forecast, how far price has stretched from the line, how much of a usual day has been used, and how busy the tape is for this hour.",
+                        "Full Description":  "DS Compass draws its line where a 34-bar average of price would sit, weighted by where volume actually traded, and it reads far smoother than one. The line wears the color of the side that holds: teal for the long side, gray for the short side. A bar has to close beyond the line by the flip buffer — a quarter of an average true range by default — to take the side; a close inside the buffer leaves the side where it was, and a side that keeps changing hands shows in the panel note: changing hands, or chopping. The level tag by the price axis names the line, gives the distance of the last close from it in average true ranges and its price — [ Compass +1.2 ATR 29507.00 ] — in the side\u0027s color, and shares the price-tag column with the other DS products, stepping aside instead of overlapping. The reading panel names the side and how long it has held, then five readings: ROOM, the range covered so far against the range forecast for the next 40 bars; STRETCH, how far the close sits from the line in average true ranges and how unusual that is against recent sessions; SESSION, today\u0027s range against a usual day and how far through the day you are; TAPE, this bar\u0027s volume against what this time of day usually trades; and HOLD, how many times the side changed hands over the recent window. Every comparison uses the same time of day on earlier sessions, 20 by default, and DS Compass requests that history itself. Measured on more than 600,000 bars of NQ, MNQ, ES, GC and CL, the line held about as often as any price the same distance away and a direction call from the side was right about half the time, so it claims neither; the expected move behind ROOM beat the plain assumption that the next 40 bars cover what the last 40 did, out of sample on all five. Six values are published for the Data Box, the Market Analyzer and the Strategy Builder. Volume is optional: without usable volume the line falls back to typical price and everything else works. Every reading is decided on closed bars: it does not repaint. It is part of the DS Essentials Vault: one license unlocks it, downloaded on its own or with the whole Vault, and it is not sold separately."
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "—",
+                        "product":  "DS Ember",
+                        "How It Helps Traders":  "A heat signature of trend. DS Ember reads the trend in bricks of one average true range, the way a renko chart does, and shows it as heat in your own candles: a ghost of the trend\u0027s color while the run is young, solid as it builds, cyan or magenta once it blazes, and a hollow shell once it has run longer than almost every run before it on the chart. Behind the candles, the Ember Ribbon — eight averages woven into one band — shows which way they lean and how firmly. Where the trend turns, BUY or SELL prints clear of the candles with a bead on the ribbon; where price comes back to the ribbon after a turn and holds it, a small triangle marks the re-test.",
+                        "Full Description":  "One brick is the average true range over 14 of the chart\u0027s own bars. On each bar\u0027s close the run grows by every full brick price has travelled with it, and the trend turns only after a bar closes two full bricks back against the run — a single brick of noise against it changes nothing. Each candle wears the run it belongs to: a ghost from 1 to 3 bricks, solid from 4, the strong color from 8. Every finished run is remembered, up to the last hundred; once twelve have finished, a live run two standard deviations longer than their average burns out to a hollow shell with a graphite edge, measured against this chart\u0027s own runs, so it means the same on any instrument and bar type. The Ember Ribbon weaves eight exponential averages of the close, from 8 to 34 bars, into one flat band behind the candles: solid where they are fully apart, a ghost while they converge through a turn, graphite over a burnt-out stretch. On a one-minute MNQ chart, the New York sessions of October 2026 showed 13 to 18 turns between 08:30 and 16:00 — more in choppy trade, fewer on a trend day. Everything is decided on the first tick of the next bar, from the bar that closed: it never repaints. It switches fully off from the DS Toolkit rail, candles included. It is part of the DS Essentials Vault: one license unlocks it, downloaded on its own or with the whole Vault, and it is not sold separately."
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2421",
+                        "product":  "DS Iceberg",
+                        "How It Helps Traders":  "An iceberg order hides its size - only a small piece shows in the book, and every time it\u0027s hit, another slice re-posts at the same price. From the outside it looks like a level that just keeps absorbing: heavy volume trades into it, aggressive buyers or sellers keep hitting it, and price is rejected anyway. Price tells you where the market went; DS Iceberg marks the prices it kept pushing into and being turned away from.",
+                        "Full Description":  "DS Iceberg runs two cooperating engines to confirm a level. The bar engine is a wick-to-body, local-extreme and volume test: a candle qualifies when its rejecting wick is long relative to its body, it sits near a local extreme and its volume is at or above average - a level confirms once at least two qualified tests cluster at one price inside the 40-bar window, with at least half of them closed on the rejecting side. The order-flow engine independently builds a rolling volume-at-price footprint, refined by the bid/ask of each live trade (history uses a tick-rule estimate unless Tick Replay is on), and confirms a level only when it is a statistically anomalous high-volume node with correct-side absorption. Levels both engines agree on are drawn in cyan or magenta - the levels with the most evidence behind them, at a glance. Each level is drawn as a fine line with a soft tolerance tint, a fracture on every bar that tested it and an iceberg in the runway sized by the volume it absorbed, captioned with its traded volume and test count - support below price and resistance above, decided on closed bars so it does not repaint."
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2424",
+                        "product":  "DS Flow",
+                        "How It Helps Traders":  "A candle tells you where the market went. It doesn\u0027t tell you where inside that range the volume traded, or whether buyers or sellers were doing the pressing. DS Flow x-rays groups of candles into a volume-by-price profile - a horizontal bar for each slice of the range, split into buying and selling, with the heavy, statistically significant levels marked - so you get hidden support and resistance, absorption and exhaustion, and value migration across groups, not just a shape.",
+                        "Full Description":  "DS Flow groups candles and builds a volume-by-price profile for each group: every horizontal row is an equal slice of the group\u0027s range, its length the total volume traded there, split into buy and sell volume printed beside it. The longest row is the group\u0027s point of control. Statistically heavy rows are flagged as high-volume acceptance shelves - the magnets and reaction zones - while a glass-rendered candle dims when its group trades less than 1.1 times the volume expected, so a hollow move is obvious at a glance, and a plain-text summary gives total volume with buy and sell percentages. Graphite-bordered FIGHT nodes mark rows that are extremely heavy and two-sided, and closed groups that meet the reversal conditions print a ▲ or ▼ arrow. History builds from one extra lower-timeframe series of the same instrument (1-minute by default) and live profiles from the trades themselves, each classified against the live bid and ask, so no tick-history download is needed. Detail scales cleanly with zoom, and DS Toolkit can show or hide the whole overlay from the chart\u0027s own toolbar."
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2423",
+                        "product":  "DS GEX",
+                        "How It Helps Traders":  "The levels that quietly govern a session\u0027s movement - dealer hedging walls, the flip point where hedging behavior reverses, the strike price pulls toward - are widely watched and usually cost a subscription to see. DS GEX computes them itself: put it on a chart and it fetches the delayed option chain for that market in the background, converts every level to your chart\u0027s own prices, and draws them - no subscription, no pasting numbers in, no setup.",
+                        "Full Description":  "DS GEX computes dealer gamma exposure directly from CBOE\u0027s free delayed option chain (NDX for NQ, SPX for ES, GLD for gold) on a background thread, scales every level to the chart via the basis, and holds it as a stable, session-anchored map instead of re-ranking on every feed refresh. Per-strike net GEX gives the Call Wall and Put Wall, 0DTE walls for the current session\u0027s expiry - measured from the day\u0027s own 0DTE volume and refreshed every 15 minutes through the cash session - HGEX (the strike with the largest net gamma, which in the default Session mode is one of the two walls), Max Pain and ranked G+/G- strikes. The Gamma Flip is solved, not guessed - Black-Scholes gamma is recomputed across a grid of hypothetical spot prices and the sign change nearest spot is interpolated - and an Expected Move band from the at-the-money straddle completes the map, with an ATR-scaled grid off the session open one click away in Properties. Every other level is built twice a day from the last session close and then held, so every chart shows the same map whenever NinjaTrader is opened, and the lines you planned your session around are still there after a reload. A manual levels-string override is included for when you want to paste your own numbers instead."
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2587",
+                        "product":  "DS ASL",
+                        "How It Helps Traders":  "A session\u0027s high and low show where it traded; they don\u0027t show where it did its business. DS ASL adds that: inside every session\u0027s bracket, the volume it traded at each price, with the busiest price — the POC — carried forward as a level beside the high and low, so the last session\u0027s accepted prices are on the chart when price comes back to them.",
+                        "Full Description":  "DS ASL — Advanced Session Levels — is DS Session Levels with each session\u0027s volume profile built in. Everything DS Session Levels draws is here unchanged — exact session highs and lows, carry-forward, fades, edge tags, presets and alerts — and inside every bracket the session\u0027s volume at each price is drawn as thin bars against its first bar, the value area stronger and the POC\u0027s bar the longest. The POC becomes a level of its own, labeled where no candle covers it and carried forward until the session opens again; high- and low-volume nodes are found from each session\u0027s own trading - Node detail marks the main value areas, or adds the smaller build-ups inside them - and can be marked in the profile or carried forward as levels. Profiles are built from real trades wherever NinjaTrader\u0027s trade history has them, read in the background a day at a time, and completed from the chart\u0027s 1-minute bars wherever the history has gaps — so every profile is whole the moment the chart loads and sharpens as the trades arrive, with memory that stays flat however many days are loaded. It is part of the DS Essentials Vault: one license unlocks it, downloaded on its own or with the whole Vault, and it is not sold separately."
+                    },
+                    {
+                        "section":  "panel",
+                        "id":  "2416",
+                        "product":  "DS ProRSI",
+                        "How It Helps Traders":  "An RSI reading tells you overbought or oversold and treats every bar the same, whether ten contracts traded or ten thousand. DS ProRSI weighs each bar\u0027s move by its volume against what is normal for that minute of the day, and when the RSI turns back from an extreme it leaves the turn on your price chart as a zone — as deep as the range where the turn\u0027s nearest volume traded, graded in three steps by the volume behind it, and reinforced when a later turn lands on it again. The panel keeps the chart\u0027s own count of zones that HELD and zones that BROKE, so you read what these zones have done on your market instead of taking a strength rating on trust.",
+                        "Full Description":  "DS ProRSI runs two Wilder RSIs side by side: the classic, and one in which each bar\u0027s change is multiplied by its relative volume — the bar\u0027s volume against the median of the last twenty bars that closed in the same clock minute, held between one third and three. The weighted line is the one in force; the classic stays behind it as a faint line, and RSI weighting can be set to None. An episode opens when the RSI reaches Oversold or Overbought and closes when it is back at 50. Inside an episode, a cross of the signal line that holds on the next close is a turn, and the turn becomes a zone on the price panel: the far edge at the turn\u0027s extreme, the near edge where the nearest 15% of the turn\u0027s volume traded (10% Slim, 25% Wide), never thinner than a tenth of an average true range and never thicker than one. Five strata lines mark each sixth of the zone\u0027s volume. The flag gives the deepest RSI of the turn, three volume pips — one lit under 1.5 times normal volume, two from 1.5, three from 3 — and a count of the times price has come back into the zone. A turn from a later episode that lands on a live zone reinforces it: one more pip and a doubled mark at its start, instead of a second zone. A zone lives until a bar closes through its far edge (wick-break optional), then stays as a dashed gray trace, with the last six live and twelve broken zones kept. Once price has moved two average ranges away, a return is scored: HELD when price leaves by two ranges again, BROKE when the zone breaks; the header keeps both counts for the chart you are looking at. The panel carries the readout, the distance to the nearest support and resistance zone, the price at which the RSI would cross its signal on the next bar, a heat ribbon with a chevron for every new and reinforced zone and a dot for every refused cross, and a relative-volume strip. Eleven values are published for strategies and the Market Analyzer. On a market that reports no volume it runs as a classic RSI and sizes a zone from the turn\u0027s wick. A zone describes where momentum turned and where the volume traded; measured on five futures markets, heavier volume at a turn did not make a zone more likely to hold, so the panel states facts and a record and no odds. It is not a forecast. The panel\u0027s scale locks by default: a small drag of its axis is followed, a larger one is ignored and the automatic axis comes back. Closed-bar decisions throughout: it does not repaint."
+                    },
+                    {
+                        "section":  "panel",
+                        "id":  "2577",
+                        "product":  "DS ProLiquidityHunter",
+                        "How It Helps Traders":  "Every liquidity tool draws the same thing - the highs and lows price left behind - and most stop there. DS ProLiquidityHunter adds how likely price is to go back for each one: every pool carries the measured odds that price trades to it within the horizon, read from your own chart\u0027s history and adjusted for the time of day, and the panel scores those odds against what happened next, in its header. When a pool is taken, the next close says whether it was SWEPT or RUN. You see where the liquidity is and what it would take to get there.",
+                        "Full Description":  "DS ProLiquidityHunter maps every swing extreme that price has moved away from and not traded back through as a pool of resting liquidity: buy-side over the highs, sell-side under the lows. A swing is confirmed by a reversal of Swing size times the average true range - a size, not a bar count - so it means the same thing on every instrument, timeframe and bar type, Renko included. Extremes within a quarter of an average range of each other are one stacked pool, and each pool is ranked LOCAL, SWING or MAJOR by how long its extreme had stood, counted in horizons. The panel draws price as a line on close over those pools and heats each one by the odds that price trades to it within the horizon, 60 bars by default. The odds are a measurement: a yardstick of one sigma of the next horizon, in points, adjusted for each quarter-hour of the day, and a record of how far price went in the horizon after every bar on the chart. Until the chart has built that record, the odds are the textbook ones for a market with no drift. The four tiers - COLD, COOL from 5%, WARM from 25%, HOT from 60% - are probabilities, so there is no threshold to tune, and each is latched so a band does not flicker on a line. A track record in the header reports how often the pools of each tier were taken within the horizon, on the chart you are looking at. When price trades through a pool it is taken, and the next close gives the verdict: back inside the level is SWEPT, still beyond it is RUN. In the margin an odds ladder, three odds zones and a reach bracket describe the present; scroll back and the panel shows the pools as they stood on that bar. On the price chart the two pools with the top odds on each side, 5% or better, are drawn as levels weighted bar by bar by the heat they held, with their odds as a scale beside the axis and a flag giving the price; the pool being hunted gets a caliper from the live price, and a swept MAJOR pool gets a chevron beyond the wick that took it. Three color themes, DsUniverse (the default, in the DS Universe teal and gray), Moonlight and Heatmap, each with a set for dark and for light charts. Nine values are published for strategies and the Market Analyzer. It reads price only and needs nothing but the chart\u0027s own bars. It measures how likely price is to reach a level and marks a precisely defined event; it does not see resting orders, and it is not a forecast of direction. Closed-bar decisions throughout: it does not repaint."
+                    },
+                    {
+                        "section":  "panel",
+                        "id":  "2578",
+                        "product":  "DS ProHeikinAshi",
+                        "How It Helps Traders":  "A Heikin-Ashi chart shows the trend and hides the price: its candles are averages, so no open, high, low or close on it is a price that traded. DS ProHeikinAshi leaves the candlestick chart as it is and draws the Heikin-Ashi candle in a panel under it, each candle standing on its own open so color and strength read at a glance, with the measured odds that the color flips on the next bar. On the price chart the hinge turns that open back into prices: the level that decides the next candle\u0027s color, and the close that would turn it, printed to the tick. Two higher-timeframe candles ride along as lanes and leave their own levels on price - three Heikin-Ashi timeframes read without leaving the chart.",
+                        "Full Description":  "DS ProHeikinAshi builds the classic Heikin-Ashi candle from the chart\u0027s own bars - close is the bar\u0027s average price, (O + H + L + C) / 4, open is the middle of the candle before it - and never rounds it to a tick, so a bar is built the same way in history and in real time. Each candle is drawn standing on its own open, the dashed line of the panel, on a scale counted in units and fixed at five either side. The next candle opens at the middle of this one\u0027s body, so it is the other color exactly when the next bar\u0027s average finishes beyond that price: the flip level. It is known the moment a bar closes and does not move during the next bar. The cushion is how far the real close stands clear of the flip level, in units - one unit is the distance a bar\u0027s average ordinarily finishes from the close before it, measured on the chart and never less than one tick - so the same number means the same thing on every instrument and timeframe, and there is no length, threshold or sensitivity to tune. Three tiers follow: FLIP PENDING, the close already through the level, drawn hollow; HOLDING, clear of it by less than two units; FIRM, two units or more clear, in the strong color. The flip odds are the share of past bars with this cushion whose color flipped on the very next bar, read from a book that starts from a table measured on five futures markets and three timeframes and then learns the chart, each reading stated first and scored one bar later; a FLIP RATE readout shows the chart\u0027s own record of the three tiers, and a ruler in the right-side margin turns the panel back into prices for the bar that comes next. On the price chart, the hinge: each timeframe\u0027s level runs from the bars to a track by the price axis that ends at the turning close - the close that lands the candle\u0027s average exactly on its open - and its flag prints that close to the tick, a floor under an up candle and a ceiling over a down one. Two slower Heikin-Ashi candles, five and fifteen times the chart\u0027s bar by default, are built from the same bars with no second data series and read as of every bar: two lanes in the panel, the slow one\u0027s body as a tide behind the candles, a stair on price with one step at each of their earlier opens, and a chevron on the bar that closes the slow candle in a new color. Twenty-one values are published for strategies and the Market Analyzer. It reads price only and needs nothing but the chart\u0027s own bars. A Heikin-Ashi color describes the last few bars; measured, it did not say where price went next, and a tier speaks for the next bar only - it is not a forecast. The panel\u0027s Y-axis locks by default so a chart drag cannot push the candles off their own scale. Closed-bar decisions throughout: it does not repaint."
+                    },
+                    {
+                        "section":  "panel",
+                        "id":  "2571",
+                        "product":  "DS ProTrendRange",
+                        "How It Helps Traders":  "A pullback trade needs three answers in a row - is there a trend, is this a pullback inside it or the end of it, and has the pullback finished - and most panels give one of them. DS ProTrendRange gives all three on one scale: a thick TREND line for the tide, a thin SWING line for the wave, a filled pocket while the wave runs against the tide, and one signal, the RESUME, on the bar the pocket closes. When there is no tide to trade with, it says RANGING and frames the range the market is working instead. On the price chart the Tide Gauge turns those decisions into prices: each trend as a line at the close that ends it, and beside the price axis the exact closes that change the state on the bar now forming, with the distance to the nearest one.",
+                        "Full Description":  "DS ProTrendRange takes one measurement - signed efficiency, how much of the distance price traveled was progress - over two lengths, and scales each by the square root of its length so a 10-bar and a 50-bar reading sit on one statistical scale: 50 is no drift, 84 and 16 are one sigma of it, 97.7 and 2.3 are two. Those levels are constants on every instrument, timeframe and bar type, Renko included, so there is no threshold to tune, and one bar, however large, cannot move a reading as far as one and a half sigma - a single spike is never read as a strong trend. A trend latches ON when the Trend-length reading reaches one sigma and stays on until it crosses back through the center - the same event as the close crossing its own Trend-length average - so the state cannot flicker along a line; past two sigma it is STRONG, and with no trend latched the market is RANGING. While a trend is on, the Swing-length reading crossing the center against it is a PULLBACK, filled in the panel as a pocket in the trend\u0027s own color. The one signal is the RESUME: the swing closes back through the center and the next close holds it, given once per leg and graded PRIME, STANDARD or MINOR by the trend it resumes; a ribbon gives every bar\u0027s state, with a chevron for each resume. On the price chart each PRIME and STANDARD resume is drawn as a shelf - a level line at the HOLD price, the pullback\u0027s own extreme, from the bar that made it to the bar that confirmed the resume - and while it is live a HOLD rail carries that price to a flag at the axis; MINOR resumes stay on the ribbon. The Tide Gauge turns the state into prices: a tideline under every uptrend and over every downtrend at the close that ends it, a lit pocket wherever the trend pulled back, a thin frame at the high and the low of every range, and beside the price axis the gates - every close that changes the state on the bar now forming, printed to the tick and fixed for the life of the bar, with the distance to the nearest. A range row along the foot of the panel shows where the close sits in the Trend-length high-low window. Seventeen values are published for strategies and the Market Analyzer. It reads price only and needs nothing but the chart\u0027s own bars. It reads the state of the market and marks a precisely defined event; it is not a forecast. The panel\u0027s Y-axis locks by default so a chart drag cannot push the reading off its own scale. Closed-bar decisions throughout: it does not repaint."
+                    },
+                    {
+                        "section":  "addon",
+                        "id":  "2425",
+                        "product":  "DS Bulk Replay Downloader",
+                        "How It Helps Traders":  "NinjaTrader\u0027s built-in replay download is one instrument, one day, one click - building a useful replay library that way is an evening of clicking for a week of data. DS Bulk Replay Downloader takes a list of instruments and a date range and fetches all of it unattended, showing a per-file progress list and telling you exactly what it got and what it didn\u0027t.",
+                        "Full Description":  "DS Bulk Replay Downloader automates NinjaTrader\u0027s own Market Replay (.nrd) download for every instrument-and-day pair you queue. You add instruments from the standard selector, tick the ones this run should include, set a begin and end date, and choose whether to skip weekends (Saturdays) and days already on disk; a begin date older than NinjaTrader\u0027s roughly 90-day serving window is moved forward automatically with a note in the NinjaScript Output window, and an interrupted overwrite puts the original file back rather than leaving a broken one. Files land in NinjaTrader\u0027s own replay folder, so Playback picks them up automatically with no extra step. It supplies no data of its own and bypasses no platform limit - it only orchestrates the same download NinjaTrader already performs, in bulk, because NinjaTrader has never shipped bulk replay downloading itself."
+                    },
+                    {
+                        "section":  "addon",
+                        "id":  "2426",
+                        "product":  "DS Toolkit",
+                        "How It Helps Traders":  "Turning an indicator off usually means the Indicators dialog, a checkbox and Apply; finding the drawing tool you use forty times a day means hunting the toolbar. DS Toolkit puts both in one translucent rail: your DS indicators along the top as simple on/off rows, your drawing tools underneath, and freehand chalk at the bottom - so neither one breaks your rhythm mid-session.",
+                        "Full Description":  "DS Toolkit is the all-in-one chart rail for the DS Universe suite. The indicator deck lists one row for each DS indicator actually loaded on that chart - nothing else is ever listed - and every switch is a genuine mute, not a preset: turning an indicator off closes its render master and nothing else, so your own settings and templates survive every toggle, and a rebuild (theme change, tab switch, added indicator) never silently loses the arrangement. ALL OFF switches off every DS indicator on the rail in one click for a screenshot - other indicators and your drawings stay - and the next click restores exactly what was on, including multi-family products like DS 258. The drawing deck reflects over every drawing tool actually present on your build - asking each for its own name and icon through NinjaTrader\u0027s own call, so third-party tools work for free and a helper tool an indicator owns for its own use never shows up as pickable - with a REFRESH button to re-scan after installing something new. DS Chalk is a real drawing tool included with it: every stroke is a genuine time-and-price anchor, so freehand marks pan, zoom and save with the workspace, and Ctrl+Z only ever undoes a chalk stroke while chalk itself is the armed tool. Three panel looks - Solid, Frosted and Ghost - set the rail\u0027s own background opacity (100%, 82%, 51%) independently of its idle fade, so Solid genuinely blocks the chart behind it and text and icons stay fully legible in all three. It is part of the DS Essentials Vault: one license unlocks it, downloaded on its own or with the whole Vault, and it is not sold separately."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2412",
+                        "product":  "DS Adaptive Price Line",
+                        "How It Helps Traders":  "NinjaTrader\u0027s own price line starts at a fixed percentage of the panel\u0027s width, so it drifts off the candle the moment you scroll, zoom or change your right margin. DS Adaptive Price Line works out its position again on every render frame instead: the left end sits on the right-most candle on screen, the level tracks the live price, and the right end meets NinjaTrader\u0027s own axis marker - wherever you leave the chart.",
+                        "Full Description":  "DS Adaptive Price Line replaces the geometry behind NinjaTrader\u0027s native price line without replacing what it shows: the level itself still comes from the live price, and the value is still read off NT8\u0027s own axis marker. What changes is how the line is drawn - on every render frame, the left end is re-anchored to the exact chart position of the right-most candle on screen, rather than trusting a fixed percentage of panel width that has no idea where the candles actually are. On top of that base sits a hand-rendered finish: a luminous glow halo, rounded caps, a candle-to-axis opacity fade, and a small anchor circle seated on the candle at its close, so the line is visibly connected to the candle it belongs to (Anchor style sets it clear of the candle instead). A bracketed countdown tag rides the line with a steady readout to the forming bar\u0027s close, timezone-proof (it keeps time from the data feed rather than the PC clock) and it counts down on Heiken-Ashi and Volumetric charts built on a time-based period too - and it can run on its own with the line itself switched off. Painted behind the bars by default so it never covers price, and rendered with zero per-frame allocations so it costs nothing to keep on."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2411",
+                        "product":  "DS Chart Price",
+                        "How It Helps Traders":  "On a NinjaTrader chart, price lives in one place: the axis, in small type, at the far right. DS Chart Price puts it front and center instead, in a large readout you can place in any of nine spots on the panel, color-coded so you can read direction and conviction from across the room - and it carries a small price-alert engine with built-in tones so you can step away and still hear when a level you set gets hit.",
+                        "Full Description":  "DS Chart Price renders the current price in large type at any of nine positions on the price panel (top, middle or bottom; left, center or right). Every tick compares the new price to the last and flashes DS teal or DS gray, while choppiness is measured with the Kaufman Efficiency Ratio over a rolling window - low efficiency eases the resting color toward amber, high efficiency holds a strong directional color. The alert engine takes up to three price levels and plays that level\u0027s tone whenever price crosses it from either direction, with a re-arm distance in ticks and an optional cooldown so a level cannot repeat-fire while price hovers on it; alerts are realtime-only and never fire on historical bars, chart load or scrolling. Four tones are synthesized in memory with click-free envelopes - Chime, Bell, Pulse and the shared DS Universe tone - so there are no sound files to install, and a 0-100 volume control scales amplitude directly, true per-indicator loudness NinjaTrader\u0027s own alert playback cannot offer. Two modes make it calmer: Mono draws the readout in a single color and shows direction as a small change in strength instead of hue, and Reduced motion paces the digits, pulses only the ones that changed and slows the tint; an opacity control lets the bars show through the digits. Performance is deliberate: at its default settings it forces no extra chart redraws, with zero per-frame allocation."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2409",
+                        "product":  "DS 258",
+                        "How It Helps Traders":  "Nasdaq futures are often read in hundred-point blocks, with the same four prices marked inside each one: the 00, the 20, the 50 and the 80. Drawing them by hand gets old fast. DS 258 lays a quiet line on every one of them across the visible chart, in its own color, behind your candles and out of the way.",
+                        "Full Description":  "DS 258 is a pure render-only overlay: on every frame it reads the chart\u0027s own price scale and lays a line across the full width of the price panel at every 00, 20, 50 and 80 level currently in view - no calculation and no lookback; on NQ and MNQ the defaults are the map, and Block size and Level shift move it to another market or onto the cash index. Each of the four levels carries its own DS Universe color (gold for 00, blue for 20, platinum for 50, rose for 80) at a default opacity of 20: clear at a glance, and quiet enough that the map stays behind the chart until price actually reacts to one. On a light chart the default colors are drawn in deeper shades of the same hues, so the map reads there too. Lines draw behind the candles by default and de-clutter automatically as you zoom out - the 20 and 80 families step aside first, then the 50, and declutter never hides the 00s, so the chart never turns into a ladder of lines at wide zoom. Support in DS Toolkit covers all four level families from one row, including the mute and restore behavior the rest of the suite uses."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2410",
+                        "product":  "DS Parallax",
+                        "How It Helps Traders":  "You trade one timeframe. The structure that decides whether your trade works lives on others. DS Parallax puts up to four live higher-timeframe charts on the chart you\u0027re executing on - each with its own axis, candles and countdown to close - and marks the one thing that matters most on every one of them: where the resting stops are.",
+                        "Full Description":  "DS Parallax draws up to four live higher-timeframe mini-charts (15m/1h/4h/1D by default) on your execution chart, each auto-scaled and running its own countdown to close, so the higher-timeframe pattern stays readable at a glance without ever changing your chart\u0027s own timeframe. Each panel can be built on the bars a trader actually executes on - minute, hour, day, week or second bars, or tick, volume, range or Renko bars, exactly as NinjaTrader builds them on a chart - and a range or Renko panel shows the ticks up and down to its next bar and marks both prices on the panel, while a tick or volume panel counts down the trades or contracts left in its bar. Buy-side liquidity is marked just above unswept swing highs, sell-side just below unswept swing lows, and relative-equal highs and lows are clustered into a single level with a touch count - because each separate test tends to leave another layer of stops beyond it, which is the only strength the engine can honestly claim. A pool is drawn only while it is live - no newer bar has traded through it, so there is no wait-N-bars pivot delay - and once price sweeps a level and closes back inside, it is ghosted with a small x at the sweep bar, because the sweep itself is the pattern worth recognizing; a level price closed through and held beyond was a breakout, and it is simply gone. It opens on a panel of its own below the chart, where the mini-charts fill the panel and the divider sizes it; moved over price (Panel: Same as input series), a fold tab collapses the whole matrix for a clean chart without taking the indicator off."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2446",
+                        "product":  "DS Session Levels",
+                        "How It Helps Traders":  "Every trading session leaves two prices behind — its high and its low — and many traders read each session against the one before it: does London hold inside the Asia range, and which of London\u0027s levels does New York test first? Marking them by hand every day is slow, and easy to get wrong across time zones. DS Session Levels draws them for you, exactly, on every intraday chart.",
+                        "Full Description":  "DS Session Levels draws the high and low of every trading session as a short bracket over exactly the bars of that session — Asia, London and New York on the futures clock by default, each in its own DS Universe color (violet, teal, gold). After a session closes, its levels carry forward as dotted lines until that session opens again and fade from the bar that closes through them; small tags at the right edge name each level still carrying forward, faint once it has been taken. Sessions are clock times in New York time, converted with the Windows time-zone rules, so they land correctly on any PC and through every daylight-saving change. The highs and lows are always real traded prices from inside the session: on range, Renko, tick, Heiken Ashi and 60-minute charts a 1-minute series supplies them. Presets for the futures ETH split, the ICT killzones and the classic forex sessions; every name, time and color editable; eight Data Box values for the Market Analyzer and strategies; alerts on a close through a level or price nearing one. It draws behind the candles and never touches the price scale. Free for everyone."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2579",
+                        "product":  "DS VWAP",
+                        "How It Helps Traders":  "Most traders run a VWAP beside a pair of EMAs and judge by eye whether the two agree. Read raw, that stack — price over the fast EMA, the fast over the slow, the slow over the VWAP — sets and breaks every few bars, and the usual VWAP bands are sigma multiples chosen in advance rather than a measured share of closes. DS VWAP puts the session VWAP on the chart with edges measured on your own chart, and colors the VWAP and the EMAs only while the trend has carried its own average out of value and holds it there, so the chart stays quiet until there is something to say.",
+                        "Full Description":  "DS VWAP draws the session VWAP on the price chart, behind the candles. It is built on one-minute bars the indicator adds itself, so a five-minute, a tick and a Renko chart of the same instrument show the same line, and it starts at the session\u0027s open and again at the cash open by default (Session, Week and Month are the other anchors). Two dotted edges stand either side of it: they hold nine closes in ten, with the number of sigmas that takes learned from the chart\u0027s own closes instead of assumed. Beside it run the 9 and 21 EMAs, by NinjaTrader\u0027s own formula on the chart\u0027s bars. When price is beyond the fast EMA, the fast beyond the slow and the slow beyond the VWAP\u0027s measured 50% core, all on one side, the trend is COHERENT: the gap between the EMAs fills with the side\u0027s color and the VWAP takes the same color, until the EMAs cross or the slow EMA falls back inside the core. The rest of the time the VWAP is a neutral line and the EMAs are faint. The session has one latched state — EXTENDED, on a close beyond an edge confirmed by the next close — drawn as that edge in the strong color, and ending BACK IN VALUE or AT VWAP. Flags at the price axis name the VWAP, its edges and the slow EMA, a level beyond the chart is flagged at its border, and one caption says what the chart is in. It leaves the chart\u0027s scale to the candles. Fourteen values are published for strategies and the Market Analyzer. Coherence describes the market\u0027s condition; it is not a call on direction. Closed-bar decisions throughout: it does not repaint. Free for everyone."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "—",
+                        "product":  "DS Live Background",
+                        "How It Helps Traders":  "NinjaTrader lets a chart show a still picture behind the bars, and nothing that moves. DS Live Background plays your own video there instead, so the screen you watch for hours is one you want to look at, while the candles stay the brightest thing on it.",
+                        "Full Description":  "DS Live Background plays your own MP4, MOV, M4V or MKV (H.264, or HEVC, VP9 and AV1 once Windows has Microsoft\u0027s extension), an animated GIF with its transparency, or a PNG, JPG or BMP still behind every chart object. It decodes with Windows\u0027 own media decoders, on the graphics card wherever the PC allows, at the exact pixel size of the panel, so it stays sharp at any window size and loops without a seam. Nine settings in three groups: Media file, Play and Speed (25 to 400%); Fit (Fill, Fit, Stretch, Center), Opacity (5 to 100%, default 30), Backdrop (Dark by default, which gives the picture its own black base so it looks the same on any chart background color, or ChartBackground) and Blur (Off, Light, Medium, Heavy); Smooth playback (on by default: the video plays in its own layer beneath the chart, at its full frame rate however many indicators run) and Max frame rate (default 30 fps). It is always the bottom layer: candles, indicators, drawings and the chart\u0027s grid lines draw on top, and clicks go straight through to the chart. Playback stops and uses no processing when the chart is hidden, minimized or on a background tab, and with Smooth playback the chart never redraws for the video. Sound is never played, and phone videos show upright. Free, with no license to activate."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "—",
+                        "product":  "DS Time Intervals",
+                        "How It Helps Traders":  "Switching timeframe in NinjaTrader means opening the interval list and picking from it, dozens of times a session. DS Time Intervals puts the timeframes you actually trade straight on every chart\u0027s toolbar, so a switch is one click and the teal line always tells you where you are.",
+                        "Full Description":  "DS Time Intervals is a chart-toolbar add-on, not an indicator: once imported, a row of favorite timeframes (1m, 5m, 15m, 1h and 4h to start) sits directly on the toolbar of every chart, transparent and boxless, so it reads as part of the platform. One click switches the chart, and a thin teal line under a button marks the timeframe the chart is on; when the chart is on a timeframe that is not a favorite, it shows beside the ▾ instead (for example 3m ▾). The ▾ opens every common interval on one compact grid, in rows by bar type: seconds, minutes, hours, days to years, then tick, volume, range and Renko. A click switches the chart and a right-click pins or unpins that interval. The favorites window adds any value and unit, keeps one to eight, always in timeframe order, and previews the toolbar before Save; favorites are shared by every chart and saved in Documents\\NinjaTrader 8\\DSTimeIntervals.txt. Hours are minute bars (1h is 60 minutes, 4h is 240), exactly as NinjaTrader\u0027s own list builds them; a Bid or Ask chart stays on Bid or Ask; and changes are spaced at least ¾ of a second apart, so quick clicks land on the last one without straining the data feed. It follows the NinjaTrader skin, dark or light, without a restart, does almost no work on an idle chart, and if anything goes wrong it does nothing and writes one line starting [DS Time Intervals] to the NinjaScript Output window. Free, with no license to activate."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "—",
+                        "product":  "DS Volume",
+                        "How It Helps Traders":  "The native VOL indicator tells you how many contracts traded, not whether that is a lot: 600 NQ contracts in a minute is a quiet minute at the 09:30 open and an eruption at 8 in the evening. DS Volume weighs every bar against the same minutes of the previous 20 sessions and against how hard the market is running today, so a heavy bar looks heavy, a quiet one looks quiet, and the rare bar that is unusual even for today is marked as a spike.",
+                        "Full Description":  "DS Volume draws the chart\u0027s volume as a low strip along the bottom of the price panel, behind the candles, with no panel of its own. Every completed 1-minute bar is filed by its exchange trading day and its minute of the day in the instrument\u0027s own time zone, and each chart bar\u0027s window is compared with the same clock window on the previous 20 qualifying sessions, so it reads minute, second, tick, range, volume, Renko and Heiken Ashi charts alike. The typical volume is the median and the spread the median absolute deviation, both on a log scale, so one FOMC day or one half-day holiday cannot move either; sessions that traded far less than the rest are left out automatically, and the history is requested in the background merged across contract rolls. A running tempo (a 30-minute half-life, reset every session) measures how far today has run above or below its baseline. A bar 2 robust standard deviations below or above the clock baseline is QUIET or HEAVY; a SPIKE stands 3.5 or more above it once the tempo is taken out (the Iglewicz–Hoaglin outlier rule, not a tuned setting), is decided when its bar closes, and spikes within 15 minutes of each other are one burst, labelled and alerted once. A typical-volume line, a live-pace cap on the developing bar, a now / tempo / session caption and hover details sit on the strip, and five values are published for the Strategy Builder and the Market Analyzer. Day, week, month and year charts are read against the previous 20 bars. Every bar is compared only with sessions before its own, so history reads exactly as it did live: it does not repaint. It reads participation, not direction. Free for everyone."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "—",
+                        "product":  "DS HTF PO3",
+                        "How It Helps Traders":  "Trading a one-minute chart means trading inside a bigger candle you cannot see: the hour, the four hours, the day. DS HTF PO3 draws that candle beside your chart, on your chart\u0027s own price scale, so its open, high and low are prices you can trade against, and while it builds it answers the questions that matter: is the high in, is the low in, how much further can it run, which way is it likely to close, and how long is left.",
+                        "Full Description":  "DS HTF PO3 builds the live higher-timeframe candle from one 1-minute series of the same instrument, on every chart type, so its open, high and low are real trades from inside its window. Candles are cut on the New York clock from the 18:00 futures open or from midnight (the ICT true day); Auto picks the candle that holds some 40 to 120 of the chart\u0027s bars: 1H on a 1-minute chart, 4H on 2 to 5-minute charts, Day up to 30 minutes, Week up to 4 hours. The candle stands 40 px wide in the right margin, teal up and gray down, with [ 1H High ], [ 1H Open ] and [ 1H Low ] beside it and fine threads back to the bars that printed them; the chart scales to keep it in view while the newest bar is on screen. Under it: the odds its high and its low are already in, from four things the candle knows (how much of it has passed, how far price has pulled back from each extreme, whether price sits on it, and how big the candle already is, all in its typical range for that time of day). Fitted on a year of NQ minutes and one to three months of MNQ, ES, GC and CL, and scored leave-one-instrument-out: Brier skill +0.36 to +0.45 over the base rate from 15 minutes to the Day. The 80% caps mark how far each extreme is likely to run before the close (they held 81 to 84% of the time from 15 minutes to 4 hours); the close odds say which way it is likely to close; Range compares it with the typical candle; Delta is exact, from every trade against the bid and ask (Tick Replay for history), or not shown. The phase — Accumulation, Manipulation, Distribution or Range set — is a description, never a signal: tested, it adds nothing to price\u0027s distance from the open for forecasting the close. A countdown over the candle runs to its trading close, to the second. Nothing is tuned on your chart, nine values are published for the Data Box, the Market Analyzer and the Strategy Builder, alerts are off out of the box, and it does not repaint."
+                    },
+                    {
+                        "section":  "bundle",
+                        "id":  "2835",
+                        "product":  "DS Essentials Vault",
+                        "How It Helps Traders":  "DS Universe keeps its paid tools affordable. At the founders price - $39.99 a month or $149.99 one-time, until founder slots are filled - every paid DS Universe product is in the DS Essentials Vault on one license, and every future indicator and every update is included at no extra cost; as more indicators join, the price of the Vault will only go up. Today: DS Zones, DS Compass, DS Ember, DS Iceberg, DS Flow, DS GEX, DS ASL, DS ProRSI, DS ProLiquidityHunter, DS ProHeikinAshi, DS ProTrendRange, DS Bulk Replay Downloader, and DS Toolkit with DS Chalk. No paid product is sold on its own. Take the tools you want: each one downloads on its own, or the whole Vault comes in one archive, and the one license runs them all.",
+                        "Full Description":  "The DS Essentials Vault is the whole paid DS Universe lineup on one license: 2835 covers every product in it, so there is nothing to activate product by product. A member downloads each product as its own archive, or the whole Vault in one archive (DSEssentialsVault) - one way or the other, not both, since the same indicator in two archives clashes. At the founders price it costs $39.99 a month, or $149.99 one-time, until founder slots are filled; a founder on license 2835 receives every future indicator and every update at no extra cost, and the price for later buyers will only go up as more indicators join. Each product keeps its own settings, its own colors and its own guides, and each is built to stand on its own. The Vault keeps growing: tools are added and updated as they are ready. Installing is one import per archive (Tools → Import → NinjaScript Add-On…, the .zip as it is) and one restart. The license is tied to the email on the buyer\u0027s NinjaTrader account and switched on by hand by a person, so it is not instant. The DS Free Vault products are not in the Essentials Vault: each is its own free download and runs beside it."
+                    }
+                ],
+    "markets":  [
+                    {
+                        "section":  "chart",
+                        "id":  "2420",
+                        "product":  "DS Zones",
+                        "What It Reads":  "Price, traded volume, and the bid/ask of each live trade (loaded history is estimated from one lower-timeframe series, 1 minute by default). Tick Replay optional."
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2816",
+                        "product":  "DS Compass",
+                        "What It Reads":  "Price and bar volume (the line is weighted by where volume traded), each reading compared with the same time of day on earlier sessions, 20 by default — history it requests itself. Closed bars."
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "—",
+                        "product":  "DS Ember",
+                        "What It Reads":  "Price on the chart\u0027s own bars, any bar type: bricks of one average true range (14 bars), decided on each close. Twelve finished runs of history before a run can burn out. No volume needed. Closed bars."
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2421",
+                        "product":  "DS Iceberg",
+                        "What It Reads":  "Price, traded volume, and the bid/ask of each live trade (loaded history is estimated from one lower-timeframe series, 1 minute by default). No Level 2; Tick Replay optional."
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2424",
+                        "product":  "DS Flow",
+                        "What It Reads":  "Traded volume at each price; the bid/ask of each live trade. Loaded history is estimated from one lower-timeframe series (1 minute by default), no tick download."
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2423",
+                        "product":  "DS GEX",
+                        "What It Reads":  "CBOE\u0027s delayed option chain for NDX, SPX or GLD, fetched in the background, scaled to the chart by the basis. Internet access; no data subscription."
+                    },
+                    {
+                        "section":  "chart",
+                        "id":  "2587",
+                        "product":  "DS ASL",
+                        "What It Reads":  "Price and traded volume, on any intraday chart: real trades read in the background, gaps filled from 1-minute bars. No Tick Replay."
+                    },
+                    {
+                        "section":  "panel",
+                        "id":  "2416",
+                        "product":  "DS ProRSI",
+                        "What It Reads":  "Price and volume (closed bars). No tick data."
+                    },
+                    {
+                        "section":  "panel",
+                        "id":  "2577",
+                        "product":  "DS ProLiquidityHunter",
+                        "What It Reads":  "Price only (closed bars). No volume, no tick data."
+                    },
+                    {
+                        "section":  "panel",
+                        "id":  "2578",
+                        "product":  "DS ProHeikinAshi",
+                        "What It Reads":  "Price only (the chart\u0027s own bars, decided on closed bars). No volume, no tick data, no second data series."
+                    },
+                    {
+                        "section":  "panel",
+                        "id":  "2571",
+                        "product":  "DS ProTrendRange",
+                        "What It Reads":  "Price only (closed bars). No volume, no tick data."
+                    },
+                    {
+                        "section":  "addon",
+                        "id":  "2425",
+                        "product":  "DS Bulk Replay Downloader",
+                        "What It Reads":  "No chart data of its own: it queues NinjaTrader\u0027s Market Replay (.nrd) download per instrument and day."
+                    },
+                    {
+                        "section":  "addon",
+                        "id":  "2426",
+                        "product":  "DS Toolkit",
+                        "What It Reads":  "No market data. It reads which DS indicators and drawing tools are on the chart."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2412",
+                        "product":  "DS Adaptive Price Line",
+                        "What It Reads":  "The chart\u0027s last price and bar clock, plus the color another indicator paints on the candles, when one runs beside it (Follow candle color)."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2411",
+                        "product":  "DS Chart Price",
+                        "What It Reads":  "The chart\u0027s last price, tick by tick (or bid, ask or mid, if you pick it). Nothing else."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2409",
+                        "product":  "DS 258",
+                        "What It Reads":  "The chart\u0027s price scale only. No bars, no volume, no lookback."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2410",
+                        "product":  "DS Parallax",
+                        "What It Reads":  "Price on up to four higher-timeframe series of the same instrument (15m / 1h / 4h / 1D by default). No volume."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2446",
+                        "product":  "DS Session Levels",
+                        "What It Reads":  "Price only, on any intraday chart; one 1-minute series on range, Renko, tick, volume and Heiken Ashi charts, or bars that straddle a session edge."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "2579",
+                        "product":  "DS VWAP",
+                        "What It Reads":  "Price and bar volume, built on one 1-minute series of the same instrument that it adds itself (not added on 1-minute, seconds or daily charts); the EMAs on the chart\u0027s own bars. No tick data, no Tick Replay."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "—",
+                        "product":  "DS Live Background",
+                        "What It Reads":  "No market data, only the media file you choose."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "—",
+                        "product":  "DS Time Intervals",
+                        "What It Reads":  "No market data. It sets the chart\u0027s own bar period: second, minute, day, week, month, year, tick, volume, range or Renko."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "—",
+                        "product":  "DS Volume",
+                        "What It Reads":  "Bar volume, built on one 1-minute series of the same instrument that it adds itself, plus one background request for 20 sessions of 1-minute history merged across contract rolls; the last trade checks the data clock. No Tick Replay."
+                    },
+                    {
+                        "section":  "vault",
+                        "id":  "—",
+                        "product":  "DS HTF PO3",
+                        "What It Reads":  "Price on one 1-minute series of the same instrument that it adds itself, cut on the New York clock; the bid/ask of each live trade for the delta (Tick Replay for every candle\u0027s delta). No volume needed for the candle, its odds or its caps."
+                    },
+                    {
+                        "section":  "bundle",
+                        "id":  "2835",
+                        "product":  "DS Essentials Vault",
+                        "What It Reads":  "Nothing of its own: it is one license (2835) to every product in the Essentials Vault."
+                    }
+                ],
+    "nt8":  [
+                {
+                    "section":  null,
+                    "id":  "9 products",
+                    "product":  "DS Free Vault",
+                    "Cover Line  (250×250 image)":  "Nine tools. Free. Instant."
+                },
+                {
+                    "section":  null,
+                    "id":  "2835",
+                    "product":  "DS Essentials Vault",
+                    "Cover Line  (250×250 image)":  "Founders price. Every paid DS tool."
+                },
+                {
+                    "section":  null,
+                    "id":  "—",
+                    "product":  "DS Universe Free Vault  (website)",
+                    "Cover Line  (250×250 image)":  "A whole vault of free indicators."
+                },
+                {
+                    "section":  "chart",
+                    "id":  "2420",
+                    "product":  "DS Zones",
+                    "Cover Line  (250×250 image)":  "Zones that know if they\u0027re holding."
+                },
+                {
+                    "section":  "chart",
+                    "id":  "2816",
+                    "product":  "DS Compass",
+                    "Cover Line  (250×250 image)":  "Who holds the market, and the room left."
+                },
+                {
+                    "section":  "chart",
+                    "id":  "—",
+                    "product":  "DS Ember",
+                    "Cover Line  (250×250 image)":  "The trend\u0027s heat, in your own candles."
+                },
+                {
+                    "section":  "chart",
+                    "id":  "2421",
+                    "product":  "DS Iceberg",
+                    "Cover Line  (250×250 image)":  "See where size was hidden."
+                },
+                {
+                    "section":  "chart",
+                    "id":  "2424",
+                    "product":  "DS Flow",
+                    "Cover Line  (250×250 image)":  "Who was pressing, at every price."
+                },
+                {
+                    "section":  "chart",
+                    "id":  "2423",
+                    "product":  "DS GEX",
+                    "Cover Line  (250×250 image)":  "Gamma walls on your chart. Zero setup."
+                },
+                {
+                    "section":  "chart",
+                    "id":  "2587",
+                    "product":  "DS ASL",
+                    "Cover Line  (250×250 image)":  "—"
+                },
+                {
+                    "section":  "panel",
+                    "id":  "2416",
+                    "product":  "DS ProRSI",
+                    "Cover Line  (250×250 image)":  "Volume-weighted RSI. Zones with a record."
+                },
+                {
+                    "section":  "panel",
+                    "id":  "2577",
+                    "product":  "DS ProLiquidityHunter",
+                    "Cover Line  (250×250 image)":  "Every pool, and the odds price reaches it."
+                },
+                {
+                    "section":  "panel",
+                    "id":  "2578",
+                    "product":  "DS ProHeikinAshi",
+                    "Cover Line  (250×250 image)":  "The price where the color flips."
+                },
+                {
+                    "section":  "panel",
+                    "id":  "2571",
+                    "product":  "DS ProTrendRange",
+                    "Cover Line  (250×250 image)":  "Trend. Pullback. Resume. One scale."
+                },
+                {
+                    "section":  "addon",
+                    "id":  "2425",
+                    "product":  "DS Bulk Replay Downloader",
+                    "Cover Line  (250×250 image)":  "Queue the whole range. Walk away."
+                },
+                {
+                    "section":  "addon",
+                    "id":  "2426",
+                    "product":  "DS Toolkit",
+                    "Cover Line  (250×250 image)":  "—"
+                },
+                {
+                    "section":  "vault",
+                    "id":  "2412",
+                    "product":  "DS Adaptive Price Line",
+                    "Cover Line  (250×250 image)":  "A price line that never leaves the candle."
+                },
+                {
+                    "section":  "vault",
+                    "id":  "2411",
+                    "product":  "DS Chart Price",
+                    "Cover Line  (250×250 image)":  "Price you can read from across the room."
+                },
+                {
+                    "section":  "vault",
+                    "id":  "2409",
+                    "product":  "DS 258",
+                    "Cover Line  (250×250 image)":  "The four levels NQ keeps reacting to."
+                },
+                {
+                    "section":  "vault",
+                    "id":  "2410",
+                    "product":  "DS Parallax",
+                    "Cover Line  (250×250 image)":  "Higher timeframes, without leaving yours."
+                },
+                {
+                    "section":  "vault",
+                    "id":  "2446",
+                    "product":  "DS Session Levels",
+                    "Cover Line  (250×250 image)":  "Every session\u0027s high and low, exact."
+                },
+                {
+                    "section":  "vault",
+                    "id":  "2579",
+                    "product":  "DS VWAP",
+                    "Cover Line  (250×250 image)":  "Value, and whether the trend agrees."
+                },
+                {
+                    "section":  "vault",
+                    "id":  "—",
+                    "product":  "DS Live Background",
+                    "Cover Line  (250×250 image)":  "Your own video, looping behind the bars."
+                },
+                {
+                    "section":  "vault",
+                    "id":  "—",
+                    "product":  "DS Time Intervals",
+                    "Cover Line  (250×250 image)":  "Your timeframes, one click away."
+                },
+                {
+                    "section":  "vault",
+                    "id":  "—",
+                    "product":  "DS Volume",
+                    "Cover Line  (250×250 image)":  "Volume, against what\u0027s normal now."
+                },
+                {
+                    "section":  "vault",
+                    "id":  "—",
+                    "product":  "DS HTF PO3",
+                    "Cover Line  (250×250 image)":  "The HTF candle, beside your own chart."
+                },
+                {
+                    "section":  "bundle",
+                    "id":  "2835",
+                    "product":  "DS Essentials Vault",
+                    "Cover Line  (250×250 image)":  "Founders price. Every paid DS tool."
+                }
+            ],
+    "versions":  {
+                     "DS Squeeze":  {
+                                        "assembly":  "DSSqueeze",
+                                        "version":  "v1.3 · 2026-10-11",
+                                        "tier":  "Discontinued"
+                                    },
+                     "DS Compass":  {
+                                        "assembly":  "DSCompass  ·  DSEssentialsVault",
+                                        "version":  "v3.2",
+                                        "tier":  "Essentials Vault"
+                                    },
+                     "DS Chart Price":  {
+                                            "assembly":  "DSChartPrice",
+                                            "version":  "v3.2",
+                                            "tier":  "Free Vault"
+                                        },
+                     "DS Flow":  {
+                                     "assembly":  "DSFlow  ·  DSEssentialsVault",
+                                     "version":  "v3.2",
+                                     "tier":  "Essentials Vault"
+                                 },
+                     "DS VWAP":  {
+                                     "assembly":  "DSVWAP",
+                                     "version":  "v3.2",
+                                     "tier":  "Free Vault"
+                                 },
+                     "DS ProRSI":  {
+                                       "assembly":  "DSProRSI  ·  DSEssentialsVault",
+                                       "version":  "v3.2",
+                                       "tier":  "Essentials Vault"
+                                   },
+                     "DS Stochastics":  {
+                                            "assembly":  "DSStochastics",
+                                            "version":  "v1.2 · 2026-10-11",
+                                            "tier":  "Discontinued"
+                                        },
+                     "DS MACD":  {
+                                     "assembly":  "DSMACD",
+                                     "version":  "v2.5 · 2026-10-11",
+                                     "tier":  "Discontinued"
+                                 },
+                     "DS Adaptive Price Line":  {
+                                                    "assembly":  "DSAdaptivePriceLine",
+                                                    "version":  "v3.2",
+                                                    "tier":  "Free Vault"
+                                                },
+                     "DS Universe Store":  {
+                                               "assembly":  "—",
+                                               "version":  "—",
+                                               "tier":  "Store"
+                                           },
+                     "DS Chalk":  {
+                                      "assembly":  "DSToolkit  ·  DSEssentialsVault",
+                                      "version":  "2.0",
+                                      "tier":  "Essentials Vault"
+                                  },
+                     "DS Zones":  {
+                                      "assembly":  "DSZones  ·  DSEssentialsVault",
+                                      "version":  "v3.2",
+                                      "tier":  "Essentials Vault"
+                                  },
+                     "DS Oracle":  {
+                                       "assembly":  "DSOracle",
+                                       "version":  "Build 2026-09-26",
+                                       "tier":  "Discontinued"
+                                   },
+                     "DS Iceberg":  {
+                                        "assembly":  "DSIceberg  ·  DSEssentialsVault",
+                                        "version":  "v3.2",
+                                        "tier":  "Essentials Vault"
+                                    },
+                     "DS Session Levels":  {
+                                               "assembly":  "DSSessionLevels",
+                                               "version":  "v3.2",
+                                               "tier":  "Free Vault"
+                                           },
+                     "DS Live Background":  {
+                                                "assembly":  "DSLiveBackground",
+                                                "version":  "v3.2",
+                                                "tier":  "Free Vault"
+                                            },
+                     "DS SuperTrend":  {
+                                           "assembly":  "-",
+                                           "version":  "—",
+                                           "tier":  "Internal"
+                                       },
+                     "DS 258":  {
+                                    "assembly":  "DS258",
+                                    "version":  "v3.2",
+                                    "tier":  "Free Vault"
+                                },
+                     "DS Essentials Vault":  {
+                                                 "assembly":  "DSEssentialsVault",
+                                                 "version":  "v3.2",
+                                                 "tier":  "Essentials Vault"
+                                             },
+                     "DS Bulk Replay Downloader":  {
+                                                       "assembly":  "DSBulkReplayDownloader  ·  DSEssentialsVault",
+                                                       "version":  "v3.2",
+                                                       "tier":  "Essentials Vault"
+                                                   },
+                     "DS Volume":  {
+                                       "assembly":  "DSVolume",
+                                       "version":  "v3.2",
+                                       "tier":  "Free Vault"
+                                   },
+                     "DS Media Controller":  {
+                                                 "assembly":  "—",
+                                                 "version":  "—",
+                                                 "tier":  "Internal"
+                                             },
+                     "DS Ember":  {
+                                      "assembly":  "DSEmber  ·  DSEssentialsVault",
+                                      "version":  "v3.2",
+                                      "tier":  "Essentials Vault"
+                                  },
+                     "DS ProTrendRange":  {
+                                              "assembly":  "DSProTrendRange  ·  DSEssentialsVault",
+                                              "version":  "v3.2",
+                                              "tier":  "Essentials Vault"
+                                          },
+                     "DS Time Intervals":  {
+                                               "assembly":  "DSTimeIntervals",
+                                               "version":  "v2.1",
+                                               "tier":  "Free Vault"
+                                           },
+                     "DS HTF PO3":  {
+                                        "assembly":  "DSHTFPO3",
+                                        "version":  "v3.2",
+                                        "tier":  "Free Vault"
+                                    },
+                     "DS Parallax":  {
+                                         "assembly":  "DSParallax",
+                                         "version":  "v3.2",
+                                         "tier":  "Free Vault"
+                                     },
+                     "DS ProLiquidityHunter":  {
+                                                   "assembly":  "DSProLiquidityHunter  ·  DSEssentialsVault",
+                                                   "version":  "v3.2",
+                                                   "tier":  "Essentials Vault"
+                                               },
+                     "DS GEX":  {
+                                    "assembly":  "DSGEX  ·  DSEssentialsVault",
+                                    "version":  "v3.2",
+                                    "tier":  "Essentials Vault"
+                                },
+                     "DS Data Candles":  {
+                                             "assembly":  "DSDataCandles  ·  DSEssentialsVault",
+                                             "version":  "v3.1 · never shipped",
+                                             "tier":  "Discontinued"
+                                         },
+                     "DS Toolkit":  {
+                                        "assembly":  "DSToolkit  ·  DSEssentialsVault",
+                                        "version":  "v3.2",
+                                        "tier":  "Essentials Vault"
+                                    },
+                     "DS ProHeikinAshi":  {
+                                              "assembly":  "DSProHeikinAshi  ·  DSEssentialsVault",
+                                              "version":  "v3.2",
+                                              "tier":  "Essentials Vault"
+                                          },
+                     "DS ASL":  {
+                                    "assembly":  "DSASL  ·  DSEssentialsVault",
+                                    "version":  "v3.2",
+                                    "tier":  "Essentials Vault"
+                                },
+                     "DS Golden NQ Strategy":  {
+                                                   "assembly":  "—",
+                                                   "version":  "—",
+                                                   "tier":  "Internal"
+                                               }
+                 }
+}

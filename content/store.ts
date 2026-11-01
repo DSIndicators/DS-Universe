@@ -2,16 +2,18 @@
  * Where a button goes — the commerce layer, copied from DS-Universe-White's
  * content/whop.ts (2026-10-30) and renamed for the vaults.
  *
- * TOM: this is the only file to edit when a Whop link changes.
+ * TOM: the Essentials checkout lives here; each Free Vault download is one line in
+ * content/catalog/site.json (node tools/catalog/whop.mjs <slug> <checkout link>).
  *
  *   ESSENTIALS VAULT  the monthly membership checkout, $39.99 a month, NO free
  *                     trial (Tom, 2026-10-30). TOM, ON WHOP: take the 7-day
  *                     trial off plan_BDcgf0PEsWLeP (or make a new monthly plan
  *                     and paste it below), and rename the product from
  *                     "DS Complete Bundle" to "DS Essentials Vault".
- *   FREE VAULT        nine free listings, one per tool.
+ *   FREE VAULT        one free listing per tool (content/catalog/site.json, "whop").
  */
 import { FREE_PRODUCTS } from "./vaults";
+import CATALOG from "./catalog/site.json";
 
 export type WhopListing = {
   /** The product's page on Whop — its description, FAQ and reviews. */
@@ -43,28 +45,23 @@ export const ESSENTIALS_PLANS: { listing?: string; monthly?: string; own?: strin
   // own: "https://whop.com/checkout/plan_…",   // $149.99 one-time, when it exists
 };
 
-/** The Free Vault's listings, as they were wired (each checkout read "Free"). */
-export const VAULT_WHOP: Record<string, WhopListing> = {
-  "adaptive-priceline": L("ds-adaptive-price-line-self-anchoring-line-countdown-ninjatrader-8", "plan_XN3D0IC97yWP2"),
-  "chart-price": L("ds-chart-price-large-readout-chop-detection-ninjatrader-8", "plan_E34eRRHcmYHD4"),
-  "ds-258": L("ds-258-nasdaq-00-20-50-80-level-map-ninjatrader-8", "plan_LvWsdZ70h3x5m"),
-  parallax: L("ds-parallax-multi-timeframe-liquidity-matrix-ninjatrader-8", "plan_RBOOqpI868f9W"),
-  "session-levels": L("ds-session-levels-asia-london-new-york-session-levels-ninjatrader-8", "plan_LhYBx2nIIXwck"),
-  vwap: L("ds-vwap-live-session-vwap-with-measured-bands-ninjatrader-8", "plan_eC8XsRW9rz7OU"),
-  "live-background": L("ds-live-background-your-video-behind-the-chart-ninjatrader-8", "plan_oSNrguzUxIcnF"),
-  "time-intervals": L("ds-time-intervals-one-click-timeframe-buttons-ninjatrader-8", "plan_pkn3YRk0zwB30"),
-  volume: L("ds-volume-smart-volume-read-against-the-clock-ninjatrader-8", "plan_41tqwGSBzrBUd"),
-};
-
 /**
- * Free Vault tools confirmed live on Whop again after the 2026-10-29 take-down.
- * ALL NINE, checked 2026-10-29 (evening): the store lists them, and every
- * checkout above opened in headless Edge on Tom's PC with the product's name
- * and "Free". A tool not listed here shows "Opening soon".
+ * The Free Vault's listings. Since 2026-11-01 they live in content/catalog/site.json ("whop"), so a new free tool
+ * gets its Download with one command and no code edit:
+ *   node tools/catalog/whop.mjs <slug> <checkout link> [listing link]
+ * A free tool with no checkout there shows "Opening soon" (the site may go live that way: a new tool is listed on
+ * the site first, and its Whop product is created from the Master sheet's Whop Listings row afterwards).
+ * The nine of 2026-10-29 were moved there unchanged (each checkout read "Free", checked in headless Edge that day).
  */
-export const RELISTED: readonly string[] = [
-  "adaptive-priceline", "chart-price", "ds-258", "parallax", "session-levels", "vwap", "live-background", "time-intervals", "volume",
-];
+const WHOP = (CATALOG as { whop?: Record<string, { listing: string; plan?: string }> }).whop ?? {};
+export const VAULT_WHOP: Record<string, WhopListing> = Object.fromEntries(
+  Object.entries(WHOP)
+    .filter(([, w]) => !!w.plan)
+    .map(([slug, w]) => [slug, L(w.listing, w.plan as string)]),
+);
+
+/** Free Vault tools whose download is live: every one with a checkout in site.json. */
+export const RELISTED: readonly string[] = Object.keys(VAULT_WHOP);
 
 /**
  * RETIRED FOR GOOD — plans and listings no button may ever open again,
@@ -118,16 +115,13 @@ const RETIRED_LISTINGS: readonly string[] = [
   for (const slug of Object.keys(VAULT_WHOP)) {
     if (!FREE_PRODUCTS.some((p) => p.slug === slug)) throw new Error(`content/store.ts: "${slug}" has a free listing but is not a Free Vault product.`);
   }
-  for (const p of FREE_PRODUCTS) {
-    if (!VAULT_WHOP[p.slug]) throw new Error(`content/store.ts: Free Vault product "${p.slug}" has no listing.`);
-  }
   for (const slug of RELISTED) {
     if (!VAULT_WHOP[slug]) throw new Error(`content/store.ts: RELISTED names "${slug}", which has no Free Vault listing.`);
   }
   // Not a refusal — the site may go live with "Opening soon" — but never silent.
   const pending = [
     ...(["monthly", "own"] as const).filter((k) => !ESSENTIALS_PLANS[k]).map((k) => `Essentials ${k} plan`),
-    ...Object.keys(VAULT_WHOP).filter((s) => !RELISTED.includes(s)),
+    ...FREE_PRODUCTS.filter((p) => !VAULT_WHOP[p.slug]).map((p) => p.slug),
   ];
   if (pending.length && process.env.NODE_ENV === "production") {
     console.warn(`\n  content/store.ts: not linked yet, shown as "Opening soon": ${pending.join(", ")}.\n`);

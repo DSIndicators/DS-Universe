@@ -1,0 +1,21 @@
+{
+  "_read_me": "The site's own settings for each product - everything else about a product comes from the Master Product & Pricing Sheet (tools/catalog/export.ps1 -> sheet.json -> tools/catalog/sync.mjs). slugs: a product whose web address is not its name without 'DS ' (lower case, spaces to hyphens). isNew: the products' 'new' flag. markNew: shows 'New' beside the name on the shelves and in the vault. whop: each Free Vault tool's Whop listing (the part of its whop.com/dsuniverse/products/<listing>/ address) and checkout plan; a free tool with no plan here shows 'Opening soon' instead of Download. Add a link with: node tools/catalog/whop.mjs <slug> <checkout link> [listing link].",
+  "slugs": {
+    "DS Adaptive Price Line": "adaptive-priceline",
+    "DS 258": "ds-258"
+  },
+  "isNew": ["compass", "ember", "htf-po3"],
+  "markNew": ["htf-po3"],
+  "hide": [],
+  "whop": {
+    "adaptive-priceline": { "listing": "ds-adaptive-price-line-self-anchoring-line-countdown-ninjatrader-8", "plan": "plan_XN3D0IC97yWP2" },
+    "chart-price": { "listing": "ds-chart-price-large-readout-chop-detection-ninjatrader-8", "plan": "plan_E34eRRHcmYHD4" },
+    "ds-258": { "listing": "ds-258-nasdaq-00-20-50-80-level-map-ninjatrader-8", "plan": "plan_LvWsdZ70h3x5m" },
+    "parallax": { "listing": "ds-parallax-multi-timeframe-liquidity-matrix-ninjatrader-8", "plan": "plan_RBOOqpI868f9W" },
+    "session-levels": { "listing": "ds-session-levels-asia-london-new-york-session-levels-ninjatrader-8", "plan": "plan_LhYBx2nIIXwck" },
+    "vwap": { "listing": "ds-vwap-live-session-vwap-with-measured-bands-ninjatrader-8", "plan": "plan_eC8XsRW9rz7OU" },
+    "live-background": { "listing": "ds-live-background-your-video-behind-the-chart-ninjatrader-8", "plan": "plan_oSNrguzUxIcnF" },
+    "time-intervals": { "listing": "ds-time-intervals-one-click-timeframe-buttons-ninjatrader-8", "plan": "plan_pkn3YRk0zwB30" },
+    "volume": { "listing": "ds-volume-smart-volume-read-against-the-clock-ninjatrader-8", "plan": "plan_41tqwGSBzrBUd" }
+  }
+}

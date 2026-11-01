@@ -207,6 +207,8 @@ export const PICTURE_ALTS: Record<string, string> = {
     "DS Compass on a white NinjaTrader chart: the teal Compass line curving up beneath price, tagged \"Compass +3.2 ATR 30176.00\" at the right edge, and its reading panel below: LONG SIDE HOLDS, 75 bars, one side throughout, with its Room, Stretch, Session, Tape and Hold rows.",
   "DS_20261031_011903.png":
     "DS Ember on a white NinjaTrader chart: gray candles and a gray Ember Ribbon through a decline, with SELL and TREND REVERSAL marked where it turned down, BUY and TREND REVERSAL marked at the low, and teal candles above a teal ribbon through the rally that follows.",
+  "DS HTF PO3.png":
+    "DS HTF PO3 on a white NinjaTrader chart: the live 1H candle drawn big and solid beside the one-minute bars, its 1H High 29624.00, 1H Open 29593.50 and 1H Low 29583.25 named beside it, the 1H High Cap 29642.25 and 1H Low Cap 29573.75 on dotted wick extensions above and below, the countdown over it, and Distribution, High in 30%, Low in 85%, Bull close 80% and Range 49% of typical under it.",
   "DS ProLiquidityHunter.png":
     "DS ProLiquidityHunter on a white NinjaTrader chart: a liquidity pool at 29215.00 above price with 56% reach odds and +27.75 points to go, a major pool at 29022.75 below with 55% and the H mark beneath it, and the panel underneath reading HUNTING ▲ 29215.00 · 56% with its pool ladder and odds.",
   "DS VWAP Updated.png":

@@ -8,6 +8,7 @@ import { COVERS, DESK, widePic } from "@/content/pictures";
 import { pointersFor } from "@/content/pointers";
 import { vaultWording, BILLING, ESSENTIALS, JOIN_LABEL, PRICE_MONTHLY, isFree, ESSENTIALS_PRODUCTS, FREE_PRODUCTS } from "@/content/vaults";
 import { vaultListing } from "@/content/store";
+import { isMarkedNew } from "@/content/returns";
 import { getSession } from "@/lib/auth";
 
 /**
@@ -75,6 +76,7 @@ export async function ProductPage({ slug, vault }: { slug: string; vault: "free"
             <div className="pp-copy">
               <p className="kicker">
                 {free ? "In the Free Vault" : "In the Essentials Vault"} · {KIND_LABEL[p.kind].singular} · {p.version}
+                {isMarkedNew(p.slug) && " · New"}
               </p>
               <h1 className="d2">{p.name}</h1>
               <p className="lead">{lineFor(p)}</p>
@@ -88,7 +90,8 @@ export async function ProductPage({ slug, vault }: { slug: string; vault: "free"
               <div className="pp-buy">
                 {free ? (
                   <p className="body">
-                    Free for good with a free account. Its own download, no license.{!listing && " Its download is being put back up and opens soon."}
+                    Free for good with a free account. Its own download, no license.
+                    {!listing && (isMarkedNew(p.slug) ? " New in the Free Vault: its download opens soon." : " Its download is being put back up and opens soon.")}
                   </p>
                 ) : (
                   <p className="body">

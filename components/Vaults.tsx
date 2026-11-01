@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Tick } from "./Tick";
 import { BILLING, COUNT, ESSENTIALS, FOUNDERS, JOIN_LABEL, PRICE, PRICE_DAY, money } from "@/content/vaults";
 import { lifetimeCheckout } from "@/content/store";
+import { returnOn } from "@/content/returns";
 
 /**
  * THE CHOICE, side by side. Two options only (research: more tiers add
@@ -15,7 +16,9 @@ export function Vaults({ signedIn = false }: { signedIn?: boolean }) {
   return (
     <div className="vaults">
       <div className="vault">
-        <p className="vault-name">Free Vault</p>
+        <p className="vault-name">
+          Free Vault{returnOn() && <span style={{ opacity: 0.75, fontWeight: 500 }}> · Back</span>}
+        </p>
         <div className="vault-price">
           <span className="fig">Free</span>
           <span className="per">with a free account</span>

@@ -9,6 +9,7 @@ import { widePic } from "@/content/pictures";
 import { COUNT, ESSENTIALS_PRODUCTS, FREE_PRODUCTS, JOIN_LABEL, PRICE_DAY, PRICE_MONTHLY } from "@/content/vaults";
 import { LATEST, STRENGTHS } from "@/content/strengths";
 import { getSession } from "@/lib/auth";
+import { BACK, FRESH, FRESH_NAMES, returnOn } from "@/content/returns";
 import { FocusSwitch } from "@/components/FocusSwitch";
 
 /**
@@ -23,6 +24,7 @@ export default async function Home() {
   const s = await getSession();
   const hero = widePic("home");
   const flow = widePic("orderflow");
+  const back = returnOn();
   return (
     <>
       <section className="hero">
@@ -134,13 +136,16 @@ export default async function Home() {
         <div className="wrap">
           <div className="head">
             <div>
-              <p className="kicker">In the Free Vault</p>
+              <p className="kicker">{back ? "The Free Vault is back" : "In the Free Vault"}</p>
               <h2 id="free-h" className="d2">
                 {COUNT.free} indicators, free for good.
               </h2>
             </div>
             <div className="stack-s">
-              <p className="body">No card and no license key. Each one is its own small download, built and updated to the same standard as the Essentials Vault.</p>
+              <p className="body">
+                {back ? <>Open again after the v3.2 rebuild{FRESH.length > 0 ? <>, with {FRESH.length === 1 ? "a new tool" : "new tools"} in it: {FRESH_NAMES}</> : null}. </> : null}
+                No card and no license key. Each one is its own small download, built and updated to the same standard as the Essentials Vault.
+              </p>
               <p>
                 <Link className="lnk lnk-teal" href="/free-vault">
                   The whole Free Vault <Arrow />
@@ -149,7 +154,7 @@ export default async function Home() {
             </div>
           </div>
           <div className="tiles tiles-s">
-            {FREE_PRODUCTS.map((p) => (
+            {(back ? [...FRESH, ...BACK] : FREE_PRODUCTS).map((p) => (
               <Tile key={p.slug} p={p} tag={false} sizes="(max-width: 600px) 46vw, (max-width: 960px) 24vw, 220px" />
             ))}
           </div>

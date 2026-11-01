@@ -11,11 +11,11 @@
 export const STRENGTHS = [
   {
     key: "current",
-    fig: "v3.1",
+    fig: "v3.2",
     figLine: "the current release",
     title: "Consistently updated for the current market",
     short: "Reworked as the market moves, at no extra cost",
-    body: "Markets change, so the suite does too. v3.1 rebuilt the labels and colors of every tool, pinned the DS GEX map to the last session close and added two new indicators. Members get every update and every new tool at no extra cost.",
+    body: "Markets change, so the suite does too. v3.2 put every tool on one label style and one set of plain-worded settings, pinned the DS GEX map to the last session close and added new tools to both vaults. Members get every update and every new tool at no extra cost.",
   },
   {
     key: "speed",
@@ -35,15 +35,15 @@ export const STRENGTHS = [
   },
 ] as const;
 
-/** What v3.1 brought, from the release post (customer words, no internals). */
+/** What v3.2 brought (with v3.1 before it), from the release posts (customer words, no internals). Updated 2026-11-01. */
 export const LATEST = {
-  version: "v3.1",
+  version: "v3.2",
   items: [
     "DS Compass and DS Ember are new in the Essentials Vault",
-    "One label style across the suite, with a name in front of every value",
-    "One price-tag column by the axis, shared by every DS tool",
+    "The Free Vault is back, in a folder of its own, with DS HTF PO3 new in it",
+    "One label style and one Label size across the suite, with a name in front of every value",
+    "Every setting explained in plain words in the Properties window, every opacity a simple percent",
     "DS GEX builds its map from the last session close, so it is the same whenever you open NinjaTrader",
-    "DS ASL, DS Iceberg, DS Flow and DS Volume draw on exactly the right bars on tick, range, volume and Renko charts",
-    "In the Free Vault: DS VWAP moves onto the price chart and DS Volume is new",
+    "New guides for every tool, opening with the Properties window exactly as NinjaTrader shows it",
   ],
 };

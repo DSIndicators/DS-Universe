@@ -6,6 +6,9 @@ import { Footer } from "@/components/Footer";
 import { Help } from "@/components/Help";
 import { getSession } from "@/lib/auth";
 import { SITE } from "@/content/site";
+import { ReturnStrip } from "@/components/ReturnStrip";
+import { RETURN, returnOn, FRESH, FRESH_NAMES } from "@/content/returns";
+import { COUNT } from "@/content/vaults";
 import "./globals.css";
 
 // Self-hosted, SIL OFL. Manrope for display, Inter Tight for text (as the white site).
@@ -38,11 +41,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         {/* Typography fixation is off by default; lifted before first paint only for a visitor who turned it on (components/FocusSwitch.tsx). */}
         <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.getItem("ds-bionic")==="on")document.documentElement.classList.remove("bio-off")}catch(e){}` }} />
+        {/* The Free Vault return line, once closed on this browser, stays closed from the first paint (components/ReturnStrip.tsx). */}
+        <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.getItem(${JSON.stringify(RETURN.key)}))document.documentElement.classList.add("ret-off")}catch(e){}` }} />
       </head>
       <body>
         <a className="skip" href="#main">
           Skip to content
         </a>
+        {returnOn() && <ReturnStrip count={COUNT.free} fresh={FRESH_NAMES} freshCount={FRESH.length} storageKey={RETURN.key} />}
         <PartnerBar />
         <Header member={s ? { first, plan: s.plan } : null} />
         <main id="main">{children}</main>
