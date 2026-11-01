@@ -6,7 +6,7 @@
 #   2 clone main into %TEMP%, mirror this folder into it, show what changed
 #   3 push only after you type PUBLISH.  Rollback: git push --force origin before-1031-essentials:main (see the handoff)
 param([string]$Message = '', [switch]$Yes)
-$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Continue'   # git writes notices to stderr; every step checks its own exit code
 $SITE = Split-Path $PSScriptRoot -Parent
 $CC = Split-Path $SITE -Parent
 $repo = (& git -C (Join-Path $CC 'DS-Universe-3') remote get-url origin 2>$null)
@@ -23,7 +23,8 @@ $xf = @('.env', '.env.*', '*.tsbuildinfo', 'HANDOFF*.md')
 if ($LASTEXITCODE -ge 8) { throw "robocopy failed ($LASTEXITCODE)" }
 Push-Location $tmp
 try {
-  & git add -A
+  & cmd /c "git add -A 2>nul"      # (line-ending notices are expected on Windows)
+  if ($LASTEXITCODE -ne 0) { throw 'git add failed' }
   $st = @(& git status --porcelain)
   if ($st.Count -eq 0) { Write-Host "Nothing to publish: dsuniverse.net already has exactly this site."; return }
   Write-Host ""
@@ -35,7 +36,8 @@ try {
     if ($a -cne 'PUBLISH') { Write-Host 'Cancelled. Nothing was published.'; return }
   }
   if (-not $Message) { $Message = 'Site update ' + (Get-Date -Format 'yyyy-MM-dd HH:mm') }
-  & git -c user.name='DS Universe' -c user.email='support@dsuniverse.net' commit --quiet -m $Message
-  & git push --quiet origin main; if ($LASTEXITCODE -ne 0) { throw 'git push failed - nothing changed on the site.' }
+  & git -c user.name='DS Universe' -c user.email='support@dsuniverse.net' commit --quiet -m $Message 2>$null
+  if ($LASTEXITCODE -ne 0) { throw 'git commit failed' }
+  & cmd /c "git push --quiet origin main 2>&1"; if ($LASTEXITCODE -ne 0) { throw 'git push failed - nothing changed on the site.' }
   Write-Host ("Published: " + (& git log -1 --format='%h %s') + ". Hostinger rebuilds dsuniverse.net in a minute or two.")
 } finally { Pop-Location }

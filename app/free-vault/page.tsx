@@ -39,14 +39,14 @@ export default async function FreeVaultPage() {
                 </h1>
                 <p className="ret-stamp num" data-nobio="">
                   <span className="ret-rule" aria-hidden="true" />
-                  <span>Reopened {REOPENED}</span>
+                  <span data-nobio="">Reopened {REOPENED}</span>
                   <span className="ret-tally">
                     <span aria-hidden="true">·</span>
-                    <span>{BACK.length} back</span>
+                    <span data-nobio="">{BACK.length} back</span>
                     {FRESH.length > 0 && (
                       <>
                         <span aria-hidden="true">·</span>
-                        <span className="ret-new">{FRESH.length} new</span>
+                        <span className="ret-new" data-nobio="">{FRESH.length} new</span>
                       </>
                     )}
                   </span>
